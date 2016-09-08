@@ -1,0 +1,98 @@
+main div{
+	//border:1px solid black;
+}
+
+#beneficioneto{
+	color: #333333;
+	font-size: 19px;
+}
+#beneficiomoney{
+
+	color: #333333;
+	font-size: 50px;	
+}
+.s4 h4{
+	text-align: center;
+}
+/*--data picker--*/
+#startDate{
+	display: none;
+}
+.ui-datepicker-month, .ui-datepicker-year{
+	padding-left: 10px;
+	display: inline;
+}
+
+.ui-widget-header{
+	background: #ee6e73;
+	color: black;
+}
+/*--data picker--*/
+
+#mobile-demo li.search .search-wrapper {    
+    transition: margin .25s ease;
+    transition-property: margin;
+    transition-duration: 0.25s;
+    transition-timing-function: ease;
+    transition-delay: initial;
+}
+
+div.search-wrapper i{
+	position: absolute;
+	top: 20px;
+	left:170px;
+}
+div.search-wrapper input#search{
+	position: relative;
+	left:10px;
+	border: none;
+}
+
+
+select{
+	display: block;
+}
+@media (min-width: 10px){
+	.button-collapse i{
+		position: relative;
+		top:-40px;
+	}
+	.page-title{
+		position: relative;
+		left:10px;
+	}
+}
+@media (min-width: 1023px){
+	.row{
+		margin-left:206px;
+		width: 79%;
+	}
+	.page-title{
+		position: relative;
+		left:70px;
+	}
+	
+}
+@media (min-width: 1279px){
+	.row{
+		margin-left:210px;
+		width: 83%;
+	}
+}
+@media (min-width: 1439px){
+	.row{
+		margin-left:208px;
+		width: 85%;
+	}
+}
+@media (min-width: 1899px){
+	.row{
+		margin-left:208px;
+		width: 89%;
+	}
+	.page-title{
+		position: relative;
+		left:-80px;
+	}
+}
+
