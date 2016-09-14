@@ -22,13 +22,43 @@ class Home extends CI_Controller {
 			case '5': //Mes
 				$actividad = $this->_actividadComparacionMeses();
 				break;
-
+			case '6': //Mes
+				$actividad = $this->_actividadDelAno();
+				break;
+			case '7': //Mes
+				$actividad = $this->_actividadComparacionAnos();
+				break;
 		}
+		switch ($data[0]['categoria']){
+			case '1': //x dia
+				$categorias = $this->_categoriasDelDia();
+				break;
+			case '2': //x mes
+				$categorias = $this->_categoriasDelMes();
+				break;
+			case '3': //dia comparativo
+				$categorias = $this->_categoriasDelAno();
+				break;
+		}
+		switch ($data[0]['productividad']){
+			case '1': //x dia
+				$productividad = $this->_productividadDelDia();
+				break;
+			case '2': //x mes
+				$productividad = $this->_categoriasDelMes();
+				break;
+			case '3': //dia comparativo
+				$productividad = $this->_categoriasDelAno();
+				break;
+		}
+
 
 		$this->load->view('header','', FALSE);	
 		$this->load->view('home','', FALSE);	
 		$this->load->view('footerbegin','', FALSE);	
 		$this->load->view('actividad',$actividad, FALSE);	
+		$this->load->view('categoria',$categorias, FALSE);	
+		$this->load->view('productividad','', FALSE);	
 		$this->load->view('footerend','', FALSE);	
 	}
 
@@ -157,7 +187,8 @@ class Home extends CI_Controller {
 
 	}
 
-	private function _actividadComparacionMeses($mes1 = '2016-09-01 00:00:00', $mes2 = '2016-02-01 00:00:00'){
+
+	private function _actividadComparacionMeses($mes1 = '2016-09-01 00:00:00', $mes2 = '2016-08-01 00:00:00'){
 		/*
 		$mes = explode(" ",$mes);
 		$mes = date_create($mes[0]);
@@ -169,10 +200,6 @@ class Home extends CI_Controller {
 		$nombreMes2 = $this->_nombreMes($mes2);
 		$titulo = "Comparativa de Actividades";
 		$subtitulo = "Actividades del mes: ".$nombreMes1." y del mes: ".$nombreMes2;
-		$intervalo = 24 * 3600 * 1000; //24 hrs de intervalo
-		$fecha_inicio = preg_split("/[\s:-]+/",$mes1);
-		$fecha_inicio[1]=$fecha_inicio[1]-1;
-		$fecha_inicio = rtrim(implode(',', $fecha_inicio), ','); //convierte arreglo a string separado por comas		
 		$actividad = array(
 			'titulo' 					=> $titulo,
 			'subtitulo' 				=> $subtitulo,
@@ -189,6 +216,55 @@ class Home extends CI_Controller {
 
 	private function _actividadMes($mes){
 		$data = $this->Database->actividadMes($mes);
+		$datos = rtrim(implode(',', $data), ',');
+		return $datos;
+	}
+
+	private function _actividadDelAno($ano = '2016-01-01 00:00:00'){
+		
+		$nombreAno = explode("-",$ano);
+		$nombreAno = $nombreAno[0];		
+		$actividad = $this->_actividadAno($ano);		
+		$titulo = "Comparativa de Actividades";
+		$subtitulo = "Actividades del año: ".$nombreAno;
+		$actividad = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'datos_principal_nombre' 	=> $nombreAno,
+			'datos_principal' 			=> $actividad,
+			'datos_secundario_nombre' 	=> '',
+			'datos_secundario' 			=> null,
+			'type'						=> 'meses',
+			'intervalo' 				=> '',
+			'fecha_inicio' 				=> null );
+		return $actividad;
+	}
+
+	private function _actividadComparacionAnos($ano1 = '2016-01-01 00:00:00',$ano2 = '2016-01-01 00:00:00'){
+		
+		$nombreAno1 = explode("-",$ano1);
+		$nombreAno1 = $nombreAno1[0];		
+		$nombreAno2 = explode("-",$ano2);
+		$nombreAno2 = $nombreAno2[0];		
+		$actividad1 = $this->_actividadAno($ano1);		
+		$actividad2 = $this->_actividadAno($ano2);		
+		$titulo = "Comparativa de Actividades";
+		$subtitulo = "Actividades del año: ".$nombreAno1." y del año: ".$nombreAno2;
+		$actividad = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'datos_principal_nombre' 	=> $nombreAno1,
+			'datos_principal' 			=> $actividad1,
+			'datos_secundario_nombre' 	=> $nombreAno2,
+			'datos_secundario' 			=> $actividad2,
+			'type'						=> 'meses',
+			'intervalo' 				=> '',
+			'fecha_inicio' 				=> null );
+		return $actividad;
+	}
+
+	private function _actividadAno($ano){
+		$data = $this->Database->actividadAno($ano);
 		$datos = rtrim(implode(',', $data), ',');
 		return $datos;
 	}
@@ -236,7 +312,112 @@ class Home extends CI_Controller {
 			break;
 		}
 		return $nombreMes;
+	}
 
+	//metodo para llamar al calculo de las categorias relizadas en un dia 
+	private function _categoriasDelDia($dia = '2016-09-02 00:00:00'){
+		$categorias = $this->_categoriasDia($dia);
+		$dia = explode(' ',$dia);
+		$dia = date_create($dia[0]);
+		$dia = date_format($dia,"d-m-Y");
+		$titulo = "Flujos de Trabajo por categoría";
+		$subtitulo = "Día: ".$dia;		
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'categorias' 				=> $categorias);
+		return $data;
+	}
+	//calcula el porcentaje de las categorias realizadas en un dia
+	private function _categoriasDia($dia){
+		$datos = array();
+		$data = $this->Database->categoriasDia($dia);
+		for($i=0;$i<count($data);$i++){
+			$datos[$i] = "{ name: '".$data[$i]['nombre']." (".$data[$i]['cant'].")', y:".$data[$i]['porcentaje']."}";
+			if (($i+1)!=count($data)){
+				$datos[$i] = $datos[0].',';
+			}			
+		}
+		return $datos;
+	}
+
+	//metodo para llamar al calculo de las categorias relizadas en un mes
+	private function _categoriasDelMes($mes = '2016-09-01 00:00:00'){
+		$categorias = $this->_categoriasMes($mes);
+		$titulo = "Flujos de Trabajo por categoría";
+		$subtitulo = "Mes: ".$this->_nombreMes($mes);
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'categorias' 				=> $categorias);
+		return $data;
+	}
+
+	//calcula el porcentaje de las categorias realizadas en un mes
+	private function _categoriasMes($mes){
+		$datos = array();
+		$data = $this->Database->categoriasMes($mes);
+		for($i=0;$i<count($data);$i++){
+			$datos[$i] = "{ name: '".$data[$i]['nombre']." (".$data[$i]['cant'].")', y:".$data[$i]['porcentaje']."}";
+			if (($i+1)!=count($data)){
+				$datos[$i] = $datos[0].',';
+			}			
+		}
+		return $datos;
+	}
+
+	//metodo para llamar al calculo de las categorias relizadas en un año
+	private function _categoriasDelAno($ano = '2016-01-01 00:00:00'){
+		$categorias = $this->_categoriasAno($ano);
+		$ano = explode("-", $ano);
+		$titulo = "Flujos de Trabajo por categoría";
+		$subtitulo = "Año: ".$ano[0];
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'categorias' 				=> $categorias);
+		return $data;
+	}
+	//calcula el porcentaje de las categorias realizadas en un año
+	private function _categoriasAno($ano){
+		$datos = array();
+		$data = $this->Database->categoriasAno($ano);
+		for($i=0;$i<count($data);$i++){
+			$datos[$i] = "{ name: '".$data[$i]['nombre']." (".$data[$i]['cant'].")', y:".$data[$i]['porcentaje']."}";
+			if (($i+1)!=count($data)){
+				$datos[$i] = $datos[0].',';
+			}			
+		}
+		return $datos;
+	}
+
+	//metodo para llamar al calculo de las categorias relizadas en un año
+	private function _productividadDelDia($dia = '2016-08-05 00:00:00'){
+		$this->_productividadDia($dia);
+		/*
+		$ano = explode("-", $ano);
+		$titulo = "Flujos de Trabajo por categoría";
+		$subtitulo = "Año: ".$ano[0];
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'categorias' 				=> $categorias);
+		return $data;
+		*/
+	}
+
+	//calcula el porcentaje de la productividad en un dia
+	private function _productividadDia($dia){
+		$datos = array();
+		$data = $this->Database->productividadDia($dia);
+		/*
+		for($i=0;$i<count($data);$i++){
+			$datos[$i] = "{ name: '".$data[$i]['nombre']." (".$data[$i]['cant'].")', y:".$data[$i]['porcentaje']."}";
+			if (($i+1)!=count($data)){
+				$datos[$i] = $datos[0].',';
+			}			
+		}*/
+		return $datos;
 	}
 }
 

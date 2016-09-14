@@ -23,7 +23,12 @@
 	            if ($type=="dias"): ?>
 	            categories: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12','13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31']
 	            <?php endif; 
-	            endif;?>
+	            if ($type=="meses"): ?>
+	            categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
+	            <?php
+	            endif; 
+	            endif;
+	            ?>
 	        },
 	        yAxis: {
 	            title: {
@@ -34,7 +39,7 @@
 	            alternateGridColor: null,
 	            plotBands: [
 	            <?php 
-	            for ($i = 0; $i < 50 ;$i++):
+	            for ($i = 0; $i < 400 ;$i++):
 	            	if ($i%2==0):
 	            ?>
 	            { // Light air
