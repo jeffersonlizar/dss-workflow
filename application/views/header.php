@@ -16,7 +16,6 @@
 		<!-- estilo personal -->
 		<link type="text/css" rel="stylesheet" href="<?php  base_url() ?>public/css/personal.css" />		
         <link rel="stylesheet" href="<?php  base_url() ?>public/css/odometer-theme-default.css" />
-		
 
 		<title>DSS</title>
 		<link rel="icon" href="<?php  base_url() ?>public/img/dss-icon.png" />

@@ -15,7 +15,7 @@
                 text: '<?php echo $subtitulo ?>'
             },
             tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b></br> cant: {point.cant}'
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>{point.cant}'
             },
             plotOptions: {
                 pie: {

@@ -23,23 +23,23 @@ $(function () {
     }
     // */
 
-    Highcharts.chart('grafico4', {
+    Highcharts.chart('indicadores', {
 
         chart: {
             type: 'solidgauge',
-            marginTop: 50
+            marginTop: 95
         },
 
         title: {
-            text: 'Desempeño',
+            text: '<?php echo $titulo ?>',
             style: {
                 fontSize: '24px'
             }
         },
         subtitle: {
-            text: 'Desempeño',
+            text: '<?php echo $subtitulo ?>',
             style: {
-                fontSize: '18px'
+                fontSize: '12px'
             }
         },
 
@@ -53,8 +53,8 @@ $(function () {
             pointFormat: '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}%</span>',
             positioner: function (labelWidth, labelHeight) {
                 return {
-                    x: 200 - labelWidth / 2,
-                    y: 180
+                    x: 0,
+                    y: 70
                 };
             }
         },
@@ -99,14 +99,31 @@ $(function () {
         },
 
         series: [{
-           
+            name: 'Rendimiento',
+            borderColor: Highcharts.getOptions().colors[0],
+            data: [{
+                color: Highcharts.getOptions().colors[0],
+                radius: '100%',
+                innerRadius: '100%',
+                y: <?php echo $rendimiento ?>
+            }]
+        }, {
+            name: 'Eficacia',
+            borderColor: Highcharts.getOptions().colors[1],
+            data: [{
+                color: Highcharts.getOptions().colors[1],
+                radius: '75%',
+                innerRadius: '75%',
+                y: <?php echo $eficacia ?>
+            }]
+        }, {
             name: 'Respuesta',
             borderColor: Highcharts.getOptions().colors[2],
             data: [{
                 color: Highcharts.getOptions().colors[2],
                 radius: '50%',
                 innerRadius: '50%',
-                y: 50
+                y: <?php echo $respuesta ?>
             }]
         }]
     },
@@ -125,8 +142,8 @@ $(function () {
                 'stroke-width': 2,
                 'zIndex': 10
             })
-            .translate(190, 26)
-            .add(this.series[2].group);
+            //.translate(190, 26)
+            //.add(this.series[2].group);
 
         // Exercise icon
         this.renderer.path(['M', -8, 0, 'L', 8, 0, 'M', 0, -8, 'L', 8, 0, 0, 8, 'M', 8, -8, 'L', 16, 0, 8, 8])
@@ -137,8 +154,8 @@ $(function () {
                 'stroke-width': 2,
                 'zIndex': 10
             })
-            .translate(190, 61)
-            .add(this.series[2].group);
+            //.translate(190, 61)
+            //.add(this.series[2].group);
 
         // Stand icon
         this.renderer.path(['M', 0, 8, 'L', 0, -8, 'M', -8, 0, 'L', 0, -8, 8, 0])
@@ -149,8 +166,8 @@ $(function () {
                 'stroke-width': 2,
                 'zIndex': 10
             })
-            .translate(190, 96)
-            .add(this.series[2].group);
+            //.translate(190, 96)
+            //.add(this.series[2].group);
     });
 
 
