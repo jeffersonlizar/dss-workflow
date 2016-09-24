@@ -349,6 +349,32 @@ class Database extends CI_Model {
         } 
         return $data;
 	}
+
+	//calcula el crecimiento en un periodo
+	public function crecimiento($tipo,$fecha1,$fecha2,$fecha3,$fecha4){
+		$cant_total=0;
+		$this->db->db_select('workflow');
+		$data= array();
+		$data['cant_total_1'] = 0;
+		$data['cant_total_2'] = 0;
+		if ($tipo==1)
+			$query_total = "SELECT COUNT(*) as cant FROM instancia as ins WHERE (DATE(ins.fecha_inicio) BETWEEN DATE(?) AND DATE(?))";
+		else
+			$query_total = "SELECT COUNT(*) as cant FROM proceso as pro WHERE (DATE(pro.fecha) BETWEEN DATE(?) AND DATE(?))";
+		$sql1 = $this->db->query($query_total, array($fecha1,$fecha2));
+		$sql2 = $this->db->query($query_total, array($fecha3,$fecha4));
+		if($sql1 -> num_rows() > 0)
+        {	
+            $cant_total = $sql1->result_array()[0]["cant"];
+            $data['cant_total_1']=$cant_total;
+        }
+        if($sql2 -> num_rows() > 0)
+        {	
+            $cant_total = $sql2->result_array()[0]["cant"];
+            $data['cant_total_2']=$cant_total;
+        }
+        return $data;
+	}
 }
 
 /* End of file database.php */

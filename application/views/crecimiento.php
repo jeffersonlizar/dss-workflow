@@ -10,9 +10,9 @@
     }
     else if ((resolution>700)&&(resolution<1000)){
         tam = '100%';
-        posy = '80%';
+        posy = '60%';
     }
-    else if ((resolution>1020)&&(resolution<1277)){
+    else if ((resolution>1000)&&(resolution<1277)){
         tam = '100%';
         posy = '50%';
     }
@@ -21,7 +21,7 @@
         posy = '60%';
     }
     else if ((resolution>1400)&&(resolution<1500)){
-        tam = '120%';
+        tam = '110%';
         posy = '80%';
     }
     else if ((resolution>1500)&&(resolution<1700)){
@@ -40,13 +40,13 @@
             },
 
             title: {
-            text: 'Crecimiento',
+            text: '<?php echo $titulo ?>',
             style: {
                 fontSize: '18px'
             }
             },
             subtitle: {
-                text: 'asdfa',
+                text: '<?php echo $subtitulo ?>',
                 style: {
                     fontSize: '12px'
                 }
@@ -120,7 +120,7 @@
 
             series: [{
                 name: 'crecimiento',
-                data: [50],
+                data: [<?php echo $crecimiento ?>],
                 dataLabels: {
                     format: '<div style="text-align:center"><span style="font-size:25px;color:' +
                         ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +

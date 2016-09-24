@@ -9,7 +9,20 @@ class Home extends CI_Controller {
 		$today = date('Y-m-d 00:00:00');   
 		$d = new DateTime('first day of this month');
     	$mes_actual = $d->format('Y-m-d 00:00:00');
+    	$mes_actual_primer_dia = $d->format('Y-m-d 00:00:00');
+    	$d = new DateTime('last day of this month');
+    	$mes_actual_ultimo_dia = $d->format('Y-m-d 00:00:00');
+    	$d = new DateTime('first day of last month');
+    	$mes_anterior_primer_dia = $d->format('Y-m-d 00:00:00');
+    	$d = new DateTime('last day of last month');
+    	$mes_anterior_ultimo_dia = $d->format('Y-m-d 00:00:00');
     	$ano_actual = date('Y-m-d 00:00:00',strtotime(date('Y-01-01')));
+    	$ano_actual_primer_dia = date('Y-m-d 00:00:00',strtotime(date('Y-01-01')));
+    	$ano_actual_ultimo_dia = date('Y-m-d 00:00:00',strtotime(date('Y-12-31')));
+    	$ano_anterior_primer_dia = strtotime('-1 year',strtotime($ano_actual_primer_dia));
+		$ano_anterior_primer_dia = date('Y-m-d H:i:s' ,$ano_anterior_primer_dia);
+		$ano_anterior_ultimo_dia = strtotime('-1 year',strtotime($ano_actual_ultimo_dia));
+		$ano_anterior_ultimo_dia = date('Y-m-d H:i:s' ,$ano_anterior_ultimo_dia);
 		$data=$this->Database->cargar_preferencias();
 		switch ($data[0]['actividad']){
 			case '1': //dia actual
@@ -123,6 +136,44 @@ class Home extends CI_Controller {
 				$indicadores = $this->_indicadoresDelPeriodo($fecha1,$fecha2);
 				break; 
 		}
+		switch ($data[0]['crecimiento']){
+			case '11': //instancias dia actual con respecto al dia anterior
+				$today = '2016-09-03 00:00:00'; //datos de prueba;
+				$yesterday = '2016-09-02 00:00:00'; //datos de prueba;
+				$crecimiento = $this->_crecimientoDelDia(1,$yesterday,$today); //primero el mes base y luego el que se quiere calcular
+				break;
+			case '12': //instancias mes actual con respecto al mes anterior				
+				$crecimiento = $this->_crecimientoDelMes(1,$mes_anterior_primer_dia,$mes_anterior_ultimo_dia,$mes_actual_primer_dia,$mes_actual_ultimo_dia);
+				break;
+			case '13': //instancias ano actual con respecto al ano anterior
+				$crecimiento = $this->_crecimientoDelAno(1,$ano_anterior_primer_dia,$ano_anterior_ultimo_dia,$ano_actual_primer_dia,$ano_actual_ultimo_dia);
+				break;
+			case '14': //instancias 2 periodos de tiempo
+				$fecha1 = '2016-08-12 00:00:00';
+				$fecha2 = '2016-08-15 00:00:00';
+				$fecha3 = '2016-09-12 00:00:00';
+				$fecha4 = '2016-09-15 00:00:00';
+				$crecimiento = $this->_crecimientoDelPeriodo(1,$fecha1,$fecha2,$fecha3,$fecha4);
+				break;
+			case '21': //instancias dia actual con respecto al dia anterior
+				$today = '2016-09-15 00:00:00'; //datos de prueba;
+				$yesterday = '2016-09-16 00:00:00'; //datos de prueba;
+				$crecimiento = $this->_crecimientoDelDia(2,$yesterday,$today); //primero el mes base y luego el que se quiere calcular
+				break;
+			case '22': //instancias mes actual con respecto al mes anterior				
+				$crecimiento = $this->_crecimientoDelMes(2,$mes_anterior_primer_dia,$mes_anterior_ultimo_dia,$mes_actual_primer_dia,$mes_actual_ultimo_dia);
+				break;
+			case '23': //instancias ano actual con respecto al ano anterior
+				$crecimiento = $this->_crecimientoDelAno(2,$ano_anterior_primer_dia,$ano_anterior_ultimo_dia,$ano_actual_primer_dia,$ano_actual_ultimo_dia);
+				break;
+			case '24': //instancias 2 periodos de tiempo
+				$fecha1 = '2016-08-12 00:00:00';
+				$fecha2 = '2016-08-15 00:00:00';
+				$fecha3 = '2016-09-12 00:00:00';
+				$fecha4 = '2016-09-15 00:00:00';
+				$crecimiento = $this->_crecimientoDelPeriodo(2,$fecha1,$fecha2,$fecha3,$fecha4);
+				break;
+		}
 
 		$this->load->view('header','', FALSE);	
 		$this->load->view('home','', FALSE);	
@@ -130,7 +181,8 @@ class Home extends CI_Controller {
 		$this->load->view('actividad',$actividad, FALSE);	
 		$this->load->view('categoria',$categorias, FALSE);	
 		$this->load->view('indicadores',$indicadores, FALSE);	
-		$this->load->view('crecimiento','', FALSE);	
+		$this->load->view('crecimiento',$crecimiento, FALSE);	
+		$this->load->view('tiempo_respuesta','', FALSE);	
 		$this->load->view('footerend','', FALSE);	
 	}
 
@@ -630,9 +682,124 @@ class Home extends CI_Controller {
 			$datos = 0;
 		return $datos;
 	}
+
+	//calcula el crecimiento comparando los dias
+	private function _crecimientoDelDia($tipo,$dia1,$dia2){
+		$tipo_msj='';
+		$crecimiento = $this->_crecimiento($tipo,$dia1,$dia1,$dia2,$dia2);	
+		$dia1 = explode(' ',$dia1);
+		$dia1 = date_create($dia1[0]);
+		$dia1 = date_format($dia1,"d-m-Y");
+		$dia2 = explode(' ',$dia2);
+		$dia2 = date_create($dia2[0]);
+		$dia2 = date_format($dia2,"d-m-Y");
+		if ($tipo==1){
+			$tipo_msj = 'De instancias';
+		}
+		else{
+			$tipo_msj = 'De procesos';	
+		}
+		$titulo = "Crecimiento";
+		$subtitulo = $tipo_msj." del ".$dia2." respecto al ".$dia1;
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'crecimiento' 				=> $crecimiento);
+		return $data;
+	}
+
+	//calcula el crecimiento comparando los meses
+	private function _crecimientoDelMes($tipo,$fecha1,$fecha2,$fecha3,$fecha4){
+		$tipo_msj='';
+		$crecimiento = $this->_crecimiento($tipo,$fecha1,$fecha2,$fecha3,$fecha4);	
+		$mes1 = $this->_nombreMes($fecha1);
+		$mes2 = $this->_nombreMes($fecha3);
+		if ($tipo==1){
+			$tipo_msj = 'De instancias';
+		}
+		else{
+			$tipo_msj = 'De procesos';	
+		}
+		$titulo = "Crecimiento";
+		$subtitulo = $tipo_msj." del mes ".$mes2." respecto al mes ".$mes1;
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'crecimiento' 				=> $crecimiento);
+		return $data;
+	}
+
+	//calcula el crecimiento comparando los años
+	private function _crecimientoDelAno($tipo,$fecha1,$fecha2,$fecha3,$fecha4){
+		$tipo_msj='';
+		$crecimiento = $this->_crecimiento($tipo,$fecha1,$fecha2,$fecha3,$fecha4);	
+		$ano1 = explode('-', $fecha1);
+		$ano2 = explode('-', $fecha3);
+		if ($tipo==1){
+			$tipo_msj = 'De instancias';
+		}
+		else{
+			$tipo_msj = 'De procesos';	
+		}
+		$titulo = "Crecimiento";
+		$subtitulo = $tipo_msj." del año ".$ano2[0]." respecto al año ".$ano1[0];
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'crecimiento' 				=> $crecimiento);
+		return $data;
+	}
+
+	//calcula el crecimiento comparando los periodos
+	private function _crecimientoDelPeriodo($tipo,$fecha1,$fecha2,$fecha3,$fecha4){
+		$tipo_msj='';
+		$crecimiento = $this->_crecimiento($tipo,$fecha1,$fecha2,$fecha3,$fecha4);	
+		$fecha1 = explode(" ",$fecha1);
+		$fecha2 = explode(" ",$fecha2);
+		$fecha1 = date_create($fecha1[0]);
+		$fecha2 = date_create($fecha2[0]);
+		$fecha1 = date_format($fecha1,"d/m/Y");
+		$fecha2 = date_format($fecha2,"d/m/Y");
+		$fecha3 = explode(" ",$fecha3);
+		$fecha4 = explode(" ",$fecha4);
+		$fecha3 = date_create($fecha3[0]);
+		$fecha4 = date_create($fecha4[0]);
+		$fecha3 = date_format($fecha3,"d/m/Y");
+		$fecha4 = date_format($fecha4,"d/m/Y");
+		if ($tipo==1){
+			$tipo_msj = 'De instancias';
+		}
+		else{
+			$tipo_msj = 'De procesos';
+		}
+		$titulo = "Crecimiento";
+		$subtitulo = $tipo_msj." del periodo ".$fecha3." - ".$fecha4." respecto al periodo ".$fecha1." - ".$fecha2;
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'crecimiento' 				=> $crecimiento);
+		return $data;
+	}
+
+	//calcula el porcentaje del crecimiento en un periodo
+	private function _crecimiento($tipo,$fecha1,$fecha2,$fecha3,$fecha4){
+		$datos = 0;
+		$data = $this->Database->crecimiento($tipo,$fecha1,$fecha2,$fecha3,$fecha4);				
+		if ($data['cant_total_1']>0){
+			$porcentaje = round(($data['cant_total_2']*100)/$data['cant_total_1']);
+			if ($data['cant_total_1']>$data['cant_total_2']){
+				$datos = 100-$porcentaje;
+				$datos = $datos*(-1); 				
+			}else{
+				$datos = $porcentaje-100;
+			}
+		}
+		return $datos;
+	}
 }
 
 /* End of file Home.php */
 /* Location: ./application/controllers/Home.php */
+
 
 

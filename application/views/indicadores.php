@@ -1,6 +1,32 @@
 <script type="text/javascript">
 $(function () {
-
+    resolution = $( window ).width();
+    posy2 = '70';
+    border_width = '34px'
+    if (resolution<420){
+    }
+    else if ((resolution>420)&&(resolution<700)){
+    }
+    else if ((resolution>700)&&(resolution<1000)){
+    }
+    else if ((resolution>1001)&&(resolution<1250)){
+        posy2 = '95';
+        border_width = '20px';
+    }
+    else if ((resolution>1250)&&(resolution<1300)){
+        posy2 = '90';
+        border_width = '25px';
+    }
+    else if ((resolution>1300)&&(resolution<1400)){
+        posy2 = '90';
+        border_width = '25px';
+    }
+    else if ((resolution>1400)&&(resolution<1700)){
+        Posy2 = '90';
+        border_width = '30px';
+    }
+    else{
+    }
     // Uncomment to style it like Apple Watch
     /*
     if (!Highcharts.theme) {
@@ -54,13 +80,13 @@ $(function () {
             positioner: function (labelWidth, labelHeight) {
                 return {
                     x: 0,
-                    y: 70
+                    y: posy2
                 };
             }
         },
 
         pane: {
-            startAngle: 0,
+            startAngle: 0,            
             endAngle: 360,
             background: [{ // Track for Move
                 outerRadius: '112%',
@@ -89,7 +115,7 @@ $(function () {
 
         plotOptions: {
             solidgauge: {
-                borderWidth: '34px',
+                borderWidth: border_width,
                 dataLabels: {
                     enabled: false
                 },
