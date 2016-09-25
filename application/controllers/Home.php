@@ -174,15 +174,105 @@ class Home extends CI_Controller {
 				$crecimiento = $this->_crecimientoDelPeriodo(2,$fecha1,$fecha2,$fecha3,$fecha4);
 				break;
 		}
+		switch ($data[0]['tiempo_promedio']){
+			case '11': //instancias en el mes actual
+				$tiempo_promedio = $this->_tiempoPromedioDelMes(1,$mes_actual_primer_dia,$mes_actual_ultimo_dia);
+				break;
+			case '12': //instancias en el mes especifico			
+				$fecha1 = '2016-08-01';   //datos de prueba
+				$fecha2 = strtotime('+1 month',strtotime($fecha1));  //datos de prueba
+				$fecha2 = date('Y-m-d H:i:s' ,$fecha2);  //datos de prueba
+				$tiempo_promedio = $this->_tiempoPromedioDelMes(1,$fecha1,$fecha2);
+				break;
+			case '13': //instancias en el ano actual
+				$tiempo_promedio = $this->_tiempoPromedioDelAno(1,$ano_actual_primer_dia,$ano_actual_ultimo_dia);
+				break;
+			case '14': //instancias en el ano especifico
+				$fecha1 = '2015-01-01'; //datos de prueba
+				$fecha2 = strtotime('+12 month',strtotime($fecha1));
+				$fecha2 = date('Y-m-d H:i:s' ,$fecha2);
+				$tiempo_promedio = $this->_tiempoPromedioDelAno(1,$fecha1,$fecha2);
+				break;
+			case '15': //instancias en el periodo
+				$fecha1 = '2016-09-02 00:00:00'; //datos de prueba;
+				$fecha2 = '2016-09-03 00:00:00'; //datos de prueba;
+				$tiempo_promedio = $this->_tiempoPromedioDelPeriodo(1,$fecha1,$fecha2); 
+				break;
+			case '21': //instancias en el mes actual
+				$tiempo_promedio = $this->_tiempoPromedioDelMes(2,$mes_actual_primer_dia,$mes_actual_ultimo_dia);
+				break;
+			case '22': //instancias en el mes especifico			
+				$fecha1 = '2016-08-01';   //datos de prueba
+				$fecha2 = strtotime('+1 month',strtotime($fecha1));  //datos de prueba
+				$fecha2 = date('Y-m-d H:i:s' ,$fecha2);  //datos de prueba
+				$tiempo_promedio = $this->_tiempoPromedioDelMes(2,$fecha1,$fecha2);
+				break;
+			case '23': //instancias en el ano actual
+				$tiempo_promedio = $this->_tiempoPromedioDelAno(2,$ano_actual_primer_dia,$ano_actual_ultimo_dia);
+				break;
+			case '24': //instancias en el ano especifico
+				$fecha1 = '2015-01-01'; //datos de prueba
+				$fecha2 = strtotime('+12 month',strtotime($fecha1));
+				$fecha2 = date('Y-m-d H:i:s' ,$fecha2);
+				$tiempo_promedio = $this->_tiempoPromedioDelAno(2,$fecha1,$fecha2);
+				break;
+			case '25': //instancias en el periodo
+				$fecha1 = '2016-09-02 00:00:00'; //datos de prueba;
+				$fecha2 = '2016-09-03 00:00:00'; //datos de prueba;
+				$tiempo_promedio = $this->_tiempoPromedioDelPeriodo(2,$fecha1,$fecha2); 
+				break;
+		}
+		switch ($data[0]['actividad_usuario']){
+			case '11': //instancias en el dia actual
+				$actividad_user = $this->_actividadUsuarioDia(1,'recepcion',$today);
+				break;
+			case '12': //instancias dia anterior				
+				$yesterday = $this->_diaAnterior($today);
+				$actividad_user = $this->_actividadUsuarioDia(1,'recepcion',$yesterday);
+				break;
+			case '13': //dia
+				$dia = '2016-09-15 00:00:00'; //datos de prueba;
+				$actividad_user = $this->_actividadUsuarioDia(1,'recepcion',$dia);
+				break;
+			case '14': //dia comparativo
+				$dia = '2016-09-15 00:00:00'; //datos de prueba;
+				$actividad_user = $this->_actividadUsuarioDiaComparativo(2,'recepcion','abogado',$dia);
+				break;
+			case '5': //Mes Actual
+				$actividad_user = $this->_actividadDelMes($mes_actual);
+				break;
+			case '6': //Mes
+				$mes = '2016-09-01 00:00:00'; //datos de prueba
+				$actividad = $this->_actividadDelMes($mes);
+				break;
+			case '7': //Mes comparativo
+				$mes1 = '2016-09-01 00:00:00';
+				$mes2 = '2016-08-01 00:00:00';
+				$actividad = $this->_actividadComparacionMeses($mes1,$mes2);
+				break;
+			case '8': //Ano Actual
+				$actividad = $this->_actividadDelAno($ano_actual);
+				break;
+			case '9': //Ano
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
+				$actividad = $this->_actividadDelAno($ano);
+				break;
+			case '10': //Ano Comparativo
+				$ano1 = '2016-01-01 00:00:00';
+				$ano2 = '2016-01-01 00:00:00';
+				$actividad = $this->_actividadComparacionAnos($ano1,$ano2);
+				break;
+		}
 
 		$this->load->view('header','', FALSE);	
 		$this->load->view('home','', FALSE);	
 		$this->load->view('footerbegin','', FALSE);	
 		$this->load->view('actividad',$actividad, FALSE);	
 		$this->load->view('categoria',$categorias, FALSE);	
+		$this->load->view('actividad_usuario',$actividad_user, FALSE);	
 		$this->load->view('indicadores',$indicadores, FALSE);	
 		$this->load->view('crecimiento',$crecimiento, FALSE);	
-		$this->load->view('tiempo_respuesta','', FALSE);	
+		$this->load->view('tiempo_promedio',$tiempo_promedio, FALSE);	
 		$this->load->view('footerend','', FALSE);	
 	}
 
@@ -794,6 +884,174 @@ class Home extends CI_Controller {
 				$datos = $porcentaje-100;
 			}
 		}
+		return $datos;
+	}
+
+	//calcula el tiempo promedio en el mes
+	private function _tiempoPromedioDelMes($tipo,$fecha1,$fecha2){
+		$tipo_msj='';
+		$promedio = $this->_tiempoPromedio($tipo,$fecha1,$fecha2);	
+		$nombreMes = $this->_nombreMes($fecha1);
+		if ($tipo==1){
+			$tipo_msj = 'De instancias';
+		}
+		else{
+			$tipo_msj = 'De procesos';
+		}
+		$titulo = "Tiempo Promedio";
+		$subtitulo = $tipo_msj." del mes ".$nombreMes;
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'dias' 						=> $promedio['dias'],
+			'horas' 					=> $promedio['horas'],
+			'minutos' 					=> $promedio['minutos'],
+			'segundos' 					=> $promedio['segundos']);
+		return $data;
+	}
+
+	//calcula el tiempo promedio en el ano
+	private function _tiempoPromedioDelAno($tipo,$fecha1,$fecha2){
+		$tipo_msj='';
+		$promedio = $this->_tiempoPromedio($tipo,$fecha1,$fecha2);	
+		$ano = explode("-", $fecha1);
+		if ($tipo==1){
+			$tipo_msj = 'De instancias';
+		}
+		else{
+			$tipo_msj = 'De procesos';
+		}
+		$titulo = "Tiempo Promedio";
+		$subtitulo = $tipo_msj." del año ".$ano[0];
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'dias' 						=> $promedio['dias'],
+			'horas' 					=> $promedio['horas'],
+			'minutos' 					=> $promedio['minutos'],
+			'segundos' 					=> $promedio['segundos']);
+		return $data;
+	}
+
+	//calcula el tiempo promedio en el periodo
+	private function _tiempoPromedioDelPeriodo($tipo,$fecha1,$fecha2){
+		$tipo_msj='';
+		$promedio = $this->_tiempoPromedio($tipo,$fecha1,$fecha2);	
+		$fecha1 = explode(" ",$fecha1);
+		$fecha2 = explode(" ",$fecha2);
+		$fecha1 = date_create($fecha1[0]);
+		$fecha2 = date_create($fecha2[0]);
+		$fecha1 = date_format($fecha1,"d-m-Y");
+		$fecha2 = date_format($fecha2,"d-m-Y");
+		if ($tipo==1){
+			$tipo_msj = 'De instancias';
+		}
+		else{
+			$tipo_msj = 'De procesos';
+		}
+		$titulo = "Tiempo Promedio";
+		$subtitulo = $tipo_msj." en el periodo del ".$fecha1." al ".$fecha2;
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'dias' 						=> $promedio['dias'],
+			'horas' 					=> $promedio['horas'],
+			'minutos' 					=> $promedio['minutos'],
+			'segundos' 					=> $promedio['segundos']);
+		return $data;
+	}
+
+
+	//calcula el porcentaje del crecimiento en un periodo
+	private function _tiempoPromedio($tipo,$fecha1,$fecha2){
+		$datos = array();
+		$data = $this->Database->tiempoPromedio($tipo,$fecha1,$fecha2);	
+		$data = explode(',',$data);
+		$datos['dias'] = $data[0];
+		$datos['horas'] = $data[1];
+		$datos['minutos'] = $data[2];
+		$datos['segundos'] = $data[3];
+		return $datos;
+	}
+
+	//calcula actividad de un usuario en dia especifico
+	private function _actividadUsuarioDia($tipo,$usuario,$dia){
+		$tipo_msj = '';
+		$leyenda = "Número de ";
+		$actividad = $this->_actividadUsuario($tipo,$usuario,$dia);	
+		$arr = explode(",", $actividad);
+		$cant = $arr[0];
+		unset($arr[0]);
+		$actividad = rtrim(implode(',', $arr), ',');
+		$dia = explode(" ",$dia);
+		$dia = date_create($dia[0]);
+		$dia = date_format($dia,"d-m-Y");
+		$titulo = "Actividad de Usuarios";
+		if ($tipo==1){
+			$tipo_msj = 'Instancias';			
+		}
+		else{
+			$tipo_msj = 'Procesos';
+		}
+		$subtitulo = $tipo_msj." del día ".$dia." realizados por el usuario ".$usuario;
+		$serie = $usuario." (".$cant.")";
+		$leyenda = $leyenda.$tipo_msj;
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'datos_principal_nombre' 	=> $serie,
+			'datos_principal' 			=> $actividad,
+			'datos_secundario_nombre' 	=> '',
+			'datos_secundario' 			=> null,
+			'leyenda' 					=> $leyenda,
+			'type' 						=> 'horas');
+		return $data;
+	}
+
+	//calcula actividad de 2 usuarios en dia especifico
+	private function _actividadUsuarioDiaComparativo($tipo,$usuario1,$usuario2,$dia){
+		$tipo_msj = '';
+		$leyenda = "Número de ";
+		$actividad1 = $this->_actividadUsuario($tipo,$usuario1,$dia);	
+		$actividad2 = $this->_actividadUsuario($tipo,$usuario2,$dia);	
+		$arr = explode(",", $actividad1);
+		$cant = $arr[0];
+		unset($arr[0]);
+		$actividad1 = rtrim(implode(',', $arr), ',');
+		$arr = explode(",", $actividad2);
+		$cant = $arr[0];
+		unset($arr[0]);
+		$actividad2 = rtrim(implode(',', $arr), ',');
+		$dia = explode(" ",$dia);
+		$dia = date_create($dia[0]);
+		$dia = date_format($dia,"d-m-Y");
+		$titulo = "Actividad de Usuarios";
+		if ($tipo==1){
+			$tipo_msj = 'Instancias';			
+		}
+		else{
+			$tipo_msj = 'Procesos';
+		}
+		$subtitulo = $tipo_msj." del día ".$dia." realizados por el usuario ".$usuario1." y el usuario ".$usuario2;
+		$serie1 = $usuario1." (".$cant.")";
+		$serie2 = $usuario2." (".$cant.")";
+		$leyenda = $leyenda.$tipo_msj;
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'datos_principal_nombre' 	=> $serie1,
+			'datos_principal' 			=> $actividad1,
+			'datos_secundario_nombre' 	=> $serie2,
+			'datos_secundario' 			=> $actividad2,
+			'leyenda' 					=> $leyenda,
+			'type' 						=> 'horas');
+		return $data;
+	}
+
+	//calcula la actividad de un usuario
+	private function _actividadUsuario($tipo,$usuario,$dia){
+		$data = $this->Database->actividadUsuarioDia($tipo,$usuario,$dia);	
+		$datos = rtrim(implode(',', $data), ',');
 		return $datos;
 	}
 }

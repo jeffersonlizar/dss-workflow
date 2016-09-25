@@ -24,7 +24,7 @@ class Database extends CI_Model {
 	public function actividadDia($fecha_inicial){
 		$this->db->db_select('workflow');
 		$data= array();
-		$query = "SELECT COUNT(id_proceso) as cant FROM proceso WHERE fecha BETWEEN ? AND ?";
+		$query = "SELECT COUNT(id_proceso) as cant FROM proceso WHERE (fecha BETWEEN ? AND ?)";
 		$fecha_final = strtotime ('+23 hour',strtotime($fecha_inicial));
 		$fecha_final = date('Y-m-d H:i:s' ,$fecha_final);
 		$sql = $this->db->query($query, array($fecha_inicial,$fecha_final));
@@ -80,7 +80,7 @@ class Database extends CI_Model {
 	public function actividadAno($fecha_inicial){
 		$this->db->db_select('workflow');
 		$data= array();
-		$query = "SELECT COUNT(id_proceso) as cant FROM proceso WHERE DATE(fecha) BETWEEN DATE(?) AND DATE(?)";
+		$query = "SELECT COUNT(id_proceso) as cant FROM proceso WHERE (DATE(fecha) BETWEEN DATE(?) AND DATE(?))";
 		$fecha_final = strtotime ('+12 month',strtotime($fecha_inicial));		
 		$fecha_final = date('Y-m-d H:i:s' ,$fecha_final);
 		$sql = $this->db->query($query, array($fecha_inicial,$fecha_final));
@@ -374,6 +374,106 @@ class Database extends CI_Model {
             $data['cant_total_2']=$cant_total;
         }
         return $data;
+	}
+
+	//calcula el tiempo promedio en un periodo
+	public function tiempoPromedio($tipo,$fecha1,$fecha2){
+		$total=0;
+		$this->db->db_select('workflow');
+		$data= array();
+		$data['time'] = 0;
+		if ($tipo==1){
+			$query_total = "SELECT AVG(TIME_TO_SEC(TIMEDIFF(fecha_final, fecha_inicio))) as time FROM instancia WHERE (DATE(fecha_inicio) BETWEEN DATE(?) AND DATE(?)) AND (DATE(fecha_final) BETWEEN DATE(?) AND DATE(?))";
+			$sql = $this->db->query($query_total, array($fecha1,$fecha2,$fecha1,$fecha2));
+			if($sql -> num_rows() > 0)
+	        {	
+	            $cant_total = $sql->result_array()[0]["time"];
+	            $data['time']=$cant_total;
+
+	        }
+		}
+		if ($tipo==2){
+			$query_total = "SELECT TIME_TO_SEC(TIMEDIFF(pro2.fecha, pro1.fecha)) as time FROM proceso AS pro1 INNER JOIN proceso AS pro2 ON DATE(pro1.fecha)<=DATE(pro2.fecha) WHERE pro1.id_instancia=pro2.id_instancia AND pro1.id_proceso!=pro2.id_proceso AND (DATE(pro1.fecha) BETWEEN DATE(?) AND DATE(?)) AND (DATE(pro2.fecha) BETWEEN DATE(?) AND DATE(?)) AND (TIME(pro1.fecha)<TIME(pro2.fecha)) GROUP BY pro1.id_proceso";
+			$sql = $this->db->query($query_total, array($fecha1,$fecha2,$fecha1,$fecha2));
+			if($sql -> num_rows() > 0)
+	        {	
+	            $tiempo = $sql->result_array();
+	            $cant = count($tiempo);	            
+            	for($i=0;$i<count($tiempo);$i++)
+            	{
+            		$data['time'] += intval($tiempo[$i]['time']);
+            	}
+            	$data['time'] = $data['time']/$cant;
+            	
+	        }
+			
+		}
+       $data= $this->convert_seconds(round($data['time']))."\n";
+       return $data;
+	}
+
+	//transforma segundos a dias horas min segs
+	function convert_seconds($seconds) 
+	{
+		$dt1 = new DateTime("@0");
+		$dt2 = new DateTime("@$seconds");
+		return $dt1->diff($dt2)->format('%a,%h,%i,%s');
+  	}
+
+  	//calcula la actividad de un dia por rangos de 1 hora para 1 usuario
+	public function actividadUsuarioDia($tipo,$usuario,$fecha_inicial){
+		$this->db->db_select('workflow');
+		$data= array();
+		if ($tipo==2){
+			$query = "SELECT COUNT(id_proceso) as cant FROM proceso WHERE (fecha BETWEEN ? AND ?) AND id_usuario = ?";
+			$fecha_final = strtotime ('+23 hour',strtotime($fecha_inicial));
+			$fecha_final = date('Y-m-d H:i:s' ,$fecha_final);
+			$sql = $this->db->query($query, array($fecha_inicial,$fecha_final,$usuario));
+			if($sql -> num_rows() > 0)
+	        {	        	
+	            $data['total'] = $sql->result_array()[0]["cant"];
+	        }		
+	        $fecha_final = strtotime ('+23 hour',strtotime($fecha_inicial));
+			$i = 0;
+			do {			
+				$fecha_nueva = strtotime('+1 hour',strtotime($fecha_inicial));
+				$fecha_nueva = date('Y-m-d H:i:s' ,$fecha_nueva);
+				$sql = $this->db->query($query, array($fecha_inicial,$fecha_nueva,$usuario));
+				if($sql -> num_rows() > 0)
+		        {	        	
+		            $data[$i++] = $sql->result_array()[0]["cant"];
+		            //echo 'entre fecha: '.$fecha_inicial.' y fecha final: '.$fecha_nueva.'cant: '.$data[$i-1];
+		            //echo '</br>';
+		        }
+		        $fecha_inicial = $fecha_nueva;
+			} while (strtotime($fecha_nueva)<= $fecha_final);
+		}
+		else if ($tipo==1){
+			$query = "SELECT COUNT(id_instancia) as cant FROM instancia WHERE (fecha_inicio BETWEEN ? AND ?) AND id_usuario = ?";
+			$fecha_final = strtotime ('+23 hour',strtotime($fecha_inicial));
+			$fecha_final = date('Y-m-d H:i:s' ,$fecha_final);
+			$sql = $this->db->query($query, array($fecha_inicial,$fecha_final,$usuario));
+			if($sql -> num_rows() > 0)
+	        {	        	
+	            $data['total'] = $sql->result_array()[0]["cant"];
+	        }		
+	        $fecha_final = strtotime ('+23 hour',strtotime($fecha_inicial));
+			$i = 0;
+			do {			
+				$fecha_nueva = strtotime('+1 hour',strtotime($fecha_inicial));
+				$fecha_nueva = date('Y-m-d H:i:s' ,$fecha_nueva);
+				$sql = $this->db->query($query, array($fecha_inicial,$fecha_nueva,$usuario));
+				if($sql -> num_rows() > 0)
+		        {	        	
+		            $data[$i++] = $sql->result_array()[0]["cant"];
+		            //echo 'entre fecha: '.$fecha_inicial.' y fecha final: '.$fecha_nueva.'cant: '.$data[$i-1];
+		            //echo '</br>';
+		        }
+		        $fecha_inicial = $fecha_nueva;
+			} while (strtotime($fecha_nueva)<= $fecha_final);
+		}
+		
+		return $data;
 	}
 }
 

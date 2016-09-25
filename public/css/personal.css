@@ -2,14 +2,18 @@ main div{
 	//border:1px solid black;
 }
 
-#beneficioneto{
-	color: #333333;
-	font-size: 19px;
-}
-#beneficiomoney{
 
+#tiempo_horas{
 	color: #333333;
 	font-size: 50px;	
+}
+
+.tema{
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
+}
+
+.titulo{
+	font-size: 18px;
 }
 
 
