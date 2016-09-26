@@ -42,7 +42,7 @@
 	        </li>
 	        <li  id="tabprincipal" class="active menutab"><a href="#!"><i class="material-icons md-40 md-dark">home</i><span class="menu-title">Inicio</span></a></li>
 	        <li id ="tabindicadores" class="menutab"><a href="indicadores.php"><i class="material-icons md-40 md-dark">insert_chart</i><span class="menu-title">Indicadores</span></a></li>
-			<li id ="tabreportes" class="menutab"><a href="#!"><i class="material-icons md-40 md-dark">insert_drive_file</i><span class="menu-title">Reportes</span></a></li>
+			<li id ="tabreportes" class="menutab"><a href="#!"><i class="material-icons md-40 md-dark">timelapse</i><span class="menu-title">Alarmas</span></a></li>
 			<li id ="tabusuarios" class="menutab"><a href="#!"><i class="material-icons md-40 md-dark">account_box</i><span class="menu-title">Usuarios</span></a></li>				
 			<li id ="tabajustes" class="menutab"><a href="#!"><i class="material-icons md-40 md-dark">settings</i><span class="menu-title">Ajustes</span></a></li>
 			<li id ="tabayuda" class="menutab"><a href="#!"><i class="material-icons md-40 md-dark">help_outline</i><span class="menu-title">Ayuda</span></a></li>

@@ -277,7 +277,7 @@ class Database extends CI_Model {
 		$data['cant_total_realizados'] = 0;
 		$data['cant_total_instancias'] = 0;
 		$query_total_procesos = "SELECT COUNT(*) as cant FROM proceso as pro1 WHERE (DATE(pro1.fecha) BETWEEN DATE(?) AND DATE(?))";
-		$query_total_realizados = "SELECT * FROM proceso AS pro1 INNER JOIN proceso AS pro2 ON DATE(pro1.fecha)<=DATE(pro2.fecha) WHERE pro1.id_instancia=pro2.id_instancia AND pro1.id_proceso!=pro2.id_proceso AND (DATE(pro1.fecha) BETWEEN DATE(?) AND DATE(?)) AND (DATE(pro2.fecha) BETWEEN DATE(?) AND DATE(?)) AND (TIME(pro1.fecha)<TIME(pro2.fecha)) GROUP BY pro1.id_proceso";
+		$query_total_realizados = "SELECT * FROM proceso as pro1, proceso as pro2 WHERE pro1.id_instancia = pro2.id_instancia AND pro1.id_proceso<pro2.id_proceso AND (DATE(pro1.fecha) BETWEEN DATE(?) AND DATE(?)) AND (DATE(pro2.fecha) BETWEEN DATE(?) AND DATE(?)) GROUP BY pro1.id_proceso";
 		$query_total_instancias = "SELECT COUNT(*) as cant FROM instancia WHERE (DATE(fecha_final) BETWEEN DATE(?) AND DATE(?))";
 		$sql = $this->db->query($query_total_procesos, array($fecha_inicial,$fecha_final));
 		if($sql -> num_rows() > 0)
@@ -413,8 +413,7 @@ class Database extends CI_Model {
 	}
 
 	//transforma segundos a dias horas min segs
-	function convert_seconds($seconds) 
-	{
+	function convert_seconds($seconds) {
 		$dt1 = new DateTime("@0");
 		$dt2 = new DateTime("@$seconds");
 		return $dt1->diff($dt2)->format('%a,%h,%i,%s');
@@ -475,6 +474,334 @@ class Database extends CI_Model {
 		
 		return $data;
 	}
+
+	//calcula la actividad de un mes por rangos de 1 dia para 1 usuario
+	public function actividadUsuarioMes($tipo,$usuario,$fecha_inicial){
+		$this->db->db_select('workflow');
+		$data= array();
+		if ($tipo==2){
+			$query = "SELECT COUNT(id_proceso) as cant FROM proceso WHERE (DATE(fecha) BETWEEN DATE(?) AND DATE(?)) AND id_usuario = ?";
+			$fecha_final = strtotime ('+1 month',strtotime($fecha_inicial));	
+			$fecha_final = date('Y-m-d H:i:s' ,$fecha_final);
+			$sql = $this->db->query($query, array($fecha_inicial,$fecha_final,$usuario));
+			if($sql -> num_rows() > 0)
+	        {	        	
+	            $data['total'] = $sql->result_array()[0]["cant"];
+	        }		
+	        $fecha_final = strtotime ('+1 month',strtotime($fecha_inicial));	
+			$i = 0;
+			do {			
+				$fecha_nueva = strtotime('+24 hour',strtotime($fecha_inicial));
+				$fecha_nueva = date('Y-m-d H:i:s' ,$fecha_nueva);
+				$sql = $this->db->query($query, array($fecha_inicial,$fecha_nueva,$usuario));
+				if($sql -> num_rows() > 0)
+		        {	        	
+		            $data[$i++] = $sql->result_array()[0]["cant"];
+		            //echo 'entre fecha: '.$fecha_inicial.' y fecha final: '.$fecha_nueva.'cant: '.$data[$i-1];
+		            //echo '</br>';
+		        }
+		        $fecha_inicial = $fecha_nueva;
+			} while (strtotime($fecha_nueva)< $fecha_final);
+		}
+		else if ($tipo==1){
+			$query = "SELECT COUNT(id_instancia) as cant FROM instancia WHERE (DATE(fecha_inicio) BETWEEN DATE(?) AND DATE(?)) AND id_usuario = ?";
+			$fecha_final = strtotime ('+1 month',strtotime($fecha_inicial));	
+			$fecha_final = date('Y-m-d H:i:s' ,$fecha_final);
+			$sql = $this->db->query($query, array($fecha_inicial,$fecha_final,$usuario));
+			if($sql -> num_rows() > 0)
+	        {	        	
+	            $data['total'] = $sql->result_array()[0]["cant"];
+	        }		
+	        $fecha_final = strtotime ('+1 month',strtotime($fecha_inicial));	
+			$i = 0;
+			do {			
+				$fecha_nueva = strtotime('+24 hour',strtotime($fecha_inicial));
+				$fecha_nueva = date('Y-m-d H:i:s' ,$fecha_nueva);
+				$sql = $this->db->query($query, array($fecha_inicial,$fecha_nueva,$usuario));
+				if($sql -> num_rows() > 0)
+		        {	        	
+		            $data[$i++] = $sql->result_array()[0]["cant"];
+		            //echo 'entre fecha: '.$fecha_inicial.' y fecha final: '.$fecha_nueva.'cant: '.$data[$i-1];
+		            //echo '</br>';
+		        }
+		        $fecha_inicial = $fecha_nueva;
+			} while (strtotime($fecha_nueva)< $fecha_final);
+		}
+		
+		return $data;
+	}
+
+	//calcula la actividad de un año por rangos de 1 mes para 1 usuario
+	public function actividadUsuarioAno($tipo,$usuario,$fecha_inicial){
+		$this->db->db_select('workflow');
+		$data= array();
+		if ($tipo==2){
+			$query = "SELECT COUNT(id_proceso) as cant FROM proceso WHERE (DATE(fecha) BETWEEN DATE(?) AND DATE(?)) AND id_usuario = ?";
+			$fecha_final = strtotime ('+12 month',strtotime($fecha_inicial));		
+			$fecha_final = date('Y-m-d H:i:s' ,$fecha_final);
+			$sql = $this->db->query($query, array($fecha_inicial,$fecha_final,$usuario));
+			if($sql -> num_rows() > 0)
+	        {	        	
+	            $data['total'] = $sql->result_array()[0]["cant"];
+	        }		
+	        $fecha_final = strtotime ('+12 month',strtotime($fecha_inicial));		
+			$i = 0;
+			do {			
+				$fecha_nueva = strtotime('+1 month',strtotime($fecha_inicial));
+				$fecha_nueva = date('Y-m-d H:i:s' ,$fecha_nueva);
+				$sql = $this->db->query($query, array($fecha_inicial,$fecha_nueva,$usuario));
+				if($sql -> num_rows() > 0)
+		        {	        	
+		            $data[$i++] = $sql->result_array()[0]["cant"];
+		            //echo 'entre fecha: '.$fecha_inicial.' y fecha final: '.$fecha_nueva.'cant: '.$data[$i-1];
+		            //echo '</br>';
+		        }
+		        $fecha_inicial = $fecha_nueva;
+			} while (strtotime($fecha_nueva)< $fecha_final);
+		}
+		else if ($tipo==1){
+			$query = "SELECT COUNT(id_instancia) as cant FROM instancia WHERE (DATE(fecha_inicio) BETWEEN DATE(?) AND DATE(?)) AND id_usuario = ?";
+			$fecha_final = strtotime ('+12 month',strtotime($fecha_inicial));		
+			$fecha_final = date('Y-m-d H:i:s' ,$fecha_final);
+			$sql = $this->db->query($query, array($fecha_inicial,$fecha_final,$usuario));
+			if($sql -> num_rows() > 0)
+	        {	        	
+	            $data['total'] = $sql->result_array()[0]["cant"];
+	        }		
+	        $fecha_final = strtotime ('+12 month',strtotime($fecha_inicial));		
+			$i = 0;
+			do {			
+				$fecha_nueva = strtotime('+1 month',strtotime($fecha_inicial));
+				$fecha_nueva = date('Y-m-d H:i:s' ,$fecha_nueva);
+				$sql = $this->db->query($query, array($fecha_inicial,$fecha_nueva,$usuario));
+				if($sql -> num_rows() > 0)
+		        {	        	
+		            $data[$i++] = $sql->result_array()[0]["cant"];
+		            //echo 'entre fecha: '.$fecha_inicial.' y fecha final: '.$fecha_nueva.'cant: '.$data[$i-1];
+		            //echo '</br>';
+		        }
+		        $fecha_inicial = $fecha_nueva;
+			} while (strtotime($fecha_nueva)< $fecha_final);
+		}
+		return $data;
+	}
+
+	//calcula la actividad de un dia por rangos de 1 hora para 1 usuario
+	public function usuariosTodos($tipo = null){
+		$this->db->db_select('workflow');
+		$data= array();
+		$query = "SELECT id_usuario FROM usuario";
+		if (isset($tipo)){
+			$query = $query." WHERE id_tipo = ".$tipo;
+		}
+		$sql = $this->db->query($query);
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data = $sql->result_array();
+
+        }		
+		return $data;
+	}
+
+	//devuelve el nombre del tipo de usuario
+	public function nombreTipoUsuario($tipo){
+		$this->db->db_select('workflow');
+		$data= array();
+		$query = "SELECT descripcion FROM tipo_usuario WHERE id_tipo =".$tipo."";
+		$sql = $this->db->query($query);
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data = $sql->result_array()[0]['descripcion'];
+
+        }		
+		return $data;
+	}
+
+	//calcula el resumen de instancias en un periodo
+	public function workflowResumen($fecha_inicial,$fecha_final){
+		$data = array();
+		$rapido = array();
+		$cant = array();
+		$promedio = array();
+		$query_mas = "SELECT w.nombre, COUNT(ins.id_instancia) as cant FROM instancia as ins INNER JOIN (SELECT workflow.nombre, workflow.id_workflow FROM workflow) as w ON w.id_workflow = ins.id_workflow WHERE (ins.fecha_final BETWEEN DATE(?) AND DATE(?)) AND (ins.fecha_inicio BETWEEN DATE(?) AND DATE(?)) GROUP BY ins.id_workflow ORDER BY (cant) DESC LIMIT 1";
+		$query_menos = "SELECT w.nombre, COUNT(ins.id_instancia) as cant FROM instancia as ins INNER JOIN (SELECT workflow.nombre, workflow.id_workflow FROM workflow) as w ON w.id_workflow = ins.id_workflow WHERE (ins.fecha_final BETWEEN DATE(?) AND DATE(?)) AND (ins.fecha_inicio BETWEEN DATE(?) AND DATE(?)) GROUP BY ins.id_workflow ORDER BY (cant) ASC LIMIT 1";
+		$query_cant = "SELECT COUNT(id_instancia) as cant FROM instancia WHERE (fecha_final BETWEEN DATE(?) AND DATE(?)) AND (fecha_inicio BETWEEN DATE(?) AND DATE(?))";
+		$query_rapido = "SELECT w.id_workflow,w.nombre, TIME_TO_SEC(TIMEDIFF(fecha_final, fecha_inicio)) as time FROM instancia as ins INNER JOIN (SELECT workflow.nombre, workflow.id_workflow FROM workflow) as w ON w.id_workflow = ins.id_workflow WHERE (ins.fecha_final BETWEEN DATE('2016-09-01') AND DATE('2016-09-10')) AND (ins.fecha_inicio BETWEEN DATE('2016-09-01') AND DATE('2016-09-10')) ORDER BY time ASC ";
+		$query_lento = "SELECT w.id_workflow,w.nombre, TIME_TO_SEC(TIMEDIFF(fecha_final, fecha_inicio)) as time FROM instancia as ins INNER JOIN (SELECT workflow.nombre, workflow.id_workflow FROM workflow) as w ON w.id_workflow = ins.id_workflow WHERE (ins.fecha_final BETWEEN DATE('2016-09-01') AND DATE('2016-09-10')) AND (ins.fecha_inicio BETWEEN DATE('2016-09-01') AND DATE('2016-09-10')) ORDER BY time DESC ";
+		$query_workflow_nombre = "SELECT nombre FROM workflow WHERE id_workflow = ?";
+		$sql = $this->db->query($query_mas, array($fecha_inicial,$fecha_final,$fecha_inicial,$fecha_final));		
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data['mas_realizado']= $sql->result_array()[0];
+        }
+       	$sql = $this->db->query($query_menos, array($fecha_inicial,$fecha_final,$fecha_inicial,$fecha_final));		
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data['menos_realizado']= $sql->result_array()[0];
+        }
+       	$sql = $this->db->query($query_cant, array($fecha_inicial,$fecha_final,$fecha_inicial,$fecha_final));		
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data['total']= $sql->result_array()[0];
+        }
+        $sql = $this->db->query($query_rapido, array($fecha_inicial,$fecha_final,$fecha_inicial,$fecha_final));		
+		if($sql -> num_rows() > 0)
+        {	        	
+            $datos= $sql->result_array();
+            for ($i=0; $i < count($datos) ; $i++) { 
+            	$pos = (int)$datos[$i]['id_workflow'];
+            	$value = (int)$datos[$i]['time'];            	
+            	if (!isset($rapido[$pos])){
+            		$rapido[$pos] = 0;
+            		$cant[$pos] = 0;            		
+            		$rapido[$pos] = $rapido[$pos] + $value;	
+            		$cant[$pos] = 0;            		
+            		$cant[$pos] ++;            		
+            	}else{
+            		$rapido[$pos] = $rapido[$pos] + $value;	
+            		$cant[$pos] ++;            		
+            	}
+            }
+            for ($i=0; $i < count($datos) ; $i++) { 
+            	$pos = (int)$datos[$i]['id_workflow'];            	
+            	$promedio[$pos] = round($rapido[$pos]/$cant[$pos]);
+            }
+            $tiempo = min($promedio);
+            $maximo = array_search(min($promedio), $promedio);
+            $sql = $this->db->query($query_workflow_nombre, array($maximo));		
+			if($sql -> num_rows() > 0)
+	        {	        	
+	            $data['mas_rapido'] = $sql->result_array()[0];
+	            $data['mas_rapido']['time']= $this->convert_seconds($tiempo);
+	        }
+        }
+        $sql = $this->db->query($query_lento, array($fecha_inicial,$fecha_final,$fecha_inicial,$fecha_final));		
+		if($sql -> num_rows() > 0)
+        {	        	
+            $datos= $sql->result_array();
+            for ($i=0; $i < count($datos) ; $i++) { 
+            	$pos = (int)$datos[$i]['id_workflow'];
+            	$value = (int)$datos[$i]['time'];            	
+            	if (!isset($rapido[$pos])){
+            		$rapido[$pos] = 0;
+            		$cant[$pos] = 0;            		
+            		$rapido[$pos] = $rapido[$pos] + $value;	
+            		$cant[$pos] = 0;            		
+            		$cant[$pos] ++;            		
+            	}else{
+            		$rapido[$pos] = $rapido[$pos] + $value;	
+            		$cant[$pos] ++;            		
+            	}
+            }
+            for ($i=0; $i < count($datos) ; $i++) { 
+            	$pos = (int)$datos[$i]['id_workflow'];            	
+            	$promedio[$pos] = round($rapido[$pos]/$cant[$pos]);
+            }
+            $tiempo = max($promedio);
+            $maximo = array_search(max($promedio), $promedio);
+            $sql = $this->db->query($query_workflow_nombre, array($maximo));		
+			if($sql -> num_rows() > 0)
+	        {	        	
+	            $data['mas_lento'] = $sql->result_array()[0];
+	            $data['mas_lento']['time']= $this->convert_seconds($tiempo);
+	        }
+        }  
+        return $data;
+	}
+
+	//calcula el resumen de procesos en un periodo
+	public function procesoResumen($fecha_inicial,$fecha_final){
+		$data = array();
+		$rapido = array();
+		$cant = array();
+		$promedio = array();
+		$query_mas = "SELECT tran.nombre , COUNT(*) as cant FROM proceso AS pro INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tran on pro.id_transicion = tran.id_transicion WHERE (DATE(fecha) BETWEEN DATE(?) AND DATE(?)) GROUP by (tran.nombre) ORDER BY (cant) DESC LIMIT 1";
+		$query_menos = "SELECT tran.nombre , COUNT(*) as cant FROM proceso AS pro INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tran on pro.id_transicion = tran.id_transicion WHERE (DATE(fecha) BETWEEN DATE(?) AND DATE(?)) GROUP by (tran.nombre) ORDER BY (cant) ASC LIMIT 1";
+		$query_cant = "SELECT COUNT(*) as cant FROM proceso AS pro INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tran on pro.id_transicion = tran.id_transicion WHERE (DATE(fecha) BETWEEN DATE(?) AND DATE(?))";
+		$query_rapido = "SELECT tran.id_transicion,tran.nombre,TIME_TO_SEC(TIMEDIFF(pro2.fecha, pro1.fecha)) as time FROM proceso as pro2, proceso as pro1 INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tran on pro1.id_transicion = tran.id_transicion WHERE pro1.id_instancia = pro2.id_instancia AND pro1.id_proceso<pro2.id_proceso AND (DATE(pro1.fecha) BETWEEN DATE(?) AND DATE(?)) AND (DATE(pro2.fecha) BETWEEN DATE(?) AND DATE(?)) GROUP BY pro1.id_proceso ORDER BY time ASC";
+		$query_lento = "SELECT tran.id_transicion,tran.nombre,TIME_TO_SEC(TIMEDIFF(pro2.fecha, pro1.fecha)) as time FROM proceso as pro2, proceso as pro1 INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tran on pro1.id_transicion = tran.id_transicion WHERE pro1.id_instancia = pro2.id_instancia AND pro1.id_proceso<pro2.id_proceso AND (DATE(pro1.fecha) BETWEEN DATE(?) AND DATE(?)) AND (DATE(pro2.fecha) BETWEEN DATE(?) AND DATE(?)) GROUP BY pro1.id_proceso ORDER BY time DESC";
+		$query_transicion_nombre = "SELECT nombre FROM transicion WHERE id_transicion = ?";
+		$sql = $this->db->query($query_mas, array($fecha_inicial,$fecha_final));		
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data['mas_realizado'] = $sql->result_array()[0];
+        }
+        $sql = $this->db->query($query_menos, array($fecha_inicial,$fecha_final));		
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data['menos_realizado'] = $sql->result_array()[0];
+        }
+        $sql = $this->db->query($query_cant, array($fecha_inicial,$fecha_final));		
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data['total'] = $sql->result_array()[0];
+        }
+        $sql = $this->db->query($query_rapido, array($fecha_inicial,$fecha_final,$fecha_inicial,$fecha_final));		
+		if($sql -> num_rows() > 0)
+        {	        	
+            $datos= $sql->result_array();
+            for ($i=0; $i < count($datos) ; $i++) { 
+            	$pos = (int)$datos[$i]['id_transicion'];
+            	$value = (int)$datos[$i]['time'];            	
+            	if (!isset($rapido[$pos])){
+            		$rapido[$pos] = 0;
+            		$cant[$pos] = 0;            		
+            		$rapido[$pos] = $rapido[$pos] + $value;	
+            		$cant[$pos] = 0;            		
+            		$cant[$pos] ++;            		
+            	}else{
+            		$rapido[$pos] = $rapido[$pos] + $value;	
+            		$cant[$pos] ++;            		
+            	}
+            }
+            for ($i=0; $i < count($datos) ; $i++) { 
+            	$pos = (int)$datos[$i]['id_transicion'];            	
+            	$promedio[$pos] = round($rapido[$pos]/$cant[$pos]);
+            }
+            $tiempo = min($promedio);
+            $maximo = array_search(min($promedio), $promedio);
+            $sql = $this->db->query($query_transicion_nombre, array($maximo));		
+			if($sql -> num_rows() > 0)
+	        {	        	
+	            $data['mas_rapido'] = $sql->result_array()[0];
+	            $data['mas_rapido']['time']= $this->convert_seconds($tiempo);
+	        }
+        }
+        $sql = $this->db->query($query_lento, array($fecha_inicial,$fecha_final,$fecha_inicial,$fecha_final));		
+		if($sql -> num_rows() > 0)
+        {	        	
+            $datos= $sql->result_array();
+            for ($i=0; $i < count($datos) ; $i++) { 
+            	$pos = (int)$datos[$i]['id_transicion'];
+            	$value = (int)$datos[$i]['time'];            	
+            	if (!isset($rapido[$pos])){
+            		$rapido[$pos] = 0;
+            		$cant[$pos] = 0;            		
+            		$rapido[$pos] = $rapido[$pos] + $value;	
+            		$cant[$pos] = 0;            		
+            		$cant[$pos] ++;            		
+            	}else{
+            		$rapido[$pos] = $rapido[$pos] + $value;	
+            		$cant[$pos] ++;            		
+            	}
+            }
+            for ($i=0; $i < count($datos) ; $i++) { 
+            	$pos = (int)$datos[$i]['id_transicion'];            	
+            	$promedio[$pos] = round($rapido[$pos]/$cant[$pos]);
+            }
+            $tiempo = max($promedio);
+            $maximo = array_search(max($promedio), $promedio);
+            $sql = $this->db->query($query_transicion_nombre, array($maximo));		
+			if($sql -> num_rows() > 0)
+	        {	        	
+	            $data['mas_lento'] = $sql->result_array()[0];
+	            $data['mas_lento']['time']= $this->convert_seconds($tiempo);
+	        }
+        }        
+        return $data;
+	}
+
+	
 }
 
 /* End of file database.php */

@@ -5,10 +5,11 @@ main div{
 
 #tiempo_horas{
 	color: #333333;
-	font-size: 50px;	
+	font-size: 40px;	
 }
 
 .tema{
+	text-align: center;
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
 }
 

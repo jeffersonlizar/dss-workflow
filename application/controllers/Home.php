@@ -131,8 +131,8 @@ class Home extends CI_Controller {
 				$indicadores = $this->_indicadoresDelAno($ano);
 				break; 
 			case '8': // Periodo
-				$fecha1 = '2016-09-02 00:00:00';
-				$fecha2 = '2016-09-21 00:00:00';
+				$fecha1 = '2016-09-06 00:00:00';
+				$fecha2 = '2016-09-07 00:00:00';
 				$indicadores = $this->_indicadoresDelPeriodo($fecha1,$fecha2);
 				break; 
 		}
@@ -224,45 +224,172 @@ class Home extends CI_Controller {
 		}
 		switch ($data[0]['actividad_usuario']){
 			case '11': //instancias en el dia actual
-				$actividad_user = $this->_actividadUsuarioDia(1,'recepcion',$today);
+				$usuario = 'recepcion'; //datos de prueba;
+				$actividad_user = $this->_actividadUsuarioDelDia(1,$usuario,$today);
 				break;
 			case '12': //instancias dia anterior				
 				$yesterday = $this->_diaAnterior($today);
-				$actividad_user = $this->_actividadUsuarioDia(1,'recepcion',$yesterday);
+				$usuario = 'recepcion'; //datos de prueba;
+				$actividad_user = $this->_actividadUsuarioDelDia(1,$usuario,$yesterday);
 				break;
-			case '13': //dia
+			case '13': //instancias dia 
 				$dia = '2016-09-15 00:00:00'; //datos de prueba;
-				$actividad_user = $this->_actividadUsuarioDia(1,'recepcion',$dia);
+				$usuario = 'recepcion';
+				$actividad_user = $this->_actividadUsuarioDelDia(1,$usuario,$dia);
 				break;
-			case '14': //dia comparativo
+			case '14': //instancias dia comparativo usuario
 				$dia = '2016-09-15 00:00:00'; //datos de prueba;
-				$actividad_user = $this->_actividadUsuarioDiaComparativo(2,'recepcion','abogado',$dia);
+				$usuario1 = 'recepcion'; //datos de prueba;
+				$usuario2 = 'abogado'; //datos de prueba;
+				$actividad_user = $this->_actividadUsuarioDelDiaComparativo(1,$usuario1,$usuario2,$dia);
 				break;
-			case '5': //Mes Actual
-				$actividad_user = $this->_actividadDelMes($mes_actual);
+			case '15': //instancias dia grupo de usuarios
+				$dia = '2016-09-15 00:00:00'; //datos de prueba;
+				$tipo_usuario = 3;
+				$actividad_user = $this->_actividadUsuarioDelDiaGrupo(1,$tipo_usuario,$dia);
 				break;
-			case '6': //Mes
+			case '16': //instancias dia todos los usuarios
+				$dia = '2016-09-15 00:00:00'; //datos de prueba;
+				$actividad_user = $this->_actividadUsuarioDelDiaTodos(1,$dia);
+				break;
+			case '17': //instancias en el mes actual
+				$usuario = 'recepcion'; //datos de prueba;
 				$mes = '2016-09-01 00:00:00'; //datos de prueba
-				$actividad = $this->_actividadDelMes($mes);
+				$actividad_user = $this->_actividadUsuarioDelMes(1,$usuario,$mes);
 				break;
-			case '7': //Mes comparativo
-				$mes1 = '2016-09-01 00:00:00';
-				$mes2 = '2016-08-01 00:00:00';
-				$actividad = $this->_actividadComparacionMeses($mes1,$mes2);
+			case '18': //instancias mes 				
+				$usuario = 'recepcion'; //datos de prueba;
+				$mes = '2016-08-01 00:00:00'; //datos de prueba
+				$actividad_user = $this->_actividadUsuarioDelMes(1,$usuario,$mes);
 				break;
-			case '8': //Ano Actual
-				$actividad = $this->_actividadDelAno($ano_actual);
+			case '19': //instancias mes comparativo usuario
+				$mes = '2016-09-01 00:00:00'; //datos de prueba
+				$usuario1 = 'recepcion'; //datos de prueba;
+				$usuario2 = 'abogado'; //datos de prueba;
+				$actividad_user = $this->_actividadUsuarioDelMesComparativo(1,$usuario1,$usuario2,$mes);
 				break;
-			case '9': //Ano
+			case '110': //instancias mes grupo de usuarios
+				$mes = '2016-09-01 00:00:00'; //datos de prueba
+				$tipo_usuario = 4;
+				$actividad_user = $this->_actividadUsuarioDelMesGrupo(1,$tipo_usuario,$mes);
+				break;
+			case '111': //instancias mes todos los usuarios
+				$mes = '2016-09-01 00:00:00'; //datos de prueba
+				$actividad_user = $this->_actividadUsuarioDelMesTodos(1,$mes);
+				break;
+			case '112': //instancias en el año actual
+				$usuario = 'recepcion'; //datos de prueba;
 				$ano = '2016-01-01 00:00:00'; //datos de prueba
-				$actividad = $this->_actividadDelAno($ano);
+				$actividad_user = $this->_actividadUsuarioDelAno(1,$usuario,$ano);
 				break;
-			case '10': //Ano Comparativo
-				$ano1 = '2016-01-01 00:00:00';
-				$ano2 = '2016-01-01 00:00:00';
-				$actividad = $this->_actividadComparacionAnos($ano1,$ano2);
+			case '113': //instancias en el año
+				$usuario = 'recepcion'; //datos de prueba;
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
+				$actividad_user = $this->_actividadUsuarioDelAno(1,$usuario,$ano);
+				break;
+			case '114': //instancias en el año comparativo
+				$usuario1 = 'recepcion'; //datos de prueba;
+				$usuario2 = 'abogado'; //datos de prueba;
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
+				$actividad_user = $this->_actividadUsuarioDelAnoComparativo(1,$usuario1,$usuario2,$ano);
+				break;
+			case '115': //instancias en el año grupo de usuario
+				$tipo_usuario = 4;
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
+				$actividad_user = $this->_actividadUsuarioDelAnoGrupo(1,$tipo_usuario,$ano);
+				break;
+			case '116': //instancias en el año todos los usuarios
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
+				$actividad_user = $this->_actividadUsuarioDelAnoTodos(1,$ano);
+				break;
+			case '21': //instancias en el dia actual
+				$usuario = 'recepcion'; //datos de prueba;
+				$actividad_user = $this->_actividadUsuarioDelDia(2,$usuario,$today);
+				break;
+			case '22': //instancias dia anterior				
+				$yesterday = $this->_diaAnterior($today);
+				$usuario = 'recepcion'; //datos de prueba;
+				$actividad_user = $this->_actividadUsuarioDelDia(2,$usuario,$yesterday);
+				break;
+			case '23': //instancias dia 
+				$dia = '2016-09-15 00:00:00'; //datos de prueba;
+				$usuario = 'recepcion';
+				$actividad_user = $this->_actividadUsuarioDelDia(2,$usuario,$dia);
+				break;
+			case '24': //instancias dia comparativo usuario
+				$dia = '2016-09-15 00:00:00'; //datos de prueba;
+				$usuario1 = 'recepcion'; //datos de prueba;
+				$usuario2 = 'abogado'; //datos de prueba;
+				$actividad_user = $this->_actividadUsuarioDelDiaComparativo(2,$usuario1,$usuario2,$dia);
+				break;
+			case '25': //instancias dia grupo de usuarios
+				$dia = '2016-09-15 00:00:00'; //datos de prueba;
+				$tipo_usuario = 3;
+				$actividad_user = $this->_actividadUsuarioDelDiaGrupo(2,$tipo_usuario,$dia);
+				break;
+			case '26': //instancias dia todos los usuarios
+				$dia = '2016-09-15 00:00:00'; //datos de prueba;
+				$actividad_user = $this->_actividadUsuarioDelDiaTodos(2,$dia);
+				break;
+			case '27': //instancias en el mes actual
+				$usuario = 'recepcion'; //datos de prueba;
+				$mes = '2016-09-01 00:00:00'; //datos de prueba
+				$actividad_user = $this->_actividadUsuarioDelMes(2,$usuario,$mes);
+				break;
+			case '28': //instancias mes 				
+				$usuario = 'recepcion'; //datos de prueba;
+				$mes = '2016-08-01 00:00:00'; //datos de prueba
+				$actividad_user = $this->_actividadUsuarioDelMes(2,$usuario,$mes);
+				break;
+			case '29': //instancias mes comparativo usuario
+				$mes = '2016-09-01 00:00:00'; //datos de prueba
+				$usuario1 = 'recepcion'; //datos de prueba;
+				$usuario2 = 'abogado'; //datos de prueba;
+				$actividad_user = $this->_actividadUsuarioDelMesComparativo(2,$usuario1,$usuario2,$mes);
+				break;
+			case '210': //instancias mes grupo de usuarios
+				$mes = '2016-09-01 00:00:00'; //datos de prueba
+				$tipo_usuario = 4;
+				$actividad_user = $this->_actividadUsuarioDelMesGrupo(2,$tipo_usuario,$mes);
+				break;
+			case '211': //instancias mes todos los usuarios
+				$mes = '2016-09-01 00:00:00'; //datos de prueba
+				$actividad_user = $this->_actividadUsuarioDelMesTodos(2,$mes);
+				break;
+			case '212': //instancias en el año actual
+				$usuario = 'recepcion'; //datos de prueba;
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
+				$actividad_user = $this->_actividadUsuarioDelAno(2,$usuario,$ano);
+				break;
+			case '213': //instancias en el año
+				$usuario = 'recepcion'; //datos de prueba;
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
+				$actividad_user = $this->_actividadUsuarioDelAno(2,$usuario,$ano);
+				break;
+			case '214': //instancias en el año comparativo
+				$usuario1 = 'recepcion'; //datos de prueba;
+				$usuario2 = 'abogado'; //datos de prueba;
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
+				$actividad_user = $this->_actividadUsuarioDelAnoComparativo(2,$usuario1,$usuario2,$ano);
+				break;
+			case '215': //instancias en el año grupo de usuario
+				$tipo_usuario = 4;
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
+				$actividad_user = $this->_actividadUsuarioDelAnoGrupo(2,$tipo_usuario,$ano);
+				break;
+			case '216': //instancias en el año todos los usuarios
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
+				$actividad_user = $this->_actividadUsuarioDelAnoTodos(2,$ano);
+				break;
+			
+		}
+		switch ($data[0]['resumen']){
+			case '1': //instancias en el dia actual
+				$dia = '2016-09-01 00:00:00'; //datos de prueba;
+				$resumen = $this->_resumenDelDia($dia);
 				break;
 		}
+
 
 		$this->load->view('header','', FALSE);	
 		$this->load->view('home','', FALSE);	
@@ -975,10 +1102,9 @@ class Home extends CI_Controller {
 	}
 
 	//calcula actividad de un usuario en dia especifico
-	private function _actividadUsuarioDia($tipo,$usuario,$dia){
+	private function _actividadUsuarioDelDia($tipo,$usuario,$dia){
 		$tipo_msj = '';
-		$leyenda = "Número de ";
-		$actividad = $this->_actividadUsuario($tipo,$usuario,$dia);	
+		$actividad = $this->_actividadUsuarioDia($tipo,$usuario,$dia);	
 		$arr = explode(",", $actividad);
 		$cant = $arr[0];
 		unset($arr[0]);
@@ -993,9 +1119,9 @@ class Home extends CI_Controller {
 		else{
 			$tipo_msj = 'Procesos';
 		}
-		$subtitulo = $tipo_msj." del día ".$dia." realizados por el usuario ".$usuario;
+		$subtitulo = $tipo_msj." del día ".$dia." del usuario ".$usuario;
 		$serie = $usuario." (".$cant.")";
-		$leyenda = $leyenda.$tipo_msj;
+		$leyenda = "Número de ".$tipo_msj;
 		$data = array(
 			'titulo' 					=> $titulo,
 			'subtitulo' 				=> $subtitulo,
@@ -1003,23 +1129,24 @@ class Home extends CI_Controller {
 			'datos_principal' 			=> $actividad,
 			'datos_secundario_nombre' 	=> '',
 			'datos_secundario' 			=> null,
+			'actividades'				=> null,
+			'actividades_nombre'		=> null,
 			'leyenda' 					=> $leyenda,
 			'type' 						=> 'horas');
 		return $data;
 	}
 
 	//calcula actividad de 2 usuarios en dia especifico
-	private function _actividadUsuarioDiaComparativo($tipo,$usuario1,$usuario2,$dia){
+	private function _actividadUsuarioDelDiaComparativo($tipo,$usuario1,$usuario2,$dia){
 		$tipo_msj = '';
-		$leyenda = "Número de ";
-		$actividad1 = $this->_actividadUsuario($tipo,$usuario1,$dia);	
-		$actividad2 = $this->_actividadUsuario($tipo,$usuario2,$dia);	
+		$actividad1 = $this->_actividadUsuarioDia($tipo,$usuario1,$dia);	
+		$actividad2 = $this->_actividadUsuarioDia($tipo,$usuario2,$dia);	
 		$arr = explode(",", $actividad1);
-		$cant = $arr[0];
+		$cant1 = $arr[0];
 		unset($arr[0]);
 		$actividad1 = rtrim(implode(',', $arr), ',');
 		$arr = explode(",", $actividad2);
-		$cant = $arr[0];
+		$cant2 = $arr[0];
 		unset($arr[0]);
 		$actividad2 = rtrim(implode(',', $arr), ',');
 		$dia = explode(" ",$dia);
@@ -1032,10 +1159,10 @@ class Home extends CI_Controller {
 		else{
 			$tipo_msj = 'Procesos';
 		}
-		$subtitulo = $tipo_msj." del día ".$dia." realizados por el usuario ".$usuario1." y el usuario ".$usuario2;
-		$serie1 = $usuario1." (".$cant.")";
-		$serie2 = $usuario2." (".$cant.")";
-		$leyenda = $leyenda.$tipo_msj;
+		$subtitulo = $tipo_msj." del día ".$dia." del usuario ".$usuario1." y el usuario ".$usuario2;
+		$serie1 = $usuario1." (".$cant1.")";
+		$serie2 = $usuario2." (".$cant2.")";
+		$leyenda = "Número de ".$tipo_msj;
 		$data = array(
 			'titulo' 					=> $titulo,
 			'subtitulo' 				=> $subtitulo,
@@ -1043,17 +1170,435 @@ class Home extends CI_Controller {
 			'datos_principal' 			=> $actividad1,
 			'datos_secundario_nombre' 	=> $serie2,
 			'datos_secundario' 			=> $actividad2,
+			'actividades'				=> null,
+			'actividades_nombre'		=> null,
 			'leyenda' 					=> $leyenda,
 			'type' 						=> 'horas');
 		return $data;
 	}
 
-	//calcula la actividad de un usuario
-	private function _actividadUsuario($tipo,$usuario,$dia){
+	//calcula actividad de tipo de usuario en dia especifico
+	private function _actividadUsuarioDelDiaGrupo($tipo,$tipo_usuario,$dia){
+		$actividad = array();
+		$cant = array();
+		$serie = array();
+		$usuarios = $this->Database->usuariosTodos($tipo_usuario);
+		for ($i=0; $i < count($usuarios); $i++) { 
+			$actividad[$i] = $this->_actividadUsuarioDia($tipo,$usuarios[$i]['id_usuario'],$dia);	
+			$arr = explode(",", $actividad[$i]);
+			$cant[$i] = $arr[0];
+			unset($arr[0]);
+			$actividad[$i] = rtrim(implode(',', $arr), ',');
+			$serie[$i] = $usuarios[$i]['id_usuario']." (".$cant[$i].")";
+		}
+		$tipo_msj = '';
+		$nombre_tipo_usuario = $this->Database->nombreTipoUsuario($tipo_usuario);	
+		$dia = explode(" ",$dia);
+		$dia = date_create($dia[0]);
+		$dia = date_format($dia,"d-m-Y");
+		$titulo = "Actividad de Usuarios";
+		if ($tipo==1){
+			$tipo_msj = 'Instancias';			
+		}
+		else{
+			$tipo_msj = 'Procesos';
+		}
+		$subtitulo = $tipo_msj." del día ".$dia." del tipo de usuario ".$nombre_tipo_usuario;
+		$leyenda = "Número de ".$tipo_msj;
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'datos_principal_nombre' 	=> null,
+			'datos_principal' 			=> null,
+			'datos_secundario_nombre' 	=> null,
+			'datos_secundario' 			=> null,
+			'actividades'				=> $actividad,
+			'actividades_nombre'		=> $serie,
+			'leyenda' 					=> $leyenda,
+			'type' 						=> 'horas');
+		return $data;
+	}
+
+	//calcula actividad de todos los usuarios en dia especifico
+	private function _actividadUsuarioDelDiaTodos($tipo,$dia){
+		$actividad = array();
+		$cant = array();
+		$serie = array();
+		$usuarios = $this->Database->usuariosTodos();
+		for ($i=0; $i < count($usuarios); $i++) { 
+			$actividad[$i] = $this->_actividadUsuarioDia($tipo,$usuarios[$i]['id_usuario'],$dia);	
+			$arr = explode(",", $actividad[$i]);
+			$cant[$i] = $arr[0];
+			unset($arr[0]);
+			$actividad[$i] = rtrim(implode(',', $arr), ',');
+			$serie[$i] = $usuarios[$i]['id_usuario']." (".$cant[$i].")";
+		}
+		$tipo_msj = '';
+		$dia = explode(" ",$dia);
+		$dia = date_create($dia[0]);
+		$dia = date_format($dia,"d-m-Y");
+		$titulo = "Actividad de Usuarios";
+		if ($tipo==1){
+			$tipo_msj = 'Instancias';			
+		}
+		else{
+			$tipo_msj = 'Procesos';
+		}
+		$subtitulo = $tipo_msj." del día ".$dia." de todos los usuarios";
+		$leyenda = "Número de ".$tipo_msj;
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'datos_principal_nombre' 	=> null,
+			'datos_principal' 			=> null,
+			'datos_secundario_nombre' 	=> null,
+			'datos_secundario' 			=> null,
+			'actividades'				=> $actividad,
+			'actividades_nombre'		=> $serie,
+			'leyenda' 					=> $leyenda,
+			'type' 						=> 'horas');
+		return $data;
+	}
+
+	//calcula la actividad de un usuario en el mes
+	private function _actividadUsuarioDia($tipo,$usuario,$dia){
 		$data = $this->Database->actividadUsuarioDia($tipo,$usuario,$dia);	
 		$datos = rtrim(implode(',', $data), ',');
 		return $datos;
 	}
+
+	//calcula actividad de un usuario en mes especifico
+	private function _actividadUsuarioDelMes($tipo,$usuario,$mes){
+		$tipo_msj = '';
+		$actividad = $this->_actividadUsuarioMes($tipo,$usuario,$mes);	
+		$arr = explode(",", $actividad);
+		$cant = $arr[0];
+		unset($arr[0]);
+		$actividad = rtrim(implode(',', $arr), ',');		
+		$titulo = "Actividad de Usuarios";
+		if ($tipo==1){
+			$tipo_msj = 'Instancias';			
+		}
+		else{
+			$tipo_msj = 'Procesos';
+		}
+		$nombreMes = $this->_nombreMes($mes);
+		$subtitulo = $tipo_msj." del mes ".$nombreMes." del usuario ".$usuario;
+		$serie = $usuario." (".$cant.")";
+		$leyenda = "Número de ".$tipo_msj;
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'datos_principal_nombre' 	=> $serie,
+			'datos_principal' 			=> $actividad,
+			'datos_secundario_nombre' 	=> '',
+			'datos_secundario' 			=> null,
+			'actividades'				=> null,
+			'actividades_nombre'		=> null,
+			'leyenda' 					=> $leyenda,
+			'type' 						=> 'dias');
+		return $data;
+	}
+
+	//calcula actividad de 2 usuarios en mes especifico
+	private function _actividadUsuarioDelMesComparativo($tipo,$usuario1,$usuario2,$mes){
+		$tipo_msj = '';
+		$actividad1 = $this->_actividadUsuarioMes($tipo,$usuario1,$mes);	
+		$actividad2 = $this->_actividadUsuarioMes($tipo,$usuario2,$mes);	
+		$arr = explode(",", $actividad1);
+		$cant1 = $arr[0];
+		unset($arr[0]);
+		$actividad1 = rtrim(implode(',', $arr), ',');
+		$arr = explode(",", $actividad2);
+		$cant2 = $arr[0];
+		unset($arr[0]);
+		$actividad2 = rtrim(implode(',', $arr), ',');
+		$titulo = "Actividad de Usuarios";
+		if ($tipo==1){
+			$tipo_msj = 'Instancias';			
+		}
+		else{
+			$tipo_msj = 'Procesos';
+		}
+		$nombreMes = $this->_nombreMes($mes);
+		$subtitulo = $tipo_msj." del mes ".$nombreMes." del usuario ".$usuario1." y el usuario ".$usuario2;
+		$serie1 = $usuario1." (".$cant1.")";
+		$serie2 = $usuario2." (".$cant2.")";
+		$leyenda = "Número de ".$tipo_msj;
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'datos_principal_nombre' 	=> $serie1,
+			'datos_principal' 			=> $actividad1,
+			'datos_secundario_nombre' 	=> $serie2,
+			'datos_secundario' 			=> $actividad2,
+			'actividades'				=> null,
+			'actividades_nombre'		=> null,
+			'leyenda' 					=> $leyenda,
+			'type' 						=> 'dias');
+		return $data;
+	}
+
+	//calcula actividad de tipo de usuario en mes especifico
+	private function _actividadUsuarioDelMesGrupo($tipo,$tipo_usuario,$mes){
+		$actividad = array();
+		$cant = array();
+		$serie = array();
+		$usuarios = $this->Database->usuariosTodos($tipo_usuario);
+		for ($i=0; $i < count($usuarios); $i++) { 
+			$actividad[$i] = $this->_actividadUsuarioMes($tipo,$usuarios[$i]['id_usuario'],$mes);	
+			$arr = explode(",", $actividad[$i]);
+			$cant[$i] = $arr[0];
+			unset($arr[0]);
+			$actividad[$i] = rtrim(implode(',', $arr), ',');
+			$serie[$i] = $usuarios[$i]['id_usuario']." (".$cant[$i].")";
+		}
+		$tipo_msj = '';
+		$nombre_tipo_usuario = $this->Database->nombreTipoUsuario($tipo_usuario);	
+		$nombreMes = $this->_nombreMes($mes);
+		$titulo = "Actividad de Usuarios";
+		if ($tipo==1){
+			$tipo_msj = 'Instancias';			
+		}
+		else{
+			$tipo_msj = 'Procesos';
+		}
+		$subtitulo = $tipo_msj." del mes ".$nombreMes." del tipo de usuario ".$nombre_tipo_usuario;
+		$leyenda = "Número de ".$tipo_msj;
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'datos_principal_nombre' 	=> null,
+			'datos_principal' 			=> null,
+			'datos_secundario_nombre' 	=> null,
+			'datos_secundario' 			=> null,
+			'actividades'				=> $actividad,
+			'actividades_nombre'		=> $serie,
+			'leyenda' 					=> $leyenda,
+			'type' 						=> 'dias');
+		return $data;
+	}
+
+	//calcula actividad de todos los usuarios en mes especifico
+	private function _actividadUsuarioDelMesTodos($tipo,$mes){
+		$actividad = array();
+		$cant = array();
+		$serie = array();
+		$usuarios = $this->Database->usuariosTodos();
+		for ($i=0; $i < count($usuarios); $i++) { 
+			$actividad[$i] = $this->_actividadUsuarioMes($tipo,$usuarios[$i]['id_usuario'],$mes);	
+			$arr = explode(",", $actividad[$i]);
+			$cant[$i] = $arr[0];
+			unset($arr[0]);
+			$actividad[$i] = rtrim(implode(',', $arr), ',');
+			$serie[$i] = $usuarios[$i]['id_usuario']." (".$cant[$i].")";
+		}
+		$tipo_msj = '';
+		
+		$nombreMes = $this->_nombreMes($mes);
+		$titulo = "Actividad de Usuarios";
+		if ($tipo==1){
+			$tipo_msj = 'Instancias';			
+		}
+		else{
+			$tipo_msj = 'Procesos';
+		}
+		$subtitulo = $tipo_msj." del mes ".$nombreMes." de todos los usuarios";
+		$leyenda = "Número de ".$tipo_msj;
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'datos_principal_nombre' 	=> null,
+			'datos_principal' 			=> null,
+			'datos_secundario_nombre' 	=> null,
+			'datos_secundario' 			=> null,
+			'actividades'				=> $actividad,
+			'actividades_nombre'		=> $serie,
+			'leyenda' 					=> $leyenda,
+			'type' 						=> 'dias');
+		return $data;
+	}
+
+	//calcula la actividad de un usuario en el mes
+	private function _actividadUsuarioMes($tipo,$usuario,$mes){
+		$data = $this->Database->actividadUsuarioMes($tipo,$usuario,$mes);	
+		$datos = rtrim(implode(',', $data), ',');
+		return $datos;
+	}
+
+	//calcula actividad de un usuario en año especifico
+	private function _actividadUsuarioDelAno($tipo,$usuario,$ano){
+		$tipo_msj = '';
+		$actividad = $this->_actividadUsuarioAno($tipo,$usuario,$ano);	
+		$arr = explode(",", $actividad);
+		$cant = $arr[0];
+		unset($arr[0]);
+		$actividad = rtrim(implode(',', $arr), ',');		
+		$titulo = "Actividad de Usuarios";
+		if ($tipo==1){
+			$tipo_msj = 'Instancias';			
+		}
+		else{
+			$tipo_msj = 'Procesos';
+		}
+		$nombreAno = explode("-",$ano);
+		$nombreAno = $nombreAno[0];		
+		$subtitulo = $tipo_msj." del año ".$nombreAno." del usuario ".$usuario;
+		$serie = $usuario." (".$cant.")";
+		$leyenda = "Número de ".$tipo_msj;
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'datos_principal_nombre' 	=> $serie,
+			'datos_principal' 			=> $actividad,
+			'datos_secundario_nombre' 	=> '',
+			'datos_secundario' 			=> null,
+			'actividades'				=> null,
+			'actividades_nombre'		=> null,
+			'leyenda' 					=> $leyenda,
+			'type' 						=> 'meses');
+		return $data;
+	}
+
+	//calcula actividad de 2 usuarios en mes especifico
+	private function _actividadUsuarioDelAnoComparativo($tipo,$usuario1,$usuario2,$ano){
+		$tipo_msj = '';
+		$actividad1 = $this->_actividadUsuarioAno($tipo,$usuario1,$ano);	
+		$actividad2 = $this->_actividadUsuarioAno($tipo,$usuario2,$ano);	
+		$arr = explode(",", $actividad1);
+		$cant1 = $arr[0];
+		unset($arr[0]);
+		$actividad1 = rtrim(implode(',', $arr), ',');
+		$arr = explode(",", $actividad2);
+		$cant2 = $arr[0];
+		unset($arr[0]);
+		$actividad2 = rtrim(implode(',', $arr), ',');
+		$titulo = "Actividad de Usuarios";
+		if ($tipo==1){
+			$tipo_msj = 'Instancias';			
+		}
+		else{
+			$tipo_msj = 'Procesos';
+		}
+		$nombreAno = explode("-",$ano);
+		$nombreAno = $nombreAno[0];	
+		$subtitulo = $tipo_msj." del año ".$nombreAno." del usuario ".$usuario1." y el usuario ".$usuario2;
+		$serie1 = $usuario1." (".$cant1.")";
+		$serie2 = $usuario2." (".$cant2.")";
+		$leyenda = "Número de ".$tipo_msj;
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'datos_principal_nombre' 	=> $serie1,
+			'datos_principal' 			=> $actividad1,
+			'datos_secundario_nombre' 	=> $serie2,
+			'datos_secundario' 			=> $actividad2,
+			'actividades'				=> null,
+			'actividades_nombre'		=> null,
+			'leyenda' 					=> $leyenda,
+			'type' 						=> 'dias');
+		return $data;
+	}
+
+	//calcula actividad de tipo de usuario en año especifico
+	private function _actividadUsuarioDelAnoGrupo($tipo,$tipo_usuario,$ano){
+		$actividad = array();
+		$cant = array();
+		$serie = array();
+		$usuarios = $this->Database->usuariosTodos($tipo_usuario);
+		for ($i=0; $i < count($usuarios); $i++) { 
+			$actividad[$i] = $this->_actividadUsuarioAno($tipo,$usuarios[$i]['id_usuario'],$ano);	
+			$arr = explode(",", $actividad[$i]);
+			$cant[$i] = $arr[0];
+			unset($arr[0]);
+			$actividad[$i] = rtrim(implode(',', $arr), ',');
+			$serie[$i] = $usuarios[$i]['id_usuario']." (".$cant[$i].")";
+		}
+		$tipo_msj = '';
+		$nombre_tipo_usuario = $this->Database->nombreTipoUsuario($tipo_usuario);	
+		$nombreAno = explode("-",$ano);
+		$nombreAno = $nombreAno[0];	
+		$titulo = "Actividad de Usuarios";
+		if ($tipo==1){
+			$tipo_msj = 'Instancias';			
+		}
+		else{
+			$tipo_msj = 'Procesos';
+		}
+		$subtitulo = $tipo_msj." del año ".$nombreAno." del tipo de usuario ".$nombre_tipo_usuario;
+		$leyenda = "Número de ".$tipo_msj;
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'datos_principal_nombre' 	=> null,
+			'datos_principal' 			=> null,
+			'datos_secundario_nombre' 	=> null,
+			'datos_secundario' 			=> null,
+			'actividades'				=> $actividad,
+			'actividades_nombre'		=> $serie,
+			'leyenda' 					=> $leyenda,
+			'type' 						=> 'dias');
+		return $data;
+	}
+
+	//calcula actividad de todos los usuarios en año especifico
+	private function _actividadUsuarioDelAnoTodos($tipo,$ano){
+		$actividad = array();
+		$cant = array();
+		$serie = array();
+		$usuarios = $this->Database->usuariosTodos();
+		for ($i=0; $i < count($usuarios); $i++) { 
+			$actividad[$i] = $this->_actividadUsuarioAno($tipo,$usuarios[$i]['id_usuario'],$ano);	
+			$arr = explode(",", $actividad[$i]);
+			$cant[$i] = $arr[0];
+			unset($arr[0]);
+			$actividad[$i] = rtrim(implode(',', $arr), ',');
+			$serie[$i] = $usuarios[$i]['id_usuario']." (".$cant[$i].")";
+		}
+		$tipo_msj = '';
+		$nombreAno = explode("-",$ano);
+		$nombreAno = $nombreAno[0];	
+		$titulo = "Actividad de Usuarios";
+		if ($tipo==1){
+			$tipo_msj = 'Instancias';			
+		}
+		else{
+			$tipo_msj = 'Procesos';
+		}
+		$subtitulo = $tipo_msj." del año ".$nombreAno." de todos los usuarios";
+		$leyenda = "Número de ".$tipo_msj;
+		$data = array(
+			'titulo' 					=> $titulo,
+			'subtitulo' 				=> $subtitulo,
+			'datos_principal_nombre' 	=> null,
+			'datos_principal' 			=> null,
+			'datos_secundario_nombre' 	=> null,
+			'datos_secundario' 			=> null,
+			'actividades'				=> $actividad,
+			'actividades_nombre'		=> $serie,
+			'leyenda' 					=> $leyenda,
+			'type' 						=> 'dias');
+		return $data;
+	}
+
+	//calcula la actividad de un usuario en el año
+	private function _actividadUsuarioAno($tipo,$usuario,$ano){
+		$data = $this->Database->actividadUsuarioAno($tipo,$usuario,$ano);
+		$datos = rtrim(implode(',', $data), ',');
+		return $datos;
+	}
+
+	private function _resumenDelDia($dia){
+		$workflow_mas_realizado = $this->Database->workflowResumen($dia,'2016-09-10');
+		$proceso_mas_realizado = $this->Database->procesoResumen($dia,'2016-09-10');
+		$data = array(
+			'workflow_mas_realizado' 		=> $workflow_mas_realizado
+
+			);
+		return $data;
+	}
+
+
 }
 
 /* End of file Home.php */
