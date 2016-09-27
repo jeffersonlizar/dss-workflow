@@ -24,6 +24,9 @@ class Home extends CI_Controller {
 		$ano_anterior_ultimo_dia = strtotime('-1 year',strtotime($ano_actual_ultimo_dia));
 		$ano_anterior_ultimo_dia = date('Y-m-d H:i:s' ,$ano_anterior_ultimo_dia);
 		$data=$this->Database->cargar_preferencias();
+		$ultimas_instancias = $data[0]['ultimas_instancias'];
+		$ultimas_transiciones = $data[0]['ultimas_transiciones'];
+		$this->_ultimas($today,$ultimas_instancias,$ultimas_transiciones);
 		switch ($data[0]['actividad']){
 			case '1': //dia actual
 				$today = '2016-09-15 00:00:00'; //datos de prueba;
@@ -381,12 +384,41 @@ class Home extends CI_Controller {
 				$ano = '2016-01-01 00:00:00'; //datos de prueba
 				$actividad_user = $this->_actividadUsuarioDelAnoTodos(2,$ano);
 				break;
-			
 		}
 		switch ($data[0]['resumen']){
-			case '1': //instancias en el dia actual
+			case '1': //dia actual
 				$dia = '2016-09-01 00:00:00'; //datos de prueba;
+				$resumen = $this->_resumenDelDia($today);
+				break;
+			case '2': //dia anterior
+				$today = '2016-09-15 00:00:00'; //datos de prueba;
+				$yesterday = $this->_diaAnterior($today);
+				$resumen = $this->_resumenDelDia($yesterday);
+				break;
+			case '3': //dia 
+				$dia = '2016-09-03'; //datos de prueba;
 				$resumen = $this->_resumenDelDia($dia);
+				break;
+			case '4': //mes actual 
+				$resumen = $this->_resumenDelMes($mes_actual_primer_dia,$mes_actual_ultimo_dia);
+				break;
+			case '5': //mes 
+				$mes = '2016-08-01'; //datos de prueba;
+				$ultimo_dia = $this->_mesUltimoDia($mes);
+				$resumen = $this->_resumenDelMes($mes,$ultimo_dia);
+				break;
+			case '6': //año actual
+				$resumen = $this->_resumenDelAno($ano_actual_primer_dia,$ano_actual_ultimo_dia);
+				break;
+			case '7': //año
+				$ano = '2015-01-01'; //datos de prueba;
+				$ano_ultimo_dia = $this->_anoUltimoDia($ano);
+				$resumen = $this->_resumenDelAno($ano,$ano_ultimo_dia);
+				break;
+			case '8': //periodo
+				$fecha_inicial = '2016-01-01'; //datos de prueba;
+				$fecha_final= '2016-09-15'; //datos de prueba;
+				$resumen = $this->_resumenDelPeriodo($fecha_inicial,$fecha_final);
 				break;
 		}
 
@@ -400,7 +432,24 @@ class Home extends CI_Controller {
 		$this->load->view('indicadores',$indicadores, FALSE);	
 		$this->load->view('crecimiento',$crecimiento, FALSE);	
 		$this->load->view('tiempo_promedio',$tiempo_promedio, FALSE);	
+		$this->load->view('resumen',$resumen, FALSE);	
 		$this->load->view('footerend','', FALSE);	
+	}
+
+	//calcula el ultimo dia del mes
+	private function _anoUltimoDia($fecha_inicial){
+		$ano = explode("-",$fecha_inicial);
+		$fecha_nueva = $ano[0].'-12-31';	
+		return $fecha_nueva;
+	}
+
+	//calcula el ultimo dia del año
+	private function _mesUltimoDia($fecha_inicial){
+		$fecha_final = strtotime ('+1 month',strtotime($fecha_inicial));
+		$fecha_final = date('Y-m-d H:i:s' ,$fecha_final);
+		$fecha_nueva = strtotime('-1 day',strtotime($fecha_final));
+		$fecha_nueva = date('Y-m-d H:i:s' ,$fecha_nueva);
+		return $fecha_nueva;
 	}
 
 	//calcula la actividad realizada en el dia especifico
@@ -1394,7 +1443,6 @@ class Home extends CI_Controller {
 			$serie[$i] = $usuarios[$i]['id_usuario']." (".$cant[$i].")";
 		}
 		$tipo_msj = '';
-		
 		$nombreMes = $this->_nombreMes($mes);
 		$titulo = "Actividad de Usuarios";
 		if ($tipo==1){
@@ -1588,16 +1636,291 @@ class Home extends CI_Controller {
 		return $datos;
 	}
 
-	private function _resumenDelDia($dia){
-		$workflow_mas_realizado = $this->Database->workflowResumen($dia,'2016-09-10');
-		$proceso_mas_realizado = $this->Database->procesoResumen($dia,'2016-09-10');
-		$data = array(
-			'workflow_mas_realizado' 		=> $workflow_mas_realizado
-
-			);
+	//recibe los datos del tiempo y forma el string dias, horas, minutos, segundos
+	private function _stringPeriodo($tiempo){
+		$tiempo = explode(',',$tiempo);
+		$datos['dias'] = $tiempo[0];
+		$datos['horas'] = $tiempo[1];
+		$datos['minutos'] = $tiempo[2];
+		$datos['segundos'] = $tiempo[3];
+		$data = $tiempo[0].' días '.$tiempo[1].' horas '.$tiempo[3].' minutos '.$tiempo[3].' segundos';
 		return $data;
 	}
 
+	//calcula el resumen de los workflows y los procesos en el dia
+	private function _resumenDelDia($dia){
+		$workflow_resumen = $this->Database->workflowResumen($dia,$dia);
+		$proceso_resumen = $this->Database->procesoResumen($dia,$dia);
+		$resumen_workflow_mas_realizado = 'No existen datos';
+		$resumen_workflow_menos_realizado = 'No existen datos';
+		$resumen_workflow_mas_rapido = 'No existen datos';
+		$resumen_workflow_mas_lento = 'No existen datos';
+		$resumen_workflow_cant = 'No existen datos';
+		$resumen_proceso_mas_realizado = 'No existen datos';
+		$resumen_proceso_menos_realizado = 'No existen datos';
+		$resumen_proceso_mas_rapido = 'No existen datos';
+		$resumen_proceso_mas_lento = 'No existen datos';
+		$resumen_proceso_cant = 'No existen datos';
+		//instancias
+		if (isset($workflow_resumen['mas_realizado'])){
+			$resumen_workflow_mas_realizado = $workflow_resumen['mas_realizado']['nombre'].' ('.$workflow_resumen['mas_realizado']['cant'].')';	
+		}
+		if (isset($workflow_resumen['menos_realizado'])){
+			$resumen_workflow_menos_realizado = $workflow_resumen['menos_realizado']['nombre'].' ('.$workflow_resumen['menos_realizado']['cant'].')';		
+		}
+		if (isset($workflow_resumen['mas_rapido'])){
+			$resumen_workflow_mas_rapido = $workflow_resumen['mas_rapido']['nombre'].' ('.$this->_stringPeriodo($workflow_resumen['mas_rapido']['time']).')';
+		}
+		if (isset($workflow_resumen['mas_lento'])){
+			$resumen_workflow_mas_lento = $workflow_resumen['mas_lento']['nombre'].' ('.$this->_stringPeriodo($workflow_resumen['mas_lento']['time']).')';
+		}
+		if (isset($workflow_resumen['total'])){
+			$resumen_workflow_cant = $workflow_resumen['total']['cant'];
+		}
+		//procesos
+		if (isset($proceso_resumen['mas_realizado'])){
+			$resumen_proceso_mas_realizado = $proceso_resumen['mas_realizado']['nombre'].' ('.$proceso_resumen['mas_realizado']['cant'].')';
+		}
+		if (isset($proceso_resumen['menos_realizado'])){
+			$resumen_proceso_menos_realizado = $proceso_resumen['menos_realizado']['nombre'].' ('.$proceso_resumen['menos_realizado']['cant'].')';		
+		}
+		if (isset($proceso_resumen['mas_rapido'])){
+			$resumen_proceso_mas_rapido = $proceso_resumen['mas_rapido']['nombre'].' ('.$this->_stringPeriodo($proceso_resumen['mas_rapido']['time']).')';
+		}
+		if (isset($proceso_resumen['mas_lento'])){
+			$resumen_proceso_mas_lento = $proceso_resumen['mas_lento']['nombre'].' ('.$this->_stringPeriodo($proceso_resumen['mas_lento']['time']).')';
+		}
+		if (isset($proceso_resumen['total'])){
+			$resumen_proceso_cant = $proceso_resumen['total']['cant'];
+		}
+		$dia = explode(" ",$dia);
+		$dia = date_create($dia[0]);
+		$dia = date_format($dia,"d-m-Y");
+		$titulo = "Resumen";
+		$subtitulo = "Para el día ".$dia;
+		$data = array(
+			'titulo' 								=> $titulo,
+			'subtitulo' 							=> $subtitulo,
+			'resumen_workflow_mas_realizado' 		=> $resumen_workflow_mas_realizado,
+			'resumen_workflow_menos_realizado' 		=> $resumen_workflow_menos_realizado,
+			'resumen_workflow_mas_rapido' 			=> $resumen_workflow_mas_rapido,
+			'resumen_workflow_mas_lento' 			=> $resumen_workflow_mas_lento,
+			'resumen_workflow_cant' 				=> $resumen_workflow_cant,
+			'resumen_proceso_mas_realizado' 		=> $resumen_proceso_mas_realizado,
+			'resumen_proceso_menos_realizado' 		=> $resumen_proceso_menos_realizado,
+			'resumen_proceso_mas_rapido' 			=> $resumen_proceso_mas_rapido,
+			'resumen_proceso_mas_lento' 			=> $resumen_proceso_mas_lento,
+			'resumen_proceso_cant' 					=> $resumen_proceso_cant);
+		return $data;
+	}
+
+	//calcula el resumen de los workflows y los procesos en el mes
+	private function _resumenDelMes($fecha_inicial,$fecha_final){
+		$workflow_resumen = $this->Database->workflowResumen($fecha_inicial,$fecha_final);
+		$proceso_resumen = $this->Database->procesoResumen($fecha_inicial,$fecha_final);
+		$resumen_workflow_mas_realizado = 'No existen datos';
+		$resumen_workflow_menos_realizado = 'No existen datos';
+		$resumen_workflow_mas_rapido = 'No existen datos';
+		$resumen_workflow_mas_lento = 'No existen datos';
+		$resumen_workflow_cant = 'No existen datos';
+		$resumen_proceso_mas_realizado = 'No existen datos';
+		$resumen_proceso_menos_realizado = 'No existen datos';
+		$resumen_proceso_mas_rapido = 'No existen datos';
+		$resumen_proceso_mas_lento = 'No existen datos';
+		$resumen_proceso_cant = 'No existen datos';
+		//instancias
+		if (isset($workflow_resumen['mas_realizado'])){
+			$resumen_workflow_mas_realizado = $workflow_resumen['mas_realizado']['nombre'].' ('.$workflow_resumen['mas_realizado']['cant'].')';	
+		}
+		if (isset($workflow_resumen['menos_realizado'])){
+			$resumen_workflow_menos_realizado = $workflow_resumen['menos_realizado']['nombre'].' ('.$workflow_resumen['menos_realizado']['cant'].')';		
+		}
+		if (isset($workflow_resumen['mas_rapido'])){
+			$resumen_workflow_mas_rapido = $workflow_resumen['mas_rapido']['nombre'].' ('.$this->_stringPeriodo($workflow_resumen['mas_rapido']['time']).')';
+		}
+		if (isset($workflow_resumen['mas_lento'])){
+			$resumen_workflow_mas_lento = $workflow_resumen['mas_lento']['nombre'].' ('.$this->_stringPeriodo($workflow_resumen['mas_lento']['time']).')';
+		}
+		if (isset($workflow_resumen['total'])){
+			$resumen_workflow_cant = $workflow_resumen['total']['cant'];
+		}
+		//procesos
+		if (isset($proceso_resumen['mas_realizado'])){
+			$resumen_proceso_mas_realizado = $proceso_resumen['mas_realizado']['nombre'].' ('.$proceso_resumen['mas_realizado']['cant'].')';
+		}
+		if (isset($proceso_resumen['menos_realizado'])){
+			$resumen_proceso_menos_realizado = $proceso_resumen['menos_realizado']['nombre'].' ('.$proceso_resumen['menos_realizado']['cant'].')';		
+		}
+		if (isset($proceso_resumen['mas_rapido'])){
+			$resumen_proceso_mas_rapido = $proceso_resumen['mas_rapido']['nombre'].' ('.$this->_stringPeriodo($proceso_resumen['mas_rapido']['time']).')';
+		}
+		if (isset($proceso_resumen['mas_lento'])){
+			$resumen_proceso_mas_lento = $proceso_resumen['mas_lento']['nombre'].' ('.$this->_stringPeriodo($proceso_resumen['mas_lento']['time']).')';
+		}
+		if (isset($proceso_resumen['total'])){
+			$resumen_proceso_cant = $proceso_resumen['total']['cant'];
+		}
+		$nombreMes = $this->_nombreMes($fecha_inicial);
+		$titulo = "Resumen";
+		$subtitulo = "Para el mes ".$nombreMes;
+		$data = array(
+			'titulo' 								=> $titulo,
+			'subtitulo' 							=> $subtitulo,
+			'resumen_workflow_mas_realizado' 		=> $resumen_workflow_mas_realizado,
+			'resumen_workflow_menos_realizado' 		=> $resumen_workflow_menos_realizado,
+			'resumen_workflow_mas_rapido' 			=> $resumen_workflow_mas_rapido,
+			'resumen_workflow_mas_lento' 			=> $resumen_workflow_mas_lento,
+			'resumen_workflow_cant' 				=> $resumen_workflow_cant,
+			'resumen_proceso_mas_realizado' 		=> $resumen_proceso_mas_realizado,
+			'resumen_proceso_menos_realizado' 		=> $resumen_proceso_menos_realizado,
+			'resumen_proceso_mas_rapido' 			=> $resumen_proceso_mas_rapido,
+			'resumen_proceso_mas_lento' 			=> $resumen_proceso_mas_lento,
+			'resumen_proceso_cant' 					=> $resumen_proceso_cant);
+		return $data;
+	}
+
+	//calcula el resumen de los workflows y los procesos en el año
+	private function _resumenDelAno($fecha_inicial,$fecha_final){
+		$workflow_resumen = $this->Database->workflowResumen($fecha_inicial,$fecha_final);
+		$proceso_resumen = $this->Database->procesoResumen($fecha_inicial,$fecha_final);
+		$resumen_workflow_mas_realizado = 'No existen datos';
+		$resumen_workflow_menos_realizado = 'No existen datos';
+		$resumen_workflow_mas_rapido = 'No existen datos';
+		$resumen_workflow_mas_lento = 'No existen datos';
+		$resumen_workflow_cant = 'No existen datos';
+		$resumen_proceso_mas_realizado = 'No existen datos';
+		$resumen_proceso_menos_realizado = 'No existen datos';
+		$resumen_proceso_mas_rapido = 'No existen datos';
+		$resumen_proceso_mas_lento = 'No existen datos';
+		$resumen_proceso_cant = 'No existen datos';
+		//instancias
+		if (isset($workflow_resumen['mas_realizado'])){
+			$resumen_workflow_mas_realizado = $workflow_resumen['mas_realizado']['nombre'].' ('.$workflow_resumen['mas_realizado']['cant'].')';	
+		}
+		if (isset($workflow_resumen['menos_realizado'])){
+			$resumen_workflow_menos_realizado = $workflow_resumen['menos_realizado']['nombre'].' ('.$workflow_resumen['menos_realizado']['cant'].')';		
+		}
+		if (isset($workflow_resumen['mas_rapido'])){
+			$resumen_workflow_mas_rapido = $workflow_resumen['mas_rapido']['nombre'].' ('.$this->_stringPeriodo($workflow_resumen['mas_rapido']['time']).')';
+		}
+		if (isset($workflow_resumen['mas_lento'])){
+			$resumen_workflow_mas_lento = $workflow_resumen['mas_lento']['nombre'].' ('.$this->_stringPeriodo($workflow_resumen['mas_lento']['time']).')';
+		}
+		if (isset($workflow_resumen['total'])){
+			$resumen_workflow_cant = $workflow_resumen['total']['cant'];
+		}
+		//procesos
+		if (isset($proceso_resumen['mas_realizado'])){
+			$resumen_proceso_mas_realizado = $proceso_resumen['mas_realizado']['nombre'].' ('.$proceso_resumen['mas_realizado']['cant'].')';
+		}
+		if (isset($proceso_resumen['menos_realizado'])){
+			$resumen_proceso_menos_realizado = $proceso_resumen['menos_realizado']['nombre'].' ('.$proceso_resumen['menos_realizado']['cant'].')';		
+		}
+		if (isset($proceso_resumen['mas_rapido'])){
+			$resumen_proceso_mas_rapido = $proceso_resumen['mas_rapido']['nombre'].' ('.$this->_stringPeriodo($proceso_resumen['mas_rapido']['time']).')';
+		}
+		if (isset($proceso_resumen['mas_lento'])){
+			$resumen_proceso_mas_lento = $proceso_resumen['mas_lento']['nombre'].' ('.$this->_stringPeriodo($proceso_resumen['mas_lento']['time']).')';
+		}
+		if (isset($proceso_resumen['total'])){
+			$resumen_proceso_cant = $proceso_resumen['total']['cant'];
+		}
+		$nombreAno = explode("-",$fecha_inicial);
+		$nombreAno = $nombreAno[0];
+		$titulo = "Resumen";
+		$subtitulo = "Para el año ".$nombreAno;
+		$data = array(
+			'titulo' 								=> $titulo,
+			'subtitulo' 							=> $subtitulo,
+			'resumen_workflow_mas_realizado' 		=> $resumen_workflow_mas_realizado,
+			'resumen_workflow_menos_realizado' 		=> $resumen_workflow_menos_realizado,
+			'resumen_workflow_mas_rapido' 			=> $resumen_workflow_mas_rapido,
+			'resumen_workflow_mas_lento' 			=> $resumen_workflow_mas_lento,
+			'resumen_workflow_cant' 				=> $resumen_workflow_cant,
+			'resumen_proceso_mas_realizado' 		=> $resumen_proceso_mas_realizado,
+			'resumen_proceso_menos_realizado' 		=> $resumen_proceso_menos_realizado,
+			'resumen_proceso_mas_rapido' 			=> $resumen_proceso_mas_rapido,
+			'resumen_proceso_mas_lento' 			=> $resumen_proceso_mas_lento,
+			'resumen_proceso_cant' 					=> $resumen_proceso_cant);
+		return $data;
+	}
+
+	//calcula el resumen de los workflows y los procesos en el periodo
+	private function _resumenDelPeriodo($fecha_inicial,$fecha_final){
+		$workflow_resumen = $this->Database->workflowResumen($fecha_inicial,$fecha_final);
+		$proceso_resumen = $this->Database->procesoResumen($fecha_inicial,$fecha_final);
+		$resumen_workflow_mas_realizado = 'No existen datos';
+		$resumen_workflow_menos_realizado = 'No existen datos';
+		$resumen_workflow_mas_rapido = 'No existen datos';
+		$resumen_workflow_mas_lento = 'No existen datos';
+		$resumen_workflow_cant = 'No existen datos';
+		$resumen_proceso_mas_realizado = 'No existen datos';
+		$resumen_proceso_menos_realizado = 'No existen datos';
+		$resumen_proceso_mas_rapido = 'No existen datos';
+		$resumen_proceso_mas_lento = 'No existen datos';
+		$resumen_proceso_cant = 'No existen datos';
+		//instancias
+		if (isset($workflow_resumen['mas_realizado'])){
+			$resumen_workflow_mas_realizado = $workflow_resumen['mas_realizado']['nombre'].' ('.$workflow_resumen['mas_realizado']['cant'].')';	
+		}
+		if (isset($workflow_resumen['menos_realizado'])){
+			$resumen_workflow_menos_realizado = $workflow_resumen['menos_realizado']['nombre'].' ('.$workflow_resumen['menos_realizado']['cant'].')';		
+		}
+		if (isset($workflow_resumen['mas_rapido'])){
+			$resumen_workflow_mas_rapido = $workflow_resumen['mas_rapido']['nombre'].' ('.$this->_stringPeriodo($workflow_resumen['mas_rapido']['time']).')';
+		}
+		if (isset($workflow_resumen['mas_lento'])){
+			$resumen_workflow_mas_lento = $workflow_resumen['mas_lento']['nombre'].' ('.$this->_stringPeriodo($workflow_resumen['mas_lento']['time']).')';
+		}
+		if (isset($workflow_resumen['total'])){
+			$resumen_workflow_cant = $workflow_resumen['total']['cant'];
+		}
+		//procesos
+		if (isset($proceso_resumen['mas_realizado'])){
+			$resumen_proceso_mas_realizado = $proceso_resumen['mas_realizado']['nombre'].' ('.$proceso_resumen['mas_realizado']['cant'].')';
+		}
+		if (isset($proceso_resumen['menos_realizado'])){
+			$resumen_proceso_menos_realizado = $proceso_resumen['menos_realizado']['nombre'].' ('.$proceso_resumen['menos_realizado']['cant'].')';		
+		}
+		if (isset($proceso_resumen['mas_rapido'])){
+			$resumen_proceso_mas_rapido = $proceso_resumen['mas_rapido']['nombre'].' ('.$this->_stringPeriodo($proceso_resumen['mas_rapido']['time']).')';
+		}
+		if (isset($proceso_resumen['mas_lento'])){
+			$resumen_proceso_mas_lento = $proceso_resumen['mas_lento']['nombre'].' ('.$this->_stringPeriodo($proceso_resumen['mas_lento']['time']).')';
+		}
+		if (isset($proceso_resumen['total'])){
+			$resumen_proceso_cant = $proceso_resumen['total']['cant'];
+		}
+		$fecha_inicial = explode(" ",$fecha_inicial);
+		$fecha_final = explode(" ",$fecha_final);
+		$fecha_inicial = date_create($fecha_inicial[0]);
+		$fecha_final = date_create($fecha_final[0]);
+		$fecha_inicial = date_format($fecha_inicial,"d-m-Y");
+		$fecha_final = date_format($fecha_final,"d-m-Y");		
+		$titulo = "Resumen";
+		$subtitulo = "En el periodo del ".$fecha_inicial." al ".$fecha_final;
+		$data = array(
+			'titulo' 								=> $titulo,
+			'subtitulo' 							=> $subtitulo,
+			'resumen_workflow_mas_realizado' 		=> $resumen_workflow_mas_realizado,
+			'resumen_workflow_menos_realizado' 		=> $resumen_workflow_menos_realizado,
+			'resumen_workflow_mas_rapido' 			=> $resumen_workflow_mas_rapido,
+			'resumen_workflow_mas_lento' 			=> $resumen_workflow_mas_lento,
+			'resumen_workflow_cant' 				=> $resumen_workflow_cant,
+			'resumen_proceso_mas_realizado' 		=> $resumen_proceso_mas_realizado,
+			'resumen_proceso_menos_realizado' 		=> $resumen_proceso_menos_realizado,
+			'resumen_proceso_mas_rapido' 			=> $resumen_proceso_mas_rapido,
+			'resumen_proceso_mas_lento' 			=> $resumen_proceso_mas_lento,
+			'resumen_proceso_cant' 					=> $resumen_proceso_cant);
+		return $data;
+	}
+
+	//muestra las ultimas instancias / transiciones (procesos) del dia 
+	private function _ultimas($dia,$ultimas_instancias,$ultimas_transiciones){
+		$dia = "2016-09-03";
+		$datos = $this->Database->ultimas($dia,$ultimas_instancias,$ultimas_transiciones);
+		//var_dump($datos);
+	}
 
 }
 

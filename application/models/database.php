@@ -619,15 +619,16 @@ class Database extends CI_Model {
 
 	//calcula el resumen de instancias en un periodo
 	public function workflowResumen($fecha_inicial,$fecha_final){
+		$this->db->db_select('workflow');
 		$data = array();
 		$rapido = array();
 		$cant = array();
-		$promedio = array();
+		$promedio = array();		
 		$query_mas = "SELECT w.nombre, COUNT(ins.id_instancia) as cant FROM instancia as ins INNER JOIN (SELECT workflow.nombre, workflow.id_workflow FROM workflow) as w ON w.id_workflow = ins.id_workflow WHERE (ins.fecha_final BETWEEN DATE(?) AND DATE(?)) AND (ins.fecha_inicio BETWEEN DATE(?) AND DATE(?)) GROUP BY ins.id_workflow ORDER BY (cant) DESC LIMIT 1";
 		$query_menos = "SELECT w.nombre, COUNT(ins.id_instancia) as cant FROM instancia as ins INNER JOIN (SELECT workflow.nombre, workflow.id_workflow FROM workflow) as w ON w.id_workflow = ins.id_workflow WHERE (ins.fecha_final BETWEEN DATE(?) AND DATE(?)) AND (ins.fecha_inicio BETWEEN DATE(?) AND DATE(?)) GROUP BY ins.id_workflow ORDER BY (cant) ASC LIMIT 1";
 		$query_cant = "SELECT COUNT(id_instancia) as cant FROM instancia WHERE (fecha_final BETWEEN DATE(?) AND DATE(?)) AND (fecha_inicio BETWEEN DATE(?) AND DATE(?))";
-		$query_rapido = "SELECT w.id_workflow,w.nombre, TIME_TO_SEC(TIMEDIFF(fecha_final, fecha_inicio)) as time FROM instancia as ins INNER JOIN (SELECT workflow.nombre, workflow.id_workflow FROM workflow) as w ON w.id_workflow = ins.id_workflow WHERE (ins.fecha_final BETWEEN DATE('2016-09-01') AND DATE('2016-09-10')) AND (ins.fecha_inicio BETWEEN DATE('2016-09-01') AND DATE('2016-09-10')) ORDER BY time ASC ";
-		$query_lento = "SELECT w.id_workflow,w.nombre, TIME_TO_SEC(TIMEDIFF(fecha_final, fecha_inicio)) as time FROM instancia as ins INNER JOIN (SELECT workflow.nombre, workflow.id_workflow FROM workflow) as w ON w.id_workflow = ins.id_workflow WHERE (ins.fecha_final BETWEEN DATE('2016-09-01') AND DATE('2016-09-10')) AND (ins.fecha_inicio BETWEEN DATE('2016-09-01') AND DATE('2016-09-10')) ORDER BY time DESC ";
+		$query_rapido = "SELECT w.id_workflow,w.nombre, TIME_TO_SEC(TIMEDIFF(fecha_final, fecha_inicio)) as time FROM instancia as ins INNER JOIN (SELECT workflow.nombre, workflow.id_workflow FROM workflow) as w ON w.id_workflow = ins.id_workflow WHERE (ins.fecha_final BETWEEN DATE(?) AND DATE(?)) AND (ins.fecha_inicio BETWEEN DATE(?) AND DATE(?)) ORDER BY time ASC ";
+		$query_lento = "SELECT w.id_workflow,w.nombre, TIME_TO_SEC(TIMEDIFF(fecha_final, fecha_inicio)) as time FROM instancia as ins INNER JOIN (SELECT workflow.nombre, workflow.id_workflow FROM workflow) as w ON w.id_workflow = ins.id_workflow WHERE (ins.fecha_final BETWEEN DATE(?) AND DATE(?)) AND (ins.fecha_inicio BETWEEN DATE(?) AND DATE(?)) ORDER BY time DESC ";
 		$query_workflow_nombre = "SELECT nombre FROM workflow WHERE id_workflow = ?";
 		$sql = $this->db->query($query_mas, array($fecha_inicial,$fecha_final,$fecha_inicial,$fecha_final));		
 		if($sql -> num_rows() > 0)
@@ -705,12 +706,13 @@ class Database extends CI_Model {
 	            $data['mas_lento'] = $sql->result_array()[0];
 	            $data['mas_lento']['time']= $this->convert_seconds($tiempo);
 	        }
-        }  
+        }        
         return $data;
 	}
 
 	//calcula el resumen de procesos en un periodo
 	public function procesoResumen($fecha_inicial,$fecha_final){
+		$this->db->db_select('workflow');
 		$data = array();
 		$rapido = array();
 		$cant = array();
@@ -800,6 +802,26 @@ class Database extends CI_Model {
         }        
         return $data;
 	}
+
+	//trae las ultimas instancias 
+	public function ultimas($fecha,$cant_ins,$cant_pro){
+		$this->db->db_select('workflow');	
+		$data = array();
+		$query_instancias = "SELECT * FROM instancia INNER JOIN (workflow) ON instancia.id_workflow=workflow.id_workflow WHERE DATE(fecha_inicio)=DATE(?) ORDER BY id_instancia DESC LIMIT ?";
+		$query_procesos = "SELECT * FROM proceso INNER JOIN (transicion) ON proceso.id_transicion=transicion.id_transicion WHERE DATE(fecha)=DATE(?) ORDER BY id_proceso DESC LIMIT ?";
+		$sql = $this->db->query($query_instancias, array($fecha,intval($cant_ins)));		
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data['instancias'] = $sql->result_array();
+        }
+        $sql = $this->db->query($query_procesos, array($fecha,intval($cant_pro)));		
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data['procesos'] = $sql->result_array();
+        }
+		
+        return $data;
+	}	
 
 	
 }
