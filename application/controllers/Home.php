@@ -26,7 +26,7 @@ class Home extends CI_Controller {
 		$data=$this->Database->cargar_preferencias();
 		$ultimas_instancias = $data[0]['ultimas_instancias'];
 		$ultimas_transiciones = $data[0]['ultimas_transiciones'];
-		$this->_ultimas($today,$ultimas_instancias,$ultimas_transiciones);
+		$ultimas_instancias_transiciones = $this->_ultimas($today,$ultimas_instancias,$ultimas_transiciones);
 		switch ($data[0]['actividad']){
 			case '1': //dia actual
 				$today = '2016-09-15 00:00:00'; //datos de prueba;
@@ -421,10 +421,13 @@ class Home extends CI_Controller {
 				$resumen = $this->_resumenDelPeriodo($fecha_inicial,$fecha_final);
 				break;
 		}
-
+		$home = array(
+			'ultimas_instancias'=>$ultimas_instancias,
+			'ultimas_transiciones'=>$ultimas_transiciones
+			);
 
 		$this->load->view('header','', FALSE);	
-		$this->load->view('home','', FALSE);	
+		$this->load->view('home',$home, FALSE);	
 		$this->load->view('footerbegin','', FALSE);	
 		$this->load->view('actividad',$actividad, FALSE);	
 		$this->load->view('categoria',$categorias, FALSE);	
@@ -432,6 +435,7 @@ class Home extends CI_Controller {
 		$this->load->view('indicadores',$indicadores, FALSE);	
 		$this->load->view('crecimiento',$crecimiento, FALSE);	
 		$this->load->view('tiempo_promedio',$tiempo_promedio, FALSE);	
+		$this->load->view('ultimas_instancias_transiciones',$ultimas_instancias_transiciones, FALSE);	
 		$this->load->view('resumen',$resumen, FALSE);	
 		$this->load->view('footerend','', FALSE);	
 	}
@@ -1918,8 +1922,43 @@ class Home extends CI_Controller {
 	//muestra las ultimas instancias / transiciones (procesos) del dia 
 	private function _ultimas($dia,$ultimas_instancias,$ultimas_transiciones){
 		$dia = "2016-09-03";
+		$subtitulo_ins = "";
+		$subtitulo_trans = "";
+		$subtitulo = "No se definieron datos";
 		$datos = $this->Database->ultimas($dia,$ultimas_instancias,$ultimas_transiciones);
 		//var_dump($datos);
+		$titulo = "Ultimas Instancias/ Transiciones";
+		$dia = explode(" ",$dia);
+		$dia = date_create($dia[0]);
+		$dia = date_format($dia,"d-m-Y");
+		if ($ultimas_instancias>1){
+			$subtitulo_ins = "Últimas ".$ultimas_instancias." instancias"; 	
+		}
+		else if ($ultimas_instancias == 1){
+			$subtitulo_ins = "Última instancia"; 		
+		}
+		if ($ultimas_transiciones>1){
+			$subtitulo_trans = "últimas ".$ultimas_transiciones." transiciones";
+		}
+		else if ($ultimas_transiciones == 1){
+			$subtitulo_trans = "última transición";	
+		}
+		if (($subtitulo_ins!="")&&($subtitulo_trans!="")){
+			$subtitulo = $subtitulo_ins." y ".$subtitulo_trans." para el día ";	
+		}
+		else if (($subtitulo_ins!="")&&($subtitulo_trans=="")){
+			$subtitulo = $subtitulo_ins." para el día ";	
+		}
+		else if (($subtitulo_ins=="")&&($subtitulo_trans!="")){
+			$subtitulo = $subtitulo_trans." para el día ";	
+		}
+		$data = array(
+			'titulo' 								=> $titulo,
+			'subtitulo' 							=> $subtitulo,
+			'instancias' 							=> json_encode($datos['instancias']),
+			'transiciones' 							=> json_encode($datos['procesos'])
+			);
+		return $data;
 	}
 
 }

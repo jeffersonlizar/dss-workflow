@@ -807,8 +807,8 @@ class Database extends CI_Model {
 	public function ultimas($fecha,$cant_ins,$cant_pro){
 		$this->db->db_select('workflow');	
 		$data = array();
-		$query_instancias = "SELECT * FROM instancia INNER JOIN (workflow) ON instancia.id_workflow=workflow.id_workflow WHERE DATE(fecha_inicio)=DATE(?) ORDER BY id_instancia DESC LIMIT ?";
-		$query_procesos = "SELECT * FROM proceso INNER JOIN (transicion) ON proceso.id_transicion=transicion.id_transicion WHERE DATE(fecha)=DATE(?) ORDER BY id_proceso DESC LIMIT ?";
+		$query_instancias = "SELECT * FROM instancia INNER JOIN (SELECT id_workflow,nombre FROM workflow) as wk ON instancia.id_workflow=wk.id_workflow WHERE DATE(fecha_inicio)=DATE(?) ORDER BY fecha_inicio  DESC LIMIT ?";
+		$query_procesos = "SELECT * FROM proceso INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tr ON proceso.id_transicion=tr.id_transicion INNER JOIN (SELECT id_instancia,titulo as instancia_nombre FROM instancia) as ins ON proceso.id_instancia=ins.id_instancia WHERE DATE(fecha)=DATE(?) ORDER BY fecha DESC LIMIT ?";
 		$sql = $this->db->query($query_instancias, array($fecha,intval($cant_ins)));		
 		if($sql -> num_rows() > 0)
         {	        	
@@ -819,7 +819,6 @@ class Database extends CI_Model {
         {	        	
             $data['procesos'] = $sql->result_array();
         }
-		
         return $data;
 	}	
 

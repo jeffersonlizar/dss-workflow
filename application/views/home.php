@@ -49,34 +49,32 @@
                         </div>
                     </div>
 
-                    <div class="col s12 m12 l12" id="ultimas" >
-                        <div class="titulo tema">Ultimas Instancias/ Transiciones</div>
-                        <div class="subtitulo tema">en el día</div>
+                    <div class="col s12 m12 l12" id="ultimas_ins_trans" >
+                        <div class="titulo tema"></div>
+                        <div class="subtitulo tema"></div>
                         <ul class="collapsible popout collapsible-accordion scroll" data-collapsible="accordion">
-                          <li>
-                            <div class="collapsible-header"><i class="material-icons">work</i>First</div>
-                            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation </p></div>
-                          </li>
-                          <li>
-                            <div class="collapsible-header"><i class="material-icons">work</i>Second</div>
-                            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
-                          </li>
-                          <li>
-                            <div class="collapsible-header"><i class="material-icons">work</i>Third</div>
-                            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
-                          </li>
-                          <li>
-                            <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>First</div>
-                            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation </p></div>
-                          </li>
-                          <li>
-                            <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Second</div>
-                            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
-                          </li>
-                          <li>
-                            <div class="collapsible-header"><i class="material-icons">insert_drive_file</i>Third</div>
-                            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div>
-                          </li>
+                            <?php for ($i=0; $i < $ultimas_instancias; $i++): ?>
+                            <li class="ultimas-instancias hide" id="ultima-instancia<?php echo $i;?>">
+                                <div class="collapsible-header"><i class="material-icons">work</i><span class="titulo"></span></div>
+                                <div class="collapsible-body contenido">
+                                    <i class="material-icons">search</i><span class="descripcion"></span></br>
+                                    <i class="material-icons">sync</i><span class="workflow"></span></br>
+                                    <i class="material-icons">account_box</i><span class="usuario"></span></br>
+                                    <i class="material-icons">alarm</i><span class="hora"></span></br>
+                                </div>
+                            </li>                     
+                            <?php endfor; ?> 
+                            <?php for ($i=0; $i < $ultimas_transiciones; $i++): ?>
+                            <li class="ultimas-transiciones hide" id="ultima-transicion<?php echo $i;?>">
+                                <div class="collapsible-header"><i class="material-icons">insert_drive_file</i><span class="titulo"></span></div>
+                                <div class="collapsible-body contenido">
+                                    <i class="material-icons">search</i><span class="descripcion"></span></br>
+                                    <i class="material-icons">sync</i><span class="workflow"></span></br>
+                                    <i class="material-icons">account_box</i><span class="usuario"></span></br>
+                                    <i class="material-icons">alarm</i><span class="hora"></span></br>
+                                </div>
+                            </li>
+                            <?php endfor; ?> 
                         </ul>            
                     </div>
 
