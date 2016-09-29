@@ -393,7 +393,7 @@ class Database extends CI_Model {
 	        }
 		}
 		if ($tipo==2){
-			$query_total = "SELECT TIME_TO_SEC(TIMEDIFF(pro2.fecha, pro1.fecha)) as time FROM proceso AS pro1 INNER JOIN proceso AS pro2 ON DATE(pro1.fecha)<=DATE(pro2.fecha) WHERE pro1.id_instancia=pro2.id_instancia AND pro1.id_proceso!=pro2.id_proceso AND (DATE(pro1.fecha) BETWEEN DATE(?) AND DATE(?)) AND (DATE(pro2.fecha) BETWEEN DATE(?) AND DATE(?)) AND (TIME(pro1.fecha)<TIME(pro2.fecha)) GROUP BY pro1.id_proceso";
+			$query_total = "SELECT TIME_TO_SEC(TIMEDIFF(pro2.fecha, pro1.fecha)) as time FROM proceso AS pro1 INNER JOIN proceso AS pro2 ON DATE(pro1.fecha)<=DATE(pro2.fecha) WHERE pro1.id_instancia=pro2.id_instancia AND pro1.id_proceso!=pro2.id_proceso AND (DATE(pro1.fecha) BETWEEN DATE(?) AND DATE(?)) AND (DATE(pro2.fecha) BETWEEN DATE(?) AND DATE(?)) GROUP BY pro1.id_proceso";
 			$sql = $this->db->query($query_total, array($fecha1,$fecha2,$fecha1,$fecha2));
 			if($sql -> num_rows() > 0)
 	        {	
@@ -617,6 +617,20 @@ class Database extends CI_Model {
 		return $data;
 	}
 
+	//devuelve el nombre de la transicion
+	public function nombreTransicion($transicion){
+		$this->db->db_select('workflow');
+		$data= array();
+		$query = "SELECT nombre FROM transicion WHERE id_transicion =".$transicion."";
+		$sql = $this->db->query($query);
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data = $sql->result_array()[0]['nombre'];
+
+        }		
+		return $data;
+	}
+
 	//calcula el resumen de instancias en un periodo
 	public function workflowResumen($fecha_inicial,$fecha_final){
 		$this->db->db_select('workflow');
@@ -821,6 +835,38 @@ class Database extends CI_Model {
         }
         return $data;
 	}	
+
+	public function duracionTransicion($usuario,$transicion,$tipo_usuario,$fecha_inicial,$fecha_final){
+		$this->db->db_select('workflow');
+		$data= array();
+		$data['time'] = 0;
+		$query = "SELECT TIME_TO_SEC(TIMEDIFF(pro2.fecha, pro1.fecha)) as time FROM proceso as pro2, proceso as pro1 INNER JOIN (SELECT id_usuario,id_tipo FROM usuario) as usr ON pro1.id_usuario = usr.id_usuario WHERE pro1.id_instancia = pro2.id_instancia AND pro1.id_proceso<pro2.id_proceso AND (DATE(pro1.fecha) BETWEEN DATE('$fecha_inicial') AND DATE('$fecha_final')) AND (DATE(pro2.fecha) BETWEEN DATE('$fecha_inicial') AND DATE('$fecha_final'))";
+		if ($usuario!= "all"){
+			$query = $query." AND pro1.id_usuario = '".$usuario."'";
+		}
+		if ($transicion!= "all"){
+			$query = $query." AND pro1.id_transicion = ".$transicion."";
+		}
+		if ($tipo_usuario!= "all"){
+			$query = $query." AND usr.id_tipo = ".$tipo_usuario."";
+		}
+		$query = $query." GROUP BY pro1.id_proceso";		
+		$sql = $this->db->query($query);
+		if($sql -> num_rows() > 0)
+        {	
+            $tiempo = $sql->result_array();
+            $cant = count($tiempo);	            
+        	for($i=0;$i<count($tiempo);$i++)
+        	{        		
+        		$data['time'] += intval($tiempo[$i]['time']);
+        	}
+        	$data['time'] = $data['time']/$cant;
+        	
+        }
+       	$data= $this->convert_seconds(round($data['time']));     
+       	return $data;       	
+	}
+
 
 	
 }
