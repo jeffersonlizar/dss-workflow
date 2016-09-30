@@ -841,7 +841,7 @@ class Database extends CI_Model {
 		$data= array();
 		$data['time'] = 0;
 		$query = "SELECT TIME_TO_SEC(TIMEDIFF(pro2.fecha, pro1.fecha)) as time FROM proceso as pro2, proceso as pro1 INNER JOIN (SELECT id_usuario,id_tipo FROM usuario) as usr ON pro1.id_usuario = usr.id_usuario WHERE pro1.id_instancia = pro2.id_instancia AND pro1.id_proceso<pro2.id_proceso AND (DATE(pro1.fecha) BETWEEN DATE('$fecha_inicial') AND DATE('$fecha_final')) AND (DATE(pro2.fecha) BETWEEN DATE('$fecha_inicial') AND DATE('$fecha_final'))";
-		if ($usuario!= "all"){
+		if ($usuario!= "all"){			
 			$query = $query." AND pro1.id_usuario = '".$usuario."'";
 		}
 		if ($transicion!= "all"){
@@ -853,17 +853,18 @@ class Database extends CI_Model {
 		$query = $query." GROUP BY pro1.id_proceso";		
 		$sql = $this->db->query($query);
 		if($sql -> num_rows() > 0)
-        {	
+        {	        	
             $tiempo = $sql->result_array();
+            var_dump($tiempo);
             $cant = count($tiempo);	            
         	for($i=0;$i<count($tiempo);$i++)
         	{        		
         		$data['time'] += intval($tiempo[$i]['time']);
         	}
-        	$data['time'] = $data['time']/$cant;
+        	$data['time'] = round($data['time']/$cant);
         	
-        }
-       	$data= $this->convert_seconds(round($data['time']));     
+        }       	
+        $data = $data['time'];       	 
        	return $data;       	
 	}
 

@@ -7,6 +7,7 @@ class Home extends CI_Controller {
 	{
 		date_default_timezone_set('America/La_Paz');
 		$today = date('Y-m-d 00:00:00');   
+		$yesterday = $this->_diaAnterior($today);
 		$d = new DateTime('first day of this month');
     	$mes_actual = $d->format('Y-m-d 00:00:00');
     	$mes_actual_primer_dia = $d->format('Y-m-d 00:00:00');
@@ -422,21 +423,37 @@ class Home extends CI_Controller {
 				break;
 		}
 		switch ($data[0]['duracion_transicion']){
-			case '1': //dia actual
-				$usuario = 'recepcionista1';
-				$transicion = 'all';
-				$tipo_usuario = 4;
-				$dia = '2016-09-01 00:00:00'; //datos de prueba;
-				$resumen = $this->_duracionTransicionUsuarioDia($usuario,$transicion,$tipo_usuario,$dia);
+			case '1': //dia actual				
+				$usuario = 'all';
+				$transicion = 'all'; 
+				$tipo_usuario = 'all'; 
+				$today = '2016-06-18 00:00:00'; //datos de prueba;
+				if ($usuario!='all')
+					$duracion_transicion = $this->_duracionTransicionUsuarioDia($usuario,$transicion,$tipo_usuario,$today);
+				else{
+					$duracion_transicion = $this->_duracionTransicionTodosDia($usuario,$transicion,$tipo_usuario,$today);
+				}
 				break;
 			case '2': //dia anterior
-				$today = '2016-09-15 00:00:00'; //datos de prueba;
-				$yesterday = $this->_diaAnterior($today);
-				$resumen = $this->_resumenDelDia($yesterday);
+				$usuario = 'all';
+				$transicion = 'all'; 
+				$tipo_usuario = 'all'; 
+				if ($usuario!='all')
+					$duracion_transicion = $this->_duracionTransicionUsuarioDia($usuario,$transicion,$tipo_usuario,$yesterday);
+				else{
+					$duracion_transicion = $this->_duracionTransicionTodosDia($usuario,$transicion,$tipo_usuario,$yesterday);
+				}
 				break;
 			case '3': //dia 
-				$dia = '2016-09-03'; //datos de prueba;
-				$resumen = $this->_resumenDelDia($dia);
+				$dia = '2016-09-15';
+				$usuario = 'all';
+				$transicion = 'all'; 
+				$tipo_usuario = 'all'; 
+				if ($usuario!='all')
+					$duracion_transicion = $this->_duracionTransicionUsuarioDia($usuario,$transicion,$tipo_usuario,$dia);
+				else{
+					$duracion_transicion = $this->_duracionTransicionTodosDia($usuario,$transicion,$tipo_usuario,$dia);
+				}
 				break;
 			case '4': //mes actual 
 				$resumen = $this->_resumenDelMes($mes_actual_primer_dia,$mes_actual_ultimo_dia);
@@ -476,7 +493,7 @@ class Home extends CI_Controller {
 		$this->load->view('tiempo_promedio',$tiempo_promedio, FALSE);	
 		$this->load->view('ultimas_instancias_transiciones',$ultimas_instancias_transiciones, FALSE);	
 		$this->load->view('resumen',$resumen, FALSE);	
-		$this->load->view('duracion_transicion','', FALSE);	
+		$this->load->view('duracion_transicion',$duracion_transicion, FALSE);	
 		$this->load->view('footerend','', FALSE);	
 	}
 
@@ -2001,73 +2018,82 @@ class Home extends CI_Controller {
 		return $data;
 	}
 
-	//muestra las ultimas instancias / transiciones (procesos) del dia 
-	/*
-	private function _duracionTransicionDia($usuario,$transicion,$tipo_usuario,$dia){
-		$datos = $this->Database->duracionTransicion($usuario,$transicion,$tipo_usuario,'2016-09-03','2016-09-10');
+	//calcula el tiempo de duracion de un usuario en una actividad
+	private function _duracionTransicionUsuarioDia($usuario,$transicion,$tipo_usuario,$dia){
+		$datos_busqueda = array();
+		$datos_promedio = array();
+		$datos_busqueda[0] = $this->Database->duracionTransicion($usuario,$transicion,$tipo_usuario,$dia,$dia);
+		$tiempo_busqueda[0] = $this->_stringPeriodo($this->Database->convert_seconds($datos_busqueda[0]));
+		$nombre_usuario[0] = $usuario; 
+		$datos_promedio = $this->Database->duracionTransicion('all',$transicion,$tipo_usuario,$dia,$dia);
+		$tiempo_promedio = $this->_stringPeriodo($this->Database->convert_seconds($datos_promedio));
 		$titulo = 'Duración';
-		$nombre_tipo_usuario = '';
-		$subtitulo_usuario = ', usuario ';
-		$subtitulo_transicion = ', transición ';
 		if ($usuario=='all'){
 			$usuario = 'Todos';
 		}
-		$subtitulo_usuario = $subtitulo_usuario.'<b>'.$usuario.'</b>';		
-		if ($tipo_usuario=='all'){
-			$nombre_tipo_usuario = 'Todos';
-		}else{
-			$nombre_tipo_usuario = $this->Database->nombreTipoUsuario($tipo_usuario);		
-		}
-		$subtitulo_tipo_usuario = 'Para el tipo de usuario <b>'.$nombre_tipo_usuario.'</b>';		
 		if ($transicion=='all'){
 			$transicion = 'Todas';
 		}else{
 			$transicion = $this->Database->nombreTransicion($transicion);	
 		}
-		$subtitulo_transicion = $subtitulo_transicion.'<b>'.$transicion.'</b>';		
 		$dia = explode(" ",$dia);
 		$dia = date_create($dia[0]);
 		$dia = date_format($dia,"d-m-Y");
-		$subtitulo_fecha = ' en el día '.$dia;
-		$subtitulo = $subtitulo_tipo_usuario.$subtitulo_usuario.$subtitulo_transicion.$subtitulo_fecha;		
-		/*
+		$subtitulo = 'Del usuario <b>'.$usuario.'</b> para la transición <b>'.$transicion.'</b>. Para el día '.$dia;		
 		$data = array(
 			'titulo' 								=> $titulo,
 			'subtitulo' 							=> $subtitulo,
-			'instancias' 							=> json_encode($datos['instancias']),
-			'transiciones' 							=> json_encode($datos['procesos'])
-			);
+			'datos_busqueda' 						=> $datos_busqueda,
+			'tiempo_busqueda'						=> $tiempo_busqueda,
+			'datos_promedio'						=> $datos_promedio,
+			'tiempo_promedio'						=> $tiempo_promedio,
+			'nombre_usuario'						=> $nombre_usuario			
+			);		
 		return $data;
-		*/
-		/*
 	}
-	*/
-	private function _duracionTransicionUsuarioDia($usuario,$transicion,$tipo_usuario,$dia){
-		$datos = $this->Database->duracionTransicion($usuario,$transicion,$tipo_usuario,'2016-09-03','2016-09-10');
-		$datos_todos = $this->Database->duracionTransicion('all',$transicion,$tipo_usuario,'2016-09-03','2016-09-10');
-		var_dump($datos);
-		var_dump($datos_todos);
+
+	//calcula el tiempo de duracion todos los usuarios en una actividad
+	private function _duracionTransicionTodosDia($usuario,$transicion,$tipo_usuario,$dia){		
+		$datos_busqueda = array();
+		$datos_promedio = array();
+		if ($tipo_usuario == 'all')
+			$usuarios = $this->Database->usuariosTodos();			
+		else
+			$usuarios = $this->Database->usuariosTodos($tipo_usuario);
+		for ($i=0; $i < count($usuarios); $i++)
+		{			
+			$datos_busqueda[$i] = $this->Database->duracionTransicion($usuarios[$i]['id_usuario'],$transicion,$tipo_usuario,$dia,$dia);			
+			$tiempo_busqueda[$i] = $this->_stringPeriodo($this->Database->convert_seconds($datos_busqueda[$i]));
+			$nombre_usuario[$i] = $usuarios[$i]['id_usuario'];
+		}		
+		$datos_promedio = $this->Database->duracionTransicion('all',$transicion,$tipo_usuario,$dia,$dia);
+		$tiempo_promedio = $this->_stringPeriodo($this->Database->convert_seconds($datos_promedio));
 		$titulo = 'Duración';
-		if ($usuario=='all'){
-			$usuario = 'Todos';
+		if ($tipo_usuario=='all'){			
+			$tipo_usuario = 'Todos';
+		}
+		else{
+			$tipo_usuario = $this->Database->nombreTipoUsuario($tipo_usuario);	
 		}
 		if ($transicion=='all'){
 			$transicion = 'Todas';
 		}else{
 			$transicion = $this->Database->nombreTransicion($transicion);	
 		}
-		$subtitulo = 'Del usuario <b>'.$usuario.'</b> para la transición <b>'.$transicion.'</b>';
-		var_dump($subtitulo);
-		/*
+		$dia = explode(" ",$dia);
+		$dia = date_create($dia[0]);
+		$dia = date_format($dia,"d-m-Y");
+		$subtitulo = 'Del tipo usuario <b>'.$tipo_usuario.'</b> para la transición <b>'.$transicion.'</b>. Para el día '.$dia;		
 		$data = array(
 			'titulo' 								=> $titulo,
 			'subtitulo' 							=> $subtitulo,
-			'instancias' 							=> json_encode($datos['instancias']),
-			'transiciones' 							=> json_encode($datos['procesos'])
-			);
+			'datos_busqueda' 						=> $datos_busqueda,
+			'tiempo_busqueda'						=> $tiempo_busqueda,
+			'datos_promedio'						=> $datos_promedio,
+			'tiempo_promedio'						=> $tiempo_promedio,
+			'nombre_usuario'						=> $nombre_usuario			
+			);		
 		return $data;
-		*/
-		
 	}
 
 }
