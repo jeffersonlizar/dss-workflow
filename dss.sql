@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 28, 2016 at 06:15 AM
+-- Generation Time: Oct 03, 2016 at 06:20 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.23
 
@@ -36,15 +36,41 @@ CREATE TABLE `preferencias` (
   `actividad_usuario` int(11) NOT NULL,
   `resumen` int(11) NOT NULL,
   `ultimas_instancias` int(11) NOT NULL,
-  `ultimas_transiciones` int(11) NOT NULL
+  `ultimas_transiciones` int(11) NOT NULL,
+  `duracion_transicion` int(11) NOT NULL,
+  `duracion_workflow` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `preferencias`
 --
 
-INSERT INTO `preferencias` (`id`, `actividad`, `categoria`, `indicadores`, `crecimiento`, `tiempo_promedio`, `actividad_usuario`, `resumen`, `ultimas_instancias`, `ultimas_transiciones`) VALUES
-(2, 4, 8, 8, 24, 21, 216, 8, 3, 5);
+INSERT INTO `preferencias` (`id`, `actividad`, `categoria`, `indicadores`, `crecimiento`, `tiempo_promedio`, `actividad_usuario`, `resumen`, `ultimas_instancias`, `ultimas_transiciones`, `duracion_transicion`, `duracion_workflow`) VALUES
+(2, 4, 8, 8, 24, 21, 216, 8, 3, 5, 8, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `username` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
+  `nombre` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
+  `apellido` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
+  `contrasena` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
+  `tipo` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `usuarios`
+--
+
+INSERT INTO `usuarios` (`username`, `nombre`, `apellido`, `contrasena`, `email`, `tipo`) VALUES
+('456', '123', '123', '', 'dvjefferson@gmail.com', 0),
+('asdf', 'asdf', 'asdf', '1234', 'jeffersonlr@outlook.com', 0),
+('jeff', 'jefferson', 'Lizarzabal', '1234', 'dvjefferson@gmail.com', 1);
 
 --
 -- Indexes for dumped tables
@@ -55,6 +81,12 @@ INSERT INTO `preferencias` (`id`, `actividad`, `categoria`, `indicadores`, `crec
 --
 ALTER TABLE `preferencias`
   ADD UNIQUE KEY `id` (`id`);
+
+--
+-- Indexes for table `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`username`);
 
 --
 -- AUTO_INCREMENT for dumped tables

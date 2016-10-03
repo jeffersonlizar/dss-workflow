@@ -23,8 +23,9 @@
     overflow-x: hidden;
 }
 
-
-
+.usuario{
+	cursor:pointer;
+}
 
 #mobile-demo li.search .search-wrapper {    
     transition: margin .25s ease;
@@ -60,7 +61,7 @@ select{
 	}
 }
 @media (min-width: 1023px){
-	.row{
+	.centrado{
 		margin-left:206px;
 		width: 79%;
 	}
@@ -71,19 +72,19 @@ select{
 	
 }
 @media (min-width: 1279px){
-	.row{
+	.centrado{
 		margin-left:210px;
 		width: 83%;
 	}
 }
 @media (min-width: 1439px){
-	.row{
+	.centrado{
 		margin-left:208px;
 		width: 85%;
 	}
 }
 @media (min-width: 1899px){
-	.row{
+	.centrado{
 		margin-left:208px;
 		width: 89%;
 	}

@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	$(function () {
-	    $('#duracion_transicion').highcharts({
+	    $('#duracion_workflow').highcharts({
 	        chart: {
 	            type: 'column'
 	        },
@@ -49,7 +49,7 @@
 	        },
 	        series: [{
 	            name: 'Usuario',
-	            color: 'rgba(126,86,134,.9)',
+	            color: 'rgba(100,180,100,100)',	            
 	            data: [
 	            <?php 
 	            $cant = count($datos_busqueda);
@@ -71,7 +71,7 @@
 	        }, {
 	            name: 'Promedio',
 	            
-	            color: 'rgba(165,170,217,1)',
+	            color: 'rgba(10,10,10,10)',
 	            data: [
 	            <?php 	           
 	            for ($i=0; $i < $cant ; $i++):	            	

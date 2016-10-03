@@ -2,6 +2,7 @@
 		<!-- main -->
 		<main>			
 			
+			<div class="centrado">
 			<div class="row">
 				    <p>alarmas</p>
 
@@ -16,7 +17,7 @@
                     ?>
 					
 
-									
+				</div>					
 			</div>	
 			
 		</main>

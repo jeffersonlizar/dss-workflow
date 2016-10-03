@@ -9,3 +9,11 @@ $(document).ready(function(){
     });
 	
 })
+
+
+$( ".usuario" ).on( "click", function() {
+	id = $(this).attr('id');
+	console.log(id);
+	$('#cargar_usuario_username').val(id);
+	$('#cargar_usuario').submit();
+});

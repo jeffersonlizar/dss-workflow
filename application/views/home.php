@@ -2,7 +2,8 @@
 		<!-- main -->
 		<main>			
 			
-			<div class="row">
+			<div class="centrado">
+                <div class="row">
 				<section id="principal" class="tab">
 				    
 
@@ -17,6 +18,8 @@
                     <div class="col s12 m6 l4" id="crecimiento"></div>
 
                     <div class="col s12 m6 l6" id="duracion_transicion"></div>
+
+                    <div class="col s12 m6 l6" id="duracion_workflow"></div>
 
                     <div class="col s12 m6 l4" id="tiempo_promedio">
                         <div class="titulo tema"></div>
@@ -81,7 +84,7 @@
                     </div>
 
 				</section>
-									
+				</div>		
 			</div>	
 			
 		</main>

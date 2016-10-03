@@ -44,8 +44,10 @@ function ubicacion(){
 		<header>
 	      <nav class="top-nav">
 	        <div class="container">
-	          <div class="nav-wrapper"><a href="index.php" class="page-title">Sistema de Soporte a Decisiones</a></div>
-	        </div>
+	          <div class="nav-wrapper">
+	          	<a href="index.php" class="page-title">Sistema de Soporte a Decisiones</a>
+		       	<a href="<?php echo base_url().'usuarios/logout' ?>" class="page-title">Salir del Sistema</a>
+	          </div>
 	      </nav>
 	      
 	      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>	      

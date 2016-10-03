@@ -19,6 +19,76 @@ class Database extends CI_Model {
             return false;
         }
 	}
+
+	public function login($usuario,$pass){
+		$this->db->db_select('workflow');
+		$query = $this->db->query("SELECT * FROM usuario WHERE id_usuario = '$usuario' AND contrasena = '$pass' AND id_tipo = 0");
+		if($query -> num_rows() > 0)
+        {
+        	$data['tipo']=1;
+        	return $data;
+        }
+        else
+        {
+        	$this->db->db_select('dss');
+            $query = $this->db->query("SELECT * FROM usuarios WHERE username = '$usuario' AND contrasena = '$pass'");
+			if($query -> num_rows() > 0)
+	        {
+	        	$data['tipo']=$query->result_array()[0]['tipo'];
+	        	return $data;
+	        }
+	        else 
+	        	return null;
+        }
+	}
+
+	public function search_user($usuario){
+		$this->db->db_select('workflow');
+		$query = $this->db->query("SELECT * FROM usuario WHERE id_usuario = '$usuario'");
+		if($query -> num_rows() > 0)
+        {
+            return $query->result_array();
+        }
+        else
+        {
+        	$this->db->db_select('dss');
+            $query = $this->db->query("SELECT * FROM usuarios WHERE username = '$usuario'");
+			if($query -> num_rows() > 0)
+	        {
+	            return $query->result_array();
+	        }
+	        else
+	        {
+	            return false;
+	        }
+        }
+	}
+
+	public function singin($username,$nombre,$apellido,$email,$tipo){
+		$this->db->db_select('dss');
+		$query = $this->db->query("INSERT INTO usuarios(username,nombre,apellido,email,tipo) values ('$username','$nombre','$apellido','$email','$tipo')");
+		if($query)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+	}
+
+	public function usuarioslist(){
+		$this->db->db_select('dss');
+		$query = $this->db->query("SELECT * FROM usuarios");
+		if($query -> num_rows() > 0)
+        {
+            return $query->result_array();
+        }
+        else
+        {
+            return false;
+        }
+	}
 	
 	//calcula la actividad de un dia por rangos de 1 hora
 	public function actividadDia($fecha_inicial){
@@ -631,6 +701,20 @@ class Database extends CI_Model {
 		return $data;
 	}
 
+	//devuelve el nombre del workflow
+	public function nombreWorkflow($workflow){
+		$this->db->db_select('workflow');
+		$data= array();
+		$query = "SELECT nombre FROM workflow WHERE id_workflow =".$workflow."";
+		$sql = $this->db->query($query);
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data = $sql->result_array()[0]['nombre'];
+
+        }		
+		return $data;
+	}
+
 	//calcula el resumen de instancias en un periodo
 	public function workflowResumen($fecha_inicial,$fecha_final){
 		$this->db->db_select('workflow');
@@ -836,6 +920,7 @@ class Database extends CI_Model {
         return $data;
 	}	
 
+	//calcula duracion de transiciones por filtro
 	public function duracionTransicion($usuario,$transicion,$tipo_usuario,$fecha_inicial,$fecha_final){
 		$this->db->db_select('workflow');
 		$data= array();
@@ -855,7 +940,40 @@ class Database extends CI_Model {
 		if($sql -> num_rows() > 0)
         {	        	
             $tiempo = $sql->result_array();
-            var_dump($tiempo);
+            //var_dump($tiempo);
+            $cant = count($tiempo);	            
+        	for($i=0;$i<count($tiempo);$i++)
+        	{        		
+        		$data['time'] += intval($tiempo[$i]['time']);
+        	}
+        	$data['time'] = round($data['time']/$cant);
+        	
+        }       	
+        $data = $data['time'];       	 
+       	return $data;       	
+	}
+
+	//calcula duracion de workflow por filtro
+	public function duracionWorkflow($usuario,$workflow,$tipo_usuario,$fecha_inicial,$fecha_final){
+		$this->db->db_select('workflow');
+		$data= array();
+		$data['time'] = 0;
+		$query = "SELECT TIME_TO_SEC(TIMEDIFF(pro2.fecha, pro1.fecha)) as time FROM proceso as pro2, proceso as pro1 INNER JOIN (SELECT id_usuario,id_tipo FROM usuario) as usr ON pro1.id_usuario = usr.id_usuario INNER JOIN (SELECT id_instancia,id_workflow FROM instancia) as ins ON pro1.id_instancia = ins.id_instancia INNER JOIN (SELECT id_workflow,nombre FROM workflow) as wrk ON ins.id_workflow = wrk.id_workflow WHERE pro1.id_instancia = pro2.id_instancia AND pro1.id_proceso<pro2.id_proceso AND (DATE(pro1.fecha) BETWEEN DATE('$fecha_inicial') AND DATE('$fecha_final')) AND (DATE(pro2.fecha) BETWEEN DATE('$fecha_inicial') AND DATE('$fecha_final'))";
+		if ($usuario!= "all"){			
+			$query = $query." AND pro1.id_usuario = '".$usuario."'";
+		}
+		if ($workflow!= "all"){
+			$query = $query." AND wrk.id_workflow = ".$workflow."";
+		}
+		if ($tipo_usuario!= "all"){
+			$query = $query." AND usr.id_tipo = ".$tipo_usuario."";
+		}
+		$query = $query." GROUP BY pro1.id_proceso";		
+		$sql = $this->db->query($query);
+		if($sql -> num_rows() > 0)
+        {	        	
+            $tiempo = $sql->result_array();
+            //var_dump($tiempo);
             $cant = count($tiempo);	            
         	for($i=0;$i<count($tiempo);$i++)
         	{        		
