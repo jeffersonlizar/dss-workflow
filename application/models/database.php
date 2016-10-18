@@ -20,6 +20,19 @@ class Database extends CI_Model {
         }
 	}
 
+	public function cargar_alarmas_workflow(){
+		$this->db->db_select('dss');
+		$query = $this->db->query("SELECT * FROM alarmas_workflow");
+		if($query -> num_rows() > 0)
+        {
+            return $query->result_array();
+        }
+        else
+        {
+            return false;
+        }
+	}
+
 	public function login($usuario,$pass){
 		$this->db->db_select('workflow');
 		$query = $this->db->query("SELECT * FROM usuario WHERE id_usuario = '$usuario' AND contrasena = '$pass' AND id_tipo = 0");
@@ -31,6 +44,7 @@ class Database extends CI_Model {
         else
         {
         	$this->db->db_select('dss');
+        	$pass = md5($pass);
             $query = $this->db->query("SELECT * FROM usuarios WHERE username = '$usuario' AND contrasena = '$pass'");
 			if($query -> num_rows() > 0)
 	        {
@@ -66,7 +80,62 @@ class Database extends CI_Model {
 
 	public function singin($username,$nombre,$apellido,$email,$tipo){
 		$this->db->db_select('dss');
-		$query = $this->db->query("INSERT INTO usuarios(username,nombre,apellido,email,tipo) values ('$username','$nombre','$apellido','$email','$tipo')");
+		$pass = md5($pass);
+		$query = $this->db->query("INSERT INTO usuarios(username,nombre,apellido,email,tipo,contrasena) values ('$username','$nombre','$apellido','$email','$tipo','$pass')");
+		if($query)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+	}
+
+	public function modificar($username,$nombre,$apellido,$email,$tipo){
+		$this->db->db_select('dss');
+		$query = $this->db->query("UPDATE usuarios SET nombre='$nombre',apellido='$apellido',email='$email',tipo='$tipo' WHERE username = '$username'");
+		if($query)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+	}
+
+	public function primerLogin($username,$contrasena){
+		$this->db->db_select('dss');
+		$contrasena = md5($contrasena);
+		$query = $this->db->query("UPDATE usuarios SET contrasena='$contrasena' WHERE username = '$username'");
+		if($query)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+	}
+
+	public function delete($username){
+		$this->db->db_select('dss');
+		$query = $this->db->query("DELETE FROM usuarios WHERE username = '$username'");
+		if($query)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+	}
+
+	public function reiniciarContrasena($username){
+		$this->db->db_select('dss');
+		$contrasena = md5($contrasena);
+		$query = $this->db->query("UPDATE usuarios SET contrasena='$contrasena' WHERE username = '$username'");
 		if($query)
         {
             return true;
@@ -985,6 +1054,34 @@ class Database extends CI_Model {
         $data = $data['time'];       	 
        	return $data;       	
 	}
+
+	//calcula duracion de workflow por filtro
+	public function alarmaMaxWorkflow($workflow,$instancia,$tipo_usuario,$usuario){
+		$this->db->db_select('workflow');
+		$data= array();
+		$query = "SELECT TIMESTAMPDIFF(MINUTE, fecha_inicio, NOW()) as time, instancia.id_instancia as instancia, instancia.id_usuario as usuario,instancia.titulo as titulo,usuario.id_tipo as tipo_usuario FROM instancia INNER JOIN usuario ON instancia.id_usuario = usuario.id_usuario WHERE fecha_final IS NULL";
+		if ($usuario!= "all"){			
+			$query = $query." AND instancia.id_usuario = '".$usuario."'";
+		}
+		if ($workflow!= "all"){
+			$query = $query." AND id_workflow = ".$workflow."";
+		}
+		if ($tipo_usuario!= "all"){
+			$query = $query." AND usuario.id_tipo = ".$tipo_usuario."";
+		}
+		if ($instancia!= "all"){
+			$query = $query." AND id_instancia = ".$instancia."";
+		}
+		var_dump($query);	
+		$sql = $this->db->query($query);
+		if($sql -> num_rows() > 0)
+        {	
+            $data = $sql->result_array();
+        }       	
+       	return $data;       	
+	}
+
+
 
 
 	

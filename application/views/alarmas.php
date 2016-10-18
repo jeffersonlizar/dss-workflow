@@ -4,16 +4,17 @@
 			
 			<div class="centrado">
 			<div class="row">
-				    <p>alarmas</p>
-
 				    <?php 
-					for ($i=0;$i<5;$i++):
+				    $i = 0;
+				    foreach ($data as $value):
+				    	foreach ($value['alarmas'] as $val):
 					?>
-				    <div class="col s12 m6 l4" id="alarma<?php echo $i?>">
+				    <div class="col s12 m6 l4" id="alarma<?php echo $i++ ?>">
                         
                     </div>
                     <?php 
-                    endfor;
+                    endforeach;
+                    endforeach;
                     ?>
 					
 

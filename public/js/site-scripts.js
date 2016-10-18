@@ -10,10 +10,20 @@ $(document).ready(function(){
 	
 })
 
-
 $( ".usuario" ).on( "click", function() {
 	id = $(this).attr('id');
-	console.log(id);
 	$('#cargar_usuario_username').val(id);
+	$('#cargar_usuario').submit();
+});
+
+$( "#eliminar_usuario" ).on( "click", function() {	
+	enlace = $('#cargar_usuario').attr('action');
+	$('#cargar_usuario').attr('action',enlace+'/eliminar');	
+	$('#cargar_usuario').submit();
+});
+
+$( "#reiniciar_contrasena" ).on( "click", function() {	
+	enlace = $('#cargar_usuario').attr('action');
+	$('#cargar_usuario').attr('action',enlace+'/reiniciarcontrasena');	
 	$('#cargar_usuario').submit();
 });

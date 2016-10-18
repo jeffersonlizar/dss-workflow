@@ -60,14 +60,25 @@ function ubicacion(){
 	            	<div class="search-results"></div>
 	          	</div>
 	        </li>
-	        <li  id="tabprincipal" class="<?php if (ubicacion()=="home") echo 'active ' ?>menutab"><a href="<?php echo base_url() ?>"><i class="material-icons md-40 md-dark">home</i><span class="menu-title">Inicio</span></a></li>
+	        <li class="<?php if (ubicacion()=="home") echo 'active ' ?>menutab"><a href="<?php echo base_url() ?>"><i class="material-icons md-40 md-dark">home</i><span class="menu-title">Inicio</span></a></li>
 
-
-	        <li id ="tabindicadores" class="<?php if (strpos(ubicacion(),"indicadores")!=false) echo 'active ' ?>menutab"><a href="<?php echo base_url().'indicadores' ?>"><i class="material-icons md-40 md-dark">insert_chart</i><span class="menu-title">Indicadores</span></a></li>
-			<li id ="tabreportes" class="<?php if (strpos(ubicacion(),"alarmas")!=false) echo 'active ' ?>menutab"><a href="<?php echo base_url().'alarmas' ?>"><i class="material-icons md-40 md-dark">network_check</i><span class="menu-title">Alarmas</span></a></li>
-			<li id ="tabusuarios" class="<?php if (strpos(ubicacion(),"usuarios")!=false) echo 'active ' ?>menutab"><a href="<?php echo base_url().'usuarios' ?>"><i class="material-icons md-40 md-dark">account_box</i><span class="menu-title">Usuarios</span></a></li>				
-			<li id ="tabajustes" class="<?php if (strpos(ubicacion(),"ajustes")!=false) echo 'active ' ?>menutab"><a href="<?php echo base_url().'ajustes' ?>"><i class="material-icons md-40 md-dark">settings</i><span class="menu-title">Ajustes</span></a></li>
-			<li id ="tabayuda" class="<?php if (strpos(ubicacion(),"ayuda")!=false) echo 'active ' ?>menutab"><a href="<?php echo base_url().'ayuda' ?>"><i class="material-icons md-40 md-dark">help_outline</i><span class="menu-title">Ayuda</span></a></li>
+	        <?php if(isset($session)):
+	        	if ($session['tipo']=='1'): ?>
+	        <li class="<?php if (strpos(ubicacion(),"indicadores")!=false) echo 'active ' ?>menutab"><a href="<?php echo base_url().'indicadores' ?>"><i class="material-icons md-40 md-dark">insert_chart</i><span class="menu-title">Indicadores</span></a></li>
+	        <?php endif; endif; ?>
+	        <?php if(isset($session)):
+	        	if ($session['tipo']=='1'): ?>
+			<li class="<?php if (strpos(ubicacion(),"alarmas")!=false) echo 'active ' ?>menutab"><a href="<?php echo base_url().'alarmas' ?>"><i class="material-icons md-40 md-dark">network_check</i><span class="menu-title">Alarmas</span></a></li>
+				<?php endif; endif; ?>
+			<?php if(isset($session)):
+	        	if ($session['tipo']=='1'): ?>
+			<li class="<?php if (strpos(ubicacion(),"usuarios")!=false) echo 'active ' ?>menutab"><a href="<?php echo base_url().'usuarios' ?>"><i class="material-icons md-40 md-dark">account_box</i><span class="menu-title">Usuarios</span></a></li>				
+				<?php endif; endif; ?>
+			<?php if(isset($session)):
+	        	if ($session['tipo']=='1'): ?>
+			<li class="<?php if (strpos(ubicacion(),"ajustes")!=false) echo 'active ' ?>menutab"><a href="<?php echo base_url().'ajustes' ?>"><i class="material-icons md-40 md-dark">settings</i><span class="menu-title">Ajustes</span></a></li>
+				<?php endif; endif; ?>
+			<li class="<?php if (strpos(ubicacion(),"ayuda")!=false) echo 'active ' ?>menutab"><a href="<?php echo base_url().'ayuda' ?>"><i class="material-icons md-40 md-dark">help_outline</i><span class="menu-title">Ayuda</span></a></li>
             <!--
 			<li id="hidemenu"><i class="material-icons md-48 md-dark">keyboard_arrow_left</i></li>
 			<li id="showmenu"><i class="material-icons md-48 md-dark">keyboard_arrow_right</i></li>

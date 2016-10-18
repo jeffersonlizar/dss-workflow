@@ -619,7 +619,11 @@ class Home extends CI_Controller {
 			'ultimas_transiciones'=>$ultimas_transiciones
 		);
 
-		$this->load->view('header','', FALSE);	
+		$header = array(
+			'session'=>$session_data
+		);
+
+		$this->load->view('header',$header, FALSE);	
 		$this->load->view('home',$home, FALSE);	
 		$this->load->view('footerbegin','', FALSE);	
 		$this->load->view('actividad',$actividad, FALSE);	

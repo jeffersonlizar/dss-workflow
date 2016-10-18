@@ -23,28 +23,29 @@
 <body class="login">
 <div id="log" class="valign-wrapper">
     <div class="valign">
-        <form method="POST" action="<?php echo base_url().'usuarios/iniciar' ?>" class="col s12 white">
+        <form id="formulario" method="POST" action="<?php echo base_url().'usuarios/iniciar' ?>" class="col s12 white">
             <h3>Iniciar Sesión</h3>
             <div class="row">
                 <div class="input-field col s12">
-                    <input name="user" type="text" class="validate">
+                    <input id="user" name="user" type="text" class="validate" value="<?php echo $usuario_login ?>" <?php if(isset($usuario_login)) echo 'readonly'; ?> >
                     <label>Email</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input name="pass" type="password" class="validate">
+                    <input id="pass" name="pass" type="password" class="validate">
+                    <input id="primera_vez" name="primera_vez" type="hidden" class="validate" value="<?php echo $primera_vez ?>">
                     <label>Contraseña</label>
                 </div>
             </div>
             <div class="row">
                 <div class="col s12">
-                    <span class="error"><?php echo $error_login ?></span>
+                    <span id="error" class="error"><?php echo $error_login ?></span>
                 </div>
             </div>
             <div class="row">
                 <div class="col s12">
-                    <input type="submit" class="btn itami" value="Ingresar">
+                    <input id='form_submit' type="submit" class="btn itami" value="Ingresar">
                 </div>
             </div>            
         </form>
@@ -54,5 +55,19 @@
 <script type="text/javascript" src="<?php echo base_url() ?>public/js/jquery-2.1.1.min.js"></script>
 <!-- materialize -->
 <script type="text/javascript" src="<?php echo base_url() ?>public/js/materialize.min.js" ></script>
+<script type="text/javascript">
+    $('#form_submit').click(function(e){
+        e.preventDefault();
+        user = $('#user').val();
+        pass = $('#pass').val();
+        primera_vez = $('#primera_vez').val();
+        if ((primera_vez=='1')&&(pass=='')){
+            $('#error').text('Debe ingresar una contraseña válida');
+        }else{
+            $('#formulario').submit();
+        }
+
+    })
+</script>
 </body>
 </html>

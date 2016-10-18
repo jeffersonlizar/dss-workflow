@@ -1,10 +1,14 @@
 <?php 
-for ($i=0;$i<5;$i++):
+$i = 0;
+foreach ($data as $value):
+    var_dump($value);
+    foreach ($value['alarmas'] as $val):
+        var_dump($val);
 ?>
 <script type="text/javascript">
         $(function () {
 
-    $('#alarma<?php echo $i?>').highcharts({
+    $('#alarma<?php echo $i++?>').highcharts({
 
         chart: {
             type: 'gauge',
@@ -15,7 +19,10 @@ for ($i=0;$i<5;$i++):
         },
 
         title: {
-            text: 'Nivel de Satisfacción'
+            text: '<?php echo $value['nombre'] ?>'
+        },
+        subtitle: {
+            text: '<?php echo 'Instancia: '.$val['titulo'] ?>'
         },
 
         pane: {
@@ -54,7 +61,7 @@ for ($i=0;$i<5;$i++):
         // the value axis
         yAxis: {
             min: 0,
-            max: 5,
+            max: <?php echo (intval(($value['tiempo_max']/60)/24))?>,
 
             minorTickInterval: 'auto',
             minorTickWidth: 1,
@@ -91,7 +98,7 @@ for ($i=0;$i<5;$i++):
 
         series: [{
             name: 'Promedio',
-            data: [3.5],
+            data: [<?php echo intval(($val['time']/60)/24) ?>],
             tooltip: {
                 valueSuffix: ' Pts'
             }
@@ -107,4 +114,5 @@ for ($i=0;$i<5;$i++):
 });
             
         </script>
-<?php endfor; ?>
+<?php endforeach; endforeach; 
+?>

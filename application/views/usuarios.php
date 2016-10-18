@@ -8,12 +8,17 @@
 			        <div class="col s12 m10 offset-m1">
 			            <div class="col s12 l4">
 			                <div class="card white">
-			                    <form method="POST" action="<?php echo base_url().'usuarios/signin' ?>">
+			                <?php 
+			                if (isset($usuario)): ?>
+			                	<form method="POST" action="<?php echo base_url().'usuarios/modificar' ?>">
+			            	<?php else: ?>
+			            		<form method="POST" action="<?php echo base_url().'usuarios/signin' ?>">
+			            	<?php endif; ?>
 			                        <div class="card-content">
 			                            <span class="card-title">Crear / Modificar Usuarios</span>
 			                            <div class="row">
 			                                <div class="input-field col s12">
-			                                    <input name="username" type="text" class="validate" value="<?php if (isset($usuario)) echo $usuario['username'] ?>">
+			                                    <input name="username" type="text" class="validate" value="<?php if (isset($usuario)) echo $usuario['username'] ?>" <?php if (isset($usuario)) echo 'readonly'; ?>>
 			                                    <label>Nombre de Usuario</label>
 			                                </div>
 			                            </div>
@@ -39,7 +44,7 @@
 			                                <label>Tipo</label>
 			                                <div class="col s12 input-field inline">
 			                                    <p>
-			                                        <input name="tipo" type="radio" value="0" <?php if (isset($usuario) and ($usuario['tipo']==0)) echo "checked='checked'"; ?> id="bann" />
+			                                        <input name="tipo" type="radio" value="0" <?php if (isset($usuario) and ($usuario['tipo']==0)) echo "checked='checked'"; if (!isset($usuario)) echo "checked='checked'"; ?> id="bann" />
 			                                        <label for="bann">Invitado</label>
 			                                    </p>
 			                                    <p>
@@ -54,7 +59,10 @@
 			                        </div>		                     
 			                        <div class="card-action center-align">
 			                            <input type="submit" class="btn itami" value="Crear/Modificar">
-			                            <button class="btn akai">Eliminar</button>
+			                            <?php if (isset($usuario)): ?>
+			                            <a href="#" id="reiniciar_contrasena" class="btn akai">Reiniciar Contraseña</a>
+			                        	<?php endif; ?>
+			                            <a href="#" id="eliminar_usuario" class="btn akai">Eliminar</a>
 			                        </div>
 			                    </form>
 			                </div>
@@ -71,6 +79,7 @@
 			                            </thead>
 			                            <tbody>
 			                            <?php 
+			                            if (($usuarios)):
 			                            foreach ($usuarios as $user):
 			                            ?>
 			                            <tr class="usuario" id=<?php echo $user['username'] ?>>
@@ -78,7 +87,7 @@
 			                                <td><?php if ($user['tipo']=='0') echo 'Invitado'; else echo 'Administrador'; ?></td>
 			                            </tr>
 			                            
-			                        <?php endforeach; ?>
+			                        <?php endforeach; endif;?>
 			                            </tbody>
 			                        </table>
 			                    </div>
@@ -90,7 +99,7 @@
 									
 			</div>	
 			<form id="cargar_usuario" method="POST" action="<?php echo base_url().'usuarios' ?>">
-				<input id="cargar_usuario_username" type="hidden" name="username">
+				<input id="cargar_usuario_username" type="hidden" name="username" value="<?php if (isset($usuario)) echo $usuario['username'] ?>" >
 			</form>
 			
 		</main>
