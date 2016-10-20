@@ -33,6 +33,19 @@ class Database extends CI_Model {
         }
 	}
 
+	public function cargar_alarmas_transicion(){
+		$this->db->db_select('dss');
+		$query = $this->db->query("SELECT * FROM alarmas_transicion");
+		if($query -> num_rows() > 0)
+        {
+            return $query->result_array();
+        }
+        else
+        {
+            return false;
+        }
+	}
+
 	public function login($usuario,$pass){
 		$this->db->db_select('workflow');
 		$query = $this->db->query("SELECT * FROM usuario WHERE id_usuario = '$usuario' AND contrasena = '$pass' AND id_tipo = 0");
@@ -1056,10 +1069,11 @@ class Database extends CI_Model {
 	}
 
 	//calcula duracion de workflow por filtro
-	public function alarmaMaxWorkflow($workflow,$instancia,$tipo_usuario,$usuario){
+	public function alarmaMaxWorkflow($workflow,$instancia,$tipo_usuario,$usuario,$tiempo_max){
 		$this->db->db_select('workflow');
+		$tiempo_max = $tiempo_max*0.6;
 		$data= array();
-		$query = "SELECT TIMESTAMPDIFF(MINUTE, fecha_inicio, NOW()) as time, instancia.id_instancia as instancia, instancia.id_usuario as usuario,instancia.titulo as titulo,usuario.id_tipo as tipo_usuario FROM instancia INNER JOIN usuario ON instancia.id_usuario = usuario.id_usuario WHERE fecha_final IS NULL";
+		$query = "SELECT instancia.id_instancia, TIMESTAMPDIFF(MINUTE, fecha_inicio, NOW()) as time, instancia.id_instancia as instancia, instancia.id_usuario as usuario,instancia.titulo as titulo,usuario.id_tipo as tipo_usuario FROM instancia INNER JOIN usuario ON instancia.id_usuario = usuario.id_usuario WHERE fecha_final IS NULL AND TIMESTAMPDIFF(MINUTE, fecha_inicio, NOW()) > $tiempo_max";
 		if ($usuario!= "all"){			
 			$query = $query." AND instancia.id_usuario = '".$usuario."'";
 		}
@@ -1072,13 +1086,91 @@ class Database extends CI_Model {
 		if ($instancia!= "all"){
 			$query = $query." AND id_instancia = ".$instancia."";
 		}
-		var_dump($query);	
 		$sql = $this->db->query($query);
 		if($sql -> num_rows() > 0)
         {	
             $data = $sql->result_array();
         }       	
        	return $data;       	
+	}
+
+	//calcula duracion de workflow por filtro
+	public function alarmaMinWorkflow($workflow,$instancia,$tipo_usuario,$usuario,$tiempo_min){
+		$this->db->db_select('workflow');
+		$data= array();
+		$query = "SELECT instancia.id_instancia, TIMESTAMPDIFF(MINUTE, fecha_inicio, fecha_final) as time, instancia.id_instancia as instancia, instancia.id_usuario as usuario,instancia.titulo as titulo,usuario.id_tipo as tipo_usuario FROM instancia INNER JOIN usuario ON instancia.id_usuario = usuario.id_usuario WHERE fecha_final IS NOT NULL AND TIMESTAMPDIFF(MINUTE, fecha_inicio, fecha_final)<$tiempo_min";
+		if ($usuario!= "all"){			
+			$query = $query." AND instancia.id_usuario = '".$usuario."'";
+		}
+		if ($workflow!= "all"){
+			$query = $query." AND id_workflow = ".$workflow."";
+		}
+		if ($tipo_usuario!= "all"){
+			$query = $query." AND usuario.id_tipo = ".$tipo_usuario."";
+		}
+		if ($instancia!= "all"){
+			$query = $query." AND id_instancia = ".$instancia."";
+		}
+		$sql = $this->db->query($query);
+		if($sql -> num_rows() > 0)
+        {	
+            $data = $sql->result_array();
+        }       	
+       	return $data;       	
+	}
+
+	//calcula duracion de workflow por filtro
+	public function alarmaMaxTransicion($workflow,$instancia,$tipo_usuario,$usuario,$tiempo_max){
+		$this->db->db_select('workflow');
+		$tiempo_max = $tiempo_max*0.6;
+		$trans = array();
+		$i = 0;
+		$query = "SELECT instancia.id_instancia,instancia.titulo FROM instancia where instancia.fecha_final is NULL";
+		if ($workflow!= "all"){
+			$query = $query." AND id_workflow = ".$workflow."";
+		}
+		if ($instancia!= "all"){
+			$query = $query." AND id_instancia = ".$instancia."";
+		}
+		$sql = $this->db->query($query);
+		if($sql -> num_rows() > 0)
+        {	
+            $data = $sql->result_array();
+            foreach ($data as $data) {
+            	$value = $data['id_instancia'];
+            	$query = "SELECT workflow.nombre, instancia.id_instancia, instancia.titulo,proceso.id_proceso,TIMESTAMPDIFF(MINUTE, proceso.fecha, NOW()) as time, estado.nombre as estado, proceso.descripcion, transicion.nombre as transicion,proceso.id_usuario,usuario.id_tipo, estado.final
+					FROM proceso
+					INNER JOIN transicion
+					ON proceso.id_transicion = transicion.id_transicion
+					INNER JOIN instancia
+					ON proceso.id_instancia = instancia.id_instancia
+					INNER JOIN workflow
+					ON instancia.id_workflow = workflow.id_workflow
+					INNER JOIN estado
+					ON transicion.estado_siguiente = estado.id_estado 
+					INNER JOIN usuario
+					ON proceso.id_usuario = usuario.id_usuario
+					WHERE proceso.id_instancia = $value AND TIMESTAMPDIFF(MINUTE, proceso.fecha, NOW()) > $tiempo_max";
+				if ($usuario!= "all"){			
+					$query = $query." AND proceso.id_usuario = '".$usuario."'";
+				}
+				if ($tipo_usuario!= "all"){
+					$query = $query." AND usuario.id_tipo = ".$tipo_usuario."";
+				}
+				$query = $query." ORDER BY id_proceso DESC LIMIT 1";	
+            	$sql = $this->db->query($query);
+				if($sql -> num_rows() > 0)
+		        {	
+		            $result = $sql->result_array();
+		            foreach ($result as $element) {
+		            	if ($element['final']!="1"){
+		            		$trans[$i++] = $element;
+		            	}
+		            }
+		        }  
+            }
+        }       	
+       	return $trans;       	
 	}
 
 

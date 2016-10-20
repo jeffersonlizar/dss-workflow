@@ -9,7 +9,19 @@
 				    foreach ($data as $value):
 				    	foreach ($value['alarmas'] as $val):
 					?>
-				    <div class="col s12 m6 l4" id="alarma<?php echo $i++ ?>">
+				    <div class="col s12 m6 l4" id="alarmaworkflow<?php echo $i++ ?>">
+                        
+                    </div>
+                    <?php 
+                    endforeach;
+                    endforeach;
+                    ?>
+                    <?php 
+				    $i = 0;
+				    foreach ($data_trans as $value):
+				    	foreach ($value['alarmas'] as $val):
+					?>
+				    <div class="col s12 m6 l4" id="alarmatransicion<?php echo $i++ ?>">
                         
                     </div>
                     <?php 

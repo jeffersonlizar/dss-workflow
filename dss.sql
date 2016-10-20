@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 03, 2016 at 06:20 AM
+-- Generation Time: Oct 20, 2016 at 06:38 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.23
 
@@ -19,6 +19,57 @@ SET time_zone = "+00:00";
 --
 -- Database: `dss`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `alarmas_transicion`
+--
+
+CREATE TABLE `alarmas_transicion` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nombre` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `descripcion` varchar(300) COLLATE utf8_unicode_ci NOT NULL,
+  `workflow` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `instancia` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `tipo_usuario` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `usuario` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `tiempo_max` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `tiempo_min` varchar(100) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `alarmas_transicion`
+--
+
+INSERT INTO `alarmas_transicion` (`id`, `nombre`, `descripcion`, `workflow`, `instancia`, `tipo_usuario`, `usuario`, `tiempo_max`, `tiempo_min`) VALUES
+(1, 'alarma 1 tran', 'alarma', 'all', 'all', 'all', 'all', '6000', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `alarmas_workflow`
+--
+
+CREATE TABLE `alarmas_workflow` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nombre` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `descripcion` varchar(300) COLLATE utf8_unicode_ci NOT NULL,
+  `workflow` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `instancia` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `tipo_usuario` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `usuario` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `tiempo_max` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `tiempo_min` varchar(100) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `alarmas_workflow`
+--
+
+INSERT INTO `alarmas_workflow` (`id`, `nombre`, `descripcion`, `workflow`, `instancia`, `tipo_usuario`, `usuario`, `tiempo_max`, `tiempo_min`) VALUES
+(1, 'alarma1', 'alarma de prueba en el sistema', 'all', 'all', 'all', 'all', '87400', ''),
+(2, 'alarma2', 'descripcion alarma 2', 'all', 'all', 'all', 'recepcion', '20000', '');
 
 -- --------------------------------------------------------
 
@@ -68,13 +119,25 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`username`, `nombre`, `apellido`, `contrasena`, `email`, `tipo`) VALUES
-('456', '123', '123', '', 'dvjefferson@gmail.com', 0),
-('asdf', 'asdf', 'asdf', '1234', 'jeffersonlr@outlook.com', 0),
-('jeff', 'jefferson', 'Lizarzabal', '1234', 'dvjefferson@gmail.com', 1);
+('Nicole', 'Nicole Andrea Quijada Bracho', 'Quijada Bracho', '81dc9bdb52d04dc20036dbd8313ed055', 'quijadabnicolea@gmail.com', 0);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `alarmas_transicion`
+--
+ALTER TABLE `alarmas_transicion`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
+
+--
+-- Indexes for table `alarmas_workflow`
+--
+ALTER TABLE `alarmas_workflow`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
 
 --
 -- Indexes for table `preferencias`
@@ -92,6 +155,16 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `alarmas_transicion`
+--
+ALTER TABLE `alarmas_transicion`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `alarmas_workflow`
+--
+ALTER TABLE `alarmas_workflow`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `preferencias`
 --

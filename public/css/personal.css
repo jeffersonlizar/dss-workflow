@@ -23,6 +23,10 @@
     overflow-x: hidden;
 }
 
+.classalert{
+	color:red;
+}
+
 .usuario{
 	cursor:pointer;
 }
