@@ -19,7 +19,6 @@ class Database extends CI_Model {
             return false;
         }
 	}
-
 	public function cargar_alarmas_workflow(){
 		$this->db->db_select('dss');
 		$query = $this->db->query("SELECT * FROM alarmas_workflow");
@@ -33,6 +32,7 @@ class Database extends CI_Model {
         }
 	}
 
+	
 	public function cargar_alarmas_transicion(){
 		$this->db->db_select('dss');
 		$query = $this->db->query("SELECT * FROM alarmas_transicion");
@@ -1177,7 +1177,65 @@ class Database extends CI_Model {
        	return $trans;       	
 	}
 
+	//devuelve workflows
+	public function getWorkflow(){
+		$this->db->db_select('workflow');
+		$data= array();
+		$query = "SELECT id_workflow,nombre FROM workflow";
+		$sql = $this->db->query($query);
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data = $sql->result_array();
 
+        }		
+		return $data;
+	}
+
+	//devuelve workflows
+	public function getInstancia($workflow){
+		$this->db->db_select('workflow');
+		$data= array();
+		$query = "SELECT id_instancia,titulo FROM instancia ";
+		if ($workflow!='all')
+			$query = $query.'WHERE id_workflow = '.$workflow.'';
+		$sql = $this->db->query($query);
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data = $sql->result_array();
+
+        }		
+		return $data;
+	}
+
+	//devuelve workflows
+	public function getTipoUsuario(){
+		$this->db->db_select('workflow');
+		$data= array();
+		$query = "SELECT id_tipo,descripcion FROM tipo_usuario";
+		$sql = $this->db->query($query);
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data = $sql->result_array();
+
+        }		
+		return $data;
+	}
+
+	//devuelve workflows
+	public function getUsuario($tipo){
+		$this->db->db_select('workflow');
+		$data= array();
+		$query = "SELECT id_usuario FROM usuario";
+		if ($tipo!='all')
+			$query = $query.'WHERE id_tipo = '.$tipo.'';
+		$sql = $this->db->query($query);
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data = $sql->result_array();
+
+        }		
+		return $data;
+	}
 
 
 	

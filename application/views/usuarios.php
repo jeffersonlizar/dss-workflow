@@ -57,7 +57,6 @@
 			                        <div>
 			                        	<span><?php echo $signin ?></span>
 			                        </div>		
-			                        <?php //var_dump($session) ?>
 			                        <?php if ( ($usuario['tipo']!='1')||($session['superadmin']==true)): ?>                     
 			                        <div class="card-action center-align">
 			                            <input type="submit" class="btn itami" value="<?php if (isset($usuario)) echo 'Modificar'; else echo 'Crear' ?>">

@@ -12,13 +12,11 @@ class Usuarios extends CI_Controller {
 		$search = null;
 		$username = $this->input->post('username');		
 		if (isset($username)){
-			$search = $data=$this->Database->search_user($username);			
+			$search = $this->Database->search_user($username);			
 			$search = $search[0];
 		}
 		$signin = $this->session->flashdata('signin');
 		$usuarios = $data=$this->Database->usuariosList();
-		var_dump($usuarios);
-		var_dump($session_data);
 		$data = array(
 			'signin'	=>$signin,
 			'usuarios'	=>$usuarios,
