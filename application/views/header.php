@@ -47,6 +47,8 @@ function ubicacion(){
 	          <div class="nav-wrapper">
 	          	<a href="index.php" class="page-title">Sistema de Soporte a Decisiones</a>
 		       	<a href="<?php echo base_url().'usuarios/logout' ?>" class="page-title">Salir del Sistema</a>
+		       	<span>Usuario: <?php echo $session['user'] ?></span>
+		       	<span>Fecha: <span id ="fecha"></span></span>
 	          </div>
 	      </nav>
 	      

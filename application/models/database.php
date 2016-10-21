@@ -48,10 +48,13 @@ class Database extends CI_Model {
 
 	public function login($usuario,$pass){
 		$this->db->db_select('workflow');
+		$data['superadmin'] = false;
 		$query = $this->db->query("SELECT * FROM usuario WHERE id_usuario = '$usuario' AND contrasena = '$pass' AND id_tipo = 0");
 		if($query -> num_rows() > 0)
         {
-        	$data['tipo']=1;
+        	$data['usuario'] = $query->result_array()[0]['id_usuario'];
+        	$data['tipo'] = 1;
+        	$data['superadmin'] = true;
         	return $data;
         }
         else
@@ -61,6 +64,7 @@ class Database extends CI_Model {
             $query = $this->db->query("SELECT * FROM usuarios WHERE username = '$usuario' AND contrasena = '$pass'");
 			if($query -> num_rows() > 0)
 	        {
+	        	$data['usuario'] = $query->result_array()[0]['username'];
 	        	$data['tipo']=$query->result_array()[0]['tipo'];
 	        	return $data;
 	        }

@@ -17,10 +17,13 @@ class Usuarios extends CI_Controller {
 		}
 		$signin = $this->session->flashdata('signin');
 		$usuarios = $data=$this->Database->usuariosList();
+		var_dump($usuarios);
+		var_dump($session_data);
 		$data = array(
 			'signin'	=>$signin,
 			'usuarios'	=>$usuarios,
-			'usuario'	=>$search
+			'usuario'	=>$search,
+			'session'=>$session_data
 			);	
 		$header = array(
 			'session'=>$session_data
@@ -59,8 +62,9 @@ class Usuarios extends CI_Controller {
 			$log = $this->Database->primerLogin($user,$pass);
 			$search = $data=$this->Database->search_user($user);
 			$data_user = array(
-	    		'user' => $user,
-	    		'tipo' => $search[0]['tipo']
+	    		'user' => $log['usuario'],
+	    		'tipo' => $search[0]['tipo'],
+	    		'superadmin' => false
 	        	);
 	        $this->session->set_userdata('logged_in',$data_user);
 	        redirect('home');
@@ -75,8 +79,9 @@ class Usuarios extends CI_Controller {
 					redirect('Usuarios/login');	
 				}
 				$data_user = array(
-	    		'user' => $user,
-	    		'tipo' => $log['tipo']
+	    		'user' => $log['usuario'],
+	    		'tipo' => $log['tipo'],
+	    		'superadmin' => $log['superadmin']
 	        	);
 	        	$this->session->set_userdata('logged_in',$data_user);
 	        	redirect('home');

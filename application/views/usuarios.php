@@ -15,7 +15,7 @@
 			            		<form method="POST" action="<?php echo base_url().'usuarios/signin' ?>">
 			            	<?php endif; ?>
 			                        <div class="card-content">
-			                            <span class="card-title">Crear / Modificar Usuarios</span>
+			                            <span class="card-title"><?php if (isset($usuario)) echo 'Modificar'; else echo 'Crear' ?> Usuario</span>
 			                            <div class="row">
 			                                <div class="input-field col s12">
 			                                    <input name="username" type="text" class="validate" value="<?php if (isset($usuario)) echo $usuario['username'] ?>" <?php if (isset($usuario)) echo 'readonly'; ?>>
@@ -24,19 +24,19 @@
 			                            </div>
 			                            <div class="row">
 			                                <div class="input-field col s12">
-			                                    <input name="name" type="text" class="validate" value="<?php if (isset($usuario)) echo $usuario['nombre'] ?>">
+			                                    <input name="name" type="text" class="validate" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'readonly'?> value="<?php if (isset($usuario)) echo $usuario['nombre'] ?>">
 			                                    <label>Nombre</label>
 			                                </div>
 			                            </div>
 			                            <div class="row">
 			                                <div class="input-field col s12">
-			                                    <input name="lastname" type="text" class="validate" value="<?php if (isset($usuario)) echo $usuario['apellido'] ?>">
+			                                    <input name="lastname" type="text" class="validate" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'readonly'?> value="<?php if (isset($usuario)) echo $usuario['apellido'] ?>">
 			                                    <label>Apellidos</label>
 			                                </div>
 			                            </div>	
 			                            <div class="row">
 			                                <div class="input-field col s12">
-			                                    <input name="email" type="email" class="validate" value="<?php if (isset($usuario)) echo $usuario['email'] ?>">
+			                                    <input name="email" type="email" class="validate" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'readonly'?> value="<?php if (isset($usuario)) echo $usuario['email'] ?>">
 			                                    <label>Email</label>
 			                                </div>
 			                            </div>	
@@ -44,11 +44,11 @@
 			                                <label>Tipo</label>
 			                                <div class="col s12 input-field inline">
 			                                    <p>
-			                                        <input name="tipo" type="radio" value="0" <?php if (isset($usuario) and ($usuario['tipo']==0)) echo "checked='checked'"; if (!isset($usuario)) echo "checked='checked'"; ?> id="bann" />
+			                                        <input name="tipo" type="radio" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'disabled'?> value="0" <?php if (isset($usuario) and ($usuario['tipo']==0)) echo "checked='checked'"; if (!isset($usuario)) echo "checked='checked'"; ?> id="bann" />
 			                                        <label for="bann">Invitado</label>
 			                                    </p>
 			                                    <p>
-			                                        <input name="tipo" type="radio" value="1" <?php if (isset($usuario) and ($usuario['tipo']==1)) echo "checked='checked'"; ?> id="act"/>
+			                                        <input name="tipo" type="radio" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'disabled'?> value="1" <?php if (isset($usuario) and ($usuario['tipo']==1)) echo "checked='checked'"; ?> id="act"/>
 			                                        <label for="act">Administrador</label>
 			                                    </p>
 			                                </div>			                                
@@ -56,14 +56,17 @@
 			                        </div>	
 			                        <div>
 			                        	<span><?php echo $signin ?></span>
-			                        </div>		                     
+			                        </div>		
+			                        <?php //var_dump($session) ?>
+			                        <?php if ( ($usuario['tipo']!='1')||($session['superadmin']==true)): ?>                     
 			                        <div class="card-action center-align">
-			                            <input type="submit" class="btn itami" value="Crear/Modificar">
+			                            <input type="submit" class="btn itami" value="<?php if (isset($usuario)) echo 'Modificar'; else echo 'Crear' ?>">
 			                            <?php if (isset($usuario)): ?>
 			                            <a href="#" id="reiniciar_contrasena" class="btn akai">Reiniciar Contraseña</a>
 			                        	<?php endif; ?>
 			                            <a href="#" id="eliminar_usuario" class="btn akai">Eliminar</a>
 			                        </div>
+			                        <?php endif; ?>
 			                    </form>
 			                </div>
 			            </div>
@@ -81,13 +84,15 @@
 			                            <?php 
 			                            if (($usuarios)):
 			                            foreach ($usuarios as $user):
+			                            	
+			                            	if ($user['username']!=$session['user']):
 			                            ?>
 			                            <tr class="usuario" id=<?php echo $user['username'] ?>>
 			                                <td><?php echo $user['username'] ?></td>
 			                                <td><?php if ($user['tipo']=='0') echo 'Invitado'; else echo 'Administrador'; ?></td>
 			                            </tr>
 			                            
-			                        <?php endforeach; endif;?>
+			                        <?php endif; endforeach; endif;?>
 			                            </tbody>
 			                        </table>
 			                    </div>
