@@ -7,23 +7,10 @@ $(document).ready(function(){
     $('.collapsible').collapsible({
       accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
     });
-	
+	$('.datepicker').pickadate({
+	    selectMonths: true, // Creates a dropdown to control month
+	    selectYears: 15 // Creates a dropdown of 15 years to control year
+	});
+
+	$('select').material_select();
 })
-
-$( ".usuario" ).on( "click", function() {
-	id = $(this).attr('id');
-	$('#cargar_usuario_username').val(id);
-	$('#cargar_usuario').submit();
-});
-
-$( "#eliminar_usuario" ).on( "click", function() {	
-	enlace = $('#cargar_usuario').attr('action');
-	$('#cargar_usuario').attr('action',enlace+'/eliminar');	
-	$('#cargar_usuario').submit();
-});
-
-$( "#reiniciar_contrasena" ).on( "click", function() {	
-	enlace = $('#cargar_usuario').attr('action');
-	$('#cargar_usuario').attr('action',enlace+'/reiniciarcontrasena');	
-	$('#cargar_usuario').submit();
-});

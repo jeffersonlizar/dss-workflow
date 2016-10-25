@@ -2,35 +2,21 @@
 		<!-- main -->
 		<main>			
 			
-			<div class="centrado">
 			<div class="row">
+				    <p>alarmas</p>
+
 				    <?php 
-				    $i = 0;
-				    foreach ($data as $value):
-				    	foreach ($value['alarmas'] as $val):
+					for ($i=0;$i<5;$i++):
 					?>
-				    <div class="col s12 m6 l4" id="alarmaworkflow<?php echo $i++ ?>">
+				    <div class="col s12 m6 l4" id="alarma<?php echo $i?>">
                         
                     </div>
                     <?php 
-                    endforeach;
-                    endforeach;
-                    ?>
-                    <?php 
-				    $i = 0;
-				    foreach ($data_trans as $value):
-				    	foreach ($value['alarmas'] as $val):
-					?>
-				    <div class="col s12 m6 l4" id="alarmatransicion<?php echo $i++ ?>">
-                        
-                    </div>
-                    <?php 
-                    endforeach;
-                    endforeach;
+                    endfor;
                     ?>
 					
 
-				</div>					
+									
 			</div>	
 			
 		</main>

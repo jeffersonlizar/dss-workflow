@@ -5,32 +5,26 @@
 	            type: 'column'
 	        },
 	        title: {
-	            text: '<?php echo $titulo ?>'
+	            text: 'Efficiency Optimization by Branch'
 	        },
 	        subtitle: {
-	            text: '<?php echo $subtitulo ?>'
+	            text: 'Efficiency Optimization by Branch'
 	        },
-	         xAxis: {
-            categories: [
-            <?php 
-            $cant = count($nombre_usuario);
-            for ($i=0; $i < $cant ; $i++):	            	
-            	echo "'".$nombre_usuario[$i]."'";
-            if ($i!=$cant-1){
-            	echo ',';
-            }
-            endfor;
-            ?>	
-            ]
-        	},
+	        xAxis: {
+	            categories: [
+	                'Seattle HQ',
+	                'San Francisco',
+	                'Tokyo'
+	            ]
+	        },
 	        yAxis: [{
 	            min: 0,
 	            title: {
-	                text: 'Tiempo (segundos)'
+	                text: 'Employees'
 	            }
 	        }, {
 	            title: {
-	                text: ''
+	                text: 'Profit (millions)'
 	            },
 	            opposite: true
 	        }],
@@ -48,45 +42,19 @@
 	            }
 	        },
 	        series: [{
-	            name: 'Usuario',
-	            color: 'rgba(126,86,134,.9)',
-	            data: [
-	            <?php 
-	            $cant = count($datos_busqueda);
-	            for ($i=0; $i < $cant ; $i++):	            	
-	            	echo "
-	            {
-	            	name:'".$nombre_usuario[$i]." Duración: ".$tiempo_busqueda[$i]."',
-	            	y:".$datos_busqueda[$i]."
-	            }	           
-	            ";
-	            if ($i!=$cant-1){
-	            	echo ',';
-	            }
-	            endfor;
-	            ?>	        		        	
-	            ],
+	            name: 'Employees',
+	            color: 'rgba(165,170,217,1)',
+	            data: [{
+	            	name: 'Duración:12345678 \nPromedio:12345678',
+                	//color: '#00FF00',
+	            	y:150
+	            }, 73, 20],
 	            pointPadding: 0.3,
 	            pointPlacement: -0.2
 	        }, {
-	            name: 'Promedio',
-	            
-	            color: 'rgba(165,170,217,1)',
-	            data: [
-	            <?php 	           
-	            for ($i=0; $i < $cant ; $i++):	            	
-	            	echo "
-	            {	            	
-	            	name:'Duración: ".$tiempo_promedio."',
-	            	y:".$datos_promedio."
-	            }	           
-	            ";
-	            if ($i!=$cant-1){
-	            	echo ',';
-	            }
-	            endfor;
-	            ?>
-	            ],
+	            name: 'Employees Optimized',
+	            color: 'rgba(126,86,134,.9)',
+	            data: [140, 90, 40],
 	            pointPadding: 0.4,
 	            pointPlacement: -0.2
 	        }]

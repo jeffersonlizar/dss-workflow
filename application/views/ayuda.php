@@ -2,7 +2,7 @@
 		<!-- main -->
 		<main>			
 			
-			<div class="centrado">
+			<div class="row">
 				    <p>ayuda</p>
 
 					

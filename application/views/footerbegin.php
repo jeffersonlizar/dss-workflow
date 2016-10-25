@@ -5,14 +5,9 @@
 
 		</footer>
 		<!-- /footer -->
-		<a href="#error" id="aerror" class="modal-trigger hide">error</a>
 		
 		<!-- jquery -->
 		<script type="text/javascript" src="<?php  base_url() ?>public/js/jquery-2.1.1.min.js"></script>
-		<script type="text/javascript">
-			var servidor =  '<?php echo base_url() ?>';
-		</script>
-		<script type="text/javascript" src="<?php  base_url() ?>public/js/scripts.js"></script>
 		<!-- materialize -->
 		<script type="text/javascript" src="<?php  base_url() ?>public/js/materialize.min.js" ></script>
 		<!-- site-scripts -->

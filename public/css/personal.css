@@ -1,44 +1,40 @@
 
-/*--------------------------Theme Basis-------------------------*/
-body{
-	//font-family: 'Titillium Web', sans-serif !important;
+h6 {
+	text-transform: uppercase;
+	line-height: 1.5;
+	font-weight: 900;
 }
-h3 {
-  background: #ee6e73;
-  width: 60%;
-  height: 50px;
-  position: relative;
-  text-align: center; }
 
-/*--------------------------Log-------------------------*/
-.login {
-  margin: 0; }
-  .login #log {
-    height: 100vh;
-    width: 100vw;
-    background: url("img/log-back.jpg"); }
-    .login #log .valign {
-      width: 100%; }
-      .login #log .valign form {
-        width: 400px;
-        margin: 0 auto;
-        padding: 20px;
-        text-align: center;
-        -webkit-box-shadow: 3px 3px 0 0 #737373;
-        box-shadow: 3px 3px 0 0 #737373;
-        position: relative; }
-        .login #log .valign form h3 {
-          width: 100%;
-          color: #fff;
-          position: absolute;
-          top: -50px;
-          left: 0; }
+select.initialized {
+	display: none;
+}
+
+form p {
+	margin: 10px 0 !important;
+}
+
+.collapsible-body .row {
+	margin-left: 0;
+	width: 100%;
+}
+
+.side-nav {
+	overflow-x: hidden;
+}
+
+.side-nav .md-20 {
+	margin-right: 20px;
+}
+
+.side-nav .dropdown-content {
+	top: auto !important;
+}
 
 #tiempo_horas{
 	color: #333333;
 	font-size: 40px;	
 }
-/*--------------------------css graficos-------------------------*/
+
 .tema{
 	text-align: center;
 	font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
@@ -58,13 +54,8 @@ h3 {
     overflow-x: hidden;
 }
 
-.classalert, .error{
-	color:red;
-}
-/*--------------------------usuarios-------------------------*/
-.usuario{
-	cursor:pointer;
-}
+
+
 
 #mobile-demo li.search .search-wrapper {    
     transition: margin .25s ease;
@@ -85,11 +76,10 @@ div.search-wrapper input#search{
 	border: none;
 }
 
+
 select{
 	display: block;
 }
-
-/*--------------------------responsive-------------------------*/
 @media (min-width: 10px){
 	.button-collapse i{
 		position: relative;
@@ -101,7 +91,7 @@ select{
 	}
 }
 @media (min-width: 1023px){
-	.centrado{
+	.row{
 		margin-left:206px;
 		width: 79%;
 	}
@@ -112,19 +102,19 @@ select{
 	
 }
 @media (min-width: 1279px){
-	.centrado{
+	.row{
 		margin-left:210px;
 		width: 83%;
 	}
 }
 @media (min-width: 1439px){
-	.centrado{
+	.row{
 		margin-left:208px;
 		width: 85%;
 	}
 }
 @media (min-width: 1899px){
-	.centrado{
+	.row{
 		margin-left:208px;
 		width: 89%;
 	}

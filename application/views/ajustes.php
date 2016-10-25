@@ -3,7 +3,7 @@
 		<main>			
 			
 			<div class="row">
-				    <p>usuarios</p>
+				    <p>ajustes</p>
 
 					
 

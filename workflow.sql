@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 25, 2016 at 06:57 AM
+-- Generation Time: Sep 28, 2016 at 06:16 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.23
 
@@ -98,6 +98,7 @@ CREATE TABLE `instancia` (
 --
 
 INSERT INTO `instancia` (`id_instancia`, `id_workflow`, `id_usuario`, `titulo`, `descripcion`, `satisfactoria`, `fecha_inicio`, `fecha_final`) VALUES
+(0, 2, 'recepcionista1', 'instancia2016-09-02 12:41:50', 'descripcion2016-09-02 12:41:50', 0, '2016-09-02 12:41:50', NULL),
 (1, 2, 'recepcionista1', 'instancia2016-09-02 06:48:10', 'descripcion2016-09-02 06:48:10', 1, '2016-09-02 06:48:10', '2016-09-06 16:27:28'),
 (2, 2, 'recepcionista1', 'instancia2016-09-03 05:27:29', 'descripcion2016-09-03 05:27:29', 0, '2016-09-03 05:27:29', '2016-09-14 23:56:52'),
 (3, 0, 'recepcion', 'instancia2016-09-02 08:48:43', 'descripcion2016-09-02 08:48:43', 1, '2016-09-02 08:48:43', '2016-09-08 01:26:29'),
@@ -248,15 +249,14 @@ INSERT INTO `instancia` (`id_instancia`, `id_workflow`, `id_usuario`, `titulo`, 
 (148, 1, 'gerencia2', 'instancia2016-08-01 15:17:17', 'descripcion2016-08-01 15:17:17', 0, '2016-08-01 15:17:17', '2016-08-18 06:06:14'),
 (149, 1, 'gerencia2', 'instancia2016-08-05 22:27:18', 'descripcion2016-08-05 22:27:18', 1, '2016-08-05 22:27:18', '2016-08-17 03:46:03'),
 (150, 1, 'gerencia', 'instancia2016-08-04 00:13:47', 'descripcion2016-08-04 00:13:47', 1, '2016-08-04 00:13:47', '2016-08-16 11:48:26'),
-(151, 0, 'recepcion', 'prueba jeff', 'prueba jeff', 1, '2016-07-14 21:18:34', NULL),
+(151, 0, 'recepcion', 'prueba jeff', 'prueba jeff', 1, '2016-07-14 21:18:34', '2016-07-14 14:37:10'),
 (152, 0, 'recepcion', 'prueba jeff2', 'prueba jeff2', 1, '2016-07-14 21:22:11', '2016-07-14 14:46:45'),
-(153, 0, 'recepcion', 'prueba jeff3', 'fasfdsfsd3', 0, '2016-09-14 21:25:44', '2016-10-19 00:00:00'),
-(154, 0, 'recepcion', 'prueba 1', 'asdf', 0, '2016-07-17 15:14:43', '2016-10-19 00:00:00'),
-(155, 0, 'recepcion', 'prueba2', 'asdf', 0, '2016-07-19 15:18:52', '2016-10-19 00:00:00'),
-(156, 0, 'recepcion', 'nicole1', 'adf', 1, '2016-06-17 09:52:18', '2016-10-19 00:00:00'),
-(157, 0, 'recepcion', 'nicole2', '', 1, '2016-06-18 17:54:27', '2016-10-19 00:00:00'),
-(158, 0, 'recepcion', 'nicole3', '', 0, '2016-06-17 17:56:18', '2016-10-19 00:00:00'),
-(159, 0, 'recepcion', 'asdf', 'asdf', 0, '2016-10-10 21:28:57', NULL);
+(153, 0, 'recepcion', 'prueba jeff3', 'fasfdsfsd3', 0, '2016-09-14 21:25:44', NULL),
+(154, 0, 'recepcion', 'prueba 1', 'asdf', 0, '2016-07-17 15:14:43', NULL),
+(155, 0, 'recepcion', 'prueba2', 'asdf', 0, '2016-07-19 15:18:52', NULL),
+(156, 0, 'recepcion', 'nicole1', 'adf', 1, '2016-06-17 09:52:18', NULL),
+(157, 0, 'recepcion', 'nicole2', '', 1, '2016-06-18 17:54:27', NULL),
+(158, 0, 'recepcion', 'nicole3', '', 0, '2016-06-17 17:56:18', NULL);
 
 -- --------------------------------------------------------
 
@@ -658,7 +658,7 @@ INSERT INTO `instancia_usuario` (`id_instancia_usuario`, `id_instancia`, `id_est
 (378, 156, 0, '0', 1),
 (379, 158, 3, '0', 0),
 (380, 158, 3, '0', 0),
-(381, 156, 1, '0', 1),
+(381, 156, 1, '0', 0),
 (382, 156, 2, '0', 0),
 (383, 156, 3, '0', 0),
 (384, 156, 0, '0', 1),
@@ -668,8 +668,7 @@ INSERT INTO `instancia_usuario` (`id_instancia_usuario`, `id_instancia`, `id_est
 (388, 157, 3, '0', 0),
 (389, 157, 0, '0', 1),
 (390, 156, 1, '0', 0),
-(391, 156, 2, '0', 0),
-(392, 159, 1, '0', 0);
+(391, 156, 2, '0', 0);
 
 -- --------------------------------------------------------
 
@@ -1216,8 +1215,7 @@ INSERT INTO `proceso` (`id_proceso`, `id_usuario`, `id_instancia`, `id_transicio
 (521, 'recepcion', 155, 0, 'todo bn', 0, '2016-07-19 15:19:44'),
 (522, 'gerencia', 155, 1, 'aginado abogado', 0, '2016-07-19 15:22:42'),
 (523, 'recepcion', 156, 0, 'asdf', 0, '2016-06-18 21:53:06'),
-(524, 'gerencia', 156, 1, 'asdf', 0, '2016-06-18 21:59:18'),
-(525, 'recepcion', 159, 0, 'asdf', 0, '2016-10-16 22:54:44');
+(524, 'gerencia', 156, 1, 'asdf', 0, '2016-06-18 21:59:18');
 
 -- --------------------------------------------------------
 
@@ -1267,9 +1265,9 @@ INSERT INTO `transicion` (`id_transicion`, `nombre`, `descripcion`, `estado_sigu
 (2, 'Procesos juridicos', 'Enviar documento a tribunales', 3, 2),
 (3, 'Resultados recibidos', 'Resultados recibidos para el d', 0, 3),
 (4, 'Entregado al usuario', 'Documento entregado al usuario', 4, 0),
-(5, 'Error en los documentos1', 'Se consiguio un error en los d', 0, 2),
-(6, 'Error en los documentos2', 'Se consiguio un error en los d', 0, 1),
-(7, 'Error en los documentos3', 'Se consiguio un error en los d', 4, 0),
+(5, 'Error en los documentos', 'Se consiguio un error en los d', 0, 2),
+(6, 'Error en los documentos', 'Se consiguio un error en los d', 0, 1),
+(7, 'Error en los documentos', 'Se consiguio un error en los d', 4, 0),
 (8, 'Enviar a tribunales', 'Documento enviado a tribunales', 3, 1),
 (9, 'Asignar Abogado', 'Asignar Abogado', 6, 5),
 (10, 'Documentos en regla', 'Documentos en regla', 7, 6),

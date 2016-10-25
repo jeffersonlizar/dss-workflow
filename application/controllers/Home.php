@@ -5,13 +5,8 @@ class Home extends CI_Controller {
 
 	public function index()
 	{
-		$session_data = $this->session->userdata('logged_in');	
-		if (!isset($session_data)){
-			redirect('Usuarios/login');
-		}
 		date_default_timezone_set('America/La_Paz');
 		$today = date('Y-m-d 00:00:00');   
-		$yesterday = $this->_diaAnterior($today);
 		$d = new DateTime('first day of this month');
     	$mes_actual = $d->format('Y-m-d 00:00:00');
     	$mes_actual_primer_dia = $d->format('Y-m-d 00:00:00');
@@ -28,125 +23,126 @@ class Home extends CI_Controller {
 		$ano_anterior_primer_dia = date('Y-m-d H:i:s' ,$ano_anterior_primer_dia);
 		$ano_anterior_ultimo_dia = strtotime('-1 year',strtotime($ano_actual_ultimo_dia));
 		$ano_anterior_ultimo_dia = date('Y-m-d H:i:s' ,$ano_anterior_ultimo_dia);
-		$indicador_actividad = $this->Database->cargar_indicador_actividad();
-		$indicador_categoria = $this->Database->cargar_indicador_categoria();
-		$indicador_indicadores = $this->Database->cargar_indicador_indicadores();
-		$indicador_crecimiento = $this->Database->cargar_indicador_crecimiento();
-		$indicador_tiempo_promedio = $this->Database->cargar_indicador_tiempo_promedio();
-		$indicador_actividad_usuario = $this->Database->cargar_indicador_actividad_usuario();
-		$indicador_resumen = $this->Database->cargar_indicador_resumen();
-		$indicador_duracion_transicion = $this->Database->cargar_indicador_duracion_transicion();
-		$indicador_duracion_workflow = $this->Database->cargar_indicador_duracion_workflow();
-		$indicador_ultimas = $this->Database->cargar_indicador_ultimas();
-
-		$ultimas_instancias = $indicador_ultimas['ultimas_instancias'];
-		$ultimas_transiciones = $indicador_ultimas['ultimas_transiciones'];
+		$data=$this->Database->cargar_preferencias();
+		$ultimas_instancias = $data[0]['ultimas_instancias'];
+		$ultimas_transiciones = $data[0]['ultimas_transiciones'];
 		$ultimas_instancias_transiciones = $this->_ultimas($today,$ultimas_instancias,$ultimas_transiciones);
-		switch ($indicador_actividad['opcion']){
-			case '1': //dia actual				
+		switch ($data[0]['actividad']){
+			case '1': //dia actual
+				$today = '2016-09-15 00:00:00'; //datos de prueba;
 				$actividad = $this->_actividadDelDia($today);
 				break;
-			case '2': //dia anterior				
+			case '2': //dia anterior
+				$today = '2016-09-15 00:00:00'; //datos de prueba;
+				$yesterday = $this->_diaAnterior($today);
 				$actividad = $this->_actividadDelDia($yesterday);
 				break;
 			case '3': //dia
-				$dia = $indicador_actividad['dia'];
+				$dia = '2016-09-15 00:00:00'; //datos de prueba;
 				$actividad = $this->_actividadDelDia($dia);
-				break;	
+				break;
 			case '4': //dia comparativo
-				$dia1 = $indicador_actividad['dia_comparativo1'];
-				$dia2 = $indicador_actividad['dia_comparativo2'];
+				$dia1 = '2016-09-15 00:00:00'; //datos de prueba;
+				$dia2 = '2016-09-14 00:00:00'; //datos de prueba;
 				$actividad = $this->_actividadComparacionDias($dia1,$dia2);
 				break;
 			case '5': //Mes Actual
 				$actividad = $this->_actividadDelMes($mes_actual);
 				break;
 			case '6': //Mes
-				$mes = $indicador_actividad['mes'];
+				$mes = '2016-09-01 00:00:00'; //datos de prueba
 				$actividad = $this->_actividadDelMes($mes);
 				break;
 			case '7': //Mes comparativo
-				$mes1 = $indicador_actividad['mes_comparativo1'];
-				$mes2 = $indicador_actividad['mes_comparativo2'];
+				$mes1 = '2016-09-01 00:00:00';
+				$mes2 = '2016-08-01 00:00:00';
 				$actividad = $this->_actividadComparacionMeses($mes1,$mes2);
 				break;
 			case '8': //Ano Actual
 				$actividad = $this->_actividadDelAno($ano_actual);
 				break;
 			case '9': //Ano
-				$ano = $indicador_actividad['ano'];
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
 				$actividad = $this->_actividadDelAno($ano);
 				break;
 			case '10': //Ano Comparativo
-				$ano1 = $indicador_actividad['ano_comparativo1'];
-				$ano2 = $indicador_actividad['ano_comparativo2'];
+				$ano1 = '2016-01-01 00:00:00';
+				$ano2 = '2016-01-01 00:00:00';
 				$actividad = $this->_actividadComparacionAnos($ano1,$ano2);
 				break;
 		}
-		switch ($indicador_categoria['opcion']){
+		switch ($data[0]['categoria']){
 			case '1': //dia actual
+				$today = '2016-09-02 00:00:00'; //datos de prueba;
 				$categorias = $this->_categoriasDelDia($today);
 				break;
 			case '2': //dia anterior
+				$today = '2016-09-04 00:00:00'; //datos de prueba;
+				$yesterday = $this->_diaAnterior($today);
 				$categorias = $this->_categoriasDelDia($yesterday);
 				break;
 			case '3': //dia
-				$dia = $indicador_categoria['dia'];
+				$dia = '2016-09-03 00:00:00'; //datos de prueba;
 				$categorias = $this->_categoriasDelDia($dia);
 				break;
 			case '4': //mes actual				
 				$categorias = $this->_categoriasDelMes($mes_actual);
 				break;
 			case '5': //mes
-				$mes = $indicador_categoria['mes'];
+				$mes = '2016-09-01 00:00:00'; //datos de prueba
 				$categorias = $this->_categoriasDelMes($mes);
 				break;
 			case '6': //ano actual
 				$categorias = $this->_categoriasDelAno($ano_actual);
 				break;
 			case '7': //ano
-				$ano = $indicador_categoria['ano'];
+				$ano = '2015-01-01 00:00:00'; //datos de prueba
 				$categorias = $this->_categoriasDelAno($ano);
 				break;
 			case '8': //periodo
-				$fecha1 = $indicador_categoria['periodo_inicio'];
-				$fecha2 = $indicador_categoria['periodo_fin'];
+				$fecha1 = '2016-09-02 00:00:00';
+				$fecha2 = '2016-09-03 00:00:00';
 				$categorias = $this->_categoriasDelPeriodo($fecha1,$fecha2);
 				break;
 		}
-		switch ($indicador_indicadores['opcion']){
+		switch ($data[0]['indicadores']){
 			case '1': //dia actual
+				$today = '2016-09-15 00:00:00'; //datos de prueba;
 				$indicadores = $this->_indicadoresDelDia($today,$today);
 				break;
 			case '2': //dia anterior
+				$today = '2016-09-15 00:00:00'; //datos de prueba;
+				$yesterday = $this->_diaAnterior($today);
 				$indicadores = $this->_indicadoresDelDia($yesterday,$yesterday);
 				break;
 			case '3': //dia
-				$dia = $indicador_indicadores['dia'];
+				$dia = '2016-09-15 00:00:00'; //datos de prueba;
 				$indicadores = $this->_indicadoresDelDia($dia,$dia);
 				break;
 			case '4': //mes actual
 				$indicadores = $this->_indicadoresDelMes($mes_actual);
 				break;
 			case '5': //mes
-				$mes = $indicador_indicadores['mes'];
+				$mes = '2016-09-01 00:00:00'; //datos de prueba
 				$indicadores = $this->_indicadoresDelMes($mes);
 				break;
 			case '6': //ano actual
 				$indicadores = $this->_indicadoresDelAno($ano_actual);
 				break; 
 			case '7': // ano
-				$ano = $indicador_indicadores['ano'];
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
 				$indicadores = $this->_indicadoresDelAno($ano);
 				break; 
 			case '8': // Periodo
-				$fecha1 = $indicador_indicadores['periodo_inicio'];
-				$fecha2 = $indicador_indicadores['periodo_fin'];
+				$fecha1 = '2016-09-06 00:00:00';
+				$fecha2 = '2016-09-07 00:00:00';
 				$indicadores = $this->_indicadoresDelPeriodo($fecha1,$fecha2);
 				break; 
 		}
-		switch ($indicador_crecimiento['opcion']){
+		switch ($data[0]['crecimiento']){
 			case '11': //instancias dia actual con respecto al dia anterior
+				$today = '2016-09-03 00:00:00'; //datos de prueba;
+				$yesterday = '2016-09-02 00:00:00'; //datos de prueba;
 				$crecimiento = $this->_crecimientoDelDia(1,$yesterday,$today); //primero el mes base y luego el que se quiere calcular
 				break;
 			case '12': //instancias mes actual con respecto al mes anterior				
@@ -156,13 +152,15 @@ class Home extends CI_Controller {
 				$crecimiento = $this->_crecimientoDelAno(1,$ano_anterior_primer_dia,$ano_anterior_ultimo_dia,$ano_actual_primer_dia,$ano_actual_ultimo_dia);
 				break;
 			case '14': //instancias 2 periodos de tiempo
-				$fecha1 = $indicador_crecimiento['periodo1'];
-				$fecha2 = $indicador_crecimiento['periodo2'];
-				$fecha3 = $indicador_crecimiento['periodo3'];
-				$fecha4 = $indicador_crecimiento['periodo4'];
+				$fecha1 = '2016-08-12 00:00:00';
+				$fecha2 = '2016-08-15 00:00:00';
+				$fecha3 = '2016-09-12 00:00:00';
+				$fecha4 = '2016-09-15 00:00:00';
 				$crecimiento = $this->_crecimientoDelPeriodo(1,$fecha1,$fecha2,$fecha3,$fecha4);
 				break;
 			case '21': //instancias dia actual con respecto al dia anterior
+				$today = '2016-09-15 00:00:00'; //datos de prueba;
+				$yesterday = '2016-09-16 00:00:00'; //datos de prueba;
 				$crecimiento = $this->_crecimientoDelDia(2,$yesterday,$today); //primero el mes base y luego el que se quiere calcular
 				break;
 			case '22': //instancias mes actual con respecto al mes anterior				
@@ -172,19 +170,19 @@ class Home extends CI_Controller {
 				$crecimiento = $this->_crecimientoDelAno(2,$ano_anterior_primer_dia,$ano_anterior_ultimo_dia,$ano_actual_primer_dia,$ano_actual_ultimo_dia);
 				break;
 			case '24': //instancias 2 periodos de tiempo
-				$fecha1 = $indicador_crecimiento['periodo1'];
-				$fecha2 = $indicador_crecimiento['periodo2'];
-				$fecha3 = $indicador_crecimiento['periodo3'];
-				$fecha4 = $indicador_crecimiento['periodo4'];
+				$fecha1 = '2016-08-12 00:00:00';
+				$fecha2 = '2016-08-15 00:00:00';
+				$fecha3 = '2016-09-12 00:00:00';
+				$fecha4 = '2016-09-15 00:00:00';
 				$crecimiento = $this->_crecimientoDelPeriodo(2,$fecha1,$fecha2,$fecha3,$fecha4);
 				break;
 		}
-		switch ($indicador_tiempo_promedio['opcion']){
+		switch ($data[0]['tiempo_promedio']){
 			case '11': //instancias en el mes actual
 				$tiempo_promedio = $this->_tiempoPromedioDelMes(1,$mes_actual_primer_dia,$mes_actual_ultimo_dia);
 				break;
 			case '12': //instancias en el mes especifico			
-				$fecha1 = $indicador_tiempo_promedio['mes'];
+				$fecha1 = '2016-08-01';   //datos de prueba
 				$fecha2 = strtotime('+1 month',strtotime($fecha1));  //datos de prueba
 				$fecha2 = date('Y-m-d H:i:s' ,$fecha2);  //datos de prueba
 				$tiempo_promedio = $this->_tiempoPromedioDelMes(1,$fecha1,$fecha2);
@@ -193,21 +191,21 @@ class Home extends CI_Controller {
 				$tiempo_promedio = $this->_tiempoPromedioDelAno(1,$ano_actual_primer_dia,$ano_actual_ultimo_dia);
 				break;
 			case '14': //instancias en el ano especifico
-				$fecha1 = $indicador_tiempo_promedio['ano'];
+				$fecha1 = '2015-01-01'; //datos de prueba
 				$fecha2 = strtotime('+12 month',strtotime($fecha1));
 				$fecha2 = date('Y-m-d H:i:s' ,$fecha2);
 				$tiempo_promedio = $this->_tiempoPromedioDelAno(1,$fecha1,$fecha2);
 				break;
 			case '15': //instancias en el periodo
-				$fecha1 = $indicador_tiempo_promedio['periodo_inicio'];
-				$fecha2 = $indicador_tiempo_promedio['periodo_fin'];
+				$fecha1 = '2016-09-02 00:00:00'; //datos de prueba;
+				$fecha2 = '2016-09-03 00:00:00'; //datos de prueba;
 				$tiempo_promedio = $this->_tiempoPromedioDelPeriodo(1,$fecha1,$fecha2); 
 				break;
 			case '21': //instancias en el mes actual
 				$tiempo_promedio = $this->_tiempoPromedioDelMes(2,$mes_actual_primer_dia,$mes_actual_ultimo_dia);
 				break;
 			case '22': //instancias en el mes especifico			
-				$fecha1 = $indicador_tiempo_promedio['mes'];
+				$fecha1 = '2016-08-01';   //datos de prueba
 				$fecha2 = strtotime('+1 month',strtotime($fecha1));  //datos de prueba
 				$fecha2 = date('Y-m-d H:i:s' ,$fecha2);  //datos de prueba
 				$tiempo_promedio = $this->_tiempoPromedioDelMes(2,$fecha1,$fecha2);
@@ -216,191 +214,196 @@ class Home extends CI_Controller {
 				$tiempo_promedio = $this->_tiempoPromedioDelAno(2,$ano_actual_primer_dia,$ano_actual_ultimo_dia);
 				break;
 			case '24': //instancias en el ano especifico
-				$fecha1 = $indicador_tiempo_promedio['ano'];
+				$fecha1 = '2015-01-01'; //datos de prueba
 				$fecha2 = strtotime('+12 month',strtotime($fecha1));
 				$fecha2 = date('Y-m-d H:i:s' ,$fecha2);
 				$tiempo_promedio = $this->_tiempoPromedioDelAno(2,$fecha1,$fecha2);
 				break;
 			case '25': //instancias en el periodo
-				$fecha1 = $indicador_tiempo_promedio['periodo_inicio'];
-				$fecha2 = $indicador_tiempo_promedio['periodo_fin'];
+				$fecha1 = '2016-09-02 00:00:00'; //datos de prueba;
+				$fecha2 = '2016-09-03 00:00:00'; //datos de prueba;
 				$tiempo_promedio = $this->_tiempoPromedioDelPeriodo(2,$fecha1,$fecha2); 
 				break;
 		}
-		switch ($indicador_actividad_usuario['opcion']){
+		switch ($data[0]['actividad_usuario']){
 			case '11': //instancias en el dia actual
-				$usuario = $indicador_actividad_usuario['usuario1'];
+				$usuario = 'recepcion'; //datos de prueba;
 				$actividad_user = $this->_actividadUsuarioDelDia(1,$usuario,$today);
 				break;
 			case '12': //instancias dia anterior				
-				$usuario = $indicador_actividad_usuario['usuario1'];
+				$yesterday = $this->_diaAnterior($today);
+				$usuario = 'recepcion'; //datos de prueba;
 				$actividad_user = $this->_actividadUsuarioDelDia(1,$usuario,$yesterday);
 				break;
 			case '13': //instancias dia 
-				$dia = $indicador_actividad_usuario['dia'];
-				$usuario = $indicador_actividad_usuario['usuario1'];
+				$dia = '2016-09-15 00:00:00'; //datos de prueba;
+				$usuario = 'recepcion';
 				$actividad_user = $this->_actividadUsuarioDelDia(1,$usuario,$dia);
 				break;
 			case '14': //instancias dia comparativo usuario
-				$dia = $indicador_actividad_usuario['dia'];
-				$usuario1 = $indicador_actividad_usuario['usuario1'];
-				$usuario2 = $indicador_actividad_usuario['usuario2'];
+				$dia = '2016-09-15 00:00:00'; //datos de prueba;
+				$usuario1 = 'recepcion'; //datos de prueba;
+				$usuario2 = 'abogado'; //datos de prueba;
 				$actividad_user = $this->_actividadUsuarioDelDiaComparativo(1,$usuario1,$usuario2,$dia);
 				break;
 			case '15': //instancias dia grupo de usuarios
-				$dia = $indicador_actividad_usuario['dia'];
-				$tipo_usuario = $indicador_actividad_usuario['tipo_usuario'];
+				$dia = '2016-09-15 00:00:00'; //datos de prueba;
+				$tipo_usuario = 3;
 				$actividad_user = $this->_actividadUsuarioDelDiaGrupo(1,$tipo_usuario,$dia);
 				break;
 			case '16': //instancias dia todos los usuarios
-				$dia = $indicador_actividad_usuario['dia'];
+				$dia = '2016-09-15 00:00:00'; //datos de prueba;
 				$actividad_user = $this->_actividadUsuarioDelDiaTodos(1,$dia);
 				break;
 			case '17': //instancias en el mes actual
-				$usuario = $indicador_actividad_usuario['usuario1'];
-				$mes = $mes_actual_primer_dia;
+				$usuario = 'recepcion'; //datos de prueba;
+				$mes = '2016-09-01 00:00:00'; //datos de prueba
 				$actividad_user = $this->_actividadUsuarioDelMes(1,$usuario,$mes);
 				break;
 			case '18': //instancias mes 				
-				$usuario = $indicador_actividad_usuario['usuario1'];
-				$mes = $indicador_actividad_usuario['mes'];
+				$usuario = 'recepcion'; //datos de prueba;
+				$mes = '2016-08-01 00:00:00'; //datos de prueba
 				$actividad_user = $this->_actividadUsuarioDelMes(1,$usuario,$mes);
 				break;
 			case '19': //instancias mes comparativo usuario
-				$mes = $indicador_actividad_usuario['mes'];
-				$usuario1 = $indicador_actividad_usuario['usuario1'];
-				$usuario2 = $indicador_actividad_usuario['usuario2'];
+				$mes = '2016-09-01 00:00:00'; //datos de prueba
+				$usuario1 = 'recepcion'; //datos de prueba;
+				$usuario2 = 'abogado'; //datos de prueba;
 				$actividad_user = $this->_actividadUsuarioDelMesComparativo(1,$usuario1,$usuario2,$mes);
 				break;
 			case '110': //instancias mes grupo de usuarios
-				$mes = $indicador_actividad_usuario['mes'];
-				$tipo_usuario = $indicador_actividad_usuario['tipo_usuario'];
+				$mes = '2016-09-01 00:00:00'; //datos de prueba
+				$tipo_usuario = 4;
 				$actividad_user = $this->_actividadUsuarioDelMesGrupo(1,$tipo_usuario,$mes);
 				break;
 			case '111': //instancias mes todos los usuarios
-				$mes = $indicador_actividad_usuario['mes'];
+				$mes = '2016-09-01 00:00:00'; //datos de prueba
 				$actividad_user = $this->_actividadUsuarioDelMesTodos(1,$mes);
 				break;
 			case '112': //instancias en el año actual
-				$usuario = $indicador_actividad_usuario['usuario1'];
-				$ano = $ano_actual_primer_dia;
+				$usuario = 'recepcion'; //datos de prueba;
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
 				$actividad_user = $this->_actividadUsuarioDelAno(1,$usuario,$ano);
 				break;
 			case '113': //instancias en el año
-				$usuario = $indicador_actividad_usuario['usuario1'];
-				$ano = $indicador_actividad_usuario['ano'];
+				$usuario = 'recepcion'; //datos de prueba;
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
 				$actividad_user = $this->_actividadUsuarioDelAno(1,$usuario,$ano);
 				break;
 			case '114': //instancias en el año comparativo
-				$usuario1 = $indicador_actividad_usuario['usuario1'];
-				$usuario2 = $indicador_actividad_usuario['usuario2'];
-				$ano = $indicador_actividad_usuario['ano'];
+				$usuario1 = 'recepcion'; //datos de prueba;
+				$usuario2 = 'abogado'; //datos de prueba;
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
 				$actividad_user = $this->_actividadUsuarioDelAnoComparativo(1,$usuario1,$usuario2,$ano);
 				break;
 			case '115': //instancias en el año grupo de usuario
-				$tipo_usuario = $indicador_actividad_usuario['tipo_usuario'];
-				$ano = $indicador_actividad_usuario['ano'];
+				$tipo_usuario = 4;
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
 				$actividad_user = $this->_actividadUsuarioDelAnoGrupo(1,$tipo_usuario,$ano);
 				break;
 			case '116': //instancias en el año todos los usuarios
-				$ano = $indicador_actividad_usuario['ano'];
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
 				$actividad_user = $this->_actividadUsuarioDelAnoTodos(1,$ano);
 				break;
-			case '21': //transiciones en el dia actual
-				$usuario = $indicador_actividad_usuario['usuario1'];
+			case '21': //instancias en el dia actual
+				$usuario = 'recepcion'; //datos de prueba;
 				$actividad_user = $this->_actividadUsuarioDelDia(2,$usuario,$today);
 				break;
-			case '22': //transiciones dia anterior				
-				$usuario = $indicador_actividad_usuario['usuario1'];
+			case '22': //instancias dia anterior				
+				$yesterday = $this->_diaAnterior($today);
+				$usuario = 'recepcion'; //datos de prueba;
 				$actividad_user = $this->_actividadUsuarioDelDia(2,$usuario,$yesterday);
 				break;
-			case '23': //transiciones dia 
-				$dia = $indicador_actividad_usuario['dia'];
-				$usuario = $indicador_actividad_usuario['usuario1'];
+			case '23': //instancias dia 
+				$dia = '2016-09-15 00:00:00'; //datos de prueba;
+				$usuario = 'recepcion';
 				$actividad_user = $this->_actividadUsuarioDelDia(2,$usuario,$dia);
 				break;
-			case '24': //transiciones dia comparativo usuario
-				$dia = $indicador_actividad_usuario['dia'];
-				$usuario1 = $indicador_actividad_usuario['usuario1'];
-				$usuario2 = $indicador_actividad_usuario['usuario2'];
+			case '24': //instancias dia comparativo usuario
+				$dia = '2016-09-15 00:00:00'; //datos de prueba;
+				$usuario1 = 'recepcion'; //datos de prueba;
+				$usuario2 = 'abogado'; //datos de prueba;
 				$actividad_user = $this->_actividadUsuarioDelDiaComparativo(2,$usuario1,$usuario2,$dia);
 				break;
-			case '25': //transiciones dia grupo de usuarios
-				$dia = $indicador_actividad_usuario['dia'];
-				$tipo_usuario = $indicador_actividad_usuario['tipo_usuario'];
+			case '25': //instancias dia grupo de usuarios
+				$dia = '2016-09-15 00:00:00'; //datos de prueba;
+				$tipo_usuario = 3;
 				$actividad_user = $this->_actividadUsuarioDelDiaGrupo(2,$tipo_usuario,$dia);
 				break;
-			case '26': //transiciones dia todos los usuarios
-				$dia = $indicador_actividad_usuario['dia'];
+			case '26': //instancias dia todos los usuarios
+				$dia = '2016-09-15 00:00:00'; //datos de prueba;
 				$actividad_user = $this->_actividadUsuarioDelDiaTodos(2,$dia);
 				break;
-			case '27': //transiciones en el mes actual
-				$usuario = $indicador_actividad_usuario['usuario1'];
-				$mes = $mes_actual_primer_dia;
+			case '27': //instancias en el mes actual
+				$usuario = 'recepcion'; //datos de prueba;
+				$mes = '2016-09-01 00:00:00'; //datos de prueba
 				$actividad_user = $this->_actividadUsuarioDelMes(2,$usuario,$mes);
 				break;
-			case '28': //transiciones mes 				
-				$usuario = $indicador_actividad_usuario['usuario1'];
-				$mes = $indicador_actividad_usuario['mes'];
+			case '28': //instancias mes 				
+				$usuario = 'recepcion'; //datos de prueba;
+				$mes = '2016-08-01 00:00:00'; //datos de prueba
 				$actividad_user = $this->_actividadUsuarioDelMes(2,$usuario,$mes);
 				break;
-			case '29': //transiciones mes comparativo usuario
-				$mes = $indicador_actividad_usuario['mes'];
-				$usuario1 = $indicador_actividad_usuario['usuario1'];
-				$usuario2 = $indicador_actividad_usuario['usuario2'];
+			case '29': //instancias mes comparativo usuario
+				$mes = '2016-09-01 00:00:00'; //datos de prueba
+				$usuario1 = 'recepcion'; //datos de prueba;
+				$usuario2 = 'abogado'; //datos de prueba;
 				$actividad_user = $this->_actividadUsuarioDelMesComparativo(2,$usuario1,$usuario2,$mes);
 				break;
-			case '210': //transiciones mes grupo de usuarios
-				$mes = $indicador_actividad_usuario['mes'];
-				$tipo_usuario = $indicador_actividad_usuario['tipo_usuario'];
+			case '210': //instancias mes grupo de usuarios
+				$mes = '2016-09-01 00:00:00'; //datos de prueba
+				$tipo_usuario = 4;
 				$actividad_user = $this->_actividadUsuarioDelMesGrupo(2,$tipo_usuario,$mes);
 				break;
-			case '211': //transiciones mes todos los usuarios
-				$mes = $indicador_actividad_usuario['mes'];
+			case '211': //instancias mes todos los usuarios
+				$mes = '2016-09-01 00:00:00'; //datos de prueba
 				$actividad_user = $this->_actividadUsuarioDelMesTodos(2,$mes);
 				break;
-			case '212': //transiciones en el año actual
-				$usuario = $indicador_actividad_usuario['usuario1'];
-				$ano = $ano_actual_primer_dia;
+			case '212': //instancias en el año actual
+				$usuario = 'recepcion'; //datos de prueba;
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
 				$actividad_user = $this->_actividadUsuarioDelAno(2,$usuario,$ano);
 				break;
-			case '213': //transiciones en el año
-				$usuario = $indicador_actividad_usuario['usuario1'];
-				$ano = $indicador_actividad_usuario['ano'];
+			case '213': //instancias en el año
+				$usuario = 'recepcion'; //datos de prueba;
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
 				$actividad_user = $this->_actividadUsuarioDelAno(2,$usuario,$ano);
 				break;
-			case '214': //transiciones en el año comparativo
-				$usuario1 = $indicador_actividad_usuario['usuario1'];
-				$usuario2 = $indicador_actividad_usuario['usuario2'];
-				$ano = $indicador_actividad_usuario['ano'];
+			case '214': //instancias en el año comparativo
+				$usuario1 = 'recepcion'; //datos de prueba;
+				$usuario2 = 'abogado'; //datos de prueba;
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
 				$actividad_user = $this->_actividadUsuarioDelAnoComparativo(2,$usuario1,$usuario2,$ano);
 				break;
-			case '215': //transiciones en el año grupo de usuario
-				$tipo_usuario = $indicador_actividad_usuario['tipo_usuario'];
-				$ano = $indicador_actividad_usuario['ano'];
+			case '215': //instancias en el año grupo de usuario
+				$tipo_usuario = 4;
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
 				$actividad_user = $this->_actividadUsuarioDelAnoGrupo(2,$tipo_usuario,$ano);
 				break;
-			case '216': //transiciones en el año todos los usuarios
-				$ano = $indicador_actividad_usuario['ano'];
+			case '216': //instancias en el año todos los usuarios
+				$ano = '2016-01-01 00:00:00'; //datos de prueba
 				$actividad_user = $this->_actividadUsuarioDelAnoTodos(2,$ano);
 				break;
 		}
-		switch ($indicador_resumen['opcion']){
+		switch ($data[0]['resumen']){
 			case '1': //dia actual
+				$dia = '2016-09-01 00:00:00'; //datos de prueba;
 				$resumen = $this->_resumenDelDia($today);
 				break;
 			case '2': //dia anterior
+				$today = '2016-09-15 00:00:00'; //datos de prueba;
+				$yesterday = $this->_diaAnterior($today);
 				$resumen = $this->_resumenDelDia($yesterday);
 				break;
 			case '3': //dia 
-				$dia = $indicador_resumen['dia'];
+				$dia = '2016-09-03'; //datos de prueba;
 				$resumen = $this->_resumenDelDia($dia);
 				break;
 			case '4': //mes actual 
 				$resumen = $this->_resumenDelMes($mes_actual_primer_dia,$mes_actual_ultimo_dia);
 				break;
 			case '5': //mes 
-				$mes = $indicador_resumen['mes'];
+				$mes = '2016-08-01'; //datos de prueba;
 				$ultimo_dia = $this->_mesUltimoDia($mes);
 				$resumen = $this->_resumenDelMes($mes,$ultimo_dia);
 				break;
@@ -408,192 +411,53 @@ class Home extends CI_Controller {
 				$resumen = $this->_resumenDelAno($ano_actual_primer_dia,$ano_actual_ultimo_dia);
 				break;
 			case '7': //año
-				$ano = $indicador_resumen['ano'];
+				$ano = '2015-01-01'; //datos de prueba;
 				$ano_ultimo_dia = $this->_anoUltimoDia($ano);
 				$resumen = $this->_resumenDelAno($ano,$ano_ultimo_dia);
 				break;
 			case '8': //periodo
-				$fecha_inicial = $indicador_resumen['periodo_inicio'];
-				$fecha_final= $indicador_resumen['periodo_fin'];
+				$fecha_inicial = '2016-01-01'; //datos de prueba;
+				$fecha_final= '2016-09-15'; //datos de prueba;
 				$resumen = $this->_resumenDelPeriodo($fecha_inicial,$fecha_final);
 				break;
 		}
-		switch ($indicador_duracion_transicion['opcion']){
-			case '1': //dia actual				
-				$transicion = $indicador_duracion_transicion['transicion']; 
-				$tipo_usuario = $indicador_duracion_transicion['tipo_usuario']; 
-				$usuario = $indicador_duracion_transicion['usuario'];
-				if ($usuario!='all')
-					$duracion_transicion = $this->_duracionTransicionUsuarioDia($usuario,$transicion,$tipo_usuario,$today);
-				else{
-					$duracion_transicion = $this->_duracionTransicionTodosDia($usuario,$transicion,$tipo_usuario,$today);
-				}
+		switch ($data[0]['duracion_transicion']){
+			case '1': //dia actual
+				$usuario = 'recepcionista1';
+				$transicion = 'all';
+				$tipo_usuario = 4;
+				$dia = '2016-09-01 00:00:00'; //datos de prueba;
+				$resumen = $this->_duracionTransicionUsuarioDia($usuario,$transicion,$tipo_usuario,$dia);
 				break;
 			case '2': //dia anterior
-				$transicion = $indicador_duracion_transicion['transicion']; 
-				$tipo_usuario = $indicador_duracion_transicion['tipo_usuario']; 
-				$usuario = $indicador_duracion_transicion['usuario'];
-				if ($usuario!='all')
-					$duracion_transicion = $this->_duracionTransicionUsuarioDia($usuario,$transicion,$tipo_usuario,$yesterday);
-				else{
-					$duracion_transicion = $this->_duracionTransicionTodosDia($usuario,$transicion,$tipo_usuario,$yesterday);
-				}
+				$today = '2016-09-15 00:00:00'; //datos de prueba;
+				$yesterday = $this->_diaAnterior($today);
+				$resumen = $this->_resumenDelDia($yesterday);
 				break;
 			case '3': //dia 
-				$dia = $indicador_duracion_transicion['dia']; 
-				$transicion = $indicador_duracion_transicion['transicion']; 
-				$tipo_usuario = $indicador_duracion_transicion['tipo_usuario']; 
-				$usuario = $indicador_duracion_transicion['usuario'];
-				if ($usuario!='all')
-					$duracion_transicion = $this->_duracionTransicionUsuarioDia($usuario,$transicion,$tipo_usuario,$dia);
-				else{
-					$duracion_transicion = $this->_duracionTransicionTodosDia($usuario,$transicion,$tipo_usuario,$dia);
-				}
+				$dia = '2016-09-03'; //datos de prueba;
+				$resumen = $this->_resumenDelDia($dia);
 				break;
 			case '4': //mes actual 
-				$transicion = $indicador_duracion_transicion['transicion']; 
-				$tipo_usuario = $indicador_duracion_transicion['tipo_usuario']; 
-				$usuario = $indicador_duracion_transicion['usuario'];
-				if ($usuario!='all')
-					$duracion_transicion = $this->_duracionTransicionUsuarioMes($usuario,$transicion,$tipo_usuario,$mes_actual_primer_dia,$mes_actual_ultimo_dia);
-				else{
-					$duracion_transicion = $this->_duracionTransicionTodosMes($usuario,$transicion,$tipo_usuario,$mes_actual_primer_dia,$mes_actual_ultimo_dia);
-				}
+				$resumen = $this->_resumenDelMes($mes_actual_primer_dia,$mes_actual_ultimo_dia);
 				break;
 			case '5': //mes 
-				$fecha_inicial = $indicador_duracion_transicion['mes']; 
-				$fecha_final = $this->_mesUltimoDia($fecha_inicial); 		
-				$transicion = $indicador_duracion_transicion['transicion']; 
-				$tipo_usuario = $indicador_duracion_transicion['tipo_usuario']; 
-				$usuario = $indicador_duracion_transicion['usuario'];
-				if ($usuario!='all')
-					$duracion_transicion = $this->_duracionTransicionUsuarioMes($usuario,$transicion,$tipo_usuario,$fecha_inicial,$fecha_final);
-				else{
-					$duracion_transicion = $this->_duracionTransicionTodosMes($usuario,$transicion,$tipo_usuario,$fecha_inicial,$fecha_final);
-				}
+				$mes = '2016-08-01'; //datos de prueba;
+				$ultimo_dia = $this->_mesUltimoDia($mes);
+				$resumen = $this->_resumenDelMes($mes,$ultimo_dia);
 				break;
 			case '6': //año actual
-				$transicion = $indicador_duracion_transicion['transicion']; 
-				$tipo_usuario = $indicador_duracion_transicion['tipo_usuario']; 
-				$usuario = $indicador_duracion_transicion['usuario'];
-				if ($usuario!='all')
-					$duracion_transicion = $this->_duracionTransicionUsuarioAno($usuario,$transicion,$tipo_usuario,$ano_actual_primer_dia,$ano_actual_ultimo_dia);
-				else{
-					$duracion_transicion = $this->_duracionTransicionTodosAno($usuario,$transicion,$tipo_usuario,$ano_actual_primer_dia,$ano_actual_ultimo_dia);
-				}
+				$resumen = $this->_resumenDelAno($ano_actual_primer_dia,$ano_actual_ultimo_dia);
 				break;
 			case '7': //año
-				$fecha_inicial = $indicador_duracion_transicion['ano']; 
-				$fecha_final = $this->_anoUltimoDia($fecha_inicial);								
-				$transicion = $indicador_duracion_transicion['transicion']; 
-				$tipo_usuario = $indicador_duracion_transicion['tipo_usuario']; 
-				$usuario = $indicador_duracion_transicion['usuario'];
-				if ($usuario!='all')
-					$duracion_transicion = $this->_duracionTransicionUsuarioAno($usuario,$transicion,$tipo_usuario,$fecha_inicial,$fecha_final);
-				else{
-					$duracion_transicion = $this->_duracionTransicionTodosAno($usuario,$transicion,$tipo_usuario,$fecha_inicial,$fecha_final);
-				}
+				$ano = '2015-01-01'; //datos de prueba;
+				$ano_ultimo_dia = $this->_anoUltimoDia($ano);
+				$resumen = $this->_resumenDelAno($ano,$ano_ultimo_dia);
 				break;
 			case '8': //periodo
-				$fecha_inicial = $indicador_duracion_transicion['periodo_inicio']; 
-				$fecha_final = $indicador_duracion_transicion['periodo_fin']; 
-				$transicion = $indicador_duracion_transicion['transicion']; 
-				$tipo_usuario = $indicador_duracion_transicion['tipo_usuario']; 
-				$usuario = $indicador_duracion_transicion['usuario'];
-				if ($usuario!='all')
-					$duracion_transicion = $this->_duracionTransicionUsuarioPeriodo($usuario,$transicion,$tipo_usuario,$fecha_inicial,$fecha_final);
-				else{
-					$duracion_transicion = $this->_duracionTransicionTodosPeriodo($usuario,$transicion,$tipo_usuario,$fecha_inicial,$fecha_final);
-				}
-				break;
-		}
-		switch ($indicador_duracion_workflow['opcion']){
-			case '1': //dia actual				
-				$workflow = $indicador_duracion_workflow['workflow']; 
-				$tipo_usuario = $indicador_duracion_workflow['tipo_usuario'];
-				$usuario = $indicador_duracion_workflow['usuario'];
-				if ($usuario!='all')
-					$duracion_workflow = $this->_duracionWorkflowUsuarioDia($usuario,$workflow,$tipo_usuario,$today);
-				else{
-					$duracion_workflow = $this->_duracionWorkflowTodosDia($usuario,$workflow,$tipo_usuario,$today);
-				}
-				break;
-			case '2': //dia anterior
-				$workflow = $indicador_duracion_workflow['workflow']; 
-				$tipo_usuario = $indicador_duracion_workflow['tipo_usuario'];
-				$usuario = $indicador_duracion_workflow['usuario'];
-				if ($usuario!='all')
-					$duracion_workflow = $this->_duracionWorkflowUsuarioDia($usuario,$workflow,$tipo_usuario,$yesterday);
-				else{
-					$duracion_workflow = $this->_duracionWorkflowTodosDia($usuario,$workflow,$tipo_usuario,$yesterday);
-				}
-				break;
-			case '3': //dia 
-				$dia = $indicador_duracion_workflow['dia']; 
-				$workflow = $indicador_duracion_workflow['workflow']; 
-				$tipo_usuario = $indicador_duracion_workflow['tipo_usuario'];
-				$usuario = $indicador_duracion_workflow['usuario'];
-				if ($usuario!='all')
-					$duracion_workflow = $this->_duracionWorkflowUsuarioDia($usuario,$workflow,$tipo_usuario,$dia);
-				else{
-					$duracion_workflow = $this->_duracionWorkflowTodosDia($usuario,$workflow,$tipo_usuario,$dia);
-				}
-				break;
-			case '4': //mes actual 
-				$workflow = $indicador_duracion_workflow['workflow']; 
-				$tipo_usuario = $indicador_duracion_workflow['tipo_usuario'];
-				$usuario = $indicador_duracion_workflow['usuario'];
-				if ($usuario!='all')
-					$duracion_workflow = $this->_duracionWorkflowUsuarioMes($usuario,$workflow,$tipo_usuario,$mes_actual_primer_dia,$mes_actual_ultimo_dia);
-				else{
-					$duracion_workflow = $this->_duracionWorkflowTodosMes($usuario,$workflow,$tipo_usuario,$mes_actual_primer_dia,$mes_actual_ultimo_dia);
-				}
-				break;
-			case '5': //mes 
-				$fecha_inicial = $indicador_duracion_workflow['mes']; 
-				$fecha_final = $this->_mesUltimoDia($fecha_inicial); 		
-				$workflow = $indicador_duracion_workflow['workflow']; 
-				$tipo_usuario = $indicador_duracion_workflow['tipo_usuario'];
-				$usuario = $indicador_duracion_workflow['usuario'];
-				if ($usuario!='all')
-					$duracion_workflow = $this->_duracionWorkflowUsuarioMes($usuario,$workflow,$tipo_usuario,$fecha_inicial,$fecha_final);
-				else{
-					$duracion_workflow = $this->_duracionWorkflowTodosMes($usuario,$workflow,$tipo_usuario,$fecha_inicial,$fecha_final);
-				}
-				break;
-			case '6': //año actual
-				$workflow = $indicador_duracion_workflow['workflow']; 
-				$tipo_usuario = $indicador_duracion_workflow['tipo_usuario'];
-				$usuario = $indicador_duracion_workflow['usuario'];
-				if ($usuario!='all')
-					$duracion_workflow = $this->_duracionWorkflowUsuarioAno($usuario,$workflow,$tipo_usuario,$ano_actual_primer_dia,$ano_actual_ultimo_dia);
-				else{
-					$duracion_workflow = $this->_duracionWorkflowTodosAno($usuario,$workflow,$tipo_usuario,$ano_actual_primer_dia,$ano_actual_ultimo_dia);
-				}
-				break;
-			case '7': //año
-				$fecha_inicial = $indicador_duracion_workflow['ano']; 
-				$fecha_final = $this->_anoUltimoDia($fecha_inicial);								
-				$workflow = $indicador_duracion_workflow['workflow']; 
-				$tipo_usuario = $indicador_duracion_workflow['tipo_usuario'];
-				$usuario = $indicador_duracion_workflow['usuario'];
-				if ($usuario!='all')
-					$duracion_workflow = $this->_duracionWorkflowUsuarioAno($usuario,$workflow,$tipo_usuario,$fecha_inicial,$fecha_final);
-				else{
-					$duracion_workflow = $this->_duracionWorkflowTodosAno($usuario,$workflow,$tipo_usuario,$fecha_inicial,$fecha_final);
-				}
-				break;
-			case '8': //periodo
-				$fecha_inicial = $indicador_duracion_workflow['periodo_inicio']; 
-				$fecha_final = $indicador_duracion_workflow['periodo_fin']; 
-				$workflow = $indicador_duracion_workflow['workflow']; 
-				$tipo_usuario = $indicador_duracion_workflow['tipo_usuario'];
-				$usuario = $indicador_duracion_workflow['usuario'];
-				if ($usuario!='all')
-					$duracion_workflow = $this->_duracionWorkflowUsuarioPeriodo($usuario,$workflow,$tipo_usuario,$fecha_inicial,$fecha_final);
-				else{
-					$duracion_workflow = $this->_duracionWorkflowTodosPeriodo($usuario,$workflow,$tipo_usuario,$fecha_inicial,$fecha_final);
-				}
+				$fecha_inicial = '2016-01-01'; //datos de prueba;
+				$fecha_final= '2016-09-15'; //datos de prueba;
+				$resumen = $this->_resumenDelPeriodo($fecha_inicial,$fecha_final);
 				break;
 		}
 		$home = array(
@@ -601,11 +465,7 @@ class Home extends CI_Controller {
 			'ultimas_transiciones'=>$ultimas_transiciones
 		);
 
-		$header = array(
-			'session'=>$session_data
-		);
-
-		$this->load->view('header',$header, FALSE);	
+		$this->load->view('header','', FALSE);	
 		$this->load->view('home',$home, FALSE);	
 		$this->load->view('footerbegin','', FALSE);	
 		$this->load->view('actividad',$actividad, FALSE);	
@@ -616,8 +476,7 @@ class Home extends CI_Controller {
 		$this->load->view('tiempo_promedio',$tiempo_promedio, FALSE);	
 		$this->load->view('ultimas_instancias_transiciones',$ultimas_instancias_transiciones, FALSE);	
 		$this->load->view('resumen',$resumen, FALSE);	
-		$this->load->view('duracion_transicion',$duracion_transicion, FALSE);	
-		$this->load->view('duracion_workflow',$duracion_workflow, FALSE);	
+		$this->load->view('duracion_transicion','', FALSE);	
 		$this->load->view('footerend','', FALSE);	
 	}
 
@@ -639,7 +498,7 @@ class Home extends CI_Controller {
 
 	//calcula la actividad realizada en el dia especifico
 	private function _actividadDelDia($dia){
-		$actividad = $this->_actividadDia($dia);	
+		$actividad = $this->_actividadDia($dia);		
 		$arr = explode(",", $actividad);
 		$cant = $arr[0];
 		unset($arr[0]);
@@ -851,7 +710,6 @@ class Home extends CI_Controller {
 	private function _nombreMes($fecha){
 		$fecha = explode(" ",$fecha);
 		$fecha = explode("-",$fecha[0]);
-		$nombreMes;	
 		$mes = $fecha[1];
 		switch ($mes){
 			case '01':
@@ -1146,10 +1004,10 @@ class Home extends CI_Controller {
 		$dia2 = date_create($dia2[0]);
 		$dia2 = date_format($dia2,"d-m-Y");
 		if ($tipo==1){
-			$tipo_msj = 'De Flujos de trabajo';
+			$tipo_msj = 'De instancias';
 		}
 		else{
-			$tipo_msj = 'De Transiciones';	
+			$tipo_msj = 'De procesos';	
 		}
 		$titulo = "Crecimiento";
 		$subtitulo = $tipo_msj." del ".$dia2." respecto al ".$dia1;
@@ -1167,10 +1025,10 @@ class Home extends CI_Controller {
 		$mes1 = $this->_nombreMes($fecha1);
 		$mes2 = $this->_nombreMes($fecha3);
 		if ($tipo==1){
-			$tipo_msj = 'De Flujos de trabajo';
+			$tipo_msj = 'De instancias';
 		}
 		else{
-			$tipo_msj = 'De Transiciones';	
+			$tipo_msj = 'De procesos';	
 		}
 		$titulo = "Crecimiento";
 		$subtitulo = $tipo_msj." del mes ".$mes2." respecto al mes ".$mes1;
@@ -1188,10 +1046,10 @@ class Home extends CI_Controller {
 		$ano1 = explode('-', $fecha1);
 		$ano2 = explode('-', $fecha3);
 		if ($tipo==1){
-			$tipo_msj = 'De Flujos de trabajo';
+			$tipo_msj = 'De instancias';
 		}
 		else{
-			$tipo_msj = 'De Transiciones';	
+			$tipo_msj = 'De procesos';	
 		}
 		$titulo = "Crecimiento";
 		$subtitulo = $tipo_msj." del año ".$ano2[0]." respecto al año ".$ano1[0];
@@ -1219,10 +1077,10 @@ class Home extends CI_Controller {
 		$fecha3 = date_format($fecha3,"d/m/Y");
 		$fecha4 = date_format($fecha4,"d/m/Y");
 		if ($tipo==1){
-			$tipo_msj = 'De Flujos de trabajo';
+			$tipo_msj = 'De instancias';
 		}
 		else{
-			$tipo_msj = 'De Transiciones';
+			$tipo_msj = 'De procesos';
 		}
 		$titulo = "Crecimiento";
 		$subtitulo = $tipo_msj." del periodo ".$fecha3." - ".$fecha4." respecto al periodo ".$fecha1." - ".$fecha2;
@@ -1246,9 +1104,6 @@ class Home extends CI_Controller {
 				$datos = $porcentaje-100;
 			}
 		}
-		else if (($data['cant_total_1']==0)&&($data['cant_total_2']>0)){
-			$datos = $data['cant_total_2']*100;
-		}
 		return $datos;
 	}
 
@@ -1258,10 +1113,10 @@ class Home extends CI_Controller {
 		$promedio = $this->_tiempoPromedio($tipo,$fecha1,$fecha2);	
 		$nombreMes = $this->_nombreMes($fecha1);
 		if ($tipo==1){
-			$tipo_msj = 'De Flujos de trabajo';
+			$tipo_msj = 'De instancias';
 		}
 		else{
-			$tipo_msj = 'De Transiciones';
+			$tipo_msj = 'De procesos';
 		}
 		$titulo = "Tiempo Promedio";
 		$subtitulo = $tipo_msj." del mes ".$nombreMes;
@@ -1281,10 +1136,10 @@ class Home extends CI_Controller {
 		$promedio = $this->_tiempoPromedio($tipo,$fecha1,$fecha2);	
 		$ano = explode("-", $fecha1);
 		if ($tipo==1){
-			$tipo_msj = 'De Flujos de trabajo';
+			$tipo_msj = 'De instancias';
 		}
 		else{
-			$tipo_msj = 'De Transiciones';
+			$tipo_msj = 'De procesos';
 		}
 		$titulo = "Tiempo Promedio";
 		$subtitulo = $tipo_msj." del año ".$ano[0];
@@ -1309,10 +1164,10 @@ class Home extends CI_Controller {
 		$fecha1 = date_format($fecha1,"d-m-Y");
 		$fecha2 = date_format($fecha2,"d-m-Y");
 		if ($tipo==1){
-			$tipo_msj = 'De Flujos de trabajo';
+			$tipo_msj = 'De instancias';
 		}
 		else{
-			$tipo_msj = 'De Transiciones';
+			$tipo_msj = 'De procesos';
 		}
 		$titulo = "Tiempo Promedio";
 		$subtitulo = $tipo_msj." en el periodo del ".$fecha1." al ".$fecha2;
@@ -1352,10 +1207,10 @@ class Home extends CI_Controller {
 		$dia = date_format($dia,"d-m-Y");
 		$titulo = "Actividad de Usuarios";
 		if ($tipo==1){
-			$tipo_msj = 'Flujos de trabajo';			
+			$tipo_msj = 'Instancias';			
 		}
 		else{
-			$tipo_msj = 'Transiciones';
+			$tipo_msj = 'Procesos';
 		}
 		$subtitulo = $tipo_msj." del día ".$dia." del usuario ".$usuario;
 		$serie = $usuario." (".$cant.")";
@@ -1392,10 +1247,10 @@ class Home extends CI_Controller {
 		$dia = date_format($dia,"d-m-Y");
 		$titulo = "Actividad de Usuarios";
 		if ($tipo==1){
-			$tipo_msj = 'Flujos de trabajo';			
+			$tipo_msj = 'Instancias';			
 		}
 		else{
-			$tipo_msj = 'Transiciones';
+			$tipo_msj = 'Procesos';
 		}
 		$subtitulo = $tipo_msj." del día ".$dia." del usuario ".$usuario1." y el usuario ".$usuario2;
 		$serie1 = $usuario1." (".$cant1.")";
@@ -1436,10 +1291,10 @@ class Home extends CI_Controller {
 		$dia = date_format($dia,"d-m-Y");
 		$titulo = "Actividad de Usuarios";
 		if ($tipo==1){
-			$tipo_msj = 'Flujos de trabajo';			
+			$tipo_msj = 'Instancias';			
 		}
 		else{
-			$tipo_msj = 'Transiciones';
+			$tipo_msj = 'Procesos';
 		}
 		$subtitulo = $tipo_msj." del día ".$dia." del tipo de usuario ".$nombre_tipo_usuario;
 		$leyenda = "Número de ".$tipo_msj;
@@ -1477,10 +1332,10 @@ class Home extends CI_Controller {
 		$dia = date_format($dia,"d-m-Y");
 		$titulo = "Actividad de Usuarios";
 		if ($tipo==1){
-			$tipo_msj = 'Flujos de trabajo';			
+			$tipo_msj = 'Instancias';			
 		}
 		else{
-			$tipo_msj = 'Transiciones';
+			$tipo_msj = 'Procesos';
 		}
 		$subtitulo = $tipo_msj." del día ".$dia." de todos los usuarios";
 		$leyenda = "Número de ".$tipo_msj;
@@ -1515,10 +1370,10 @@ class Home extends CI_Controller {
 		$actividad = rtrim(implode(',', $arr), ',');		
 		$titulo = "Actividad de Usuarios";
 		if ($tipo==1){
-			$tipo_msj = 'Flujos de trabajo';			
+			$tipo_msj = 'Instancias';			
 		}
 		else{
-			$tipo_msj = 'Transiciones';
+			$tipo_msj = 'Procesos';
 		}
 		$nombreMes = $this->_nombreMes($mes);
 		$subtitulo = $tipo_msj." del mes ".$nombreMes." del usuario ".$usuario;
@@ -1553,10 +1408,10 @@ class Home extends CI_Controller {
 		$actividad2 = rtrim(implode(',', $arr), ',');
 		$titulo = "Actividad de Usuarios";
 		if ($tipo==1){
-			$tipo_msj = 'Flujos de trabajo';			
+			$tipo_msj = 'Instancias';			
 		}
 		else{
-			$tipo_msj = 'Transiciones';
+			$tipo_msj = 'Procesos';
 		}
 		$nombreMes = $this->_nombreMes($mes);
 		$subtitulo = $tipo_msj." del mes ".$nombreMes." del usuario ".$usuario1." y el usuario ".$usuario2;
@@ -1596,10 +1451,10 @@ class Home extends CI_Controller {
 		$nombreMes = $this->_nombreMes($mes);
 		$titulo = "Actividad de Usuarios";
 		if ($tipo==1){
-			$tipo_msj = 'Flujos de trabajo';			
+			$tipo_msj = 'Instancias';			
 		}
 		else{
-			$tipo_msj = 'Transiciones';
+			$tipo_msj = 'Procesos';
 		}
 		$subtitulo = $tipo_msj." del mes ".$nombreMes." del tipo de usuario ".$nombre_tipo_usuario;
 		$leyenda = "Número de ".$tipo_msj;
@@ -1635,10 +1490,10 @@ class Home extends CI_Controller {
 		$nombreMes = $this->_nombreMes($mes);
 		$titulo = "Actividad de Usuarios";
 		if ($tipo==1){
-			$tipo_msj = 'Flujos de trabajo';			
+			$tipo_msj = 'Instancias';			
 		}
 		else{
-			$tipo_msj = 'Transiciones';
+			$tipo_msj = 'Procesos';
 		}
 		$subtitulo = $tipo_msj." del mes ".$nombreMes." de todos los usuarios";
 		$leyenda = "Número de ".$tipo_msj;
@@ -1673,10 +1528,10 @@ class Home extends CI_Controller {
 		$actividad = rtrim(implode(',', $arr), ',');		
 		$titulo = "Actividad de Usuarios";
 		if ($tipo==1){
-			$tipo_msj = 'Flujos de trabajo';			
+			$tipo_msj = 'Instancias';			
 		}
 		else{
-			$tipo_msj = 'Transiciones';
+			$tipo_msj = 'Procesos';
 		}
 		$nombreAno = explode("-",$ano);
 		$nombreAno = $nombreAno[0];		
@@ -1712,10 +1567,10 @@ class Home extends CI_Controller {
 		$actividad2 = rtrim(implode(',', $arr), ',');
 		$titulo = "Actividad de Usuarios";
 		if ($tipo==1){
-			$tipo_msj = 'Flujos de trabajo';			
+			$tipo_msj = 'Instancias';			
 		}
 		else{
-			$tipo_msj = 'Transiciones';
+			$tipo_msj = 'Procesos';
 		}
 		$nombreAno = explode("-",$ano);
 		$nombreAno = $nombreAno[0];	
@@ -1757,10 +1612,10 @@ class Home extends CI_Controller {
 		$nombreAno = $nombreAno[0];	
 		$titulo = "Actividad de Usuarios";
 		if ($tipo==1){
-			$tipo_msj = 'Flujos de trabajo';			
+			$tipo_msj = 'Instancias';			
 		}
 		else{
-			$tipo_msj = 'Transiciones';
+			$tipo_msj = 'Procesos';
 		}
 		$subtitulo = $tipo_msj." del año ".$nombreAno." del tipo de usuario ".$nombre_tipo_usuario;
 		$leyenda = "Número de ".$tipo_msj;
@@ -1797,10 +1652,10 @@ class Home extends CI_Controller {
 		$nombreAno = $nombreAno[0];	
 		$titulo = "Actividad de Usuarios";
 		if ($tipo==1){
-			$tipo_msj = 'Flujos de trabajo';			
+			$tipo_msj = 'Instancias';			
 		}
 		else{
-			$tipo_msj = 'Transiciones';
+			$tipo_msj = 'Procesos';
 		}
 		$subtitulo = $tipo_msj." del año ".$nombreAno." de todos los usuarios";
 		$leyenda = "Número de ".$tipo_msj;
@@ -1832,7 +1687,7 @@ class Home extends CI_Controller {
 		$datos['horas'] = $tiempo[1];
 		$datos['minutos'] = $tiempo[2];
 		$datos['segundos'] = $tiempo[3];
-		$data = $tiempo[0].' días '.$tiempo[1].' horas '.$tiempo[2].' minutos '.$tiempo[3].' segundos';
+		$data = $tiempo[0].' días '.$tiempo[1].' horas '.$tiempo[3].' minutos '.$tiempo[3].' segundos';
 		return $data;
 	}
 
@@ -2106,20 +1961,21 @@ class Home extends CI_Controller {
 
 	//muestra las ultimas instancias / transiciones (procesos) del dia 
 	private function _ultimas($dia,$ultimas_instancias,$ultimas_transiciones){
+		$dia = "2016-09-03";
 		$subtitulo_ins = "";
 		$subtitulo_trans = "";
 		$subtitulo = "No se definieron datos";
 		$datos = $this->Database->ultimas($dia,$ultimas_instancias,$ultimas_transiciones);
 		//var_dump($datos);
-		$titulo = "Ultimos Flujos de trabajo / Transiciones";
+		$titulo = "Ultimas Instancias/ Transiciones";
 		$dia = explode(" ",$dia);
 		$dia = date_create($dia[0]);
 		$dia = date_format($dia,"d-m-Y");
 		if ($ultimas_instancias>1){
-			$subtitulo_ins = "Últimos ".$ultimas_instancias." Flujos de trabajo"; 	
+			$subtitulo_ins = "Últimas ".$ultimas_instancias." instancias"; 	
 		}
 		else if ($ultimas_instancias == 1){
-			$subtitulo_ins = "Último Flujo de trabajo"; 		
+			$subtitulo_ins = "Última instancia"; 		
 		}
 		if ($ultimas_transiciones>1){
 			$subtitulo_trans = "últimas ".$ultimas_transiciones." transiciones";
@@ -2136,7 +1992,6 @@ class Home extends CI_Controller {
 		else if (($subtitulo_ins=="")&&($subtitulo_trans!="")){
 			$subtitulo = $subtitulo_trans." para el día ";	
 		}
-		$subtitulo = $subtitulo.$dia;
 		$data = array(
 			'titulo' 								=> $titulo,
 			'subtitulo' 							=> $subtitulo,
@@ -2146,16 +2001,53 @@ class Home extends CI_Controller {
 		return $data;
 	}
 
-	//calcula el tiempo de duracion de un usuario en una actividad en un dia
+	//muestra las ultimas instancias / transiciones (procesos) del dia 
+	/*
+	private function _duracionTransicionDia($usuario,$transicion,$tipo_usuario,$dia){
+		$datos = $this->Database->duracionTransicion($usuario,$transicion,$tipo_usuario,'2016-09-03','2016-09-10');
+		$titulo = 'Duración';
+		$nombre_tipo_usuario = '';
+		$subtitulo_usuario = ', usuario ';
+		$subtitulo_transicion = ', transición ';
+		if ($usuario=='all'){
+			$usuario = 'Todos';
+		}
+		$subtitulo_usuario = $subtitulo_usuario.'<b>'.$usuario.'</b>';		
+		if ($tipo_usuario=='all'){
+			$nombre_tipo_usuario = 'Todos';
+		}else{
+			$nombre_tipo_usuario = $this->Database->nombreTipoUsuario($tipo_usuario);		
+		}
+		$subtitulo_tipo_usuario = 'Para el tipo de usuario <b>'.$nombre_tipo_usuario.'</b>';		
+		if ($transicion=='all'){
+			$transicion = 'Todas';
+		}else{
+			$transicion = $this->Database->nombreTransicion($transicion);	
+		}
+		$subtitulo_transicion = $subtitulo_transicion.'<b>'.$transicion.'</b>';		
+		$dia = explode(" ",$dia);
+		$dia = date_create($dia[0]);
+		$dia = date_format($dia,"d-m-Y");
+		$subtitulo_fecha = ' en el día '.$dia;
+		$subtitulo = $subtitulo_tipo_usuario.$subtitulo_usuario.$subtitulo_transicion.$subtitulo_fecha;		
+		/*
+		$data = array(
+			'titulo' 								=> $titulo,
+			'subtitulo' 							=> $subtitulo,
+			'instancias' 							=> json_encode($datos['instancias']),
+			'transiciones' 							=> json_encode($datos['procesos'])
+			);
+		return $data;
+		*/
+		/*
+	}
+	*/
 	private function _duracionTransicionUsuarioDia($usuario,$transicion,$tipo_usuario,$dia){
-		$datos_busqueda = array();
-		$datos_promedio = array();
-		$datos_busqueda[0] = $this->Database->duracionTransicion($usuario,$transicion,$tipo_usuario,$dia,$dia);
-		$tiempo_busqueda[0] = $this->_stringPeriodo($this->Database->convert_seconds($datos_busqueda[0]));
-		$nombre_usuario[0] = $usuario; 
-		$datos_promedio = $this->Database->duracionTransicion('all',$transicion,$tipo_usuario,$dia,$dia);
-		$tiempo_promedio = $this->_stringPeriodo($this->Database->convert_seconds($datos_promedio));
-		$titulo = 'Duración Transición';
+		$datos = $this->Database->duracionTransicion($usuario,$transicion,$tipo_usuario,'2016-09-03','2016-09-10');
+		$datos_todos = $this->Database->duracionTransicion('all',$transicion,$tipo_usuario,'2016-09-03','2016-09-10');
+		//var_dump($datos);
+		//var_dump($datos_todos);
+		$titulo = 'Duración';
 		if ($usuario=='all'){
 			$usuario = 'Todos';
 		}
@@ -2164,610 +2056,18 @@ class Home extends CI_Controller {
 		}else{
 			$transicion = $this->Database->nombreTransicion($transicion);	
 		}
-		$dia = explode(" ",$dia);
-		$dia = date_create($dia[0]);
-		$dia = date_format($dia,"d-m-Y");
-		$subtitulo = 'Del usuario <b>'.$usuario.'</b> para la transición <b>'.$transicion.'</b> en el día '.$dia;		
+		$subtitulo = 'Del usuario <b>'.$usuario.'</b> para la transición <b>'.$transicion.'</b>';
+		//var_dump($subtitulo);
+		/*
 		$data = array(
 			'titulo' 								=> $titulo,
 			'subtitulo' 							=> $subtitulo,
-			'datos_busqueda' 						=> $datos_busqueda,
-			'tiempo_busqueda'						=> $tiempo_busqueda,
-			'datos_promedio'						=> $datos_promedio,
-			'tiempo_promedio'						=> $tiempo_promedio,
-			'nombre_usuario'						=> $nombre_usuario			
-			);		
+			'instancias' 							=> json_encode($datos['instancias']),
+			'transiciones' 							=> json_encode($datos['procesos'])
+			);
 		return $data;
-	}
-
-	//calcula el tiempo de duracion todos los usuarios en una actividad en un dia
-	private function _duracionTransicionTodosDia($usuario,$transicion,$tipo_usuario,$dia){		
-		$datos_busqueda = array();
-		$datos_promedio = array();
-		if ($tipo_usuario == 'all')
-			$usuarios = $this->Database->usuariosTodos();			
-		else
-			$usuarios = $this->Database->usuariosTodos($tipo_usuario);
-		for ($i=0; $i < count($usuarios); $i++)
-		{			
-			$datos_busqueda[$i] = $this->Database->duracionTransicion($usuarios[$i]['id_usuario'],$transicion,$tipo_usuario,$dia,$dia);			
-			$tiempo_busqueda[$i] = $this->_stringPeriodo($this->Database->convert_seconds($datos_busqueda[$i]));
-			$nombre_usuario[$i] = $usuarios[$i]['id_usuario'];
-		}		
-		$datos_promedio = $this->Database->duracionTransicion('all',$transicion,$tipo_usuario,$dia,$dia);
-		$tiempo_promedio = $this->_stringPeriodo($this->Database->convert_seconds($datos_promedio));
-		$titulo = 'Duración Transición';
-		if ($tipo_usuario=='all'){			
-			$tipo_usuario = 'Todos';
-		}
-		else{
-			$tipo_usuario = $this->Database->nombreTipoUsuario($tipo_usuario);	
-		}
-		if ($transicion=='all'){
-			$transicion = 'Todas';
-		}else{
-			$transicion = $this->Database->nombreTransicion($transicion);	
-		}
-		$dia = explode(" ",$dia);
-		$dia = date_create($dia[0]);
-		$dia = date_format($dia,"d-m-Y");
-		$subtitulo = 'Del tipo usuario <b>'.$tipo_usuario.'</b> para la transición <b>'.$transicion.'</b> en el día '.$dia;		
-		$data = array(
-			'titulo' 								=> $titulo,
-			'subtitulo' 							=> $subtitulo,
-			'datos_busqueda' 						=> $datos_busqueda,
-			'tiempo_busqueda'						=> $tiempo_busqueda,
-			'datos_promedio'						=> $datos_promedio,
-			'tiempo_promedio'						=> $tiempo_promedio,
-			'nombre_usuario'						=> $nombre_usuario			
-			);		
-		return $data;
-	}
-
-	//calcula el tiempo de duracion de un usuario en una actividad en un mes
-	private function _duracionTransicionUsuarioMes($usuario,$transicion,$tipo_usuario,$fecha_inicial,$fecha_final){
-		$datos_busqueda = array();
-		$datos_promedio = array();
-		$datos_busqueda[0] = $this->Database->duracionTransicion($usuario,$transicion,$tipo_usuario,$fecha_inicial,$fecha_final);
-		$tiempo_busqueda[0] = $this->_stringPeriodo($this->Database->convert_seconds($datos_busqueda[0]));
-		$nombre_usuario[0] = $usuario; 
-		$datos_promedio = $this->Database->duracionTransicion('all',$transicion,$tipo_usuario,$fecha_inicial,$fecha_final);
-		$tiempo_promedio = $this->_stringPeriodo($this->Database->convert_seconds($datos_promedio));
-		$titulo = 'Duración Transición';
-		if ($usuario=='all'){
-			$usuario = 'Todos';
-		}
-		if ($transicion=='all'){
-			$transicion = 'Todas';
-		}else{
-			$transicion = $this->Database->nombreTransicion($transicion);	
-		}
-		$nombreMes = $this->_nombreMes($fecha_inicial);
-		$subtitulo = 'Del usuario <b>'.$usuario.'</b> para la transición <b>'.$transicion.'</b> en el mes '.$nombreMes;		
-		$data = array(
-			'titulo' 								=> $titulo,
-			'subtitulo' 							=> $subtitulo,
-			'datos_busqueda' 						=> $datos_busqueda,
-			'tiempo_busqueda'						=> $tiempo_busqueda,
-			'datos_promedio'						=> $datos_promedio,
-			'tiempo_promedio'						=> $tiempo_promedio,
-			'nombre_usuario'						=> $nombre_usuario			
-			);		
-		return $data;
-	}
-
-	//calcula el tiempo de duracion todos los usuarios en una actividad en un mes
-	private function _duracionTransicionTodosMes($usuario,$transicion,$tipo_usuario,$fecha_inicial,$fecha_final){		
-		$datos_busqueda = array();
-		$datos_promedio = array();
-		if ($tipo_usuario == 'all')
-			$usuarios = $this->Database->usuariosTodos();			
-		else
-			$usuarios = $this->Database->usuariosTodos($tipo_usuario);
-		for ($i=0; $i < count($usuarios); $i++)
-		{			
-			$datos_busqueda[$i] = $this->Database->duracionTransicion($usuarios[$i]['id_usuario'],$transicion,$tipo_usuario,$fecha_inicial,$fecha_final);			
-			$tiempo_busqueda[$i] = $this->_stringPeriodo($this->Database->convert_seconds($datos_busqueda[$i]));
-			$nombre_usuario[$i] = $usuarios[$i]['id_usuario'];
-		}		
-		$datos_promedio = $this->Database->duracionTransicion('all',$transicion,$tipo_usuario,$fecha_inicial,$fecha_final);
-		$tiempo_promedio = $this->_stringPeriodo($this->Database->convert_seconds($datos_promedio));
-		$titulo = 'Duración Transición';
-		if ($tipo_usuario=='all'){			
-			$tipo_usuario = 'Todos';
-		}
-		else{
-			$tipo_usuario = $this->Database->nombreTipoUsuario($tipo_usuario);	
-		}
-		if ($transicion=='all'){
-			$transicion = 'Todas';
-		}else{
-			$transicion = $this->Database->nombreTransicion($transicion);	
-		}
-		$nombreMes = $this->_nombreMes($fecha_inicial);
-		$subtitulo = 'Del tipo usuario <b>'.$tipo_usuario.'</b> para la transición <b>'.$transicion.'</b> en el mes '.$nombreMes;		
-		$data = array(
-			'titulo' 								=> $titulo,
-			'subtitulo' 							=> $subtitulo,
-			'datos_busqueda' 						=> $datos_busqueda,
-			'tiempo_busqueda'						=> $tiempo_busqueda,
-			'datos_promedio'						=> $datos_promedio,
-			'tiempo_promedio'						=> $tiempo_promedio,
-			'nombre_usuario'						=> $nombre_usuario			
-			);		
-		return $data;
-	}
-
-	//calcula el tiempo de duracion de un usuario en una actividad en un año
-	private function _duracionTransicionUsuarioAno($usuario,$transicion,$tipo_usuario,$fecha_inicial,$fecha_final){
-		$datos_busqueda = array();
-		$datos_promedio = array();
-		$datos_busqueda[0] = $this->Database->duracionTransicion($usuario,$transicion,$tipo_usuario,$fecha_inicial,$fecha_final);
-		$tiempo_busqueda[0] = $this->_stringPeriodo($this->Database->convert_seconds($datos_busqueda[0]));
-		$nombre_usuario[0] = $usuario; 
-		$datos_promedio = $this->Database->duracionTransicion('all',$transicion,$tipo_usuario,$fecha_inicial,$fecha_final);
-		$tiempo_promedio = $this->_stringPeriodo($this->Database->convert_seconds($datos_promedio));
-		$titulo = 'Duración Transición';
-		if ($usuario=='all'){
-			$usuario = 'Todos';
-		}
-		if ($transicion=='all'){
-			$transicion = 'Todas';
-		}else{
-			$transicion = $this->Database->nombreTransicion($transicion);	
-		}
-		$nombreAno = explode("-",$fecha_inicial);
-		$nombreAno = $nombreAno[0];	
-		$subtitulo = 'Del usuario <b>'.$usuario.'</b> para la transición <b>'.$transicion.'</b> en el año '.$nombreAno;		
-		$data = array(
-			'titulo' 								=> $titulo,
-			'subtitulo' 							=> $subtitulo,
-			'datos_busqueda' 						=> $datos_busqueda,
-			'tiempo_busqueda'						=> $tiempo_busqueda,
-			'datos_promedio'						=> $datos_promedio,
-			'tiempo_promedio'						=> $tiempo_promedio,
-			'nombre_usuario'						=> $nombre_usuario			
-			);		
-		return $data;
-	}
-
-	//calcula el tiempo de duracion todos los usuarios en una actividad en un año
-	private function _duracionTransicionTodosAno($usuario,$transicion,$tipo_usuario,$fecha_inicial,$fecha_final){		
-		$datos_busqueda = array();
-		$datos_promedio = array();
-		if ($tipo_usuario == 'all')
-			$usuarios = $this->Database->usuariosTodos();			
-		else
-			$usuarios = $this->Database->usuariosTodos($tipo_usuario);
-		for ($i=0; $i < count($usuarios); $i++)
-		{			
-			$datos_busqueda[$i] = $this->Database->duracionTransicion($usuarios[$i]['id_usuario'],$transicion,$tipo_usuario,$fecha_inicial,$fecha_final);			
-			$tiempo_busqueda[$i] = $this->_stringPeriodo($this->Database->convert_seconds($datos_busqueda[$i]));
-			$nombre_usuario[$i] = $usuarios[$i]['id_usuario'];
-		}		
-		$datos_promedio = $this->Database->duracionTransicion('all',$transicion,$tipo_usuario,$fecha_inicial,$fecha_final);
-		$tiempo_promedio = $this->_stringPeriodo($this->Database->convert_seconds($datos_promedio));
-		$titulo = 'Duración Transición';
-		if ($tipo_usuario=='all'){			
-			$tipo_usuario = 'Todos';
-		}
-		else{
-			$tipo_usuario = $this->Database->nombreTipoUsuario($tipo_usuario);	
-		}
-		if ($transicion=='all'){
-			$transicion = 'Todas';
-		}else{
-			$transicion = $this->Database->nombreTransicion($transicion);	
-		}
-		$nombreAno = explode("-",$fecha_inicial);
-		$nombreAno = $nombreAno[0];
-		$subtitulo = 'Del tipo usuario <b>'.$tipo_usuario.'</b> para la transición <b>'.$transicion.'</b> en el año '.$nombreAno;		
-		$data = array(
-			'titulo' 								=> $titulo,
-			'subtitulo' 							=> $subtitulo,
-			'datos_busqueda' 						=> $datos_busqueda,
-			'tiempo_busqueda'						=> $tiempo_busqueda,
-			'datos_promedio'						=> $datos_promedio,
-			'tiempo_promedio'						=> $tiempo_promedio,
-			'nombre_usuario'						=> $nombre_usuario			
-			);		
-		return $data;
-	}
-
-	//calcula el tiempo de duracion de un usuario en una actividad en un periodo
-	private function _duracionTransicionUsuarioPeriodo($usuario,$transicion,$tipo_usuario,$fecha_inicial,$fecha_final){
-		$datos_busqueda = array();
-		$datos_promedio = array();
-		$datos_busqueda[0] = $this->Database->duracionTransicion($usuario,$transicion,$tipo_usuario,$fecha_inicial,$fecha_final);
-		$tiempo_busqueda[0] = $this->_stringPeriodo($this->Database->convert_seconds($datos_busqueda[0]));
-		$nombre_usuario[0] = $usuario; 
-		$datos_promedio = $this->Database->duracionTransicion('all',$transicion,$tipo_usuario,$fecha_inicial,$fecha_final);
-		$tiempo_promedio = $this->_stringPeriodo($this->Database->convert_seconds($datos_promedio));
-		$titulo = 'Duración Transición';
-		if ($usuario=='all'){
-			$usuario = 'Todos';
-		}
-		if ($transicion=='all'){
-			$transicion = 'Todas';
-		}else{
-			$transicion = $this->Database->nombreTransicion($transicion);	
-		}
-		$fecha_inicial = explode(" ",$fecha_inicial);
-		$fecha_final = explode(" ",$fecha_final);
-		$fecha_inicial = date_create($fecha_inicial[0]);
-		$fecha_final = date_create($fecha_final[0]);
-		$fecha_inicial = date_format($fecha_inicial,"d-m-Y");
-		$fecha_final = date_format($fecha_final,"d-m-Y");		
-		$subtitulo = 'Del usuario <b>'.$usuario.'</b> para la transición <b>'.$transicion.'</b> en el periodo del '.$fecha_inicial.' al '.$fecha_final;	
-		$data = array(
-			'titulo' 								=> $titulo,
-			'subtitulo' 							=> $subtitulo,
-			'datos_busqueda' 						=> $datos_busqueda,
-			'tiempo_busqueda'						=> $tiempo_busqueda,
-			'datos_promedio'						=> $datos_promedio,
-			'tiempo_promedio'						=> $tiempo_promedio,
-			'nombre_usuario'						=> $nombre_usuario			
-			);		
-		return $data;
-	}
-
-	//calcula el tiempo de duracion todos los usuarios en una actividad en un periodo
-	private function _duracionTransicionTodosPeriodo($usuario,$transicion,$tipo_usuario,$fecha_inicial,$fecha_final){		
-		$datos_busqueda = array();
-		$datos_promedio = array();
-		if ($tipo_usuario == 'all')
-			$usuarios = $this->Database->usuariosTodos();			
-		else
-			$usuarios = $this->Database->usuariosTodos($tipo_usuario);
-		for ($i=0; $i < count($usuarios); $i++)
-		{			
-			$datos_busqueda[$i] = $this->Database->duracionTransicion($usuarios[$i]['id_usuario'],$transicion,$tipo_usuario,$fecha_inicial,$fecha_final);			
-			$tiempo_busqueda[$i] = $this->_stringPeriodo($this->Database->convert_seconds($datos_busqueda[$i]));
-			$nombre_usuario[$i] = $usuarios[$i]['id_usuario'];
-		}		
-		$datos_promedio = $this->Database->duracionTransicion('all',$transicion,$tipo_usuario,$fecha_inicial,$fecha_final);
-		$tiempo_promedio = $this->_stringPeriodo($this->Database->convert_seconds($datos_promedio));
-		$titulo = 'Duración Transición';
-		if ($tipo_usuario=='all'){			
-			$tipo_usuario = 'Todos';
-		}
-		else{
-			$tipo_usuario = $this->Database->nombreTipoUsuario($tipo_usuario);	
-		}
-		if ($transicion=='all'){
-			$transicion = 'Todas';
-		}else{
-			$transicion = $this->Database->nombreTransicion($transicion);	
-		}
-		$fecha_inicial = explode(" ",$fecha_inicial);
-		$fecha_final = explode(" ",$fecha_final);
-		$fecha_inicial = date_create($fecha_inicial[0]);
-		$fecha_final = date_create($fecha_final[0]);
-		$fecha_inicial = date_format($fecha_inicial,"d-m-Y");
-		$fecha_final = date_format($fecha_final,"d-m-Y");
-		$subtitulo = 'Del tipo usuario <b>'.$tipo_usuario.'</b> para la transición <b>'.$transicion.'</b> en el periodo del '.$fecha_inicial.' al '.$fecha_final;
-		$data = array(
-			'titulo' 								=> $titulo,
-			'subtitulo' 							=> $subtitulo,
-			'datos_busqueda' 						=> $datos_busqueda,
-			'tiempo_busqueda'						=> $tiempo_busqueda,
-			'datos_promedio'						=> $datos_promedio,
-			'tiempo_promedio'						=> $tiempo_promedio,
-			'nombre_usuario'						=> $nombre_usuario			
-			);		
-		return $data;
-	}
-
-	//calcula el tiempo de duracion de un usuario en un workflow en un dia
-	private function _duracionWorkflowUsuarioDia($usuario,$workflow,$tipo_usuario,$dia){
-		$datos_busqueda = array();
-		$datos_promedio = array();
-		$datos_busqueda[0] = $this->Database->duracionWorkflow($usuario,$workflow,$tipo_usuario,$dia,$dia);
-		$tiempo_busqueda[0] = $this->_stringPeriodo($this->Database->convert_seconds($datos_busqueda[0]));
-		$nombre_usuario[0] = $usuario; 
-		$datos_promedio = $this->Database->duracionWorkflow('all',$workflow,$tipo_usuario,$dia,$dia);
-		$tiempo_promedio = $this->_stringPeriodo($this->Database->convert_seconds($datos_promedio));
-		$titulo = 'Duración Flujo de Trabajo';
-		if ($usuario=='all'){
-			$usuario = 'Todos';
-		}
-		if ($workflow=='all'){
-			$workflow = 'Todos';
-		}else{
-			$workflow = $this->Database->nombreWorkflow($workflow);	
-		}
-		$dia = explode(" ",$dia);
-		$dia = date_create($dia[0]);
-		$dia = date_format($dia,"d-m-Y");
-		$subtitulo = 'Del usuario <b>'.$usuario.'</b> para el flujo de trabajo <b>'.$workflow.'</b> en el día '.$dia;		
-		$data = array(
-			'titulo' 								=> $titulo,
-			'subtitulo' 							=> $subtitulo,
-			'datos_busqueda' 						=> $datos_busqueda,
-			'tiempo_busqueda'						=> $tiempo_busqueda,
-			'datos_promedio'						=> $datos_promedio,
-			'tiempo_promedio'						=> $tiempo_promedio,
-			'nombre_usuario'						=> $nombre_usuario			
-			);		
-		return $data;
-	}
-
-	//calcula el tiempo de duracion todos los usuarios en un workflow en un dia
-	private function _duracionWorkflowTodosDia($usuario,$workflow,$tipo_usuario,$dia){		
-		$datos_busqueda = array();
-		$datos_promedio = array();
-		if ($tipo_usuario == 'all')
-			$usuarios = $this->Database->usuariosTodos();			
-		else
-			$usuarios = $this->Database->usuariosTodos($tipo_usuario);
-		for ($i=0; $i < count($usuarios); $i++)
-		{			
-			$datos_busqueda[$i] = $this->Database->duracionWorkflow($usuarios[$i]['id_usuario'],$workflow,$tipo_usuario,$dia,$dia);			
-			$tiempo_busqueda[$i] = $this->_stringPeriodo($this->Database->convert_seconds($datos_busqueda[$i]));
-			$nombre_usuario[$i] = $usuarios[$i]['id_usuario'];
-		}		
-		$datos_promedio = $this->Database->duracionWorkflow('all',$workflow,$tipo_usuario,$dia,$dia);
-		$tiempo_promedio = $this->_stringPeriodo($this->Database->convert_seconds($datos_promedio));
-		$titulo = 'Duración Flujo de Trabajo';
-		if ($tipo_usuario=='all'){			
-			$tipo_usuario = 'Todos';
-		}
-		else{
-			$tipo_usuario = $this->Database->nombreTipoUsuario($tipo_usuario);	
-		}
-		if ($workflow=='all'){
-			$workflow = 'Todos';
-		}else{
-			$workflow = $this->Database->nombreWorkflow($workflow);	
-		}
-		$dia = explode(" ",$dia);
-		$dia = date_create($dia[0]);
-		$dia = date_format($dia,"d-m-Y");
-		$subtitulo = 'Del tipo usuario <b>'.$tipo_usuario.'</b> para el flujo de trabajo <b>'.$workflow.'</b> en el día '.$dia;		
-		$data = array(
-			'titulo' 								=> $titulo,
-			'subtitulo' 							=> $subtitulo,
-			'datos_busqueda' 						=> $datos_busqueda,
-			'tiempo_busqueda'						=> $tiempo_busqueda,
-			'datos_promedio'						=> $datos_promedio,
-			'tiempo_promedio'						=> $tiempo_promedio,
-			'nombre_usuario'						=> $nombre_usuario			
-			);		
-		return $data;
-	}
-
-	//calcula el tiempo de duracion de un usuario en un workflow en un mes
-	private function _duracionWorkflowUsuarioMes($usuario,$workflow,$tipo_usuario,$fecha_inicial,$fecha_final){
-		$datos_busqueda = array();
-		$datos_promedio = array();
-		$datos_busqueda[0] = $this->Database->duracionWorkflow($usuario,$workflow,$tipo_usuario,$fecha_inicial,$fecha_final);
-		$tiempo_busqueda[0] = $this->_stringPeriodo($this->Database->convert_seconds($datos_busqueda[0]));
-		$nombre_usuario[0] = $usuario; 
-		$datos_promedio = $this->Database->duracionWorkflow('all',$workflow,$tipo_usuario,$fecha_inicial,$fecha_final);
-		$tiempo_promedio = $this->_stringPeriodo($this->Database->convert_seconds($datos_promedio));
-		$titulo = 'Duración Flujo de Trabajo';
-		if ($usuario=='all'){
-			$usuario = 'Todos';
-		}
-		if ($workflow=='all'){
-			$workflow = 'Todos';
-		}else{
-			$workflow = $this->Database->nombreWorkflow($workflow);	
-		}
-		$nombreMes = $this->_nombreMes($fecha_inicial);
-		$subtitulo = 'Del usuario <b>'.$usuario.'</b> para el flujo de trabajo <b>'.$workflow.'</b> en el mes '.$nombreMes;		
-		$data = array(
-			'titulo' 								=> $titulo,
-			'subtitulo' 							=> $subtitulo,
-			'datos_busqueda' 						=> $datos_busqueda,
-			'tiempo_busqueda'						=> $tiempo_busqueda,
-			'datos_promedio'						=> $datos_promedio,
-			'tiempo_promedio'						=> $tiempo_promedio,
-			'nombre_usuario'						=> $nombre_usuario			
-			);		
-		return $data;
-	}
-
-	//calcula el tiempo de duracion todos los usuarios en un workflow en un mes
-	private function _duracionWorkflowTodosMes($usuario,$workflow,$tipo_usuario,$fecha_inicial,$fecha_final){		
-		$datos_busqueda = array();
-		$datos_promedio = array();
-		if ($tipo_usuario == 'all')
-			$usuarios = $this->Database->usuariosTodos();			
-		else
-			$usuarios = $this->Database->usuariosTodos($tipo_usuario);
-		for ($i=0; $i < count($usuarios); $i++)
-		{			
-			$datos_busqueda[$i] = $this->Database->duracionWorkflow($usuarios[$i]['id_usuario'],$workflow,$tipo_usuario,$fecha_inicial,$fecha_final);			
-			$tiempo_busqueda[$i] = $this->_stringPeriodo($this->Database->convert_seconds($datos_busqueda[$i]));
-			$nombre_usuario[$i] = $usuarios[$i]['id_usuario'];
-		}		
-		$datos_promedio = $this->Database->duracionWorkflow('all',$workflow,$tipo_usuario,$fecha_inicial,$fecha_final);
-		$tiempo_promedio = $this->_stringPeriodo($this->Database->convert_seconds($datos_promedio));
-		$titulo = 'Duración Flujo de Trabajo';
-		if ($tipo_usuario=='all'){			
-			$tipo_usuario = 'Todos';
-		}
-		else{
-			$tipo_usuario = $this->Database->nombreTipoUsuario($tipo_usuario);	
-		}
-		if ($workflow=='all'){
-			$workflow = 'Todos';
-		}else{
-			$workflow = $this->Database->nombreWorkflow($workflow);	
-		}
-		$nombreMes = $this->_nombreMes($fecha_inicial);
-		$subtitulo = 'Del tipo usuario <b>'.$tipo_usuario.'</b> para el flujo de trabajo <b>'.$workflow.'</b> en el mes '.$nombreMes;		
-		$data = array(
-			'titulo' 								=> $titulo,
-			'subtitulo' 							=> $subtitulo,
-			'datos_busqueda' 						=> $datos_busqueda,
-			'tiempo_busqueda'						=> $tiempo_busqueda,
-			'datos_promedio'						=> $datos_promedio,
-			'tiempo_promedio'						=> $tiempo_promedio,
-			'nombre_usuario'						=> $nombre_usuario			
-			);		
-		return $data;
-	}
-
-	//calcula el tiempo de duracion de un usuario en un workflow en un año
-	private function _duracionWorkflowUsuarioAno($usuario,$workflow,$tipo_usuario,$fecha_inicial,$fecha_final){
-		$datos_busqueda = array();
-		$datos_promedio = array();
-		$datos_busqueda[0] = $this->Database->duracionWorkflow($usuario,$workflow,$tipo_usuario,$fecha_inicial,$fecha_final);
-		$tiempo_busqueda[0] = $this->_stringPeriodo($this->Database->convert_seconds($datos_busqueda[0]));
-		$nombre_usuario[0] = $usuario; 
-		$datos_promedio = $this->Database->duracionWorkflow('all',$workflow,$tipo_usuario,$fecha_inicial,$fecha_final);
-		$tiempo_promedio = $this->_stringPeriodo($this->Database->convert_seconds($datos_promedio));
-		$titulo = 'Duración Flujo de Trabajo';
-		if ($usuario=='all'){
-			$usuario = 'Todos';
-		}
-		if ($workflow=='all'){
-			$workflow = 'Todos';
-		}else{
-			$workflow = $this->Database->nombreWorkflow($workflow);	
-		}
-		$nombreAno = explode("-",$fecha_inicial);
-		$nombreAno = $nombreAno[0];	
-		$subtitulo = 'Del usuario <b>'.$usuario.'</b> para el flujo de trabajo <b>'.$workflow.'</b> en el año '.$nombreAno;		
-		$data = array(
-			'titulo' 								=> $titulo,
-			'subtitulo' 							=> $subtitulo,
-			'datos_busqueda' 						=> $datos_busqueda,
-			'tiempo_busqueda'						=> $tiempo_busqueda,
-			'datos_promedio'						=> $datos_promedio,
-			'tiempo_promedio'						=> $tiempo_promedio,
-			'nombre_usuario'						=> $nombre_usuario			
-			);		
-		return $data;
-	}
-
-	//calcula el tiempo de duracion todos los usuarios en un workflow en un año
-	private function _duracionWorkflowTodosAno($usuario,$workflow,$tipo_usuario,$fecha_inicial,$fecha_final){		
-		$datos_busqueda = array();
-		$datos_promedio = array();
-		if ($tipo_usuario == 'all')
-			$usuarios = $this->Database->usuariosTodos();			
-		else
-			$usuarios = $this->Database->usuariosTodos($tipo_usuario);
-		for ($i=0; $i < count($usuarios); $i++)
-		{			
-			$datos_busqueda[$i] = $this->Database->duracionWorkflow($usuarios[$i]['id_usuario'],$workflow,$tipo_usuario,$fecha_inicial,$fecha_final);			
-			$tiempo_busqueda[$i] = $this->_stringPeriodo($this->Database->convert_seconds($datos_busqueda[$i]));
-			$nombre_usuario[$i] = $usuarios[$i]['id_usuario'];
-		}		
-		$datos_promedio = $this->Database->duracionWorkflow('all',$workflow,$tipo_usuario,$fecha_inicial,$fecha_final);
-		$tiempo_promedio = $this->_stringPeriodo($this->Database->convert_seconds($datos_promedio));
-		$titulo = 'Duración Flujo de Trabajo';
-		if ($tipo_usuario=='all'){			
-			$tipo_usuario = 'Todos';
-		}
-		else{
-			$tipo_usuario = $this->Database->nombreTipoUsuario($tipo_usuario);	
-		}
-		if ($workflow=='all'){
-			$workflow = 'Todos';
-		}else{
-			$workflow = $this->Database->nombreWorkflow($workflow);	
-		}
-		$nombreAno = explode("-",$fecha_inicial);
-		$nombreAno = $nombreAno[0];
-		$subtitulo = 'Del tipo usuario <b>'.$tipo_usuario.'</b> para el flujo de trabajo <b>'.$workflow.'</b> en el año '.$nombreAno;		
-		$data = array(
-			'titulo' 								=> $titulo,
-			'subtitulo' 							=> $subtitulo,
-			'datos_busqueda' 						=> $datos_busqueda,
-			'tiempo_busqueda'						=> $tiempo_busqueda,
-			'datos_promedio'						=> $datos_promedio,
-			'tiempo_promedio'						=> $tiempo_promedio,
-			'nombre_usuario'						=> $nombre_usuario			
-			);		
-		return $data;
-	}
-
-	//calcula el tiempo de duracion de un usuario en un workflow en un periodo
-	private function _duracionWorkflowUsuarioPeriodo($usuario,$workflow,$tipo_usuario,$fecha_inicial,$fecha_final){
-		$datos_busqueda = array();
-		$datos_promedio = array();
-		$datos_busqueda[0] = $this->Database->duracionWorkflow($usuario,$workflow,$tipo_usuario,$fecha_inicial,$fecha_final);
-		$tiempo_busqueda[0] = $this->_stringPeriodo($this->Database->convert_seconds($datos_busqueda[0]));
-		$nombre_usuario[0] = $usuario; 
-		$datos_promedio = $this->Database->duracionWorkflow('all',$workflow,$tipo_usuario,$fecha_inicial,$fecha_final);
-		$tiempo_promedio = $this->_stringPeriodo($this->Database->convert_seconds($datos_promedio));
-		$titulo = 'Duración Flujo de Trabajo';
-		if ($usuario=='all'){
-			$usuario = 'Todos';
-		}
-		if ($workflow=='all'){
-			$workflow = 'Todos';
-		}else{
-			$workflow = $this->Database->nombreWorkflow($workflow);
-		}
-		$fecha_inicial = explode(" ",$fecha_inicial);
-		$fecha_final = explode(" ",$fecha_final);
-		$fecha_inicial = date_create($fecha_inicial[0]);
-		$fecha_final = date_create($fecha_final[0]);
-		$fecha_inicial = date_format($fecha_inicial,"d-m-Y");
-		$fecha_final = date_format($fecha_final,"d-m-Y");		
-		$subtitulo = 'Del usuario <b>'.$usuario.'</b> para el flujo de trabajo <b>'.$workflow.'</b> en el periodo del '.$fecha_inicial.' al '.$fecha_final;	
-		$data = array(
-			'titulo' 								=> $titulo,
-			'subtitulo' 							=> $subtitulo,
-			'datos_busqueda' 						=> $datos_busqueda,
-			'tiempo_busqueda'						=> $tiempo_busqueda,
-			'datos_promedio'						=> $datos_promedio,
-			'tiempo_promedio'						=> $tiempo_promedio,
-			'nombre_usuario'						=> $nombre_usuario			
-			);		
-		return $data;
-	}
-
-	//calcula el tiempo de duracion todos los usuarios en un workflow en un periodo
-	private function _duracionWorkflowTodosPeriodo($usuario,$workflow,$tipo_usuario,$fecha_inicial,$fecha_final){		
-		$datos_busqueda = array();
-		$datos_promedio = array();
-		if ($tipo_usuario == 'all')
-			$usuarios = $this->Database->usuariosTodos();			
-		else
-			$usuarios = $this->Database->usuariosTodos($tipo_usuario);
-		for ($i=0; $i < count($usuarios); $i++)
-		{			
-			$datos_busqueda[$i] = $this->Database->duracionWorkflow($usuarios[$i]['id_usuario'],$workflow,$tipo_usuario,$fecha_inicial,$fecha_final);			
-			$tiempo_busqueda[$i] = $this->_stringPeriodo($this->Database->convert_seconds($datos_busqueda[$i]));
-			$nombre_usuario[$i] = $usuarios[$i]['id_usuario'];
-		}		
-		$datos_promedio = $this->Database->duracionWorkflow('all',$workflow,$tipo_usuario,$fecha_inicial,$fecha_final);
-		$tiempo_promedio = $this->_stringPeriodo($this->Database->convert_seconds($datos_promedio));
-		$titulo = 'Duración Flujo de Trabajo';
-		if ($tipo_usuario=='all'){			
-			$tipo_usuario = 'Todos';
-		}
-		else{
-			$tipo_usuario = $this->Database->nombreTipoUsuario($tipo_usuario);	
-		}
-		if ($workflow=='all'){
-			$workflow = 'Todas';
-		}else{
-			$workflow = $this->Database->nombreWorkflow($workflow);
-		}
-		$fecha_inicial = explode(" ",$fecha_inicial);
-		$fecha_final = explode(" ",$fecha_final);
-		$fecha_inicial = date_create($fecha_inicial[0]);
-		$fecha_final = date_create($fecha_final[0]);
-		$fecha_inicial = date_format($fecha_inicial,"d-m-Y");
-		$fecha_final = date_format($fecha_final,"d-m-Y");
-		$subtitulo = 'Del tipo usuario <b>'.$tipo_usuario.'</b> para el flujo de trabajo <b>'.$workflow.'</b> en el periodo del '.$fecha_inicial.' al '.$fecha_final;
-		$data = array(
-			'titulo' 								=> $titulo,
-			'subtitulo' 							=> $subtitulo,
-			'datos_busqueda' 						=> $datos_busqueda,
-			'tiempo_busqueda'						=> $tiempo_busqueda,
-			'datos_promedio'						=> $datos_promedio,
-			'tiempo_promedio'						=> $tiempo_promedio,
-			'nombre_usuario'						=> $nombre_usuario			
-			);		
-		return $data;
+		*/
+		
 	}
 
 }
