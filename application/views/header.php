@@ -78,7 +78,7 @@ function ubicacion(){
 				<?php endif; endif; ?>
 			<?php if(isset($session)):
 	        	if ($session['tipo']=='1'): ?>
-			<li class="<?php if (strpos(ubicacion(),"ajustes")!=false) echo 'active ' ?>menutab"><a href="<?php echo base_url().'ajustes' ?>"><i class="material-icons md-40 md-dark">settings</i><span class="menu-title">Ajustes</span></a></li>
+			<li class="<?php if (strpos(ubicacion(),"reportes")!=false) echo 'active ' ?>menutab"><a href="<?php echo base_url().'reportes' ?>"><i class="material-icons md-40 md-dark">settings</i><span class="menu-title">Reportes</span></a></li>
 				<?php endif; endif; ?>
 			<li class="<?php if (strpos(ubicacion(),"ayuda")!=false) echo 'active ' ?>menutab"><a href="<?php echo base_url().'ayuda' ?>"><i class="material-icons md-40 md-dark">help_outline</i><span class="menu-title">Ayuda</span></a></li>
             <!--

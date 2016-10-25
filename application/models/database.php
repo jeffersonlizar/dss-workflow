@@ -7,12 +7,120 @@ class Database extends CI_Model {
 		parent::__construct();
 	}
 
-	public function cargar_preferencias(){
+	public function cargar_indicador_actividad(){
 		$this->db->db_select('dss');
-		$query = $this->db->query("SELECT * FROM preferencias");
+		$query = $this->db->query("SELECT * FROM indicador_actividad ORDER BY id DESC limit 1");
 		if($query -> num_rows() > 0)
         {
-            return $query->result_array();
+            return $query->result_array()[0];
+        }
+        else
+        {
+            return false;
+        }
+	}
+	public function cargar_indicador_categoria(){
+		$this->db->db_select('dss');
+		$query = $this->db->query("SELECT * FROM indicador_categoria ORDER BY id DESC limit 1");
+		if($query -> num_rows() > 0)
+        {
+            return $query->result_array()[0];
+        }
+        else
+        {
+            return false;
+        }
+	}
+	public function cargar_indicador_indicadores(){
+		$this->db->db_select('dss');
+		$query = $this->db->query("SELECT * FROM indicador_indicadores ORDER BY id DESC limit 1");
+		if($query -> num_rows() > 0)
+        {
+            return $query->result_array()[0];
+        }
+        else
+        {
+            return false;
+        }
+	}
+	public function cargar_indicador_crecimiento(){
+		$this->db->db_select('dss');
+		$query = $this->db->query("SELECT * FROM indicador_crecimiento ORDER BY id DESC limit 1");
+		if($query -> num_rows() > 0)
+        {
+            return $query->result_array()[0];
+        }
+        else
+        {
+            return false;
+        }
+	}
+	public function cargar_indicador_tiempo_promedio(){
+		$this->db->db_select('dss');
+		$query = $this->db->query("SELECT * FROM indicador_tiempo_promedio ORDER BY id DESC limit 1");
+		if($query -> num_rows() > 0)
+        {
+            return $query->result_array()[0];
+        }
+        else
+        {
+            return false;
+        }
+	}
+	public function cargar_indicador_actividad_usuario(){
+		$this->db->db_select('dss');
+		$query = $this->db->query("SELECT * FROM indicador_actividad_usuario ORDER BY id DESC limit 1");
+		if($query -> num_rows() > 0)
+        {
+            return $query->result_array()[0];
+        }
+        else
+        {
+            return false;
+        }
+	}
+	public function cargar_indicador_resumen(){
+		$this->db->db_select('dss');
+		$query = $this->db->query("SELECT * FROM indicador_resumen ORDER BY id DESC limit 1");
+		if($query -> num_rows() > 0)
+        {
+            return $query->result_array()[0];
+        }
+        else
+        {
+            return false;
+        }
+	}
+	public function cargar_indicador_duracion_transicion(){
+		$this->db->db_select('dss');
+		$query = $this->db->query("SELECT * FROM indicador_duracion_transicion ORDER BY id DESC limit 1");
+		if($query -> num_rows() > 0)
+        {
+            return $query->result_array()[0];
+        }
+        else
+        {
+            return false;
+        }
+	}
+	public function cargar_indicador_duracion_workflow(){
+		$this->db->db_select('dss');
+		$query = $this->db->query("SELECT * FROM indicador_duracion_workflow ORDER BY id DESC limit 1");
+		if($query -> num_rows() > 0)
+        {
+            return $query->result_array()[0];
+        }
+        else
+        {
+            return false;
+        }
+	}
+	public function cargar_indicador_ultimas(){
+		$this->db->db_select('dss');
+		$query = $this->db->query("SELECT * FROM indicador_ultimas ORDER BY id DESC limit 1");
+		if($query -> num_rows() > 0)
+        {
+            return $query->result_array()[0];
         }
         else
         {
@@ -901,8 +1009,8 @@ class Database extends CI_Model {
 		$rapido = array();
 		$cant = array();
 		$promedio = array();
-		$query_mas = "SELECT tran.nombre , COUNT(*) as cant FROM proceso AS pro INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tran on pro.id_transicion = tran.id_transicion WHERE (DATE(fecha) BETWEEN DATE(?) AND DATE(?)) GROUP by (tran.nombre) ORDER BY (cant) DESC LIMIT 1";
-		$query_menos = "SELECT tran.nombre , COUNT(*) as cant FROM proceso AS pro INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tran on pro.id_transicion = tran.id_transicion WHERE (DATE(fecha) BETWEEN DATE(?) AND DATE(?)) GROUP by (tran.nombre) ORDER BY (cant) ASC LIMIT 1";
+		$query_mas = "SELECT tran.nombre , COUNT(*) as cant FROM proceso AS pro INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tran on pro.id_transicion = tran.id_transicion WHERE (DATE(fecha) BETWEEN DATE(?) AND DATE(?)) GROUP by (tran.id_transicion) ORDER BY (cant) DESC LIMIT 1";
+		$query_menos = "SELECT tran.nombre , COUNT(*) as cant FROM proceso AS pro INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tran on pro.id_transicion = tran.id_transicion WHERE (DATE(fecha) BETWEEN DATE(?) AND DATE(?)) GROUP by (tran.id_transicion) ORDER BY (cant) ASC LIMIT 1";
 		$query_cant = "SELECT COUNT(*) as cant FROM proceso AS pro INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tran on pro.id_transicion = tran.id_transicion WHERE (DATE(fecha) BETWEEN DATE(?) AND DATE(?))";
 		$query_rapido = "SELECT tran.id_transicion,tran.nombre,TIME_TO_SEC(TIMEDIFF(pro2.fecha, pro1.fecha)) as time FROM proceso as pro2, proceso as pro1 INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tran on pro1.id_transicion = tran.id_transicion WHERE pro1.id_instancia = pro2.id_instancia AND pro1.id_proceso<pro2.id_proceso AND (DATE(pro1.fecha) BETWEEN DATE(?) AND DATE(?)) AND (DATE(pro2.fecha) BETWEEN DATE(?) AND DATE(?)) GROUP BY pro1.id_proceso ORDER BY time ASC";
 		$query_lento = "SELECT tran.id_transicion,tran.nombre,TIME_TO_SEC(TIMEDIFF(pro2.fecha, pro1.fecha)) as time FROM proceso as pro2, proceso as pro1 INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tran on pro1.id_transicion = tran.id_transicion WHERE pro1.id_instancia = pro2.id_instancia AND pro1.id_proceso<pro2.id_proceso AND (DATE(pro1.fecha) BETWEEN DATE(?) AND DATE(?)) AND (DATE(pro2.fecha) BETWEEN DATE(?) AND DATE(?)) GROUP BY pro1.id_proceso ORDER BY time DESC";
@@ -991,6 +1099,8 @@ class Database extends CI_Model {
 	public function ultimas($fecha,$cant_ins,$cant_pro){
 		$this->db->db_select('workflow');	
 		$data = array();
+		$data['instancias'] = 0;
+		$data['procesos'] = 0;
 		$query_instancias = "SELECT * FROM instancia INNER JOIN (SELECT id_workflow,nombre FROM workflow) as wk ON instancia.id_workflow=wk.id_workflow WHERE DATE(fecha_inicio)=DATE(?) ORDER BY fecha_inicio  DESC LIMIT ?";
 		$query_procesos = "SELECT * FROM proceso INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tr ON proceso.id_transicion=tr.id_transicion INNER JOIN (SELECT id_instancia,titulo as instancia_nombre FROM instancia) as ins ON proceso.id_instancia=ins.id_instancia WHERE DATE(fecha)=DATE(?) ORDER BY fecha DESC LIMIT ?";
 		$sql = $this->db->query($query_instancias, array($fecha,intval($cant_ins)));		
@@ -1021,7 +1131,7 @@ class Database extends CI_Model {
 		if ($tipo_usuario!= "all"){
 			$query = $query." AND usr.id_tipo = ".$tipo_usuario."";
 		}
-		$query = $query." GROUP BY pro1.id_proceso";		
+		$query = $query." GROUP BY pro1.id_proceso";	
 		$sql = $this->db->query($query);
 		if($sql -> num_rows() > 0)
         {	        	
@@ -1225,7 +1335,7 @@ class Database extends CI_Model {
 	public function getUsuario($tipo){
 		$this->db->db_select('workflow');
 		$data= array();
-		$query = "SELECT id_usuario FROM usuario";
+		$query = "SELECT id_usuario FROM usuario ";
 		if ($tipo!='all')
 			$query = $query.'WHERE id_tipo = '.$tipo.'';
 		$sql = $this->db->query($query);
@@ -1233,6 +1343,33 @@ class Database extends CI_Model {
         {	        	
             $data = $sql->result_array();
 
+        }		
+		return $data;
+	}
+	//---------------------------------------- REPORTES PDF ----------------------------------------//
+	//calcula la actividad transiciones en el periodo
+	public function pdfTransicionesPeriodo($fecha_inicial,$fecha_final){
+		$this->db->db_select('workflow');
+		$data= array();
+		$query = "SELECT pro.id_proceso as proceso,ins.titulo as workflow, pro.id_usuario as usuario, trans.nombre as transicion, pro.fecha FROM proceso as pro INNER JOIN instancia as ins ON pro.id_instancia = ins.id_instancia INNER JOIN transicion as trans ON pro.id_transicion = trans.id_transicion WHERE (DATE(pro.fecha) BETWEEN DATE(?) AND DATE(?)) ORDER BY pro.id_proceso ASC";
+		$sql = $this->db->query($query, array($fecha_inicial,$fecha_final));
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data = $sql->result_array();
+        }		
+		
+		return $data;
+	}
+
+	//calcula la actividad flujos en el periodo
+	public function pdfFlujosPeriodo($fecha_inicial,$fecha_final){
+		$this->db->db_select('workflow');
+		$data= array();
+		$query = "SELECT ins.id_instancia as instancia,wor.nombre as workflow,ins.id_usuario,ins.titulo as nombre_instancia,ins.fecha_inicio as fecha FROM instancia as ins INNER JOIN workflow as wor ON ins.id_workflow = wor.id_workflow WHERE (DATE(ins.fecha_inicio) BETWEEN DATE(?) AND DATE(?)) ORDER BY ins.id_instancia ASC";
+		$sql = $this->db->query($query, array($fecha_inicial,$fecha_final));
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data = $sql->result_array();
         }		
 		return $data;
 	}

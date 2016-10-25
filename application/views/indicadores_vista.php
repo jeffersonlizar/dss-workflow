@@ -21,6 +21,6 @@
 									
 			</div>	
 			
-		</main>
+		</main>	
 		<!-- /main -->
 

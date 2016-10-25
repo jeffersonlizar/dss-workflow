@@ -27,8 +27,9 @@
             <h3>Iniciar Sesión</h3>
             <div class="row">
                 <div class="input-field col s12">
+                <label>Email</label>
                     <input id="user" name="user" type="text" class="validate" value="<?php echo $usuario_login ?>" <?php if(isset($usuario_login)) echo 'readonly'; ?> >
-                    <label>Email</label>
+                    
                 </div>
             </div>
             <div class="row">

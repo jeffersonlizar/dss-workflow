@@ -85,6 +85,27 @@ $('.ajax-instancia').change(function(){
 	})
 })
 
+$('.ajax-tipousuario').change(function(){
+	value = $(this).val();
+	$('.ajax-usuario').empty();
+	$('.ajax-usuario').append('<option disabled selected value>Seleccione una opción</option>');
+	$('.ajax-usuario').append('<option value=all>Todos</option>');
+	$.ajax({
+		url: servidor+"indicadores/filtro/usuario/"+value,
+		dataType: "json",
+		async: true,
+		success: function(data){
+			console.log(data);
+			$.each( data, function( key, value ) {
+				  	$('.ajax-usuario').append('<option value='+value.id_usuario+'>'+value.id_usuario+'</option>');
+				});
+		},
+		error: function (data){
+			console.log(data);	
+		}
+	})
+})
+
 
 function ajax_tipousuario(){
 	$('.ajax-tipousuario').empty();
@@ -120,3 +141,11 @@ function ajax_usuario(value){
 		}
 	})
 }
+
+$('#cargarpdf').click(function(){
+	url='http://localhost/tesisdss/reportes/reporte_actividad/2016-09-10/2016-09-30';
+	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+ 		window.open(url);
+	}
+	$(".iframepdf").html("<iframe width='100%' height='450' src="+url+"></iframe>");  
+})

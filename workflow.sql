@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 20, 2016 at 06:38 AM
+-- Generation Time: Oct 25, 2016 at 06:57 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.23
 
@@ -1267,9 +1267,9 @@ INSERT INTO `transicion` (`id_transicion`, `nombre`, `descripcion`, `estado_sigu
 (2, 'Procesos juridicos', 'Enviar documento a tribunales', 3, 2),
 (3, 'Resultados recibidos', 'Resultados recibidos para el d', 0, 3),
 (4, 'Entregado al usuario', 'Documento entregado al usuario', 4, 0),
-(5, 'Error en los documentos', 'Se consiguio un error en los d', 0, 2),
-(6, 'Error en los documentos', 'Se consiguio un error en los d', 0, 1),
-(7, 'Error en los documentos', 'Se consiguio un error en los d', 4, 0),
+(5, 'Error en los documentos1', 'Se consiguio un error en los d', 0, 2),
+(6, 'Error en los documentos2', 'Se consiguio un error en los d', 0, 1),
+(7, 'Error en los documentos3', 'Se consiguio un error en los d', 4, 0),
 (8, 'Enviar a tribunales', 'Documento enviado a tribunales', 3, 1),
 (9, 'Asignar Abogado', 'Asignar Abogado', 6, 5),
 (10, 'Documentos en regla', 'Documentos en regla', 7, 6),

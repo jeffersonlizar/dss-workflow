@@ -45,12 +45,12 @@
                             <p>Total realizados: <span id="resumen_workflow_cant"></span></p>
                         </div>    
                         <div>
-                            <p><b>Proceso</b></p>
-                            <p>Más realizado: <span id="resumen_proceso_mas_realizado"></span></p>
-                            <p>Menos realizado: <span id="resumen_proceso_menos_realizado"></span></p>
-                            <p>Más rápido: <span id="resumen_proceso_mas_rapido"></span></p>
-                            <p>Más lento: <span id="resumen_proceso_mas_lento"></span></p>
-                            <p>Total realizados: <span id="resumen_proceso_cant"></span></p>
+                            <p><b>Transición</b></p>
+                            <p>Más realizada: <span id="resumen_proceso_mas_realizado"></span></p>
+                            <p>Menos realizada: <span id="resumen_proceso_menos_realizado"></span></p>
+                            <p>Más rápida: <span id="resumen_proceso_mas_rapido"></span></p>
+                            <p>Más lenta: <span id="resumen_proceso_mas_lento"></span></p>
+                            <p>Total realizadas: <span id="resumen_proceso_cant"></span></p>
                         </div>
                     </div>
 
