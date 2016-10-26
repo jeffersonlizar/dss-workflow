@@ -1,6 +1,26 @@
-
+/*-------------------------- menu --------------------------*/
+.logo-menu{
+	padding-bottom: 50px;
+}
+.bold>a {
+    font-weight: bold;
+}
+.side-nav .collapsible-body li a, .side-nav.fixed .collapsible-body li a {
+    padding: 0 30px;
+}
+.side-nav a {
+    height: auto; 
+}
+/*-------------------------- indicadores --------------------------*/
+select.initialized{
+	display: none;
+}
+.center{
+	text-align: center;
+}
 /*--------------------------Theme Basis-------------------------*/
 body{
+	overflow-x: hidden;
 	//font-family: 'Titillium Web', sans-serif !important;
 }
 h3 {
@@ -91,6 +111,10 @@ select{
 
 /*--------------------------responsive-------------------------*/
 @media (min-width: 10px){
+	body{
+	overflow-x: hidden;
+	//font-family: 'Titillium Web', sans-serif !important;
+}
 	.button-collapse i{
 		position: relative;
 		top:-40px;
@@ -99,15 +123,50 @@ select{
 		position: relative;
 		left:10px;
 	}
+	
+}
+@media (min-width: 300px){
+	.button-collapse i{
+		position: relative;
+		top:-40px;
+	}
+	.page-title{
+		position: relative;
+		left:10px;
+	}
+	.submit-centrado{
+		margin-left: 15%;
+	}
+}
+@media (min-width: 365px){
+	.submit-centrado{
+		margin-left: 20%;
+	}
+}
+@media (min-width: 410px){
+	.submit-centrado{
+		margin-left: 22%;
+	}
+}
+@media (min-width: 700px){
+	.submit-centrado{
+		margin-left: 35%;
+	}
 }
 @media (min-width: 1023px){
 	.centrado{
 		margin-left:206px;
 		width: 79%;
 	}
+	.menu-indicadores{
+		font-size: 14px;
+	}
 	.page-title{
 		position: relative;
 		left:70px;
+	}
+	.submit-centrado{
+		margin-left: 35%;
 	}
 	
 }
@@ -122,6 +181,9 @@ select{
 		margin-left:208px;
 		width: 85%;
 	}
+	.submit-centrado{
+		margin-left: 41%;
+	}
 }
 @media (min-width: 1899px){
 	.centrado{
@@ -131,6 +193,9 @@ select{
 	.page-title{
 		position: relative;
 		left:-80px;
+	}
+	.submit-centrado{
+		margin-left: 44%;
 	}
 }
 

@@ -34,6 +34,20 @@ class Indicadores extends CI_Controller {
 		echo json_encode($values);
 	}
 
+	public function actividad(){
+		$session_data = $this->session->userdata('logged_in');	
+		if($session_data['tipo']!='1'){
+			redirect('home');
+		}
+		$header = array(
+			'session'=>$session_data
+		);
+		$this->load->view('header',$header, FALSE);
+		$this->load->view('indicadores/actividad','', FALSE);
+		$this->load->view('footerbegin','', FALSE);	
+		$this->load->view('footerend','', FALSE);	
+	}
+
 }
 
 /* End of file Indicadores.php */

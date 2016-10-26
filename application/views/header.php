@@ -28,15 +28,15 @@ function ubicacion(){
 		<!-- optimizando para moviles -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<!-- material icons -->
-		<link type="text/css" rel="stylesheet" href="<?php  base_url() ?>public/css/material-icons.css" />
+		<link type="text/css" rel="stylesheet" href="<?php echo base_url() ?>public/css/material-icons.css" />
 		<!-- importando materialize -->
-		<link type="text/css" rel="stylesheet" href="<?php  base_url() ?>public/css/materialize.css" />
+		<link type="text/css" rel="stylesheet" href="<?php echo base_url() ?>public/css/materialize.css" />
 		<!-- estilo personal -->
-		<link type="text/css" rel="stylesheet" href="<?php  base_url() ?>public/css/personal.css" />		
-        <link rel="stylesheet" href="<?php  base_url() ?>public/css/odometer-theme-default.css" />
+		<link type="text/css" rel="stylesheet" href="<?php echo base_url() ?>public/css/personal.css" />		
+        <link rel="stylesheet" href="<?php echo base_url() ?>public/css/odometer-theme-default.css" />
 
 		<title>DSS</title>
-		<link rel="icon" href="<?php  base_url() ?>public/img/dss-icon.png" />
+		<link rel="icon" href="<?php echo base_url() ?>public/img/dss-icon.png" />
 	</head>
 
 	<body>		
@@ -45,7 +45,7 @@ function ubicacion(){
 	      <nav class="top-nav">
 	        <div class="container">
 	          <div class="nav-wrapper">
-	          	<a href="index.php" class="page-title">Sistema de Soporte a Decisiones</a>
+	          	<a href="<?php echo base_url() ?>" class="page-title">Sistema de Soporte a Decisiones</a>
 		       	<a href="<?php echo base_url().'usuarios/logout' ?>" class="page-title">Salir del Sistema</a>
 		       	<span>Usuario: <?php echo $session['user'] ?></span>
 		       	<span>Fecha: <span id ="fecha"></span></span>
@@ -54,37 +54,45 @@ function ubicacion(){
 	      
 	      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>	      
 	      <ul class="side-nav fixed" id="mobile-demo">
-	        <li><a class="center" href="<?php echo base_url() ?>"><i class="material-icons md-dark md-48">equalizer</i></a></li>
-	        <li class="search">
-				<div class="search-wrapper card focus">
-					<input id="search" type="search" placeholder="Buscar" >
-					<i class="material-icons">search</i>
-	            	<div class="search-results"></div>
-	          	</div>
-	        </li>
-	        <li class="<?php if (ubicacion()=="home") echo 'active ' ?>menutab"><a href="<?php echo base_url() ?>"><i class="material-icons md-40 md-dark">home</i><span class="menu-title">Inicio</span></a></li>
+	      	<div class="logo-menu">
+	        	<li><a class="center" href="<?php echo base_url() ?>"><i class="material-icons md-dark md-48">equalizer</i></a></li>
+	        </div>
+	        <li class="bold <?php if (ubicacion()=="home") echo 'active ' ?>menutab"><a class="waves-effect waves-teal" href="<?php echo base_url() ?>"><i class="material-icons md-40 md-dark">home</i><span class="menu-title">Inicio</span></a></li>
 
-	        <?php if(isset($session)):
+	         <?php if(isset($session)):
 	        	if ($session['tipo']=='1'): ?>
-	        <li class="<?php if (strpos(ubicacion(),"indicadores")!=false) echo 'active ' ?>menutab"><a href="<?php echo base_url().'indicadores' ?>"><i class="material-icons md-40 md-dark">insert_chart</i><span class="menu-title">Indicadores</span></a></li>
-	        <?php endif; endif; ?>
-	        <?php if(isset($session)):
+	        <ul class="collapsible collapsible-accordion">
+	            <li class="bold"><a class="collapsible-header waves-effect waves-teal"><i class="material-icons md-40 md-dark">insert_chart</i><span class="menu-title menu-indicadores">Indicadores</span></a>
+	              <div class="collapsible-body ">
+	                <ul>
+	                  <li><a href="<?php echo base_url().'indicadores/actividad' ?>">Actividad</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/categoria' ?>">Categoria</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/indicadores' ?>">Indicadores</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/crecimiento' ?>">Crecimiento</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/tiempo-promedio' ?>">Tiempo Promedio</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/actividad-usuario' ?>">Actividad Usuario</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/resumen' ?>">Resumen</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/duracion-transicion' ?>">Duración Transición</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/duracion-flujo' ?>">Duración Flujo de trabajo</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/ultimas' ?>">Ultimas</a></li>
+	                </ul>
+	              </div>
+	            </li>
+          	</ul>
+          	<?php endif; endif; ?>
+          	<?php if(isset($session)):
 	        	if ($session['tipo']=='1'): ?>
-			<li class="<?php if (strpos(ubicacion(),"alarmas")!=false) echo 'active ' ?>menutab"><a href="<?php echo base_url().'alarmas' ?>"><i class="material-icons md-40 md-dark">network_check</i><span class="menu-title">Alarmas</span></a></li>
+			<li class="bold <?php if (strpos(ubicacion(),"alarmas")!=false) echo 'active ' ?>menutab"><a class="waves-effect waves-teal" href="<?php echo base_url().'alarmas' ?>"><i class="material-icons md-40 md-dark">network_check</i><span class="menu-title">Alarmas</span></a></li>
 				<?php endif; endif; ?>
 			<?php if(isset($session)):
 	        	if ($session['tipo']=='1'): ?>
-			<li class="<?php if (strpos(ubicacion(),"usuarios")!=false) echo 'active ' ?>menutab"><a href="<?php echo base_url().'usuarios' ?>"><i class="material-icons md-40 md-dark">account_box</i><span class="menu-title">Usuarios</span></a></li>				
+			<li class="bold <?php if (strpos(ubicacion(),"usuarios")!=false) echo 'active ' ?>menutab"><a class="waves-effect waves-teal" href="<?php echo base_url().'usuarios' ?>"><i class="material-icons md-40 md-dark">account_box</i><span class="menu-title">Usuarios</span></a></li>				
 				<?php endif; endif; ?>
 			<?php if(isset($session)):
 	        	if ($session['tipo']=='1'): ?>
-			<li class="<?php if (strpos(ubicacion(),"reportes")!=false) echo 'active ' ?>menutab"><a href="<?php echo base_url().'reportes' ?>"><i class="material-icons md-40 md-dark">settings</i><span class="menu-title">Reportes</span></a></li>
+			<li class="bold <?php if (strpos(ubicacion(),"reportes")!=false) echo 'active ' ?>menutab"><a class="waves-effect waves-teal" href="<?php echo base_url().'reportes' ?>"><i class="material-icons md-40 md-dark">settings</i><span class="menu-title">Reportes</span></a></li>
 				<?php endif; endif; ?>
-			<li class="<?php if (strpos(ubicacion(),"ayuda")!=false) echo 'active ' ?>menutab"><a href="<?php echo base_url().'ayuda' ?>"><i class="material-icons md-40 md-dark">help_outline</i><span class="menu-title">Ayuda</span></a></li>
-            <!--
-			<li id="hidemenu"><i class="material-icons md-48 md-dark">keyboard_arrow_left</i></li>
-			<li id="showmenu"><i class="material-icons md-48 md-dark">keyboard_arrow_right</i></li>
-            -->
+			<li class="bold <?php if (strpos(ubicacion(),"ayuda")!=false) echo 'active ' ?>menutab"><a class="waves-effect waves-teal" href="<?php echo base_url().'ayuda' ?>"><i class="material-icons md-40 md-dark">help_outline</i><span class="menu-title">Ayuda</span></a></li>
 	      </ul>	   
 
     	</header>
