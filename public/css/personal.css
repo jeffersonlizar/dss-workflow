@@ -18,6 +18,10 @@ select.initialized{
 .center{
 	text-align: center;
 }
+input.datepicker,input.select-dropdown{
+	text-align: center;
+}
+
 /*--------------------------Theme Basis-------------------------*/
 body{
 	overflow-x: hidden;
@@ -112,9 +116,9 @@ select{
 /*--------------------------responsive-------------------------*/
 @media (min-width: 10px){
 	body{
-	overflow-x: hidden;
-	//font-family: 'Titillium Web', sans-serif !important;
-}
+		overflow-x: hidden;
+		//font-family: 'Titillium Web', sans-serif !important;
+	}
 	.button-collapse i{
 		position: relative;
 		top:-40px;
@@ -137,16 +141,32 @@ select{
 	.submit-centrado{
 		margin-left: 15%;
 	}
+	
+	input.select-dropdown{
+	    font-size: 0.86rem !important;
+	}
+	.filtroprincipal input.select-dropdown{
+	    font-size: 1rem !important;
+	}
+	
+
 }
 @media (min-width: 365px){
 	.submit-centrado{
 		margin-left: 20%;
 	}
+	
+	input.select-dropdown{
+	    font-size: 1rem !important;
+	}
+	
+
 }
 @media (min-width: 410px){
 	.submit-centrado{
 		margin-left: 22%;
 	}
+	
 }
 @media (min-width: 700px){
 	.submit-centrado{
