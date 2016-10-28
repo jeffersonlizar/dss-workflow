@@ -8,13 +8,13 @@
 			
 			<div class="centrado">
 				<div class="row">
-					<form class="col s12">
+					<form class="col s12 form-indicadores" action="<?php echo base_url().'indicadores/registrar_actividad' ?>" method="POST">
 				      <div class="row">
 				      <h4>Indicadores | <small>Actividad</small></h4>
 				        <div class="input-field col s12 m12 offset-l3 l6">
 				        	<h5 class="center">Filtrar por:</h5>
 				        	<div class="filtroprincipal">
-								<select id="filtro-indicador-actividad">
+								<select id="filtro-indicador-actividad" name="filtro">
 									<option value="" disabled selected>Seleccione una opción</option>
 									<option value="hoy">Hoy</option>
 									<option value="ayer">Ayer</option>
@@ -175,13 +175,14 @@
 							        </div>
 							    </div>
 				        </div>
-				        <div class="col s12 m6 l9" id="actividad"></div>
+				        
 				        
 					    <div class="col s12 m12 l12">
 							<input id="submit-indicador-actividad" type="submit" name="send" class="btn waves-effect disabled waves-light submit-centrado" value="Guardar y Mostrar">
 						</div>
-
+						</div>
 				    </form>
+				    <div class="col s12 m12 l12" id="actividad"></div>
 					
 				</div>	
 			</div>

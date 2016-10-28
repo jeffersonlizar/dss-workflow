@@ -19,6 +19,18 @@ class Database extends CI_Model {
             return false;
         }
 	}
+	public function guardar_indicador_actividad($opcion,$usuario_admin=null,$fecha=null,$dia=null,$dia_comparativo1=null,$dia_comparativo2=null,$mes=null,$mes_comparativo1=null,$mes_comparativo2=null,$ano=null,$ano_comparativo1=null,$ano_comparativo2=null){
+		$this->db->db_select('dss');
+		$query = $this->db->query("INSERT INTO indicador_actividad(opcion,usuario_admin,fecha,dia,dia_comparativo1,dia_comparativo2,mes,mes_comparativo1,mes_comparativo2,ano,ano_comparativo1,ano_comparativo2) values ('$opcion','$usuario_admin','$fecha','$dia','$dia_comparativo1','$dia_comparativo2','$mes','$mes_comparativo1','$mes_comparativo2','$ano','$ano_comparativo1','$ano_comparativo2')");
+		if($query)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+	}
 	public function cargar_indicador_categoria(){
 		$this->db->db_select('dss');
 		$query = $this->db->query("SELECT * FROM indicador_categoria ORDER BY id DESC limit 1");

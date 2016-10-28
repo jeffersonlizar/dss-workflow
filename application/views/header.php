@@ -61,8 +61,9 @@ function ubicacion(){
 
 	         <?php if(isset($session)):
 	        	if ($session['tipo']=='1'): ?>
+
 	        <ul class="collapsible collapsible-accordion">
-	            <li class="bold"><a class="collapsible-header waves-effect waves-teal"><i class="material-icons md-40 md-dark">insert_chart</i><span class="menu-title menu-indicadores">Indicadores</span></a>
+	            <li class="bold a<?php if (strpos(ubicacion(),"indicadores")!=false) echo 'active ' ?>"><a class="collapsible-header waves-effect waves-teal"><i class="material-icons md-40 md-dark">insert_chart</i><span class="menu-title menu-indicadores">Indicadores</span></a>
 	              <div class="collapsible-body ">
 	                <ul>
 	                  <li><a href="<?php echo base_url().'indicadores/actividad' ?>">Actividad</a></li>
@@ -80,6 +81,7 @@ function ubicacion(){
 	            </li>
           	</ul>
           	<?php endif; endif; ?>
+          	
           	<?php if(isset($session)):
 	        	if ($session['tipo']=='1'): ?>
 			<li class="bold <?php if (strpos(ubicacion(),"alarmas")!=false) echo 'active ' ?>menutab"><a class="waves-effect waves-teal" href="<?php echo base_url().'alarmas' ?>"><i class="material-icons md-40 md-dark">network_check</i><span class="menu-title">Alarmas</span></a></li>

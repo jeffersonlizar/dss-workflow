@@ -11,6 +11,9 @@
 .side-nav a {
     height: auto; 
 }
+.side-nav li.aactive {
+    background-color: rgba(0, 0, 0, 0.05);
+}
 /*-------------------------- indicadores --------------------------*/
 select.initialized{
 	display: none;
@@ -20,6 +23,9 @@ select.initialized{
 }
 input.datepicker,input.select-dropdown{
 	text-align: center;
+}
+.form-indicadores{
+	margin-bottom: 50px;
 }
 
 /*--------------------------Theme Basis-------------------------*/
