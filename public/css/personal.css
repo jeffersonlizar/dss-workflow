@@ -27,6 +27,9 @@ input.datepicker,input.select-dropdown{
 .form-indicadores{
 	margin-bottom: 50px;
 }
+div#filtrotipo{
+	padding-bottom: 15px;
+}
 
 /*--------------------------Theme Basis-------------------------*/
 body{

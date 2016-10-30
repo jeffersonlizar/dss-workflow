@@ -15,7 +15,7 @@ class Home extends CI_Controller {
 		$this->load->library('indicadores_libreria');
 		
 		$actividad = $this->indicadores_libreria->indicador_actividad();
-		$categorias = $this->indicadores_libreria->indicador_categoria();
+		$categoria = $this->indicadores_libreria->indicador_categoria();
 		$indicadores = $this->indicadores_libreria->indicador_indicadores();
 		$crecimiento = $this->indicadores_libreria->indicador_crecimiento();
 		$tiempo_promedio = $this->indicadores_libreria->indicador_tiempo_promedio();
@@ -39,7 +39,7 @@ class Home extends CI_Controller {
 		$this->load->view('home',$home, FALSE);	
 		$this->load->view('footerbegin','', FALSE);	
 		$this->load->view('actividad',$actividad, FALSE);	
-		$this->load->view('categoria',$categorias, FALSE);	
+		$this->load->view('categoria',$categoria, FALSE);	
 
 		$this->load->view('indicadores',$indicadores, FALSE);	
 		$this->load->view('crecimiento',$crecimiento, FALSE);	

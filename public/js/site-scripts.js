@@ -10,8 +10,28 @@ $(document).ready(function(){
     $('select').material_select();
     $('.datepicker').pickadate({
     	selectMonths: true, // Creates a dropdown to control month
-    	selectYears: 15 // Creates a dropdown of 15 years to control year
+    	selectYears: 2, // Creates a dropdown of 15 years to control year
+    	max: true
   	});
+  	$('.datepickerperiodo1').pickadate({
+    	selectMonths: true, // Creates a dropdown to control month
+    	selectYears: 2, // Creates a dropdown of 15 years to control year
+    	max: true
+  	});
+  	$('.datepickerperiodo2').pickadate({
+		selectMonths: true, 
+		selectYears: 2
+	})
+	$('.datepickerperiodo3').pickadate({
+    	selectMonths: true, // Creates a dropdown to control month
+    	selectYears: 2, // Creates a dropdown of 15 years to control year
+    	max: true
+  	});
+  	$('.datepickerperiodo4').pickadate({
+		selectMonths: true, 
+		selectYears: 2
+	})
+  	
 })
 
 $( ".usuario" ).on( "click", function() {
@@ -33,198 +53,315 @@ $( "#reiniciar_contrasena" ).on( "click", function() {
 });
 
 /*--------------------------indicadores-------------------------*/
-$('#filtro-indicador-actividad').change(function(){
-	$('#submit-indicador-actividad').parent().addClass('disabled');	
-	$('#filtro-indicador-actividad-dia-div').addClass('hide');
-	$('#filtro-indicador-actividad-comparardias-div').addClass('hide');
-	$('#filtro-indicador-actividad-mesespecifico-div').addClass('hide');
-	$('#filtro-indicador-actividad-compararmeses-div').addClass('hide');
-	$('#filtro-indicador-actividad-anoespecifico-div').addClass('hide');
-	$('#filtro-indicador-actividad-compararanos-div').addClass('hide');
+$('#filtro-indicador').change(function(){
+	$('#submit-indicador').parent().addClass('disabled');	
+	$('#filtro-indicador-dia-div').addClass('hide');
+	$('#filtro-indicador-comparardias-div').addClass('hide');
+	$('#filtro-indicador-mesespecifico-div').addClass('hide');
+	$('#filtro-indicador-compararmeses-div').addClass('hide');
+	$('#filtro-indicador-anoespecifico-div').addClass('hide');
+	$('#filtro-indicador-compararanos-div').addClass('hide');
+	$('#filtro-indicador-periodo-div').addClass('hide');
+	$('#filtro-indicador-periodo-campo2').parent().addClass('hide');
+	$('#filtro-indicador-crecimiento-periodos-div').addClass('hide');
 	value = $(this).val();
-	if((value=='hoy')||(value=='ayer')||(value=='mesactual')||(value=='anoactual')){
-		$('#submit-indicador-actividad').parent().removeClass('disabled');
+	if((value=='hoy')||(value=='ayer')||(value=='mesactual')||(value=='anoactual')||(value=='crecimiento-hoy-ayer')||(value=='crecimiento-mactual-manterior')||(value=='crecimiento-aactual-aanterior')){
+		$('#submit-indicador').parent().removeClass('disabled');
 	}
 	else{
 		if (value=='dia'){
-			$('#filtro-indicador-actividad-dia-campo').val('');
-			$('#filtro-indicador-actividad-dia-div').removeClass('hide');
+			$('#filtro-indicador-dia-campo').val('');
+			$('#filtro-indicador-dia-div').removeClass('hide');
 		}
 		else if (value=='comparardias'){
-			$('#filtro-indicador-actividad-comparardias-campo1').val('');
-			$('#filtro-indicador-actividad-comparardias-campo2').val('');
-			$('#filtro-indicador-actividad-comparardias-div').removeClass('hide');
+			$('#filtro-indicador-comparardias-campo1').val('');
+			$('#filtro-indicador-comparardias-campo2').val('');
+			$('#filtro-indicador-comparardias-div').removeClass('hide');
 		}
 		else if (value=='mesespecifico'){
-			var u = $('#filtro-indicador-actividad-mesespecifico-campo1').siblings('ul');
+			var u = $('#filtro-indicador-mesespecifico-campo1').siblings('ul');
 			$(u).children().removeClass('active selected');
-			var i = $('#filtro-indicador-actividad-mesespecifico-campo1').siblings('input');
+			var i = $('#filtro-indicador-mesespecifico-campo1').siblings('input');
 			$(i).val('Seleccione el mes');			
-			var u = $('#filtro-indicador-actividad-mesespecifico-campo2').siblings('ul');
+			var u = $('#filtro-indicador-mesespecifico-campo2').siblings('ul');
 			$(u).children().removeClass('active selected');
-			var i = $('#filtro-indicador-actividad-mesespecifico-campo2').siblings('input');
+			var i = $('#filtro-indicador-mesespecifico-campo2').siblings('input');
 			$(i).val('Seleccione el año');
-			$('#filtro-indicador-actividad-mesespecifico-campo1').val('');
-			$('#filtro-indicador-actividad-mesespecifico-campo2').val('');
-			$('#filtro-indicador-actividad-mesespecifico-div').removeClass('hide');
+			$('#filtro-indicador-mesespecifico-campo1').val('');
+			$('#filtro-indicador-mesespecifico-campo2').val('');
+			$('#filtro-indicador-mesespecifico-div').removeClass('hide');
 		}
 		else if (value=='compararmeses'){
-			var u = $('#filtro-indicador-actividad-compararmeses-campo1').siblings('ul');
+			var u = $('#filtro-indicador-compararmeses-campo1').siblings('ul');
 			$(u).children().removeClass('active selected');
-			var i = $('#filtro-indicador-actividad-compararmeses-campo1').siblings('input');
+			var i = $('#filtro-indicador-compararmeses-campo1').siblings('input');
 			$(i).val('Seleccione el mes');			
-			var u = $('#filtro-indicador-actividad-compararmeses-campo2').siblings('ul');
+			var u = $('#filtro-indicador-compararmeses-campo2').siblings('ul');
 			$(u).children().removeClass('active selected');
-			var i = $('#filtro-indicador-actividad-compararmeses-campo2').siblings('input');
+			var i = $('#filtro-indicador-compararmeses-campo2').siblings('input');
 			$(i).val('Seleccione el año');
-			var u = $('#filtro-indicador-actividad-compararmeses-campo3').siblings('ul');
+			var u = $('#filtro-indicador-compararmeses-campo3').siblings('ul');
 			$(u).children().removeClass('active selected');
-			var i = $('#filtro-indicador-actividad-compararmeses-campo3').siblings('input');
-			$(i).val('Seleccione el mes');			
-			var u = $('#filtro-indicador-actividad-compararmeses-campo4').siblings('ul');
+			var i = $('#filtro-indicador-compararmeses-campo3').siblings('input');
+			$(i).val('Seleccione el mes');
+			var u = $('#filtro-indicador-compararmeses-campo4').siblings('ul');
 			$(u).children().removeClass('active selected');
-			var i = $('#filtro-indicador-actividad-compararmeses-campo4').siblings('input');
+			var i = $('#filtro-indicador-compararmeses-campo4').siblings('input');
 			$(i).val('Seleccione el año');
 
-			$('#filtro-indicador-actividad-compararmeses-campo1').val('');
-			$('#filtro-indicador-actividad-compararmeses-campo2').val('');
-			$('#filtro-indicador-actividad-compararmeses-campo3').val('');
-			$('#filtro-indicador-actividad-compararmeses-campo4').val('');
-			$('#filtro-indicador-actividad-compararmeses-div').removeClass('hide');
+			$('#filtro-indicador-compararmeses-campo1').val('');
+			$('#filtro-indicador-compararmeses-campo2').val('');
+			$('#filtro-indicador-compararmeses-campo3').val('');
+			$('#filtro-indicador-compararmeses-campo4').val('');
+			$('#filtro-indicador-compararmeses-div').removeClass('hide');
 		}
 		else if (value=='anoespecifico'){
-			var u = $('#filtro-indicador-actividad-anoespecifico-campo1').siblings('ul');
+			var u = $('#filtro-indicador-anoespecifico-campo1').siblings('ul');
 			$(u).children().removeClass('active selected');
-			var i = $('#filtro-indicador-actividad-anoespecifico-campo1').siblings('input');
+			var i = $('#filtro-indicador-anoespecifico-campo1').siblings('input');
 			$(i).val('Seleccione el año');
-			$('#filtro-indicador-actividad-anoespecifico-campo1').val('');
-			$('#filtro-indicador-actividad-anoespecifico-div').removeClass('hide');
+			$('#filtro-indicador-anoespecifico-campo1').val('');
+			$('#filtro-indicador-anoespecifico-div').removeClass('hide');
 		}
 		else if (value=='compararanos'){
-			var u = $('#filtro-indicador-actividad-compararanos-campo1').siblings('ul');
+			var u = $('#filtro-indicador-compararanos-campo1').siblings('ul');
 			$(u).children().removeClass('active selected');
-			var i = $('#filtro-indicador-actividad-compararanos-campo1').siblings('input');
+			var i = $('#filtro-indicador-compararanos-campo1').siblings('input');
 			$(i).val('Seleccione el año');
-			var u = $('#filtro-indicador-actividad-compararanos-campo2').siblings('ul');
+			var u = $('#filtro-indicador-compararanos-campo2').siblings('ul');
 			$(u).children().removeClass('active selected');
-			var i = $('#filtro-indicador-actividad-compararanos-campo2').siblings('input');
+			var i = $('#filtro-indicador-compararanos-campo2').siblings('input');
 			$(i).val('Seleccione el año');
-			$('#filtro-indicador-actividad-compararanos-campo1').val('');
-			$('#filtro-indicador-actividad-compararanos-campo2').val('');
-			$('#filtro-indicador-actividad-compararanos-div').removeClass('hide');
+			$('#filtro-indicador-compararanos-campo1').val('');
+			$('#filtro-indicador-compararanos-campo2').val('');
+			$('#filtro-indicador-compararanos-div').removeClass('hide');
+		}
+		else if (value=='periodo'){
+			$('#filtro-indicador-periodo-campo1').val('');
+			$('#filtro-indicador-periodo-campo2').val('');
+			$('#filtro-indicador-periodo-div').removeClass('hide');
+		}
+		else if (value=='crecimiento-periodos'){
+			$('#filtro-indicador-crecimiento-periodo-campo1').val('');
+			$('#filtro-indicador-crecimiento-periodo-campo2').val('');
+			$('#filtro-indicador-crecimiento-periodo-campo3').val('');
+			$('#filtro-indicador-crecimiento-periodo-campo4').val('');
+			$('#filtro-indicador-crecimiento-periodos-div').removeClass('hide');
 		}
 	}
 })
-$('#filtro-indicador-actividad-dia-campo').change(function(){
+$('#filtro-indicador-dia-campo').change(function(){
 	value = $(this).val();
 	if (value!='')
-		$('#submit-indicador-actividad').parent().removeClass('disabled');
+		$('#submit-indicador').parent().removeClass('disabled');
 	else
-		$('#submit-indicador-actividad').parent().addClass('disabled');	
+		$('#submit-indicador').parent().addClass('disabled');	
 })
 
-$('#filtro-indicador-actividad-comparardias-campo1').change(function(){
+$('#filtro-indicador-comparardias-campo1').change(function(){
 	value1 = $(this).val();
-	value2 = $('#filtro-indicador-actividad-comparardias-campo2').val();
+	value2 = $('#filtro-indicador-comparardias-campo2').val();
 	if ((value1!='')&&(value2!=''))
-		$('#submit-indicador-actividad').parent().removeClass('disabled');
+		$('#submit-indicador').parent().removeClass('disabled');
 	else
-		$('#submit-indicador-actividad').parent().addClass('disabled');	
+		$('#submit-indicador').parent().addClass('disabled');	
 })
 
-$('#filtro-indicador-actividad-comparardias-campo2').change(function(){
+$('#filtro-indicador-comparardias-campo2').change(function(){
 	value1 = $(this).val();
-	value2 = $('#filtro-indicador-actividad-comparardias-campo1').val();
+	value2 = $('#filtro-indicador-comparardias-campo1').val();
 	if ((value1!='')&&(value2!=''))
-		$('#submit-indicador-actividad').parent().removeClass('disabled');
+		$('#submit-indicador').parent().removeClass('disabled');
 	else
-		$('#submit-indicador-actividad').parent().addClass('disabled');	
+		$('#submit-indicador').parent().addClass('disabled');	
 })
 
-$('#filtro-indicador-actividad-mesespecifico-campo1').change(function(){
+$('#filtro-indicador-mesespecifico-campo1').change(function(){
 	value1 = $(this).val();
-	value2 = $('#filtro-indicador-actividad-mesespecifico-campo2').val();
+	value2 = $('#filtro-indicador-mesespecifico-campo2').val();
 	if ((value1!=null)&&(value2!=null))
-		$('#submit-indicador-actividad').parent().removeClass('disabled');
+		$('#submit-indicador').parent().removeClass('disabled');
 	else
-		$('#submit-indicador-actividad').parent().addClass('disabled');	
+		$('#submit-indicador').parent().addClass('disabled');	
 })
 
-$('#filtro-indicador-actividad-mesespecifico-campo2').change(function(){
+$('#filtro-indicador-mesespecifico-campo2').change(function(){
 	value1 = $(this).val();
-	value2 = $('#filtro-indicador-actividad-mesespecifico-campo1').val();
+	value2 = $('#filtro-indicador-mesespecifico-campo1').val();
 	if ((value1!=null)&&(value2!=null))
-		$('#submit-indicador-actividad').parent().removeClass('disabled');
+		$('#submit-indicador').parent().removeClass('disabled');
 	else
-		$('#submit-indicador-actividad').parent().addClass('disabled');	
+		$('#submit-indicador').parent().addClass('disabled');	
 })
 
-$('#filtro-indicador-actividad-compararmeses-campo1').change(function(){
+$('#filtro-indicador-compararmeses-campo1').change(function(){
 	value1 = $(this).val();
-	value2 = $('#filtro-indicador-actividad-compararmeses-campo2').val();
-	value3 = $('#filtro-indicador-actividad-compararmeses-campo3').val();
-	value4 = $('#filtro-indicador-actividad-compararmeses-campo4').val();
+	value2 = $('#filtro-indicador-compararmeses-campo2').val();
+	value3 = $('#filtro-indicador-compararmeses-campo3').val();
+	value4 = $('#filtro-indicador-compararmeses-campo4').val();
 	if ((value1!=null)&&(value2!=null)&&(value3!=null)&&(value4!=null))
-		$('#submit-indicador-actividad').parent().removeClass('disabled');
+		$('#submit-indicador').parent().removeClass('disabled');
 	else
-		$('#submit-indicador-actividad').parent().addClass('disabled');	
+		$('#submit-indicador').parent().addClass('disabled');	
 })
 
-$('#filtro-indicador-actividad-compararmeses-campo2').change(function(){
+$('#filtro-indicador-compararmeses-campo2').change(function(){
 	value1 = $(this).val();
-	value2 = $('#filtro-indicador-actividad-compararmeses-campo1').val();
-	value3 = $('#filtro-indicador-actividad-compararmeses-campo3').val();
-	value4 = $('#filtro-indicador-actividad-compararmeses-campo4').val();
+	value2 = $('#filtro-indicador-compararmeses-campo1').val();
+	value3 = $('#filtro-indicador-compararmeses-campo3').val();
+	value4 = $('#filtro-indicador-compararmeses-campo4').val();
 	if ((value1!=null)&&(value2!=null)&&(value3!=null)&&(value4!=null))
-		$('#submit-indicador-actividad').parent().removeClass('disabled');
+		$('#submit-indicador').parent().removeClass('disabled');
 	else
-		$('#submit-indicador-actividad').parent().addClass('disabled');	
+		$('#submit-indicador').parent().addClass('disabled');	
 })
 
-$('#filtro-indicador-actividad-compararmeses-campo3').change(function(){
+$('#filtro-indicador-compararmeses-campo3').change(function(){
 	value1 = $(this).val();
-	value2 = $('#filtro-indicador-actividad-compararmeses-campo1').val();
-	value3 = $('#filtro-indicador-actividad-compararmeses-campo2').val();
-	value4 = $('#filtro-indicador-actividad-compararmeses-campo4').val();
+	value2 = $('#filtro-indicador-compararmeses-campo1').val();
+	value3 = $('#filtro-indicador-compararmeses-campo2').val();
+	value4 = $('#filtro-indicador-compararmeses-campo4').val();
 	if ((value1!=null)&&(value2!=null)&&(value3!=null)&&(value4!=null))
-		$('#submit-indicador-actividad').parent().removeClass('disabled');
+		$('#submit-indicador').parent().removeClass('disabled');
 	else
-		$('#submit-indicador-actividad').parent().addClass('disabled');	
+		$('#submit-indicador').parent().addClass('disabled');	
 })
 
-$('#filtro-indicador-actividad-compararmeses-campo4').change(function(){
+$('#filtro-indicador-compararmeses-campo4').change(function(){
 	value1 = $(this).val();
-	value2 = $('#filtro-indicador-actividad-compararmeses-campo1').val();
-	value3 = $('#filtro-indicador-actividad-compararmeses-campo2').val();
-	value4 = $('#filtro-indicador-actividad-compararmeses-campo3').val();
+	value2 = $('#filtro-indicador-compararmeses-campo1').val();
+	value3 = $('#filtro-indicador-compararmeses-campo2').val();
+	value4 = $('#filtro-indicador-compararmeses-campo3').val();
 	if ((value1!=null)&&(value2!=null)&&(value3!=null)&&(value4!=null))
-		$('#submit-indicador-actividad').parent().removeClass('disabled');
+		$('#submit-indicador').parent().removeClass('disabled');
 	else
-		$('#submit-indicador-actividad').parent().addClass('disabled');	
+		$('#submit-indicador').parent().addClass('disabled');	
 })
 
-$('#filtro-indicador-actividad-anoespecifico-campo1').change(function(){
+$('#filtro-indicador-anoespecifico-campo1').change(function(){
 	value1 = $(this).val();
 	if ((value1!=null))
-		$('#submit-indicador-actividad').parent().removeClass('disabled');
+		$('#submit-indicador').parent().removeClass('disabled');
 	else
-		$('#submit-indicador-actividad').parent().addClass('disabled');	
+		$('#submit-indicador').parent().addClass('disabled');	
 })
 
-$('#filtro-indicador-actividad-compararanos-campo1').change(function(){
+$('#filtro-indicador-compararanos-campo1').change(function(){
 	value1 = $(this).val();
-	value2 = $('#filtro-indicador-actividad-compararanos-campo2').val();
+	value2 = $('#filtro-indicador-compararanos-campo2').val();
 	if ((value1!=null)&&(value2!=null))
-		$('#submit-indicador-actividad').parent().removeClass('disabled');
+		$('#submit-indicador').parent().removeClass('disabled');
 	else
-		$('#submit-indicador-actividad').parent().addClass('disabled');	
+		$('#submit-indicador').parent().addClass('disabled');	
 })
 
-$('#filtro-indicador-actividad-compararanos-campo2').change(function(){
+$('#filtro-indicador-compararanos-campo2').change(function(){
 	value1 = $(this).val();
-	value2 = $('#filtro-indicador-actividad-compararanos-campo1').val();
+	value2 = $('#filtro-indicador-compararanos-campo1').val();
 	if ((value1!=null)&&(value2!=null))
-		$('#submit-indicador-actividad').parent().removeClass('disabled');
+		$('#submit-indicador').parent().removeClass('disabled');
 	else
-		$('#submit-indicador-actividad').parent().addClass('disabled');	
+		$('#submit-indicador').parent().addClass('disabled');	
+})
+
+$('#filtro-indicador-periodo-campo1').change(function(){
+	$('#filtro-indicador-periodo-campo2').parent().addClass('hide');
+	value1 = $(this).val();
+	$('#filtro-indicador-periodo-campo2').val('');
+	value2 = $('#filtro-indicador-periodo-campo2').val();
+	if (value1!=''){
+		fecha = value1.split("/");
+		d = new Date();
+		var $input = $('.datepickerperiodo2').pickadate()
+		var picker = $input.pickadate('picker');
+		picker.set('min', new Date(fecha[2],(fecha[1]-1),fecha[0]));
+		picker.set('max', new Date(d.getFullYear(),d.getMonth(),d.getDate()));
+		$('#filtro-indicador-periodo-campo2').parent().removeClass('hide');
+	}else{		
+		$('#filtro-indicador-periodo-campo2').parent().addClass('hide');
+		$('#filtro-indicador-periodo-campo2').val('');
+	}
+	if ((value1!='')&&(value2!=''))
+		$('#submit-indicador').parent().removeClass('disabled');
+	else
+		$('#submit-indicador').parent().addClass('disabled');	
+})
+
+$('#filtro-indicador-periodo-campo2').change(function(){
+	value1 = $(this).val();
+	value2 = $('#filtro-indicador-periodo-campo1').val();
+	if ((value1!='')&&(value2!=''))
+		$('#submit-indicador').parent().removeClass('disabled');
+	else
+		$('#submit-indicador').parent().addClass('disabled');	
+})
+
+$('#filtro-indicador-crecimiento-periodo-campo1').change(function(){
+	$('#filtro-indicador-crecimiento-periodo-campo2').parent().addClass('hide');
+	value1 = $(this).val();
+	$('#filtro-indicador-crecimiento-periodo-campo2').val('');
+	value2 = $('#filtro-indicador-crecimiento-periodo-campo2').val();
+	if (value1!=''){
+		fecha = value1.split("/");
+		d = new Date();
+		var $input = $('.datepickerperiodo2').pickadate()
+		var picker = $input.pickadate('picker');
+		picker.set('min', new Date(fecha[2],(fecha[1]-1),fecha[0]));
+		picker.set('max', new Date(d.getFullYear(),d.getMonth(),d.getDate()));
+		$('#filtro-indicador-crecimiento-periodo-campo2').parent().removeClass('hide');
+	}else{		
+		$('#filtro-indicador-crecimiento-periodo-campo2').parent().addClass('hide');
+		$('#filtro-indicador-crecimiento-periodo-campo2').val('');
+	}
+	if ((value1!='')&&(value2!=''))
+		$('.crecimientoperiodo2').removeClass('hide');
+	else{
+		$('.crecimientoperiodo2').addClass('hide');
+		$('#filtro-indicador-crecimiento-periodo-campo3').val('');
+		$('#filtro-indicador-crecimiento-periodo-campo4').val('');
+	}
+})
+
+$('#filtro-indicador-crecimiento-periodo-campo2').change(function(){
+	value1 = $(this).val();
+	value2 = $('#filtro-indicador-crecimiento-periodo-campo1').val();
+	if ((value1!='')&&(value2!=''))
+		$('.crecimientoperiodo2').removeClass('hide');
+	else{
+		$('.crecimientoperiodo2').addClass('hide');
+		$('#filtro-indicador-crecimiento-periodo-campo3').val('');
+		$('#filtro-indicador-crecimiento-periodo-campo4').val('');
+	}
+})
+
+$('#filtro-indicador-crecimiento-periodo-campo3').change(function(){
+	$('#filtro-indicador-crecimiento-periodo-campo4').parent().addClass('hide');
+	value1 = $(this).val();
+	$('#filtro-indicador-crecimiento-periodo-campo4').val('');
+	value2 = $('#filtro-indicador-crecimiento-periodo-campo4').val();
+	if (value1!=''){
+		fecha = value1.split("/");
+		d = new Date();
+		var $input = $('.datepickerperiodo4').pickadate()
+		var picker = $input.pickadate('picker');
+		picker.set('min', new Date(fecha[2],(fecha[1]-1),fecha[0]));
+		picker.set('max', new Date(d.getFullYear(),d.getMonth(),d.getDate()));
+		$('#filtro-indicador-crecimiento-periodo-campo4').parent().removeClass('hide');
+	}else{		
+		$('#filtro-indicador-crecimiento-periodo-campo4').parent().addClass('hide');
+		$('#filtro-indicador-crecimiento-periodo-campo4').val('');
+	}
+	if ((value1!='')&&(value2!=''))
+		$('#submit-indicador').parent().removeClass('disabled');
+	else
+		$('#submit-indicador').parent().addClass('disabled');	
+})
+
+$('#filtro-indicador-crecimiento-periodo-campo4').change(function(){
+	value1 = $(this).val();
+	value2 = $('#filtro-indicador-crecimiento-periodo-campo3').val();
+	if ((value1!='')&&(value2!=''))
+		$('#submit-indicador').parent().removeClass('disabled');
+	else
+		$('#submit-indicador').parent().addClass('disabled');	
 })

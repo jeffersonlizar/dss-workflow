@@ -43,6 +43,18 @@ class Database extends CI_Model {
             return false;
         }
 	}
+	public function guardar_indicador_categoria($opcion,$usuario_admin=null,$fecha=null,$dia=null,$mes=null,$ano=null,$periodo_inicio=null,$periodo_fin=null){
+		$this->db->db_select('dss');
+		$query = $this->db->query("INSERT INTO indicador_categoria(opcion,usuario_admin,fecha,dia,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$dia','$mes','$ano','$periodo_inicio','$periodo_fin')");
+		if($query)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+	}
 	public function cargar_indicador_indicadores(){
 		$this->db->db_select('dss');
 		$query = $this->db->query("SELECT * FROM indicador_indicadores ORDER BY id DESC limit 1");
@@ -55,12 +67,36 @@ class Database extends CI_Model {
             return false;
         }
 	}
+	public function guardar_indicador_indicadores($opcion,$usuario_admin=null,$fecha=null,$dia=null,$mes=null,$ano=null,$periodo_inicio=null,$periodo_fin=null){
+		$this->db->db_select('dss');
+		$query = $this->db->query("INSERT INTO indicador_indicadores(opcion,usuario_admin,fecha,dia,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$dia','$mes','$ano','$periodo_inicio','$periodo_fin')");
+		if($query)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+	}
 	public function cargar_indicador_crecimiento(){
 		$this->db->db_select('dss');
 		$query = $this->db->query("SELECT * FROM indicador_crecimiento ORDER BY id DESC limit 1");
 		if($query -> num_rows() > 0)
         {
             return $query->result_array()[0];
+        }
+        else
+        {
+            return false;
+        }
+	}
+	public function guardar_indicador_crecimiento($opcion,$usuario_admin=null,$fecha=null,$periodo1_inicio=null,$periodo1_fin=null,$periodo2_inicio=null,$periodo2_fin=null){
+		$this->db->db_select('dss');
+		$query = $this->db->query("INSERT INTO indicador_crecimiento(opcion,usuario_admin,fecha,periodo1,periodo2,periodo3,periodo4) values ('$opcion','$usuario_admin','$fecha','$periodo1_inicio','$periodo1_fin','$periodo2_inicio','$periodo2_fin')");
+		if($query)
+        {
+            return true;
         }
         else
         {

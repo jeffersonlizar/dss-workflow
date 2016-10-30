@@ -167,16 +167,16 @@ class Indicadores_libreria
 				$fecha4 = $indicador_crecimiento['periodo4'];
 				$crecimiento = $this->_crecimientoDelPeriodo(1,$fecha1,$fecha2,$fecha3,$fecha4);
 				break;
-			case '21': //instancias dia actual con respecto al dia anterior
+			case '21': //transiciones dia actual con respecto al dia anterior
 				$crecimiento = $this->_crecimientoDelDia(2,$this->globales['yesterday'],$this->globales['today']); //primero el mes base y luego el que se quiere calcular
 				break;
-			case '22': //instancias mes actual con respecto al mes anterior				
+			case '22': //transiciones mes actual con respecto al mes anterior				
 				$crecimiento = $this->_crecimientoDelMes(2,$this->globales['mes_anterior_primer_dia'],$this->globales['mes_anterior_ultimo_dia'],$this->globales['mes_actual_primer_dia'],$this->globales['mes_actual_ultimo_dia']);
 				break;
-			case '23': //instancias ano actual con respecto al ano anterior
+			case '23': //transiciones ano actual con respecto al ano anterior
 				$crecimiento = $this->_crecimientoDelAno(2,$this->globales['ano_anterior_primer_dia'],$this->globales['ano_anterior_ultimo_dia'],$this->globales['ano_actual_primer_dia'],$this->globales['ano_actual_ultimo_dia']);
 				break;
-			case '24': //instancias 2 periodos de tiempo
+			case '24': //transiciones 2 periodos de tiempo
 				$fecha1 = $indicador_crecimiento['periodo1'];
 				$fecha2 = $indicador_crecimiento['periodo2'];
 				$fecha3 = $indicador_crecimiento['periodo3'];
@@ -780,16 +780,12 @@ class Indicadores_libreria
 		$cant2 = $arr[0];
 		unset($arr[0]);
 		$actividadMes2 = rtrim(implode(',', $arr), ',');
-		$ano1 = explode('-', $mes1);
-		$ano1 = $ano1[0];
-		$ano2 = explode('-', $mes2);
-		$ano2 = $ano2[0];
 		$nombreMes1 = $this->_nombreMes($mes1);
 		$nombreMes2 = $this->_nombreMes($mes2);
 		$titulo = "Actividad";
-		$subtitulo = "Actividades del mes: ".$nombreMes1."-".$ano1." y del mes: ".$nombreMes2."-".$ano2;
-		$serie1 = $nombreMes1."-".$ano1." (".$cant1.")";
-		$serie2 = $nombreMes2."-".$ano2." (".$cant2.")";
+		$subtitulo = "Actividades del mes: ".$nombreMes1." y del mes: ".$nombreMes2;
+		$serie1 = $nombreMes1." (".$cant1.")";
+		$serie2 = $nombreMes2." (".$cant2.")";
 		$actividad = array(
 			'titulo' 					=> $titulo,
 			'subtitulo' 				=> $subtitulo,
@@ -916,6 +912,7 @@ class Indicadores_libreria
 				$nombreMes = 'Diciembre';
 			break;
 		}
+		$nombreMes = $nombreMes.'-'.$fecha[0];
 		return $nombreMes;
 	}
 

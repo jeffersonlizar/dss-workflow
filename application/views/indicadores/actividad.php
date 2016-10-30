@@ -14,7 +14,7 @@
 				        <div class="input-field col s12 m12 offset-l3 l6">
 				        	<h5 class="center">Filtrar por:</h5>
 				        	<div class="filtroprincipal">
-								<select id="filtro-indicador-actividad" name="filtro">
+								<select id="filtro-indicador" name="filtro">
 									<option value="" disabled selected>Seleccione una opción</option>
 									<option value="hoy">Hoy</option>
 									<option value="ayer">Ayer</option>
@@ -30,28 +30,28 @@
 							</div>
 
 				        </div>
-				        <div id="filtro-indicador-actividad-dia-div" class="input-field col s12 m12 offset-l3 l6 hide">
+				        <div id="filtro-indicador-dia-div" class="input-field col s12 m12 offset-l3 l6 hide">
 				        		<p class="center"><b>Ingrese el día</b></p>
-				        	 	<input id="filtro-indicador-actividad-dia-campo" type="date" name="dia" class="datepicker">
+				        	 	<input id="filtro-indicador-dia-campo" type="date" name="dia" class="datepicker">
 				        </div>
 
-				        <div id="filtro-indicador-actividad-comparardias-div" class="input-field col s12 m12 offset-l3 l6 hide">
+				        <div id="filtro-indicador-comparardias-div" class="input-field col s12 m12 offset-l3 l6 hide">
 				        		<p class="center"><b>Ingrese los días a comparar</b></p>
 				        		<div class="row">
 							        <div class="input-field col s6">
-							          <input id="filtro-indicador-actividad-comparardias-campo1" type="date" name="comparardias1" class="datepicker">
+							          <input id="filtro-indicador-comparardias-campo1" type="date" name="comparardias1" class="datepicker">
 							        </div>
 							        <div class="input-field col s6">
-							          <input id="filtro-indicador-actividad-comparardias-campo2" type="date" name="comparardias2" class="datepicker">
+							          <input id="filtro-indicador-comparardias-campo2" type="date" name="comparardias2" class="datepicker">
 							        </div>
 							    </div>
 				        </div>
 
-				        <div id="filtro-indicador-actividad-mesespecifico-div" class="input-field col s12 m12 offset-l3 l6 hide">
+				        <div id="filtro-indicador-mesespecifico-div" class="input-field col s12 m12 offset-l3 l6 hide">
 				        		<p class="center"><b>Ingrese el mes</b></p>
 				        		<div class="row">
 							        <div class="input-field col s6">
-							          	<select id="filtro-indicador-actividad-mesespecifico-campo1" name="mesespecifico1">
+							          	<select id="filtro-indicador-mesespecifico-campo1" name="mesespecifico1">
 											<option value="" disabled selected>Seleccione el mes</option>
 											<option value="01">Enero</option>
 											<option value="02">Febrero</option>
@@ -70,7 +70,7 @@
 							        </div>
 							        
 							        <div class="input-field col s6">
-							          	<select id="filtro-indicador-actividad-mesespecifico-campo2" name="mesespecifico2">
+							          	<select id="filtro-indicador-mesespecifico-campo2" name="mesespecifico2">
 											<option value="" disabled selected>Seleccione el año</option>
 											<option value="<?php echo $anio ?>"><?php echo $anio ?></option>
 											<option value="<?php echo $anio_anterior ?>"><?php echo $anio_anterior ?></option>
@@ -79,11 +79,11 @@
 							        	</div>
 							    </div>
 				        </div>
-				        <div id="filtro-indicador-actividad-compararmeses-div" class="input-field col s12 m12 offset-l3 l6 hide">
+				        <div id="filtro-indicador-compararmeses-div" class="input-field col s12 m12 offset-l3 l6 hide">
 				        		<p class="center"><b>Ingrese el mes</b></p>
 				        		<div class="row">
 							        <div class="input-field col s6">
-							          	<select id="filtro-indicador-actividad-compararmeses-campo1" name="compararmeses1">
+							          	<select id="filtro-indicador-compararmeses-campo1" name="compararmeses1">
 											<option value="" disabled selected>Seleccione el mes</option>
 											<option value="01">Enero</option>
 											<option value="02">Febrero</option>
@@ -102,7 +102,7 @@
 							        </div>
 							        
 							        <div class="input-field col s6">
-							          	<select id="filtro-indicador-actividad-compararmeses-campo2" name="compararmeses2">
+							          	<select id="filtro-indicador-compararmeses-campo2" name="compararmeses2">
 											<option value="" disabled selected>Seleccione el año</option>
 											<option value="<?php echo $anio ?>"><?php echo $anio ?></option>
 											<option value="<?php echo $anio_anterior ?>"><?php echo $anio_anterior ?></option>
@@ -113,7 +113,7 @@
 							    <p class="center"><b>Ingrese el mes</b></p>
 				        		<div class="row">
 							        <div class="input-field col s6">
-							          	<select id="filtro-indicador-actividad-compararmeses-campo3" name="compararmeses3">
+							          	<select id="filtro-indicador-compararmeses-campo3" name="compararmeses3">
 											<option value="" disabled selected>Seleccione el mes</option>
 											<option value="01">Enero</option>
 											<option value="02">Febrero</option>
@@ -131,7 +131,7 @@
 										</select>
 							        </div>
 							        <div class="input-field col s6">
-							          	<select id="filtro-indicador-actividad-compararmeses-campo4" name="compararmeses4">
+							          	<select id="filtro-indicador-compararmeses-campo4" name="compararmeses4">
 											<option value="" disabled selected>Seleccione el año</option>
 											<option value="<?php echo $anio ?>"><?php echo $anio ?></option>
 											<option value="<?php echo $anio_anterior ?>"><?php echo $anio_anterior ?></option>
@@ -140,12 +140,12 @@
 							        	</div>
 							    </div>
 				        </div>
-				        <div id="filtro-indicador-actividad-anoespecifico-div" class="input-field col s12 m12 offset-l3 l6 hide">
+				        <div id="filtro-indicador-anoespecifico-div" class="input-field col s12 m12 offset-l3 l6 hide">
 				        		<p class="center"><b>Ingrese el año</b></p>
 				        		<div class="row">
 							        
 							        <div class="input-field col s12">
-							          	<select id="filtro-indicador-actividad-anoespecifico-campo1" name="anoespecifico">
+							          	<select id="filtro-indicador-anoespecifico-campo1" name="anoespecifico">
 											<option value="" disabled selected>Seleccione el año</option>
 											<option value="<?php echo $anio ?>"><?php echo $anio ?></option>
 											<option value="<?php echo $anio_anterior ?>"><?php echo $anio_anterior ?></option>
@@ -154,11 +154,11 @@
 							        	</div>
 							    </div>
 				        </div>
-				        <div id="filtro-indicador-actividad-compararanos-div" class="input-field col s12 m12 offset-l3 l6 hide">
+				        <div id="filtro-indicador-compararanos-div" class="input-field col s12 m12 offset-l3 l6 hide">
 				        		<p class="center"><b>Ingrese los años a comparar</b></p>
 				        		<div class="row">
 							        <div class="input-field col s6">
-							          <select id="filtro-indicador-actividad-compararanos-campo1" name="compararanos1">
+							          <select id="filtro-indicador-compararanos-campo1" name="compararanos1">
 											<option value="" disabled selected>Seleccione el año</option>
 											<option value="<?php echo $anio ?>"><?php echo $anio ?></option>
 											<option value="<?php echo $anio_anterior ?>"><?php echo $anio_anterior ?></option>
@@ -166,7 +166,7 @@
 										</select>
 							        </div>
 							        <div class="input-field col s6">
-							          <select id="filtro-indicador-actividad-compararanos-campo2" name="compararanos2">
+							          <select id="filtro-indicador-compararanos-campo2" name="compararanos2">
 											<option value="" disabled selected>Seleccione el año</option>
 											<option value="<?php echo $anio ?>"><?php echo $anio ?></option>
 											<option value="<?php echo $anio_anterior ?>"><?php echo $anio_anterior ?></option>
@@ -178,7 +178,7 @@
 				        
 				        
 					    <div class="col s12 m12 l12">
-							<input id="submit-indicador-actividad" type="submit" name="send" class="btn waves-effect disabled waves-light submit-centrado" value="Guardar y Mostrar">
+							<input id="submit-indicador" type="submit" name="send" class="btn waves-effect disabled waves-light submit-centrado" value="Guardar y Mostrar">
 						</div>
 						</div>
 				    </form>
