@@ -52,6 +52,8 @@ $( "#reiniciar_contrasena" ).on( "click", function() {
 	$('#cargar_usuario').submit();
 });
 
+
+
 /*--------------------------indicadores-------------------------*/
 $('#filtro-indicador').change(function(){
 	$('#submit-indicador').parent().addClass('disabled');	
@@ -361,6 +363,74 @@ $('#filtro-indicador-crecimiento-periodo-campo4').change(function(){
 	value1 = $(this).val();
 	value2 = $('#filtro-indicador-crecimiento-periodo-campo3').val();
 	if ((value1!='')&&(value2!=''))
+		$('#submit-indicador').parent().removeClass('disabled');
+	else
+		$('#submit-indicador').parent().addClass('disabled');	
+})
+
+/*--------------- indicadores de act usuario-----------------*/
+$('#filtro-indicador-act-user').change(function(){
+	$('#submit-indicador').parent().addClass('disabled');	
+	$('#filtro-indicador-dia-div').addClass('hide');
+	$('#filtro-indicador-mesespecifico-div').addClass('hide');
+	$('#filtro-indicador-anoespecifico-div').addClass('hide');
+	value = $(this).val();
+	if((value=='hoy')||(value=='ayer')||(value=='mesactual')||(value=='anoactual')){
+		val1= $('#ajax-usuario').val();
+		val2 = $('#ajax-tipousuario').val();
+		if ((val1!=null)&&(val2!=null))
+			$('#submit-indicador').parent().removeClass('disabled');
+		else
+			$('#submit-indicador').parent().addClass('disabled');	
+	}
+	else{
+		if (value=='dia'){
+			$('#filtro-indicador-dia-campo').val('');
+			$('#filtro-indicador-dia-div').removeClass('hide');
+		}
+		
+		else if (value=='mesespecifico'){
+			var u = $('#filtro-indicador-mesespecifico-campo1').siblings('ul');
+			$(u).children().removeClass('active selected');
+			var i = $('#filtro-indicador-mesespecifico-campo1').siblings('input');
+			$(i).val('Seleccione el mes');			
+			var u = $('#filtro-indicador-mesespecifico-campo2').siblings('ul');
+			$(u).children().removeClass('active selected');
+			var i = $('#filtro-indicador-mesespecifico-campo2').siblings('input');
+			$(i).val('Seleccione el año');
+			$('#filtro-indicador-mesespecifico-campo1').val('');
+			$('#filtro-indicador-mesespecifico-campo2').val('');
+			$('#filtro-indicador-mesespecifico-div').removeClass('hide');
+		}
+		
+		else if (value=='anoespecifico'){
+			var u = $('#filtro-indicador-anoespecifico-campo1').siblings('ul');
+			$(u).children().removeClass('active selected');
+			var i = $('#filtro-indicador-anoespecifico-campo1').siblings('input');
+			$(i).val('Seleccione el año');
+			$('#filtro-indicador-anoespecifico-campo1').val('');
+			$('#filtro-indicador-anoespecifico-div').removeClass('hide');
+		}
+		
+	}
+})
+
+
+$('#ajax-tipousuario').change(function(){
+	value1 = $(this).val();
+	value2 = $('#ajax-usuario').val();
+	value3 = $('#filtro-indicador-act-user').val();
+	if ((value1!=null)&&(value2!=null)&&(value3!=null))
+		$('#submit-indicador').parent().removeClass('disabled');
+	else
+		$('#submit-indicador').parent().addClass('disabled');	
+})
+
+$('#ajax-usuario').change(function(){
+	value1 = $(this).val();
+	value2 = $('#ajax-tipousuario').val();
+	value3 = $('#filtro-indicador-act-user').val();
+	if ((value1!=null)&&(value2!=null)&&(value3!=null))
 		$('#submit-indicador').parent().removeClass('disabled');
 	else
 		$('#submit-indicador').parent().addClass('disabled');	

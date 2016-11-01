@@ -127,6 +127,18 @@ class Database extends CI_Model {
             return false;
         }
 	}
+	public function guardar_indicador_actividad_usuario($opcion,$usuario_admin=null,$fecha=null,$usuario1=null,$usuario2=null,$periodo2_inicio=null,$periodo2_fin=null){
+		$this->db->db_select('dss');
+		$query = $this->db->query("INSERT INTO indicador_crecimiento(opcion,usuario_admin,fecha,periodo1,periodo2,periodo3,periodo4) values ('$opcion','$usuario_admin','$fecha','$periodo1_inicio','$periodo1_fin','$periodo2_inicio','$periodo2_fin')");
+		if($query)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+	}
 	public function cargar_indicador_resumen(){
 		$this->db->db_select('dss');
 		$query = $this->db->query("SELECT * FROM indicador_resumen ORDER BY id DESC limit 1");

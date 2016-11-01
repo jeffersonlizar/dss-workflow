@@ -11,6 +11,7 @@
 		<script type="text/javascript" src="<?php echo base_url() ?>public/js/jquery-2.1.1.min.js"></script>
 		<script type="text/javascript">
 			var servidor =  '<?php echo base_url() ?>';
+			var ubicacion =  '<?php echo ubicacion() ?>';
 		</script>
 		<script type="text/javascript" src="<?php echo base_url() ?>public/js/scripts.js"></script>
 		<!-- materialize -->

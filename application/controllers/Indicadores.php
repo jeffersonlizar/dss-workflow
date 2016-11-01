@@ -407,6 +407,58 @@ class Indicadores extends CI_Controller {
 
 	}
 
+	//guardar en la bd el nuevo indicador crecimiento
+	public function registrar_actividad_usuario(){
+		$this->load->model('database', '', true);
+		date_default_timezone_set('America/La_Paz');
+		$today = date('Y-m-d H:i:s'); 
+		$session_data = $this->session->userdata('logged_in');	
+		if($session_data['tipo']!='1'){
+			redirect('home');
+		}
+		$filtro = $this->input->post("filtro");
+		$filtrotipo = $this->input->post("filtrotipo");
+		$dia = $this->input->post("dia");
+		$periodo1_inicio = $this->input->post("periodo1_inicio");
+		$periodo1_fin = $this->input->post("periodo1_fin");
+		$periodo2_inicio = $this->input->post("periodo2_inicio");
+		$periodo2_fin = $this->input->post("periodo2_fin");
+		if ((isset($periodo1_inicio))&&($periodo1_inicio!='')){
+			$d = explode('/',$periodo1_inicio);
+			$periodo1_inicio = $d[2].'/'.$d[1].'/'.$d[0];	
+		}
+		if ((isset($periodo1_fin))&&($periodo1_fin!='')){
+			$d = explode('/',$periodo1_fin);
+			$periodo1_fin = $d[2].'/'.$d[1].'/'.$d[0];	
+		}
+		if ((isset($periodo2_inicio))&&($periodo2_inicio!='')){
+			$d = explode('/',$periodo2_inicio);
+			$periodo2_inicio = $d[2].'/'.$d[1].'/'.$d[0];	
+		}
+		if ((isset($periodo2_fin))&&($periodo2_fin!='')){
+			$d = explode('/',$periodo2_fin);
+			$periodo2_fin = $d[2].'/'.$d[1].'/'.$d[0];	
+		}
+
+		switch ($filtro) {
+			case 'crecimiento-hoy-ayer':
+				$bd = $this->database->guardar_indicador_crecimiento(($filtrotipo.'1'),$session_data['user'],$today);
+				break;
+			case 'crecimiento-mactual-manterior':
+				$bd = $this->database->guardar_indicador_crecimiento(($filtrotipo.'2'),$session_data['user'],$today);
+				break;
+			case 'crecimiento-aactual-aanterior':
+				$bd = $this->database->guardar_indicador_crecimiento(($filtrotipo.'3'),$session_data['user'],$today);
+				break;
+			case 'crecimiento-periodos':
+				$bd = $this->database->guardar_indicador_crecimiento(($filtrotipo.'4'),$session_data['user'],$today,$periodo2_inicio,$periodo2_fin,$periodo1_inicio,$periodo1_fin);
+				break;
+		}
+		var_dump($bd);
+		//redirect('indicadores/crecimiento');
+
+	}
+
 
 
 }

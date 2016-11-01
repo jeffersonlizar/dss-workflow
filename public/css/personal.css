@@ -31,6 +31,12 @@ div#filtrotipo{
 	padding-bottom: 15px;
 }
 
+.filtroajax-titulo{
+	text-align: center; 
+	font-weight: bold; 
+	text-decoration: underline;
+}
+
 /*--------------------------Theme Basis-------------------------*/
 body{
 	overflow-x: hidden;
@@ -199,10 +205,14 @@ select{
 	}
 	
 }
+
 @media (min-width: 1279px){
 	.centrado{
 		margin-left:210px;
 		width: 83%;
+	}
+	.submit-centrado{
+		margin-left: 39%;
 	}
 }
 @media (min-width: 1439px){

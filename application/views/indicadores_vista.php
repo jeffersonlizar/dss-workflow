@@ -4,15 +4,19 @@
 			
 			<div class="centrado">
 				    <p>indicadores</p>
+
 					<select class="ajax-workflow">
 					  
-					</select>					
+					</select>	
+
 					<select class="ajax-instancia">
 					  
-					</select>					
+					</select>	
+
 					<select class="ajax-tipousuario">
 					  
-					</select>					
+					</select>
+
 					<select class="ajax-usuario">
 					  
 					</select>					

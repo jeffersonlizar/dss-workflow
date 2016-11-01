@@ -15,6 +15,7 @@ function ubicacion(){
         }
         return $enlace;
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es-ES" >
@@ -70,7 +71,7 @@ function ubicacion(){
 					  <li><a href="<?php echo base_url().'indicadores/indicador' ?>">Indicadores</a></li>
 					  <li><a href="<?php echo base_url().'indicadores/categoria' ?>">Categoría</a></li>
 					  <li><a href="<?php echo base_url().'indicadores/crecimiento' ?>">Crecimiento</a></li>
-					  <li><a href="<?php echo base_url().'indicadores/actividad-usuario' ?>">Actividad Usuario</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/actividad_usuario' ?>">Actividad Usuario</a></li>
 					  <li><a href="<?php echo base_url().'indicadores/tiempo-promedio' ?>">Tiempo Promedio</a></li>
 					  <li><a href="<?php echo base_url().'indicadores/resumen' ?>">Resumen</a></li>
 					  <li><a href="<?php echo base_url().'indicadores/duracion-transicion' ?>">Duración Transición</a></li>
