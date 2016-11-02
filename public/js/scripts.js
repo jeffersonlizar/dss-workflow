@@ -24,6 +24,7 @@ function mostrarhora(){
 	setTimeout("mostrarhora()",1000); 
 }
 
+/*
 function ajax_workflow(){
 	$('.ajax-workflow').empty();
 	$('.ajax-workflow').append('<option disabled selected value>Seleccione una opción</option>');
@@ -85,50 +86,6 @@ $('.ajax-instancia').change(function(){
 	})
 })
 
-
-indicador_act_user = ubicacion.indexOf("actividad_usuario");
-if (indicador_act_user!=-1){
-	$('#ajax-tipousuario').empty();
-	$('#ajax-tipousuario').append('<option value="" disabled selected>Seleccione una opción</option>');
-	$('#ajax-tipousuario').append('<option value=all>Todos</option>');
-	$.ajax({
-		url: servidor+"indicadores/filtro/tipousuario/-1",
-		dataType: "json",
-		async: true,
-		success: function(data){
-			$.each( data, function( key, value ) {
-				  	$('#ajax-tipousuario').append('<option value='+value.id_tipo+'>'+value.descripcion+'</option>');
-				});	
-			$("#ajax-tipousuario").material_select();
-		},
-		error: function (error){
-			console.log(error);
-		}
-	})
-}
-
-$('#ajax-tipousuario').change(function(){
-	value = $(this).val();
-	$('.filtroajax-usuario-div').removeClass('hide');
-	$('#ajax-usuario').empty();
-	$('#ajax-usuario').append('<option disabled selected value>Seleccione una opción</option>');
-	$('#ajax-usuario').append('<option value=all>Todos</option>');
-	$.ajax({
-		url: servidor+"indicadores/filtro/usuario/"+value,
-		dataType: "json",
-		async: true,
-		success: function(data){
-			$.each( data, function( key, value ) {
-				  	$('#ajax-usuario').append('<option value='+value.id_usuario+'>'+value.id_usuario+'</option>');
-			});
-			$("#ajax-usuario").material_select();
-		},
-		error: function (data){
-			console.log(data);	
-		}
-	})
-})
-
 function ajax_usuario(value){
 	$.ajax({
 		url: servidor+"indicadores/filtro/usuario/"+value,
@@ -149,4 +106,90 @@ $('#cargarpdf').click(function(){
  		window.open(url);
 	}
 	$(".iframepdf").html("<iframe width='100%' height='450' src="+url+"></iframe>");  
+})
+
+*/
+/*-------------- vista indicadores/actividad usuario----------------*/
+
+indicador_act_user = ubicacion.indexOf("actividad_usuario");
+if (indicador_act_user!=-1){
+	$('#ajax-tipousuario').empty();
+	$('#ajax-tipousuario').append('<option value="" disabled selected>Seleccione una opción</option>');
+	$('#ajax-tipousuario').append('<option value=all>Todos</option>');
+	$.ajax({
+		url: servidor+"indicadores/filtro/tipousuario/-1",
+		dataType: "json",
+		async: true,
+		success: function(data){
+			$.each( data, function( key, value ) {
+				  	$('#ajax-tipousuario').append('<option value='+value.id_tipo+'>'+value.descripcion+'</option>');
+				});	
+			$("#ajax-tipousuario").material_select();
+		},
+		error: function (error){
+			console.log(error);
+		}
+	})
+
+	$('#ajax-tipousuario2').empty();
+	$('#ajax-tipousuario2').append('<option value="" disabled selected>Seleccione una opción</option>');
+	$('#ajax-tipousuario2').append('<option value=all>Todos</option>');
+	$.ajax({
+		url: servidor+"indicadores/filtro/tipousuario/-1",
+		dataType: "json",
+		async: true,
+		success: function(data){
+			$.each( data, function( key, value ) {
+				  	$('#ajax-tipousuario2').append('<option value='+value.id_tipo+'>'+value.descripcion+'</option>');
+				});	
+			$("#ajax-tipousuario2").material_select();
+		},
+		error: function (error){
+			console.log(error);
+		}
+	})
+
+
+}
+
+$('#ajax-tipousuario').change(function(){
+	value = $(this).val();
+	$('.filtroajax-usuario-div').removeClass('hide');
+	$('#ajax-usuario').empty();
+	$('#ajax-usuario').append('<option disabled selected value>Seleccione una opción</option>');
+	$.ajax({
+		url: servidor+"indicadores/filtro/usuario/"+value,
+		dataType: "json",
+		async: true,
+		success: function(data){
+			$.each( data, function( key, value ) {
+				  	$('#ajax-usuario').append('<option value='+value.id_usuario+'>'+value.id_usuario+'</option>');
+			});
+			$("#ajax-usuario").material_select();
+		},
+		error: function (data){
+			console.log(data);	
+		}
+	})
+})
+
+$('#ajax-tipousuario2').change(function(){
+	value = $(this).val();
+	$('.filtroajax-usuario-div2').removeClass('hide');
+	$('#ajax-usuario2').empty();
+	$('#ajax-usuario2').append('<option disabled selected value>Seleccione una opción</option>');
+	$.ajax({
+		url: servidor+"indicadores/filtro/usuario/"+value,
+		dataType: "json",
+		async: true,
+		success: function(data){
+			$.each( data, function( key, value ) {
+				  	$('#ajax-usuario2').append('<option value='+value.id_usuario+'>'+value.id_usuario+'</option>');
+			});
+			$("#ajax-usuario2").material_select();
+		},
+		error: function (data){
+			console.log(data);	
+		}
+	})
 })

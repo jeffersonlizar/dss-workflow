@@ -15,28 +15,59 @@
 				        	<h5 class="center">Filtrar por:</h5>
 
 				        	<div class="filtroprincipal">
-				        		<p class="center"><b>Tipo de Usuario</b></p>
-								<select id="ajax-tipousuario" name="tipousuario">
-								</select>	
-								<div class="filtroajax-usuario-div hide">
-									<p class="center"><b>Usuario</b></p>
-									<select id="ajax-usuario">
-									</select>
-								</div>				  
+				        		<div class="filtrotipo">
+					        		<p class="center"><b>Tipo</b></p>
+					        		<select name="filtrotipo">
+										<option value="1">Flujos de trabajo</option>
+										<option value="2">Transiciones</option>
+									</select>	
+					        	</div>
+					        				  
 								<p class="center"><b>Periodo</b></p>
 								<select id="filtro-indicador-act-user" name="filtro">
 									<option value="" disabled selected>Seleccione una opción</option>
 									<option value="hoy">Hoy</option>
 									<option value="ayer">Ayer</option>
 									<option value="dia">Día</option>
+									<option value="diacomparativo">Día Comparativo</option>
+									<option value="diatipousuario">Día Tipo Usuario</option>
 									<option value="mesactual">Mes Actual</option>
 									<option value="mesespecifico">Mes Específico</option>
+									<option value="mesespecificocomparativo">Mes Específico Comparativo</option>
+									<option value="mesespecificotipousuario">Mes Específico Tipo Usuario</option>
 									<option value="anoactual">Año Actual</option>
 									<option value="anoespecifico">Año Específico</option>
+									<option value="anoespecificocomparativo">Año Específico Comparativo</option>
+									<option value="anoespecificotipousuario">Año Específico Tipo Usuario</option>
 								</select>
 							</div>
 
 				        </div>
+				        <div class="filtroajax-tipousuario-div input-field col s12 m12 offset-l3 l6 hide">
+			        		<p class="center"><b>Tipo de Usuario</b></p>
+							<select id="ajax-tipousuario" name="tipousuario">
+							</select>		
+					    </div>
+				        		
+						<div class="filtroajax-usuario-div input-field col s12 m12 offset-l3 l6 hide">
+							<p class="center"><b>Usuario</b></p>
+							<select id="ajax-usuario">
+							</select>
+						</div>	
+						
+						<div class="filtroajax-tipousuario-div2 input-field col s12 m12 offset-l3 l6 hide">
+							<p class="center"><b>Comparar con el usuario:</b></p>
+			        		<p class="center"><b>Tipo de Usuario</b></p>
+							<select id="ajax-tipousuario2" name="tipousuario">
+							</select>		
+				    	</div>
+			        		
+						<div class="filtroajax-usuario-div2 input-field col s12 m12 offset-l3 l6 hide">
+							<p class="center"><b>Usuario</b></p>
+							<select id="ajax-usuario2">
+							</select>
+						</div>	
+
 				        <div id="filtro-indicador-dia-div" class="input-field col s12 m12 offset-l3 l6 hide">
 				        		<p class="center"><b>Ingrese el día</b></p>
 				        	 	<input id="filtro-indicador-dia-campo" type="date" name="dia" class="datepicker">

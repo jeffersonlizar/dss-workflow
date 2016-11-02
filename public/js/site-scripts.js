@@ -374,22 +374,29 @@ $('#filtro-indicador-act-user').change(function(){
 	$('#filtro-indicador-dia-div').addClass('hide');
 	$('#filtro-indicador-mesespecifico-div').addClass('hide');
 	$('#filtro-indicador-anoespecifico-div').addClass('hide');
+	$('.filtroajax-tipousuario-div').addClass('hide');
+	$('.filtroajax-usuario-div').addClass('hide');
+	$('.filtroajax-tipousuario-div2').addClass('hide');
+	$('.filtroajax-usuario-div2').addClass('hide');
+	var u = $('#ajax-tipousuario').siblings('ul');
+	$(u).children().removeClass('active selected');
+	var i = $('#ajax-tipousuario').siblings('input');
+	$(i).val('Seleccione una opción');	
+	$('#filtro-indicador-dia-campo').val('');		
 	value = $(this).val();
 	if((value=='hoy')||(value=='ayer')||(value=='mesactual')||(value=='anoactual')){
-		val1= $('#ajax-usuario').val();
-		val2 = $('#ajax-tipousuario').val();
-		if ((val1!=null)&&(val2!=null))
-			$('#submit-indicador').parent().removeClass('disabled');
-		else
-			$('#submit-indicador').parent().addClass('disabled');	
+		$('.filtroajax-tipousuario-div').removeClass('hide');
 	}
 	else{
 		if (value=='dia'){
-			$('#filtro-indicador-dia-campo').val('');
-			$('#filtro-indicador-dia-div').removeClass('hide');
+			$('.filtroajax-tipousuario-div').removeClass('hide');
 		}
-		
+		else if (value=='diacomparativo'){
+			$('.filtroajax-tipousuario-div').removeClass('hide');
+			
+		}
 		else if (value=='mesespecifico'){
+			/*
 			var u = $('#filtro-indicador-mesespecifico-campo1').siblings('ul');
 			$(u).children().removeClass('active selected');
 			var i = $('#filtro-indicador-mesespecifico-campo1').siblings('input');
@@ -401,6 +408,7 @@ $('#filtro-indicador-act-user').change(function(){
 			$('#filtro-indicador-mesespecifico-campo1').val('');
 			$('#filtro-indicador-mesespecifico-campo2').val('');
 			$('#filtro-indicador-mesespecifico-div').removeClass('hide');
+			*/
 		}
 		
 		else if (value=='anoespecifico'){
@@ -420,18 +428,72 @@ $('#ajax-tipousuario').change(function(){
 	value1 = $(this).val();
 	value2 = $('#ajax-usuario').val();
 	value3 = $('#filtro-indicador-act-user').val();
-	if ((value1!=null)&&(value2!=null)&&(value3!=null))
+	if (value3=='dia'){
+		$('#submit-indicador').parent().addClass('disabled');
+		$('#filtro-indicador-dia-div').addClass('hide');	
+	}
+	else if (value3=='diacomparativo'){
+		$('#submit-indicador').parent().addClass('disabled');
+		//$('#filtro-indicador-dia-div').addClass('hide');		
+	}
+	else if ((value1!=null)&&(value2!=null)&&(value3!=null))
 		$('#submit-indicador').parent().removeClass('disabled');
 	else
 		$('#submit-indicador').parent().addClass('disabled');	
 })
 
+
 $('#ajax-usuario').change(function(){
 	value1 = $(this).val();
 	value2 = $('#ajax-tipousuario').val();
 	value3 = $('#filtro-indicador-act-user').val();
-	if ((value1!=null)&&(value2!=null)&&(value3!=null))
+	if (value3=='dia'){
+		$('#filtro-indicador-dia-campo').val('');
+		$('#filtro-indicador-dia-div').removeClass('hide');
+		$('#submit-indicador').parent().addClass('disabled');	
+	}
+	if (value3=='diacomparativo'){
+		$('.filtroajax-tipousuario-div2').removeClass('hide');
+		diaseleccionado = $('#filtro-indicador-dia-campo').val();
+		if (diaseleccionado==''){
+			$('#submit-indicador').parent().addClass('disabled');		
+		}
+		if ((diaseleccionado!='')&&(value1!=null)){
+			$('#submit-indicador').parent().removeClass('disabled');		
+		}
+	}
+	else if ((value1!=null)&&(value2!=null)&&(value3!=null))
 		$('#submit-indicador').parent().removeClass('disabled');
 	else
 		$('#submit-indicador').parent().addClass('disabled');	
+})
+
+$('#ajax-tipousuario2').change(function(){
+	value1 = $(this).val();
+	value2 = $('#ajax-usuario').val();
+	value3 = $('#filtro-indicador-act-user').val();
+	if (value3=='diacomparativo'){
+		//$('#filtro-indicador-dia-div').addClass('hide');
+		//$('#filtro-indicador-dia-campo').val('');
+		$('#submit-indicador').parent().addClass('disabled');
+	}
+	
+})
+
+
+$('#ajax-usuario2').change(function(){
+	value1 = $(this).val();
+	value2 = $('#ajax-tipousuario').val();
+	value3 = $('#filtro-indicador-act-user').val();
+	if (value3=='diacomparativo'){
+		$('#filtro-indicador-dia-div').removeClass('hide');
+		diaseleccionado = $('#filtro-indicador-dia-campo').val();
+		if (diaseleccionado==''){
+			$('#submit-indicador').parent().addClass('disabled');		
+		}
+		if ((diaseleccionado!='')&&(value1!=null)){
+			$('#submit-indicador').parent().removeClass('disabled');		
+		}
+	}
+	
 })

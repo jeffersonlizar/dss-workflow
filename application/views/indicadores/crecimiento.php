@@ -14,7 +14,7 @@
 				        <div class="input-field col s12 m12 offset-l3 l6">
 				        	<h5 class="center">Filtrar por:</h5>
 				        	<div class="filtroprincipal">
-					        	<div id="filtrotipo">
+					        	<div class="filtrotipo">
 					        		<p class="center"><b>Tipo</b></p>
 					        		<select name="filtrotipo">
 										<option value="1">Flujos de trabajo</option>
