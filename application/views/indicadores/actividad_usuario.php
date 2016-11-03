@@ -45,26 +45,26 @@
 				        </div>
 				        <div class="filtroajax-tipousuario-div input-field col s12 m12 offset-l3 l6 hide">
 			        		<p class="center"><b>Tipo de Usuario</b></p>
-							<select id="ajax-tipousuario" name="tipousuario">
+							<select id="ajax-tipousuario" name="tipousuario1">
 							</select>		
 					    </div>
 				        		
 						<div class="filtroajax-usuario-div input-field col s12 m12 offset-l3 l6 hide">
 							<p class="center"><b>Usuario</b></p>
-							<select id="ajax-usuario">
+							<select id="ajax-usuario" name="usuario1">
 							</select>
 						</div>	
 						
 						<div class="filtroajax-tipousuario-div2 input-field col s12 m12 offset-l3 l6 hide">
 							<p class="center"><b>Comparar con el usuario:</b></p>
 			        		<p class="center"><b>Tipo de Usuario</b></p>
-							<select id="ajax-tipousuario2" name="tipousuario">
+							<select id="ajax-tipousuario2" name="tipousuario2">
 							</select>		
 				    	</div>
 			        		
 						<div class="filtroajax-usuario-div2 input-field col s12 m12 offset-l3 l6 hide">
 							<p class="center"><b>Usuario</b></p>
-							<select id="ajax-usuario2">
+							<select id="ajax-usuario2" name="usuario2">
 							</select>
 						</div>	
 
@@ -118,21 +118,6 @@
 											<option value="<?php echo $anio_anterior1 ?>"><?php echo $anio_anterior1 ?></option>
 										</select>
 							        	</div>
-							    </div>
-				        </div>
-				        
-				        
-				        <div id="filtro-indicador-periodo-div" class="input-field col s12 m12 offset-l3 l6 hide">
-				        		<p class="center"><b>Ingrese el periodo</b></p>
-				        		<div class="row">
-							        <div class="input-field col s6">
-							          <label for="filtro-indicador-periodo-campo1">Desde</label>
-							          <input id="filtro-indicador-periodo-campo1" type="date" name="periodo_inicio" class="datepickerperiodo1">
-							        </div>
-							        <div class="input-field col s6 hide">
-							          <label for="filtro-indicador-periodo-campo2">Hasta</label>
-							          <input id="filtro-indicador-periodo-campo2" type="date" name="periodo_fin" class="datepickerperiodo2">
-							        </div>
 							    </div>
 				        </div>
 				        

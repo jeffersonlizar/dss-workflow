@@ -32,7 +32,7 @@
 	        },
 	        yAxis: {
 	            title: {
-	                text: 'Procesos'
+	                text: 'Transiciones'
 	            },
 	            minorGridLineWidth: 0,
 	            gridLineWidth: 0,
@@ -87,7 +87,7 @@
 	            ]
 	        },
 	        tooltip: {
-	            valueSuffix: ' procesos'
+	            valueSuffix: ' transiciones'
 	        },
 	        plotOptions: {
 	            spline: {

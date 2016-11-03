@@ -382,7 +382,27 @@ $('#filtro-indicador-act-user').change(function(){
 	$(u).children().removeClass('active selected');
 	var i = $('#ajax-tipousuario').siblings('input');
 	$(i).val('Seleccione una opción');	
+	var i = $('#ajax-tipousuario2').siblings('input');
+	$(i).val('Seleccione una opción');	
+	var u = $('#ajax-tipousuario2').siblings('ul');
+	$(u).children().removeClass('active selected');
 	$('#filtro-indicador-dia-campo').val('');		
+	var u = $('#filtro-indicador-mesespecifico-campo1').siblings('ul');
+	$(u).children().removeClass('active selected');
+	var i = $('#filtro-indicador-mesespecifico-campo1').siblings('input');
+	$(i).val('Seleccione el mes');			
+	var u = $('#filtro-indicador-mesespecifico-campo2').siblings('ul');
+	$(u).children().removeClass('active selected');
+	var i = $('#filtro-indicador-mesespecifico-campo2').siblings('input');
+	$(i).val('Seleccione el año');
+	$('#filtro-indicador-mesespecifico-campo1').val('');
+	$('#filtro-indicador-mesespecifico-campo2').val('');
+	var u = $('#filtro-indicador-anoespecifico-campo1').siblings('ul');
+	$(u).children().removeClass('active selected');
+	var i = $('#filtro-indicador-anoespecifico-campo1').siblings('input');
+	$(i).val('Seleccione el año');
+	$('#filtro-indicador-anoespecifico-campo1').val('');
+	
 	value = $(this).val();
 	if((value=='hoy')||(value=='ayer')||(value=='mesactual')||(value=='anoactual')){
 		$('.filtroajax-tipousuario-div').removeClass('hide');
@@ -393,31 +413,27 @@ $('#filtro-indicador-act-user').change(function(){
 		}
 		else if (value=='diacomparativo'){
 			$('.filtroajax-tipousuario-div').removeClass('hide');
-			
+		}
+		else if (value=='diatipousuario'){
+			$('.filtroajax-tipousuario-div').removeClass('hide');
 		}
 		else if (value=='mesespecifico'){
-			/*
-			var u = $('#filtro-indicador-mesespecifico-campo1').siblings('ul');
-			$(u).children().removeClass('active selected');
-			var i = $('#filtro-indicador-mesespecifico-campo1').siblings('input');
-			$(i).val('Seleccione el mes');			
-			var u = $('#filtro-indicador-mesespecifico-campo2').siblings('ul');
-			$(u).children().removeClass('active selected');
-			var i = $('#filtro-indicador-mesespecifico-campo2').siblings('input');
-			$(i).val('Seleccione el año');
-			$('#filtro-indicador-mesespecifico-campo1').val('');
-			$('#filtro-indicador-mesespecifico-campo2').val('');
-			$('#filtro-indicador-mesespecifico-div').removeClass('hide');
-			*/
+			$('.filtroajax-tipousuario-div').removeClass('hide');	
 		}
-		
+		else if (value=='mesespecificocomparativo'){
+			$('.filtroajax-tipousuario-div').removeClass('hide');	
+		}
+		else if (value=='mesespecificotipousuario'){
+			$('.filtroajax-tipousuario-div').removeClass('hide');
+		}
 		else if (value=='anoespecifico'){
-			var u = $('#filtro-indicador-anoespecifico-campo1').siblings('ul');
-			$(u).children().removeClass('active selected');
-			var i = $('#filtro-indicador-anoespecifico-campo1').siblings('input');
-			$(i).val('Seleccione el año');
-			$('#filtro-indicador-anoespecifico-campo1').val('');
-			$('#filtro-indicador-anoespecifico-div').removeClass('hide');
+			$('.filtroajax-tipousuario-div').removeClass('hide');	
+		}
+		else if (value=='anoespecificocomparativo'){
+			$('.filtroajax-tipousuario-div').removeClass('hide');	
+		}
+		else if (value=='anoespecificotipousuario'){
+			$('.filtroajax-tipousuario-div').removeClass('hide');	
 		}
 		
 	}
@@ -434,7 +450,30 @@ $('#ajax-tipousuario').change(function(){
 	}
 	else if (value3=='diacomparativo'){
 		$('#submit-indicador').parent().addClass('disabled');
-		//$('#filtro-indicador-dia-div').addClass('hide');		
+	}
+	else if (value3=='diatipousuario'){
+		$('.filtroajax-usuario-div').addClass('hide');
+		$('#filtro-indicador-dia-div').removeClass('hide');
+	}
+	else if (value3=='mesactual'){
+		$('#submit-indicador').parent().addClass('disabled');
+	}
+	else if (value3=='mesespecifico'){
+		$('#submit-indicador').parent().addClass('disabled');
+	}
+	else if (value3=='mesespecificocomparativo'){
+		$('#submit-indicador').parent().addClass('disabled');
+	}
+	else if (value3=='mesespecificotipousuario'){
+		$('.filtroajax-usuario-div').addClass('hide');
+		$('#filtro-indicador-mesespecifico-div').removeClass('hide');
+	}
+	else if (value3=='anoespecificocomparativo'){
+		$('#submit-indicador').parent().addClass('disabled');
+	}
+	else if (value3=='anoespecificotipousuario'){
+		$('.filtroajax-usuario-div').addClass('hide');
+		$('#filtro-indicador-anoespecifico-div').removeClass('hide');
 	}
 	else if ((value1!=null)&&(value2!=null)&&(value3!=null))
 		$('#submit-indicador').parent().removeClass('disabled');
@@ -452,7 +491,7 @@ $('#ajax-usuario').change(function(){
 		$('#filtro-indicador-dia-div').removeClass('hide');
 		$('#submit-indicador').parent().addClass('disabled');	
 	}
-	if (value3=='diacomparativo'){
+	else if (value3=='diacomparativo'){
 		$('.filtroajax-tipousuario-div2').removeClass('hide');
 		diaseleccionado = $('#filtro-indicador-dia-campo').val();
 		if (diaseleccionado==''){
@@ -461,6 +500,40 @@ $('#ajax-usuario').change(function(){
 		if ((diaseleccionado!='')&&(value1!=null)){
 			$('#submit-indicador').parent().removeClass('disabled');		
 		}
+	}
+	else if (value3=='mesespecifico'){		
+		$('#filtro-indicador-mesespecifico-div').removeClass('hide');
+		mes = $('#filtro-indicador-mesespecifico-campo1').val();
+		ano = $('#filtro-indicador-mesespecifico-campo2').val();
+		if ((mes!=null)&&(ano!=null))
+			$('#submit-indicador').parent().removeClass('disabled');
+		else
+			$('#submit-indicador').parent().addClass('disabled');
+	}
+	else if (value3=='mesespecificocomparativo'){
+		$('.filtroajax-tipousuario-div2').removeClass('hide');
+		mes = $('#filtro-indicador-mesespecifico-campo1').val();
+		ano = $('#filtro-indicador-mesespecifico-campo2').val();
+		if ((mes!=null)&&(ano!=null)&&(value1!=null))
+			$('#submit-indicador').parent().removeClass('disabled');
+		else
+			$('#submit-indicador').parent().addClass('disabled');
+	}
+	else if (value3=='anoespecifico'){
+		$('#filtro-indicador-anoespecifico-div').removeClass('hide');
+		anoseleccionado = $('#filtro-indicador-anoespecifico-campo1').val();
+		if ((anoseleccionado!=null)&&(value1!=null))
+			$('#submit-indicador').parent().removeClass('disabled');		
+		else
+			$('#submit-indicador').parent().addClass('disabled');	
+	}
+	else if (value3=='anoespecificocomparativo'){
+		$('.filtroajax-tipousuario-div2').removeClass('hide');
+		anoseleccionado = $('#filtro-indicador-anoespecifico-campo1').val();
+		if ((anoseleccionado!=null)&&(value1!=null))
+			$('#submit-indicador').parent().removeClass('disabled');		
+		else
+			$('#submit-indicador').parent().addClass('disabled');
 	}
 	else if ((value1!=null)&&(value2!=null)&&(value3!=null))
 		$('#submit-indicador').parent().removeClass('disabled');
@@ -473,8 +546,12 @@ $('#ajax-tipousuario2').change(function(){
 	value2 = $('#ajax-usuario').val();
 	value3 = $('#filtro-indicador-act-user').val();
 	if (value3=='diacomparativo'){
-		//$('#filtro-indicador-dia-div').addClass('hide');
-		//$('#filtro-indicador-dia-campo').val('');
+		$('#submit-indicador').parent().addClass('disabled');
+	}
+	if (value3=='mesespecificocomparativo'){
+		$('#submit-indicador').parent().addClass('disabled');
+	}
+	if (value3=='anoespecificocomparativo'){
 		$('#submit-indicador').parent().addClass('disabled');
 	}
 	
@@ -494,6 +571,23 @@ $('#ajax-usuario2').change(function(){
 		if ((diaseleccionado!='')&&(value1!=null)){
 			$('#submit-indicador').parent().removeClass('disabled');		
 		}
+	}
+	else if (value3=='mesespecificocomparativo'){
+		$('#filtro-indicador-mesespecifico-div').removeClass('hide');
+		mes = $('#filtro-indicador-mesespecifico-campo1').val();
+		ano = $('#filtro-indicador-mesespecifico-campo2').val();
+		if ((mes!=null)&&(ano!=null)&&(value1!=null))
+			$('#submit-indicador').parent().removeClass('disabled');
+		else
+			$('#submit-indicador').parent().addClass('disabled');
+	}
+	else if (value3=='anoespecificocomparativo'){
+		$('#filtro-indicador-anoespecifico-div').removeClass('hide');
+		anoseleccionado = $('#filtro-indicador-anoespecifico-campo1').val();
+		if ((anoseleccionado!=null)&&(value1!=null))
+			$('#submit-indicador').parent().removeClass('disabled');		
+		else
+			$('#submit-indicador').parent().addClass('disabled');
 	}
 	
 })

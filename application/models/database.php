@@ -127,9 +127,9 @@ class Database extends CI_Model {
             return false;
         }
 	}
-	public function guardar_indicador_actividad_usuario($opcion,$usuario_admin=null,$fecha=null,$usuario1=null,$usuario2=null,$periodo2_inicio=null,$periodo2_fin=null){
+	public function guardar_indicador_actividad_usuario($opcion,$usuario_admin=null,$fecha=null,$usuario1=null,$usuario2=null,$tipo_usuario=null,$dia=null,$mes=null,$ano=null){
 		$this->db->db_select('dss');
-		$query = $this->db->query("INSERT INTO indicador_crecimiento(opcion,usuario_admin,fecha,periodo1,periodo2,periodo3,periodo4) values ('$opcion','$usuario_admin','$fecha','$periodo1_inicio','$periodo1_fin','$periodo2_inicio','$periodo2_fin')");
+		$query = $this->db->query("INSERT INTO indicador_actividad_usuario(opcion,usuario_admin,fecha,usuario1,usuario2,tipo_usuario,dia,mes,ano) values ('$opcion','$usuario_admin','$fecha','$usuario1','$usuario2','$tipo_usuario','$dia','$mes','$ano')");
 		if($query)
         {
             return true;

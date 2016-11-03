@@ -418,44 +418,75 @@ class Indicadores extends CI_Controller {
 		}
 		$filtro = $this->input->post("filtro");
 		$filtrotipo = $this->input->post("filtrotipo");
+		$tipousuario1 = $this->input->post("tipousuario1");
+		$usuario1 = $this->input->post("usuario1");
+		$tipousuario2 = $this->input->post("tipousuario2");
+		$usuario2 = $this->input->post("usuario2");
 		$dia = $this->input->post("dia");
-		$periodo1_inicio = $this->input->post("periodo1_inicio");
-		$periodo1_fin = $this->input->post("periodo1_fin");
-		$periodo2_inicio = $this->input->post("periodo2_inicio");
-		$periodo2_fin = $this->input->post("periodo2_fin");
-		if ((isset($periodo1_inicio))&&($periodo1_inicio!='')){
-			$d = explode('/',$periodo1_inicio);
-			$periodo1_inicio = $d[2].'/'.$d[1].'/'.$d[0];	
+		$mesespecifico1 = $this->input->post("mesespecifico1");
+		$mesespecifico2 = $this->input->post("mesespecifico2");
+		$anoespecifico = $this->input->post("anoespecifico");
+		if ((isset($dia))&&($dia!='')){
+			$d = explode('/',$dia);
+			$dia = $d[2].'/'.$d[1].'/'.$d[0];	
 		}
-		if ((isset($periodo1_fin))&&($periodo1_fin!='')){
-			$d = explode('/',$periodo1_fin);
-			$periodo1_fin = $d[2].'/'.$d[1].'/'.$d[0];	
+		if (((isset($mesespecifico1))&&($mesespecifico1!=''))&&((isset($mesespecifico2))&&($mesespecifico2!=''))){
+			$mes = $mesespecifico2.'/'.$mesespecifico1.'/01';
 		}
-		if ((isset($periodo2_inicio))&&($periodo2_inicio!='')){
-			$d = explode('/',$periodo2_inicio);
-			$periodo2_inicio = $d[2].'/'.$d[1].'/'.$d[0];	
+		if ((isset($anoespecifico))&&($anoespecifico!='')){
+			$ano = $anoespecifico.'/01/01';	
 		}
-		if ((isset($periodo2_fin))&&($periodo2_fin!='')){
-			$d = explode('/',$periodo2_fin);
-			$periodo2_fin = $d[2].'/'.$d[1].'/'.$d[0];	
-		}
-
 		switch ($filtro) {
-			case 'crecimiento-hoy-ayer':
-				$bd = $this->database->guardar_indicador_crecimiento(($filtrotipo.'1'),$session_data['user'],$today);
+			case 'hoy':
+				$bd = $this->database->guardar_indicador_actividad_usuario(($filtrotipo.'1'),$session_data['user'],$today,$usuario1,'',$tipousuario1);
 				break;
-			case 'crecimiento-mactual-manterior':
-				$bd = $this->database->guardar_indicador_crecimiento(($filtrotipo.'2'),$session_data['user'],$today);
+			case 'ayer':
+				$bd = $this->database->guardar_indicador_actividad_usuario(($filtrotipo.'2'),$session_data['user'],$today,$usuario1,'',$tipousuario1);
 				break;
-			case 'crecimiento-aactual-aanterior':
-				$bd = $this->database->guardar_indicador_crecimiento(($filtrotipo.'3'),$session_data['user'],$today);
+			case 'dia':
+				$bd = $this->database->guardar_indicador_actividad_usuario(($filtrotipo.'3'),$session_data['user'],$today,$usuario1,'',$tipousuario1,$dia);
 				break;
-			case 'crecimiento-periodos':
-				$bd = $this->database->guardar_indicador_crecimiento(($filtrotipo.'4'),$session_data['user'],$today,$periodo2_inicio,$periodo2_fin,$periodo1_inicio,$periodo1_fin);
+			case 'diacomparativo':
+				$bd = $this->database->guardar_indicador_actividad_usuario(($filtrotipo.'4'),$session_data['user'],$today,$usuario1,$usuario2,'',$dia);
+				break;
+			case 'diatipousuario':
+				if ($tipousuario1!='all')
+					$bd = $this->database->guardar_indicador_actividad_usuario(($filtrotipo.'5'),$session_data['user'],$today,'','',$tipousuario1,$dia);	
+				else
+					$bd = $this->database->guardar_indicador_actividad_usuario(($filtrotipo.'6'),$session_data['user'],$today,'','','',$dia);	
+				break;
+			case 'mesactual':
+					$bd = $this->database->guardar_indicador_actividad_usuario(($filtrotipo.'7'),$session_data['user'],$today,$usuario1,'',$tipousuario1);
+				break;
+			case 'mesespecifico':
+					$bd = $this->database->guardar_indicador_actividad_usuario(($filtrotipo.'8'),$session_data['user'],$today,$usuario1,'',$tipousuario1,'',$mes);
+				break;
+			case 'mesespecificocomparativo':
+					$bd = $this->database->guardar_indicador_actividad_usuario(($filtrotipo.'9'),$session_data['user'],$today,$usuario1,$usuario2,'','',$mes);
+				break;
+			case 'mesespecificotipousuario':
+				if ($tipousuario1!='all')
+					$bd = $this->database->guardar_indicador_actividad_usuario(($filtrotipo.'10'),$session_data['user'],$today,'','',$tipousuario1,'',$mes);	
+				else
+					$bd = $this->database->guardar_indicador_actividad_usuario(($filtrotipo.'11'),$session_data['user'],$today,'','','','',$mes);	
+				break;
+			case 'anoactual':
+					$bd = $this->database->guardar_indicador_actividad_usuario(($filtrotipo.'12'),$session_data['user'],$today,$usuario1,'',$tipousuario1);
+				break;
+			case 'anoespecifico':
+					$bd = $this->database->guardar_indicador_actividad_usuario(($filtrotipo.'13'),$session_data['user'],$today,$usuario1,'',$tipousuario1,'','',$ano);
+				break;
+			case 'anoespecificocomparativo':
+					$bd = $this->database->guardar_indicador_actividad_usuario(($filtrotipo.'14'),$session_data['user'],$today,$usuario1,$usuario2,'','','',$ano);
+				break;
+			case 'anoespecificotipousuario':
+				if ($tipousuario1!='all')
+					$bd = $this->database->guardar_indicador_actividad_usuario(($filtrotipo.'15'),$session_data['user'],$today,'','',$tipousuario1,'','',$ano);	
+				else
+					$bd = $this->database->guardar_indicador_actividad_usuario(($filtrotipo.'16'),$session_data['user'],$today,'','','','','',$ano);	
 				break;
 		}
-		var_dump($bd);
-		//redirect('indicadores/crecimiento');
+		redirect('indicadores/actividad_usuario');
 
 	}
 
