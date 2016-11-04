@@ -36,6 +36,13 @@ div.filtrotipo{
 	font-weight: bold; 
 	text-decoration: underline;
 }
+#tiempo_promedio .submit-centrado{
+	padding-left: 20px;
+}
+#resumen{
+	/*margin: 5px;*/
+	border:1px solid black;
+}
 
 /*--------------------------Theme Basis-------------------------*/
 body{

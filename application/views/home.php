@@ -37,7 +37,7 @@
                         <div class="titulo tema"></div>
                         <div class="subtitulo tema"></div>
                         <div>
-                            <p><b>Flujo de trabajo</b><p>
+                            <p><b>Flujos de trabajo</b><p>
                             <p>Más realizado: <span id="resumen_workflow_mas_realizado"></span></p>
                             <p>Menos realizado: <span id="resumen_workflow_menos_realizado"></span></p>
                             <p>Más rápido: <span id="resumen_workflow_mas_rapido"></span></p>
@@ -45,7 +45,7 @@
                             <p>Total realizados: <span id="resumen_workflow_cant"></span></p>
                         </div>    
                         <div>
-                            <p><b>Transición</b></p>
+                            <p><b>Transiciones</b></p>
                             <p>Más realizada: <span id="resumen_proceso_mas_realizado"></span></p>
                             <p>Menos realizada: <span id="resumen_proceso_menos_realizado"></span></p>
                             <p>Más rápida: <span id="resumen_proceso_mas_rapido"></span></p>

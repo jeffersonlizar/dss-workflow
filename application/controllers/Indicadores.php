@@ -113,7 +113,7 @@ class Indicadores extends CI_Controller {
 		$this->load->view('footerend','', FALSE);	
 	}
 
-	//vista indicadores/crecimiento
+	//vista indicadores/actividad_usuario
 	public function actividad_usuario(){
 		$session_data = $this->session->userdata('logged_in');	
 		if($session_data['tipo']!='1'){
@@ -129,6 +129,44 @@ class Indicadores extends CI_Controller {
 		$this->load->view('indicadores/actividad_usuario','', FALSE);
 		$this->load->view('footerbegin','', FALSE);	
 		$this->load->view('actividad_usuario',$actividad_user, FALSE);
+		$this->load->view('footerend','', FALSE);	
+	}
+
+	//vista indicadores/tiempo_promedio
+	public function tiempo_promedio(){
+		$session_data = $this->session->userdata('logged_in');	
+		if($session_data['tipo']!='1'){
+			redirect('home');
+		}
+		$header = array(
+			'session'=>$session_data
+		);
+		$this->load->library('indicadores_libreria');
+		$tiempo_promedio = $this->indicadores_libreria->indicador_tiempo_promedio();
+		$this->load->view('header',$header, FALSE);
+		$this->load->view('indicadores/tiempo_promedio','', FALSE);
+		$this->load->view('footerbegin','', FALSE);	
+		$this->load->view('tiempo_promedio',$tiempo_promedio, FALSE);	
+		$this->load->view('footerend','', FALSE);	
+	}
+
+	//vista indicadores/resumen
+	public function resumen(){
+		$session_data = $this->session->userdata('logged_in');	
+		if($session_data['tipo']!='1'){
+			redirect('home');
+		}
+		$header = array(
+			'session'=>$session_data
+		);
+		$this->load->library('indicadores_libreria');
+
+		$resumen = $this->indicadores_libreria->indicador_resumen();
+
+		$this->load->view('header',$header, FALSE);
+		$this->load->view('indicadores/resumen','', FALSE);
+		$this->load->view('footerbegin','', FALSE);	
+		$this->load->view('resumen',$resumen, FALSE);
 		$this->load->view('footerend','', FALSE);	
 	}
 
@@ -209,7 +247,6 @@ class Indicadores extends CI_Controller {
 				break;
 			case 'anoactual':
 				$bd = $this->database->guardar_indicador_actividad('8',$session_data['user'],$today);
-				var_dump($bd);
 				break;
 			case 'anoespecifico':
 				$bd = $this->database->guardar_indicador_actividad('9',$session_data['user'],$today,'','','','','','',$ano);
@@ -276,7 +313,6 @@ class Indicadores extends CI_Controller {
 				break;
 			case 'anoactual':
 				$bd = $this->database->guardar_indicador_indicadores('6',$session_data['user'],$today);
-				var_dump($bd);
 				break;
 			case 'anoespecifico':
 				$bd = $this->database->guardar_indicador_indicadores('7',$session_data['user'],$today,'','',$ano);
@@ -343,7 +379,6 @@ class Indicadores extends CI_Controller {
 				break;
 			case 'anoactual':
 				$bd = $this->database->guardar_indicador_categoria('6',$session_data['user'],$today);
-				var_dump($bd);
 				break;
 			case 'anoespecifico':
 				$bd = $this->database->guardar_indicador_categoria('7',$session_data['user'],$today,'','',$ano);
@@ -487,6 +522,126 @@ class Indicadores extends CI_Controller {
 				break;
 		}
 		redirect('indicadores/actividad_usuario');
+
+	}
+
+
+	//guardar en la bd el nuevo indicador indicadores
+	public function registrar_tiempo_promedio(){
+		$this->load->model('database', '', true);
+		date_default_timezone_set('America/La_Paz');
+		$today = date('Y-m-d H:i:s'); 
+		$session_data = $this->session->userdata('logged_in');	
+		if($session_data['tipo']!='1'){
+			redirect('home');
+		}
+		$filtrotipo = $this->input->post("filtrotipo");
+		$filtro = $this->input->post("filtro");
+		$mesespecifico1 = $this->input->post("mesespecifico1");
+		$mesespecifico2 = $this->input->post("mesespecifico2");
+		$anoespecifico = $this->input->post("anoespecifico");
+		$periodo_inicio = $this->input->post("periodo_inicio");
+		$periodo_fin = $this->input->post("periodo_fin");
+		
+		if (((isset($mesespecifico1))&&($mesespecifico1!=''))&&((isset($mesespecifico2))&&($mesespecifico2!=''))){
+			$mes = $mesespecifico2.'/'.$mesespecifico1.'/01';
+		}
+		if ((isset($anoespecifico))&&($anoespecifico!='')){
+			$ano = $anoespecifico.'/01/01';	
+		}
+		if ((isset($periodo_inicio))&&($periodo_inicio!='')){
+			$d = explode('/',$periodo_inicio);
+			$periodo_inicio = $d[2].'/'.$d[1].'/'.$d[0];	
+		}
+		if ((isset($periodo_fin))&&($periodo_fin!='')){
+			$d = explode('/',$periodo_fin);
+			$periodo_fin = $d[2].'/'.$d[1].'/'.$d[0];	
+		}
+
+		switch ($filtro) {
+			case 'mesactual':
+				$bd = $this->database->guardar_indicador_tiempo_promedio(($filtrotipo.'1'),$session_data['user'],$today);
+				break;
+			case 'mesespecifico':
+				$bd = $this->database->guardar_indicador_tiempo_promedio(($filtrotipo.'2'),$session_data['user'],$today,$mes);
+				break;
+			case 'anoactual':
+				$bd = $this->database->guardar_indicador_tiempo_promedio(($filtrotipo.'3'),$session_data['user'],$today);
+				break;
+			case 'anoespecifico':
+				$bd = $this->database->guardar_indicador_tiempo_promedio(($filtrotipo.'4'),$session_data['user'],$today,'',$ano);
+				break;
+			case 'periodo':
+				$bd = $this->database->guardar_indicador_tiempo_promedio(($filtrotipo.'5'),$session_data['user'],$today,'','',$periodo_inicio,$periodo_fin);
+				break;
+		}
+		redirect('indicadores/tiempo_promedio');
+
+	}
+
+	//guardar en la bd el nuevo indicador resumen
+	public function registrar_resumen(){
+		$this->load->model('database', '', true);
+		date_default_timezone_set('America/La_Paz');
+		$today = date('Y-m-d H:i:s'); 
+		$session_data = $this->session->userdata('logged_in');	
+		if($session_data['tipo']!='1'){
+			redirect('home');
+		}
+		$filtro = $this->input->post("filtro");
+		$dia = $this->input->post("dia");
+		$mesespecifico1 = $this->input->post("mesespecifico1");
+		$mesespecifico2 = $this->input->post("mesespecifico2");
+		$anoespecifico = $this->input->post("anoespecifico");
+		$periodo_inicio = $this->input->post("periodo_inicio");
+		$periodo_fin = $this->input->post("periodo_fin");
+		if ((isset($dia))&&($dia!='')){
+			$d = explode('/',$dia);
+			$dia = $d[2].'/'.$d[1].'/'.$d[0];	
+		}
+		
+		if (((isset($mesespecifico1))&&($mesespecifico1!=''))&&((isset($mesespecifico2))&&($mesespecifico2!=''))){
+			$mes = $mesespecifico2.'/'.$mesespecifico1.'/01';
+		}
+		if ((isset($anoespecifico))&&($anoespecifico!='')){
+			$ano = $anoespecifico.'/01/01';	
+		}
+		if ((isset($periodo_inicio))&&($periodo_inicio!='')){
+			$d = explode('/',$periodo_inicio);
+			$periodo_inicio = $d[2].'/'.$d[1].'/'.$d[0];	
+		}
+		if ((isset($periodo_fin))&&($periodo_fin!='')){
+			$d = explode('/',$periodo_fin);
+			$periodo_fin = $d[2].'/'.$d[1].'/'.$d[0];	
+		}
+
+		switch ($filtro) {
+			case 'hoy':
+				$bd = $this->database->guardar_indicador_resumen('1',$session_data['user'],$today);
+				break;
+			case 'ayer':
+				$bd = $this->database->guardar_indicador_resumen('2',$session_data['user'],$today);
+				break;
+			case 'dia':
+				$bd = $this->database->guardar_indicador_resumen('3',$session_data['user'],$today,$dia);
+				break;
+			case 'mesactual':
+				$bd = $this->database->guardar_indicador_resumen('4',$session_data['user'],$today);
+				break;
+			case 'mesespecifico':
+				$bd = $this->database->guardar_indicador_resumen('5',$session_data['user'],$today,'',$mes);
+				break;
+			case 'anoactual':
+				$bd = $this->database->guardar_indicador_resumen('6',$session_data['user'],$today);
+				break;
+			case 'anoespecifico':
+				$bd = $this->database->guardar_indicador_resumen('7',$session_data['user'],$today,'','',$ano);
+				break;
+			case 'periodo':
+				$bd = $this->database->guardar_indicador_resumen('8',$session_data['user'],$today,'','','',$periodo_inicio,$periodo_fin);
+				break;
+		}
+		redirect('indicadores/resumen');
 
 	}
 

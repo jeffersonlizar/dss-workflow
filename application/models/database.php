@@ -115,6 +115,19 @@ class Database extends CI_Model {
             return false;
         }
 	}
+
+	public function guardar_indicador_tiempo_promedio($opcion,$usuario_admin=null,$fecha=null,$mes=null,$ano=null,$periodo_inicio=null,$periodo_fin=null){
+		$this->db->db_select('dss');
+		$query = $this->db->query("INSERT INTO indicador_tiempo_promedio(opcion,usuario_admin,fecha,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$mes','$ano','$periodo_inicio','$periodo_fin')");
+		if($query)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+	}
 	public function cargar_indicador_actividad_usuario(){
 		$this->db->db_select('dss');
 		$query = $this->db->query("SELECT * FROM indicador_actividad_usuario ORDER BY id DESC limit 1");
@@ -145,6 +158,18 @@ class Database extends CI_Model {
 		if($query -> num_rows() > 0)
         {
             return $query->result_array()[0];
+        }
+        else
+        {
+            return false;
+        }
+	}
+	public function guardar_indicador_resumen($opcion,$usuario_admin=null,$fecha=null,$dia=null,$mes=null,$ano=null,$periodo_inicio=null,$periodo_fin=null){
+		$this->db->db_select('dss');
+		$query = $this->db->query("INSERT INTO indicador_resumen(opcion,usuario_admin,fecha,dia,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$dia','$mes','$ano','$periodo_inicio','$periodo_fin')");
+		if($query)
+        {
+            return true;
         }
         else
         {
