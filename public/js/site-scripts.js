@@ -591,3 +591,21 @@ $('#ajax-usuario2').change(function(){
 	}
 	
 })
+
+$('#rangoft').change(function(){
+	val1 = $(this).val();
+	val2 = $('#rangotran').val();
+	if ((val1>0)&&(val2>=0))
+		$('#submit-indicador').parent().removeClass('disabled');		
+	else
+		$('#submit-indicador').parent().addClass('disabled');
+})
+
+$('#rangotran').change(function(){
+	val1 = $(this).val();
+	val2 = $('#rangoft').val();
+	if ((val1>0)&&(val2>=0))
+		$('#submit-indicador').parent().removeClass('disabled');		
+	else
+		$('#submit-indicador').parent().addClass('disabled');
+})

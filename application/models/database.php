@@ -212,6 +212,18 @@ class Database extends CI_Model {
             return false;
         }
 	}
+	public function guardar_indicador_ultimas($usuario_admin=null,$fecha=null,$rangoft=null,$rangotran=null){
+		$this->db->db_select('dss');
+		$query = $this->db->query("INSERT INTO indicador_ultimas(usuario_admin,fecha,ultimas_instancias,ultimas_transiciones) values ('$usuario_admin','$fecha','$rangoft','$rangotran')");
+		if($query)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+	}
 	public function cargar_alarmas_workflow(){
 		$this->db->db_select('dss');
 		$query = $this->db->query("SELECT * FROM alarmas_workflow");

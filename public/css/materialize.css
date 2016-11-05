@@ -6531,8 +6531,8 @@ input[type=range] + .thumb.active {
 input[type=range] + .thumb.active .value {
   color: #fff;
   margin-left: -1px;
-  margin-top: 8px;
-  font-size: 10px;
+  margin-top: 5px;
+  font-size: 13px;
 }
 
 input[type=range] {

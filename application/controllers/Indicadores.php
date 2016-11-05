@@ -170,6 +170,71 @@ class Indicadores extends CI_Controller {
 		$this->load->view('footerend','', FALSE);	
 	}
 
+	//vista indicadores/ultimas
+	public function ultimas(){
+		$session_data = $this->session->userdata('logged_in');	
+		if($session_data['tipo']!='1'){
+			redirect('home');
+		}
+		$header = array(
+			'session'=>$session_data
+		);
+		$this->load->library('indicadores_libreria');
+
+		$ultimas = $this->indicadores_libreria->indicador_ultimas();
+
+		$home = array(
+			'ultimas_instancias'=>$ultimas['ultimas_instancias'],
+			'ultimas_transiciones'=>$ultimas['ultimas_transiciones']
+		);
+
+		$this->load->view('header',$header, FALSE);
+		$this->load->view('indicadores/ultimas',$home, FALSE);
+		$this->load->view('footerbegin','', FALSE);	
+		$this->load->view('ultimas_instancias_transiciones',$ultimas['ultimas_instancias_transiciones'], FALSE);	
+		$this->load->view('footerend','', FALSE);	
+	}
+
+	//vista indicadores/duracion_transicion
+	public function duracion_transicion(){
+		$session_data = $this->session->userdata('logged_in');	
+		if($session_data['tipo']!='1'){
+			redirect('home');
+		}
+		$header = array(
+			'session'=>$session_data
+		);
+		$this->load->library('indicadores_libreria');
+
+		$duracion_transicion = $this->indicadores_libreria->indicador_duracion_transicion();
+
+		$this->load->view('header',$header, FALSE);
+		$this->load->view('indicadores/duracion_transicion','', FALSE);
+		$this->load->view('footerbegin','', FALSE);	
+		$this->load->view('duracion_transicion',$duracion_transicion, FALSE);	
+		$this->load->view('footerend','', FALSE);	
+	}
+
+	//vista indicadores/duracion_flujos
+	public function duracion_flujos(){
+		$session_data = $this->session->userdata('logged_in');	
+		if($session_data['tipo']!='1'){
+			redirect('home');
+		}
+		$header = array(
+			'session'=>$session_data
+		);
+		$this->load->library('indicadores_libreria');
+
+		$duracion_workflow = $this->indicadores_libreria->indicador_duracion_workflow();
+
+		$this->load->view('header',$header, FALSE);
+		$this->load->view('indicadores/duracion_flujos','', FALSE);
+		$this->load->view('footerbegin','', FALSE);	
+		$this->load->view('duracion_workflow',$duracion_workflow, FALSE);	
+		$this->load->view('footerend','', FALSE);	
+	}
+
 	//guardar en la bd el nuevo indicador actividad
 	public function registrar_actividad(){
 		$this->load->model('database', '', true);
@@ -643,6 +708,21 @@ class Indicadores extends CI_Controller {
 		}
 		redirect('indicadores/resumen');
 
+	}
+
+	//guardar en la bd el nuevo indicador resumen
+	public function registrar_ultimas(){
+		$this->load->model('database', '', true);
+		date_default_timezone_set('America/La_Paz');
+		$today = date('Y-m-d H:i:s'); 
+		$session_data = $this->session->userdata('logged_in');	
+		if($session_data['tipo']!='1'){
+			redirect('home');
+		}
+		$rangoft = $this->input->post("rangoft");
+		$rangotran = $this->input->post("rangotran");
+		$bd = $this->database->guardar_indicador_ultimas($session_data['user'],$today,$rangoft,$rangotran);
+		redirect('indicadores/ultimas');
 	}
 
 
