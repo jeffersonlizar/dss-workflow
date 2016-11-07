@@ -76,7 +76,7 @@ function ubicacion(){
 					  <li><a href="<?php echo base_url().'indicadores/resumen' ?>">Resumen</a></li>
 					  <li><a href="<?php echo base_url().'indicadores/duracion_transicion' ?>">Duración Transición</a></li>
 					  <li><a href="<?php echo base_url().'indicadores/duracion_flujos' ?>">Duración Flujo de trabajo</a></li>
-					  <li><a href="<?php echo base_url().'indicadores/ultimas' ?>">Ultimas</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/ultimas' ?>">Últimas</a></li>
 	                </ul>
 	              </div>
 	            </li>

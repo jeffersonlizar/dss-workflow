@@ -609,3 +609,66 @@ $('#rangotran').change(function(){
 	else
 		$('#submit-indicador').parent().addClass('disabled');
 })
+
+
+
+
+/*--------------------------duracion transicion-------------------------*/
+$('#filtro-indicador1').change(function(){
+	$('#submit-indicador').parent().addClass('disabled');	
+	$('#filtro-indicador-dia-div').addClass('hide');
+	$('#filtro-indicador-comparardias-div').addClass('hide');
+	$('#filtro-indicador-mesespecifico-div').addClass('hide');
+	$('#filtro-indicador-compararmeses-div').addClass('hide');
+	$('#filtro-indicador-anoespecifico-div').addClass('hide');
+	$('#filtro-indicador-compararanos-div').addClass('hide');
+	$('#filtro-indicador-periodo-div').addClass('hide');
+	$('#filtro-indicador-periodo-campo2').parent().addClass('hide');
+	$('#filtro-indicador-crecimiento-periodos-div').addClass('hide');
+	value = $(this).val();
+	if((value=='hoy')||(value=='ayer')||(value=='mesactual')||(value=='anoactual')||(value=='crecimiento-hoy-ayer')||(value=='crecimiento-mactual-manterior')||(value=='crecimiento-aactual-aanterior')){
+		tipousuario =  $('#ajax-tipousuario1').val();
+		usuario =  $('#ajax-usuario1').val();
+		workflow =  $('#ajax-workflow1').val();
+		instancia =  $('#ajax-instancia1').val();
+		if ((tipousuario!=null)&&(usuario!=null)&&(workflow!=null)){
+			$('#submit-indicador').parent().removeClass('disabled');	
+		}
+		
+	}
+	else{
+		if (value=='dia'){
+			$('#filtro-indicador-dia-campo').val('');
+			$('#filtro-indicador-dia-div').removeClass('hide');
+		}
+		
+		else if (value=='mesespecifico'){
+			var u = $('#filtro-indicador-mesespecifico-campo1').siblings('ul');
+			$(u).children().removeClass('active selected');
+			var i = $('#filtro-indicador-mesespecifico-campo1').siblings('input');
+			$(i).val('Seleccione el mes');			
+			var u = $('#filtro-indicador-mesespecifico-campo2').siblings('ul');
+			$(u).children().removeClass('active selected');
+			var i = $('#filtro-indicador-mesespecifico-campo2').siblings('input');
+			$(i).val('Seleccione el año');
+			$('#filtro-indicador-mesespecifico-campo1').val('');
+			$('#filtro-indicador-mesespecifico-campo2').val('');
+			$('#filtro-indicador-mesespecifico-div').removeClass('hide');
+		}
+		else if (value=='anoespecifico'){
+			var u = $('#filtro-indicador-anoespecifico-campo1').siblings('ul');
+			$(u).children().removeClass('active selected');
+			var i = $('#filtro-indicador-anoespecifico-campo1').siblings('input');
+			$(i).val('Seleccione el año');
+			$('#filtro-indicador-anoespecifico-campo1').val('');
+			$('#filtro-indicador-anoespecifico-div').removeClass('hide');
+		}
+		
+		else if (value=='periodo'){
+			$('#filtro-indicador-periodo-campo1').val('');
+			$('#filtro-indicador-periodo-campo2').val('');
+			$('#filtro-indicador-periodo-div').removeClass('hide');
+		}
+	}
+})
+

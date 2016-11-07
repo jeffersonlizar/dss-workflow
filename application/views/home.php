@@ -33,7 +33,7 @@
                             </div>
                     </div>
 
-                    <div class="col s12 m6 l4" id="resumen" style="border:1px solid black">
+                    <div class="col s12 m12 l8" id="resumen" style="border:1px solid black">
                         <div class="titulo tema"></div>
                         <div class="subtitulo tema"></div>
                         <div>

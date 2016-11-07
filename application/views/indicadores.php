@@ -59,7 +59,7 @@ $(function () {
         title: {
             text: '<?php echo $titulo ?>',
             style: {
-                fontSize: '24px'
+                fontSize: '18px'
             }
         },
         subtitle: {

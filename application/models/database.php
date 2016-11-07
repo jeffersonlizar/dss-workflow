@@ -188,12 +188,36 @@ class Database extends CI_Model {
             return false;
         }
 	}
+	public function guardar_indicador_duracion_transicion($opcion,$usuario_admin=null,$fecha=null,$tipo_usuario=null,$usuario=null,$transicion=null,$dia=null,$mes=null,$ano=null,$periodo_inicio=null,$periodo_fin=null){
+		$this->db->db_select('dss');
+		$query = $this->db->query("INSERT INTO indicador_duracion_transicion(opcion,usuario_admin,fecha,tipo_usuario,usuario,transicion,dia,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$tipo_usuario','$usuario','$transicion','$dia','$mes','$ano','$periodo_inicio','$periodo_fin')");
+		if($query)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+	}
 	public function cargar_indicador_duracion_workflow(){
 		$this->db->db_select('dss');
 		$query = $this->db->query("SELECT * FROM indicador_duracion_workflow ORDER BY id DESC limit 1");
 		if($query -> num_rows() > 0)
         {
             return $query->result_array()[0];
+        }
+        else
+        {
+            return false;
+        }
+	}
+	public function guardar_indicador_duracion_workflow($opcion,$usuario_admin=null,$fecha=null,$tipo_usuario=null,$usuario=null,$workflow=null,$dia=null,$mes=null,$ano=null,$periodo_inicio=null,$periodo_fin=null){
+		$this->db->db_select('dss');
+		$query = $this->db->query("INSERT INTO indicador_duracion_workflow(opcion,usuario_admin,fecha,tipo_usuario,usuario,workflow,dia,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$tipo_usuario','$usuario','$workflow','$dia','$mes','$ano','$periodo_inicio','$periodo_fin')");
+		if($query)
+        {
+            return true;
         }
         else
         {
@@ -1389,6 +1413,23 @@ class Database extends CI_Model {
 		$this->db->db_select('workflow');
 		$data= array();
 		$query = "SELECT id_workflow,nombre FROM workflow";
+		$sql = $this->db->query($query);
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data = $sql->result_array();
+
+        }		
+		return $data;
+	}
+
+	//devuelve workflows
+	public function getTransicion($tipo){
+		$this->db->db_select('workflow');
+		$data= array();
+		$query = "SELECT transicion.id_transicion,transicion.nombre,tipo_usuario.id_tipo FROM transicion INNER JOIN estado ON transicion.estado_asociado = estado.id_estado INNER JOIN tipo_usuario ON estado.id_tipo = tipo_usuario.id_tipo ";
+		if ($tipo!='all'){
+			$query = $query.' WHERE tipo_usuario.id_tipo= '.$tipo.'';
+		}
 		$sql = $this->db->query($query);
 		if($sql -> num_rows() > 0)
         {	        	

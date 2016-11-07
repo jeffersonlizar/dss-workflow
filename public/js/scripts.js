@@ -24,81 +24,6 @@ function mostrarhora(){
 	setTimeout("mostrarhora()",1000); 
 }
 
-/*
-function ajax_workflow(){
-	$('.ajax-workflow').empty();
-	$('.ajax-workflow').append('<option disabled selected value>Seleccione una opción</option>');
-	$('.ajax-workflow').append('<option value=all>Todos</option>');
-	$.ajax({
-		url: servidor+"indicadores/filtro/workflow/-1",
-		dataType: "json",
-		async: true,
-		success: function(data){
-			$.each( data, function( key, value ) {
-			  	$('.ajax-workflow').append('<option value='+value.id_workflow+'>'+value.nombre+'</option>');
-			});
-		},
-		error: function (data){
-			console.log(data);	
-		}
-	})
-}
-
-$('.ajax-workflow').change(function(){
-	value = $(this).val();
-	$('.ajax-instancia').empty();
-	$('.ajax-tipousuario').empty();
-	$('.ajax-usuario').empty();
-	$('.ajax-instancia').append('<option disabled selected value>Seleccione una opción</option>');
-	$('.ajax-instancia').append('<option value=all>Todas</option>');
-	$.ajax({
-		url: servidor+"indicadores/filtro/instancia/"+value,
-		dataType: "json",
-		async: true,
-		success: function(data){
-			$.each( data, function( key, value ) {
-			  	$('.ajax-instancia').append('<option value='+value.id_instancia+'>'+value.titulo+'</option>');
-			});
-		},
-		error: function (data){
-			console.log(data);	
-		}
-	})
-})
-
-$('.ajax-instancia').change(function(){
-	$('.ajax-tipousuario').empty();
-	$('.ajax-tipousuario').append('<option disabled selected value>Seleccione una opción</option>');
-	$('.ajax-tipousuario').append('<option value=all>Todos</option>');
-	$.ajax({
-		url: servidor+"indicadores/filtro/tipousuario/-1",
-		dataType: "json",
-		async: true,
-		success: function(data){
-			console.log(data);
-			$.each( data, function( key, value ) {
-				  	$('.ajax-tipousuario').append('<option value='+value.id_tipo+'>'+value.descripcion+'</option>');
-				});
-		},
-		error: function (data){
-			console.log(data);	
-		}
-	})
-})
-
-function ajax_usuario(value){
-	$.ajax({
-		url: servidor+"indicadores/filtro/usuario/"+value,
-		dataType: "json",
-		async: true,
-		success: function(data){
-			console.log(data);
-		},
-		error: function (data){
-			console.log(data);	
-		}
-	})
-}
 
 $('#cargarpdf').click(function(){
 	url='http://localhost/tesisdss/reportes/reporte_actividad/2016-09-10/2016-09-30';
@@ -108,8 +33,151 @@ $('#cargarpdf').click(function(){
 	$(".iframepdf").html("<iframe width='100%' height='450' src="+url+"></iframe>");  
 })
 
-*/
+
+/*-------------- vista indicadores/duracion flujos de trabajo----------------*/
+function reiniciar_act_usr(){
+	var u = $('#filtro-indicador1').siblings('ul');
+	$(u).children().removeClass('active selected');
+	var i = $('#filtro-indicador1').siblings('input');
+	$(i).val('Seleccione una opción');
+	$('#submit-indicador').parent().addClass('disabled');	
+	$('#filtro-indicador-dia-div').addClass('hide');
+	$('#filtro-indicador-mesespecifico-div').addClass('hide');
+	$('#filtro-indicador-anoespecifico-div').addClass('hide');
+	$('#filtro-indicador-periodo-div').addClass('hide');
+	$('#filtro-indicador-periodo-campo2').parent().addClass('hide');
+}
+
+indicador_act_wrk = ubicacion.indexOf("duracion_flujos");
+indicador_act_tran = ubicacion.indexOf("duracion_transicion");
+alarmas = ubicacion.indexOf("alarmas");
+if ((indicador_act_wrk!=-1)||(indicador_act_tran!=-1)||(alarmas!=-1)){
+	reiniciar_act_usr();
+	$('#ajax-tipousuario1').empty();
+	$('#ajax-tipousuario1').append('<option value="" disabled selected>Seleccione una opción</option>');
+	$('#ajax-tipousuario1').append('<option value=all>Todos</option>');
+	$.ajax({
+		url: servidor+"indicadores/filtro/tipousuario/-1",
+		dataType: "json",
+		async: true,
+		success: function(data){
+			$.each( data, function( key, value ) {
+				  	$('#ajax-tipousuario1').append('<option value='+value.id_tipo+'>'+value.descripcion+'</option>');
+				});	
+			$("#ajax-tipousuario1").material_select();
+		},
+		error: function (error){
+			console.log(error);
+		}
+	})
+}
+
+
+$('#ajax-tipousuario1').change(function(){
+	reiniciar_act_usr();
+	$('.filtroajax-usuario1-div').addClass('hide');
+	$('.filtroajax-workflow1-div').addClass('hide');
+	$('.filtro-periodo1').addClass('hide');
+	value = $(this).val();
+	$('.filtroajax-usuario1-div').removeClass('hide');
+	$('#ajax-usuario1').empty();
+	$('#ajax-usuario1').append('<option disabled selected value>Seleccione una opción</option>');
+	$('#ajax-usuario1').append('<option value=all>Todos</option>');
+	$.ajax({
+		url: servidor+"indicadores/filtro/usuario/"+value,
+		dataType: "json",
+		async: true,
+		success: function(data){
+			$.each( data, function( key, value ) {
+				  	$('#ajax-usuario1').append('<option value='+value.id_usuario+'>'+value.id_usuario+'</option>');
+			});
+			$("#ajax-usuario1").material_select();
+		},
+		error: function (data){
+			console.log(data);	
+		}
+	})
+})
+
+
+$('#ajax-usuario1').change(function(){
+	reiniciar_act_usr();
+	$('.filtroajax-workflow1-div').removeClass('hide');
+	$('.filtro-periodo1').addClass('hide');
+	$('#ajax-workflow1').empty();
+	$('#ajax-workflow1').append('<option disabled selected value>Seleccione una opción</option>');
+	tipousuario = $('#ajax-tipousuario1').val();
+	if (indicador_act_tran==-1){
+		$('#ajax-workflow1').append('<option value=all>Todos</option>');
+		$.ajax({
+			url: servidor+"indicadores/filtro/workflow/-1",
+			dataType: "json",
+			async: true,
+			success: function(data){
+				$.each( data, function( key, value ) {
+				  	$('#ajax-workflow1').append('<option value='+value.id_workflow+'>'+value.nombre+'</option>');
+				});
+				$("#ajax-workflow1").material_select();
+			},
+			error: function (data){
+				console.log(data);	
+			}
+		})
+	}
+	else{
+		$('#ajax-workflow1').append('<option value=all>Todas</option>');
+		$.ajax({
+			url: servidor+"indicadores/filtro/transicion/"+tipousuario,
+			dataType: "json",
+			async: true,
+			success: function(data){
+				$.each( data, function( key, value ) {
+				  	$('#ajax-workflow1').append('<option value='+value.id_transicion+'>'+value.nombre+'</option>');
+				});
+				$("#ajax-workflow1").material_select();
+			},
+			error: function (data){
+				console.log(data);	
+			}
+		})
+	}
+	
+})
+
+
+$('#ajax-workflow1').change(function(){
+	reiniciar_act_usr();
+	workflow = $('#ajax-workflow1').val();
+	console.log(workflow);
+	value = $(this).val();
+	if (alarmas=='-1'){
+		$('.filtro-periodo1').removeClass('hide');	
+	}
+	else{
+		$('.filtroajax-instancia1-div').removeClass('hide');
+		$('#ajax-instancia1').empty();
+		$('#ajax-instancia1').append('<option disabled selected value>Seleccione una opción</option>');
+		$.ajax({
+			url: servidor+"indicadores/filtro/instancia/"+workflow,
+			dataType: "json",
+			async: true,
+			success: function(data){
+				$.each( data, function( key, value ) {
+				  	$('#ajax-instancia1').append('<option value='+value.id_instancia+'>'+value.titulo+'</option>');
+				});
+				$("#ajax-instancia1").material_select();
+			},
+			error: function (data){
+				console.log(data);	
+			}
+		})
+	}
+})
+
+
+
 /*-------------- vista indicadores/actividad usuario----------------*/
+
 
 indicador_act_user = ubicacion.indexOf("actividad_usuario");
 if (indicador_act_user!=-1){
@@ -148,8 +216,6 @@ if (indicador_act_user!=-1){
 			console.log(error);
 		}
 	})
-
-
 }
 
 $('#ajax-tipousuario').change(function(){

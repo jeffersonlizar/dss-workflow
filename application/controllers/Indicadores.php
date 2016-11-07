@@ -32,8 +32,12 @@ class Indicadores extends CI_Controller {
 		if ($metodo=='usuario'){
 			$values = $this->Database->getUsuario($dato);
 		}
+		if ($metodo=='transicion'){
+			$values = $this->Database->getTransicion($dato);
+		}
 		echo json_encode($values);
 	}
+
 
 	//vista indicadores/actividad
 	public function actividad(){
@@ -723,6 +727,154 @@ class Indicadores extends CI_Controller {
 		$rangotran = $this->input->post("rangotran");
 		$bd = $this->database->guardar_indicador_ultimas($session_data['user'],$today,$rangoft,$rangotran);
 		redirect('indicadores/ultimas');
+	}
+
+
+	//guardar en la bd el nuevo indicador duracion flujos
+	public function registrar_duracion_flujos(){
+		$this->load->model('database', '', true);
+		date_default_timezone_set('America/La_Paz');
+		$today = date('Y-m-d H:i:s'); 
+		$session_data = $this->session->userdata('logged_in');	
+		if($session_data['tipo']!='1'){
+			redirect('home');
+		}
+		$tipousuario = $this->input->post("tipousuario");
+		$usuario = $this->input->post("usuario");
+		$workflow = $this->input->post("workflow");
+		$filtro = $this->input->post("filtro");
+		$dia = $this->input->post("dia");
+		$mesespecifico1 = $this->input->post("mesespecifico1");
+		$mesespecifico2 = $this->input->post("mesespecifico2");
+		$anoespecifico = $this->input->post("anoespecifico");
+		$periodo_inicio = $this->input->post("periodo_inicio");
+		$periodo_fin = $this->input->post("periodo_fin");
+		if ((isset($dia))&&($dia!='')){
+			$d = explode('/',$dia);
+			$dia = $d[2].'/'.$d[1].'/'.$d[0];	
+		}
+		if (((isset($mesespecifico1))&&($mesespecifico1!=''))&&((isset($mesespecifico2))&&($mesespecifico2!=''))){
+			$mes = $mesespecifico2.'/'.$mesespecifico1.'/01';
+		}
+		if (((isset($compararmeses1))&&($compararmeses1!=''))&&((isset($compararmeses2))&&($compararmeses2!=''))){
+			$mes1 = $compararmeses2.'/'.$compararmeses1.'/01';
+		}
+		
+		if ((isset($anoespecifico))&&($anoespecifico!='')){
+			$ano = $anoespecifico.'/01/01';	
+		}
+		
+		if ((isset($periodo_inicio))&&($periodo_inicio!='')){
+			$d = explode('/',$periodo_inicio);
+			$periodo_inicio = $d[2].'/'.$d[1].'/'.$d[0];	
+		}
+		if ((isset($periodo_fin))&&($periodo_fin!='')){
+			$d = explode('/',$periodo_fin);
+			$periodo_fin = $d[2].'/'.$d[1].'/'.$d[0];	
+		}
+		
+		switch ($filtro) {
+			case 'hoy':
+				$bd = $this->database->guardar_indicador_duracion_workflow('1',$session_data['user'],$today,$tipousuario,$usuario,$workflow);
+				break;
+			case 'ayer':
+				$bd = $this->database->guardar_indicador_duracion_workflow('2',$session_data['user'],$today,$tipousuario,$usuario,$workflow);
+				break;
+			case 'dia':
+				$bd = $this->database->guardar_indicador_duracion_workflow('3',$session_data['user'],$today,$tipousuario,$usuario,$workflow,$dia);
+				break;
+			case 'mesactual':
+				$bd = $this->database->guardar_indicador_duracion_workflow('4',$session_data['user'],$today,$tipousuario,$usuario,$workflow);
+				break;
+			case 'mesespecifico':
+				$bd = $this->database->guardar_indicador_duracion_workflow('5',$session_data['user'],$today,$tipousuario,$usuario,$workflow,'',$mes);
+				break;
+			case 'anoactual':
+				$bd = $this->database->guardar_indicador_duracion_workflow('6',$session_data['user'],$today,$tipousuario,$usuario,$workflow);
+				break;
+			case 'anoespecifico':
+				$bd = $this->database->guardar_indicador_duracion_workflow('7',$session_data['user'],$today,$tipousuario,$usuario,$workflow,'','',$ano);
+				break;
+			case 'periodo':
+				$bd = $this->database->guardar_indicador_duracion_workflow('8',$session_data['user'],$today,$tipousuario,$usuario,$workflow,'','','',$periodo_inicio,$periodo_fin);
+				break;
+		}
+		redirect('indicadores/duracion_flujos');
+
+	}
+
+
+	//guardar en la bd el nuevo indicador duracion transicion
+	public function registrar_duracion_transicion(){
+		$this->load->model('database', '', true);
+		date_default_timezone_set('America/La_Paz');
+		$today = date('Y-m-d H:i:s'); 
+		$session_data = $this->session->userdata('logged_in');	
+		if($session_data['tipo']!='1'){
+			redirect('home');
+		}
+		$tipousuario = $this->input->post("tipousuario");
+		$usuario = $this->input->post("usuario");
+		$transicion = $this->input->post("transicion");
+		$filtro = $this->input->post("filtro");
+		$dia = $this->input->post("dia");
+		$mesespecifico1 = $this->input->post("mesespecifico1");
+		$mesespecifico2 = $this->input->post("mesespecifico2");
+		$anoespecifico = $this->input->post("anoespecifico");
+		$periodo_inicio = $this->input->post("periodo_inicio");
+		$periodo_fin = $this->input->post("periodo_fin");
+		if ((isset($dia))&&($dia!='')){
+			$d = explode('/',$dia);
+			$dia = $d[2].'/'.$d[1].'/'.$d[0];	
+		}
+		if (((isset($mesespecifico1))&&($mesespecifico1!=''))&&((isset($mesespecifico2))&&($mesespecifico2!=''))){
+			$mes = $mesespecifico2.'/'.$mesespecifico1.'/01';
+		}
+		if (((isset($compararmeses1))&&($compararmeses1!=''))&&((isset($compararmeses2))&&($compararmeses2!=''))){
+			$mes1 = $compararmeses2.'/'.$compararmeses1.'/01';
+		}
+		
+		if ((isset($anoespecifico))&&($anoespecifico!='')){
+			$ano = $anoespecifico.'/01/01';	
+		}
+		
+		if ((isset($periodo_inicio))&&($periodo_inicio!='')){
+			$d = explode('/',$periodo_inicio);
+			$periodo_inicio = $d[2].'/'.$d[1].'/'.$d[0];	
+		}
+		if ((isset($periodo_fin))&&($periodo_fin!='')){
+			$d = explode('/',$periodo_fin);
+			$periodo_fin = $d[2].'/'.$d[1].'/'.$d[0];	
+		}
+		
+		switch ($filtro) {
+			case 'hoy':
+				$bd = $this->database->guardar_indicador_duracion_transicion('1',$session_data['user'],$today,$tipousuario,$usuario,$transicion);
+				break;
+			case 'ayer':
+				$bd = $this->database->guardar_indicador_duracion_transicion('2',$session_data['user'],$today,$tipousuario,$usuario,$transicion);
+				break;
+			case 'dia':
+				$bd = $this->database->guardar_indicador_duracion_transicion('3',$session_data['user'],$today,$tipousuario,$usuario,$transicion,$dia);
+				break;
+			case 'mesactual':
+				$bd = $this->database->guardar_indicador_duracion_transicion('4',$session_data['user'],$today,$tipousuario,$usuario,$transicion);
+				break;
+			case 'mesespecifico':
+				$bd = $this->database->guardar_indicador_duracion_transicion('5',$session_data['user'],$today,$tipousuario,$usuario,$transicion,'',$mes);
+				break;
+			case 'anoactual':
+				$bd = $this->database->guardar_indicador_duracion_transicion('6',$session_data['user'],$today,$tipousuario,$usuario,$transicion);
+				break;
+			case 'anoespecifico':
+				$bd = $this->database->guardar_indicador_duracion_transicion('7',$session_data['user'],$today,$tipousuario,$usuario,$transicion,'','',$ano);
+				break;
+			case 'periodo':
+				$bd = $this->database->guardar_indicador_duracion_transicion('8',$session_data['user'],$today,$tipousuario,$usuario,$transicion,'','','',$periodo_inicio,$periodo_fin);
+				break;
+		}
+		redirect('indicadores/duracion_transicion');
+
 	}
 
 
