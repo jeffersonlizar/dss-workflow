@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 25, 2016 at 06:57 AM
+-- Generation Time: Nov 10, 2016 at 11:50 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.23
 
@@ -256,7 +256,8 @@ INSERT INTO `instancia` (`id_instancia`, `id_workflow`, `id_usuario`, `titulo`, 
 (156, 0, 'recepcion', 'nicole1', 'adf', 1, '2016-06-17 09:52:18', '2016-10-19 00:00:00'),
 (157, 0, 'recepcion', 'nicole2', '', 1, '2016-06-18 17:54:27', '2016-10-19 00:00:00'),
 (158, 0, 'recepcion', 'nicole3', '', 0, '2016-06-17 17:56:18', '2016-10-19 00:00:00'),
-(159, 0, 'recepcion', 'asdf', 'asdf', 0, '2016-10-10 21:28:57', NULL);
+(159, 0, 'recepcion', 'asdf', 'asdf', 0, '2016-10-10 21:28:57', NULL),
+(160, 0, 'recepcion', 'holaaa', 'prueba de sistema', 0, '2016-11-07 21:08:47', NULL);
 
 -- --------------------------------------------------------
 
@@ -1217,7 +1218,7 @@ INSERT INTO `proceso` (`id_proceso`, `id_usuario`, `id_instancia`, `id_transicio
 (522, 'gerencia', 155, 1, 'aginado abogado', 0, '2016-07-19 15:22:42'),
 (523, 'recepcion', 156, 0, 'asdf', 0, '2016-06-18 21:53:06'),
 (524, 'gerencia', 156, 1, 'asdf', 0, '2016-06-18 21:59:18'),
-(525, 'recepcion', 159, 0, 'asdf', 0, '2016-10-16 22:54:44');
+(525, 'recepcion', 159, 0, 'asdf', 0, '2016-11-02 22:54:44');
 
 -- --------------------------------------------------------
 
