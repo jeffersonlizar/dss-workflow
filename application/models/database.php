@@ -1329,6 +1329,19 @@ class Database extends CI_Model {
        	return $data;       	
 	}
 
+	public function guardar_alarma_workflow($usuario_admin=null,$fecha,$nombre,$descripcion,$workflow=null,$instancia=null,$tipousuario=null,$usuario=null,$tiempo_max=null){
+		$this->db->db_select('dss');
+		$query = $this->db->query("INSERT INTO alarmas_workflow(usuario_admin,fecha,nombre,descripcion,workflow,instancia,tipo_usuario,usuario,tiempo_max) values ('$usuario_admin','$fecha','$nombre','$descripcion','$workflow','$instancia','$tipousuario','$usuario','$tiempo_max')");
+		if($query)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+	}
+
 	//calcula duracion de workflow por filtro
 	public function alarmaMinWorkflow($workflow,$instancia,$tipo_usuario,$usuario,$tiempo_min){
 		$this->db->db_select('workflow');
@@ -1443,9 +1456,10 @@ class Database extends CI_Model {
 	public function getInstancia($workflow){
 		$this->db->db_select('workflow');
 		$data= array();
-		$query = "SELECT id_instancia,titulo FROM instancia ";
+		$query = "SELECT id_instancia,titulo FROM instancia";
 		if ($workflow!='all')
-			$query = $query.'WHERE id_workflow = '.$workflow.'';
+			$query = $query.' WHERE id_workflow = '.$workflow.'';
+		$query = $query.' order by id_instancia DESC ';
 		$sql = $this->db->query($query);
 		if($sql -> num_rows() > 0)
         {	        	

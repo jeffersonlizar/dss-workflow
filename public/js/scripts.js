@@ -77,6 +77,7 @@ $('#ajax-tipousuario1').change(function(){
 	reiniciar_act_usr();
 	$('.filtroajax-usuario1-div').addClass('hide');
 	$('.filtroajax-workflow1-div').addClass('hide');
+	$('.filtroajax-instancia1-div').addClass('hide');
 	$('.filtro-periodo1').addClass('hide');
 	value = $(this).val();
 	$('.filtroajax-usuario1-div').removeClass('hide');
@@ -103,6 +104,7 @@ $('#ajax-tipousuario1').change(function(){
 $('#ajax-usuario1').change(function(){
 	reiniciar_act_usr();
 	$('.filtroajax-workflow1-div').removeClass('hide');
+	$('.filtroajax-instancia1-div').addClass('hide');
 	$('.filtro-periodo1').addClass('hide');
 	$('#ajax-workflow1').empty();
 	$('#ajax-workflow1').append('<option disabled selected value>Seleccione una opción</option>');
@@ -148,7 +150,6 @@ $('#ajax-usuario1').change(function(){
 $('#ajax-workflow1').change(function(){
 	reiniciar_act_usr();
 	workflow = $('#ajax-workflow1').val();
-	console.log(workflow);
 	value = $(this).val();
 	if (alarmas=='-1'){
 		$('.filtro-periodo1').removeClass('hide');	
@@ -157,6 +158,7 @@ $('#ajax-workflow1').change(function(){
 		$('.filtroajax-instancia1-div').removeClass('hide');
 		$('#ajax-instancia1').empty();
 		$('#ajax-instancia1').append('<option disabled selected value>Seleccione una opción</option>');
+		$('#ajax-instancia1').append('<option value=all>Todos</option>');
 		$.ajax({
 			url: servidor+"indicadores/filtro/instancia/"+workflow,
 			dataType: "json",
@@ -174,7 +176,37 @@ $('#ajax-workflow1').change(function(){
 	}
 })
 
+$('#ajax-instancia1').change(function(){
+	if (alarmas!='-1'){
+		$('.rango-div').removeClass('hide');	
+	}
+})
+$('#rangodias').change(function(){
+	value = $(this).val();
+	if (alarmas!='-1'){
+		if (value>0){
+			name = $('#name').val();
+			if (name!=''){
+				$('#submit-indicador').parent().removeClass('disabled');		
+			}
+		}
+	}
+})
 
+$('#name').change(function(){
+	value = $(this).val();
+	if (alarmas!='-1'){
+		if (value!=''){
+			rango = $('#rangodias').val();
+			if (rango>0){
+				$('#submit-indicador').parent().removeClass('disabled');		
+			}
+		}
+		else{
+			$('#submit-indicador').parent().addClass('disabled');		
+		}
+	}	
+})
 
 /*-------------- vista indicadores/actividad usuario----------------*/
 

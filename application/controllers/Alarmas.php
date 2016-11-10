@@ -49,7 +49,43 @@ class Alarmas extends CI_Controller {
 		$this->load->view('footerend','', FALSE);	
 	}
 
+
+
+	//guardar en la bd el nuevo indicador actividad
+	public function registrar_alarma(){
+		$this->load->model('database', '', true);
+		date_default_timezone_set('America/La_Paz');
+		$today = date('Y-m-d H:i:s'); 
+		$session_data = $this->session->userdata('logged_in');	
+		if($session_data['tipo']!='1'){
+			redirect('home');
+		}
+		$nombre = $this->input->post("nombre");
+		$descripcion = $this->input->post("descripcion");
+		$tipo = $this->input->post("tipo");
+		$tipousuario = $this->input->post("tipousuario");
+		$usuario = $this->input->post("usuario");
+		$workflow = $this->input->post("workflow");
+		$instancia = $this->input->post("instancia");
+		$rangotran = $this->input->post("rangotran");
+		$rangotran = $rangotran*1440; //1440 es 1 dia en minutos
+		
+		switch ($tipo) {
+			case '1':
+				$bd = $this->database->guardar_alarma_workflow($session_data['user'],$today,$nombre,$descripcion,$workflow,$instancia,$tipousuario,$usuario,$rangotran);
+				break;
+			case '2':
+				$bd = $this->database->guardar_alarma_transicion($session_data['user'],$today,$nombre,$descripcion,$workflow,$instancia,$tipousuario,$usuario,$rangotran);
+				break;
+		}
+		redirect('alarmas');
+
+	}
+
 }
+
+
+
 
 /* End of file Alarmas.php */
 /* Location: ./application/controllers/Alarmas.php */
