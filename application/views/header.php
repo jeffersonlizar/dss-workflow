@@ -96,7 +96,9 @@ function ubicacion(){
 			<li class="bold <?php if (strpos(ubicacion(),"reportes")!=false) echo 'active ' ?>menutab"><a class="waves-effect waves-teal" href="<?php echo base_url().'reportes' ?>"><i class="material-icons md-40 md-dark">settings</i><span class="menu-title">Reportes</span></a></li>
 				<?php endif; endif; ?>
 			<li class="bold <?php if (strpos(ubicacion(),"ayuda")!=false) echo 'active ' ?>menutab"><a class="waves-effect waves-teal" href="<?php echo base_url().'ayuda' ?>"><i class="material-icons md-40 md-dark">help_outline</i><span class="menu-title">Ayuda</span></a></li>
+			
 	      </ul>	   
 
     	</header>
 		<!-- /header -->
+		

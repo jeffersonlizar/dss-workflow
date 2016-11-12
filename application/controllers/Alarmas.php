@@ -41,15 +41,29 @@ class Alarmas extends CI_Controller {
 		$contenido_trans = array(
 			'data_trans'		=>$data_trans
 		);
+		$titulo = $this->session->flashdata('titulo');
+		$contenido = $this->session->flashdata('contenido');
+		$modal = array(
+			'titulo'		=>$titulo,
+			'contenido'		=>$contenido
+		);
+
 		$this->load->view('header',$header, FALSE);
 		$this->load->view('alarmas',$vista, FALSE);
-		$this->load->view('footerbegin','', FALSE);			
+		$this->load->view('footerbegin',$modal, FALSE);			
 		$this->load->view('alarma_workflow',$contenido, FALSE);	
 		$this->load->view('alarma_transicion',$contenido_trans, FALSE);	
 		$this->load->view('footerend','', FALSE);	
 	}
 
-
+	private function _guardadaExitosamente(){
+		$this->session->set_flashdata('titulo', 'Registrada Exitosamente');
+		$this->session->set_flashdata('contenido', 'Se ha registrado la alarma exitosamente.');
+	}
+	private function _guardadanoExitosamente(){
+		$this->session->set_flashdata('titulo', 'Error al registrar');
+		$this->session->set_flashdata('contenido', 'Se ha producido un error al registrar la alarma.');
+	}
 
 	//guardar en la bd el nuevo indicador actividad
 	public function registrar_alarma(){
@@ -78,6 +92,12 @@ class Alarmas extends CI_Controller {
 				$bd = $this->database->guardar_alarma_transicion($session_data['user'],$today,$nombre,$descripcion,$workflow,$instancia,$tipousuario,$usuario,$rangotran);
 				break;
 		}
+		if ($bd == true){
+			$this->_guardadaExitosamente();
+		}
+		else{
+			$this->_guardadanoExitosamente();
+		}	
 		redirect('alarmas');
 
 	}

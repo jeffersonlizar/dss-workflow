@@ -4,6 +4,10 @@ $(document).ready(function(){
       menuWidth: 200, // Default is 240
       edge: 'left', // Choose the horizontal origin      
     });
+    $('.modal-trigger').leanModal({
+        dismissible: true
+    });
+
     $('.collapsible').collapsible({
       accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
     });
@@ -31,6 +35,8 @@ $(document).ready(function(){
 		selectMonths: true, 
 		selectYears: 2
 	})
+
+
   	
 })
 

@@ -1,5 +1,6 @@
 <?php 
 $i = 0;
+if ($data)
 foreach ($data as $value):
     foreach ($value['alarmas'] as $val):
 ?>

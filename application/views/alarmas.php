@@ -75,6 +75,7 @@
 				    </form>
 				    <?php 
 				    $i = 0;
+				    if ($data)
 				    foreach ($data as $value):
 				    	foreach ($value['alarmas'] as $val):
 					?>
@@ -88,6 +89,7 @@
                     ?>
                     <?php 
 				    $i = 0;
+				    if ($data_trans)
 				    foreach ($data_trans as $value):
 				    	foreach ($value['alarmas'] as $val):
 					?>
@@ -106,4 +108,4 @@
 			
 		</main>
 		<!-- /main -->
-
+		

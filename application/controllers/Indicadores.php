@@ -12,6 +12,12 @@ class Indicadores extends CI_Controller {
 		$header = array(
 			'session'=>$session_data
 		);
+
+		$modal = array(
+			'titulo'		=>$titulo,
+			'contenido'		=>$contenido
+		);
+
 		$this->load->view('header',$header, FALSE);
 		$this->load->view('indicadores_vista','', FALSE);
 		$this->load->view('footerbegin','', FALSE);	
@@ -48,12 +54,20 @@ class Indicadores extends CI_Controller {
 		$header = array(
 			'session'=>$session_data
 		);
+		$titulo = $this->session->flashdata('titulo');
+		$contenido = $this->session->flashdata('contenido');
+		$modal = array(
+			'titulo'		=>$titulo,
+			'contenido'		=>$contenido
+		);
+
 		$this->load->library('indicadores_libreria');
 		$actividad = $this->indicadores_libreria->indicador_actividad();
 
+
 		$this->load->view('header',$header, FALSE);
 		$this->load->view('indicadores/actividad','', FALSE);
-		$this->load->view('footerbegin','', FALSE);	
+		$this->load->view('footerbegin',$modal, FALSE);
 		$this->load->view('actividad',$actividad, FALSE);
 		
 		$this->load->view('footerend','', FALSE);	
@@ -68,12 +82,19 @@ class Indicadores extends CI_Controller {
 		$header = array(
 			'session'=>$session_data
 		);
+		$titulo = $this->session->flashdata('titulo');
+		$contenido = $this->session->flashdata('contenido');
+		$modal = array(
+			'titulo'		=>$titulo,
+			'contenido'		=>$contenido
+		);
+
 		$this->load->library('indicadores_libreria');
 		$indicadores = $this->indicadores_libreria->indicador_indicadores();
 
 		$this->load->view('header',$header, FALSE);
 		$this->load->view('indicadores/indicador','', FALSE);
-		$this->load->view('footerbegin','', FALSE);	
+		$this->load->view('footerbegin',$modal, FALSE);
 		$this->load->view('indicadores',$indicadores, FALSE);
 		
 		$this->load->view('footerend','', FALSE);	
@@ -88,12 +109,19 @@ class Indicadores extends CI_Controller {
 		$header = array(
 			'session'=>$session_data
 		);
+		$titulo = $this->session->flashdata('titulo');
+		$contenido = $this->session->flashdata('contenido');
+		$modal = array(
+			'titulo'		=>$titulo,
+			'contenido'		=>$contenido
+		);
+
 		$this->load->library('indicadores_libreria');
 		$categoria = $this->indicadores_libreria->indicador_categoria();
 
 		$this->load->view('header',$header, FALSE);
 		$this->load->view('indicadores/categoria','', FALSE);
-		$this->load->view('footerbegin','', FALSE);	
+		$this->load->view('footerbegin',$modal, FALSE);
 		$this->load->view('categoria',$categoria, FALSE);	
 		$this->load->view('footerend','', FALSE);	
 	}
@@ -107,12 +135,19 @@ class Indicadores extends CI_Controller {
 		$header = array(
 			'session'=>$session_data
 		);
+		$titulo = $this->session->flashdata('titulo');
+		$contenido = $this->session->flashdata('contenido');
+		$modal = array(
+			'titulo'		=>$titulo,
+			'contenido'		=>$contenido
+		);
+		
 		$this->load->library('indicadores_libreria');
 		$crecimiento = $this->indicadores_libreria->indicador_crecimiento();
 
 		$this->load->view('header',$header, FALSE);
 		$this->load->view('indicadores/crecimiento','', FALSE);
-		$this->load->view('footerbegin','', FALSE);	
+		$this->load->view('footerbegin',$modal, FALSE);
 		$this->load->view('crecimiento',$crecimiento, FALSE);	
 		$this->load->view('footerend','', FALSE);	
 	}
@@ -126,12 +161,19 @@ class Indicadores extends CI_Controller {
 		$header = array(
 			'session'=>$session_data
 		);
+		$titulo = $this->session->flashdata('titulo');
+		$contenido = $this->session->flashdata('contenido');
+		$modal = array(
+			'titulo'		=>$titulo,
+			'contenido'		=>$contenido
+		);
+		
 		$this->load->library('indicadores_libreria');
 		$actividad_user = $this->indicadores_libreria->indicador_actividad_usuario();
 
 		$this->load->view('header',$header, FALSE);
 		$this->load->view('indicadores/actividad_usuario','', FALSE);
-		$this->load->view('footerbegin','', FALSE);	
+		$this->load->view('footerbegin',$modal, FALSE);
 		$this->load->view('actividad_usuario',$actividad_user, FALSE);
 		$this->load->view('footerend','', FALSE);	
 	}
@@ -145,11 +187,18 @@ class Indicadores extends CI_Controller {
 		$header = array(
 			'session'=>$session_data
 		);
+		$titulo = $this->session->flashdata('titulo');
+		$contenido = $this->session->flashdata('contenido');
+		$modal = array(
+			'titulo'		=>$titulo,
+			'contenido'		=>$contenido
+		);
+		
 		$this->load->library('indicadores_libreria');
 		$tiempo_promedio = $this->indicadores_libreria->indicador_tiempo_promedio();
 		$this->load->view('header',$header, FALSE);
 		$this->load->view('indicadores/tiempo_promedio','', FALSE);
-		$this->load->view('footerbegin','', FALSE);	
+		$this->load->view('footerbegin',$modal, FALSE);
 		$this->load->view('tiempo_promedio',$tiempo_promedio, FALSE);	
 		$this->load->view('footerend','', FALSE);	
 	}
@@ -163,13 +212,20 @@ class Indicadores extends CI_Controller {
 		$header = array(
 			'session'=>$session_data
 		);
+		$titulo = $this->session->flashdata('titulo');
+		$contenido = $this->session->flashdata('contenido');
+		$modal = array(
+			'titulo'		=>$titulo,
+			'contenido'		=>$contenido
+		);
+		
 		$this->load->library('indicadores_libreria');
 
 		$resumen = $this->indicadores_libreria->indicador_resumen();
 
 		$this->load->view('header',$header, FALSE);
 		$this->load->view('indicadores/resumen','', FALSE);
-		$this->load->view('footerbegin','', FALSE);	
+		$this->load->view('footerbegin',$modal, FALSE);
 		$this->load->view('resumen',$resumen, FALSE);
 		$this->load->view('footerend','', FALSE);	
 	}
@@ -183,6 +239,13 @@ class Indicadores extends CI_Controller {
 		$header = array(
 			'session'=>$session_data
 		);
+		$titulo = $this->session->flashdata('titulo');
+		$contenido = $this->session->flashdata('contenido');
+		$modal = array(
+			'titulo'		=>$titulo,
+			'contenido'		=>$contenido
+		);
+		
 		$this->load->library('indicadores_libreria');
 
 		$ultimas = $this->indicadores_libreria->indicador_ultimas();
@@ -194,7 +257,7 @@ class Indicadores extends CI_Controller {
 
 		$this->load->view('header',$header, FALSE);
 		$this->load->view('indicadores/ultimas',$home, FALSE);
-		$this->load->view('footerbegin','', FALSE);	
+		$this->load->view('footerbegin',$modal, FALSE);
 		$this->load->view('ultimas_instancias_transiciones',$ultimas['ultimas_instancias_transiciones'], FALSE);	
 		$this->load->view('footerend','', FALSE);	
 	}
@@ -208,13 +271,20 @@ class Indicadores extends CI_Controller {
 		$header = array(
 			'session'=>$session_data
 		);
+		$titulo = $this->session->flashdata('titulo');
+		$contenido = $this->session->flashdata('contenido');
+		$modal = array(
+			'titulo'		=>$titulo,
+			'contenido'		=>$contenido
+		);
+		
 		$this->load->library('indicadores_libreria');
 
 		$duracion_transicion = $this->indicadores_libreria->indicador_duracion_transicion();
 
 		$this->load->view('header',$header, FALSE);
 		$this->load->view('indicadores/duracion_transicion','', FALSE);
-		$this->load->view('footerbegin','', FALSE);	
+		$this->load->view('footerbegin',$modal, FALSE);
 		$this->load->view('duracion_transicion',$duracion_transicion, FALSE);	
 		$this->load->view('footerend','', FALSE);	
 	}
@@ -228,15 +298,32 @@ class Indicadores extends CI_Controller {
 		$header = array(
 			'session'=>$session_data
 		);
+		$titulo = $this->session->flashdata('titulo');
+		$contenido = $this->session->flashdata('contenido');
+		$modal = array(
+			'titulo'		=>$titulo,
+			'contenido'		=>$contenido
+		);
+		
 		$this->load->library('indicadores_libreria');
 
 		$duracion_workflow = $this->indicadores_libreria->indicador_duracion_workflow();
 
 		$this->load->view('header',$header, FALSE);
 		$this->load->view('indicadores/duracion_flujos','', FALSE);
-		$this->load->view('footerbegin','', FALSE);	
+		$this->load->view('footerbegin',$modal, FALSE);
 		$this->load->view('duracion_workflow',$duracion_workflow, FALSE);	
 		$this->load->view('footerend','', FALSE);	
+	}
+
+
+	private function _guardadoExitosamente(){
+		$this->session->set_flashdata('titulo', 'Registrado Exitosamente');
+		$this->session->set_flashdata('contenido', 'Se ha registrado el indicador exitosamente.');
+	}
+	private function _guardadonoExitosamente(){
+		$this->session->set_flashdata('titulo', 'Error al registrar');
+		$this->session->set_flashdata('contenido', 'Se ha producido un error al registrar el indicador.');
 	}
 
 	//guardar en la bd el nuevo indicador actividad
@@ -324,6 +411,12 @@ class Indicadores extends CI_Controller {
 				$bd = $this->database->guardar_indicador_actividad('10',$session_data['user'],$today,'','','','','','','',$ano1,$ano2);
 				break;
 		}
+		if ($bd == true){
+			$this->_guardadoExitosamente();
+		}
+		else{
+			$this->_guardadonoExitosamente();
+		}	
 		redirect('indicadores/actividad');
 
 	}
@@ -390,6 +483,12 @@ class Indicadores extends CI_Controller {
 				$bd = $this->database->guardar_indicador_indicadores('8',$session_data['user'],$today,'','','',$periodo_inicio,$periodo_fin);
 				break;
 		}
+		if ($bd == true){
+			$this->_guardadoExitosamente();
+		}
+		else{
+			$this->_guardadonoExitosamente();
+		}	
 		redirect('indicadores/indicador');
 
 	}
@@ -456,6 +555,12 @@ class Indicadores extends CI_Controller {
 				$bd = $this->database->guardar_indicador_categoria('8',$session_data['user'],$today,'','','',$periodo_inicio,$periodo_fin);
 				break;
 		}
+		if ($bd == true){
+			$this->_guardadoExitosamente();
+		}
+		else{
+			$this->_guardadonoExitosamente();
+		}	
 		redirect('indicadores/categoria');
 
 	}
@@ -507,6 +612,12 @@ class Indicadores extends CI_Controller {
 				$bd = $this->database->guardar_indicador_crecimiento(($filtrotipo.'4'),$session_data['user'],$today,$periodo2_inicio,$periodo2_fin,$periodo1_inicio,$periodo1_fin);
 				break;
 		}
+		if ($bd == true){
+			$this->_guardadoExitosamente();
+		}
+		else{
+			$this->_guardadonoExitosamente();
+		}	
 		redirect('indicadores/crecimiento');
 
 	}
@@ -590,6 +701,12 @@ class Indicadores extends CI_Controller {
 					$bd = $this->database->guardar_indicador_actividad_usuario(($filtrotipo.'16'),$session_data['user'],$today,'','','','','',$ano);	
 				break;
 		}
+		if ($bd == true){
+			$this->_guardadoExitosamente();
+		}
+		else{
+			$this->_guardadonoExitosamente();
+		}	
 		redirect('indicadores/actividad_usuario');
 
 	}
@@ -644,6 +761,12 @@ class Indicadores extends CI_Controller {
 				$bd = $this->database->guardar_indicador_tiempo_promedio(($filtrotipo.'5'),$session_data['user'],$today,'','',$periodo_inicio,$periodo_fin);
 				break;
 		}
+		if ($bd == true){
+			$this->_guardadoExitosamente();
+		}
+		else{
+			$this->_guardadonoExitosamente();
+		}	
 		redirect('indicadores/tiempo_promedio');
 
 	}
@@ -710,6 +833,12 @@ class Indicadores extends CI_Controller {
 				$bd = $this->database->guardar_indicador_resumen('8',$session_data['user'],$today,'','','',$periodo_inicio,$periodo_fin);
 				break;
 		}
+		if ($bd == true){
+			$this->_guardadoExitosamente();
+		}
+		else{
+			$this->_guardadonoExitosamente();
+		}	
 		redirect('indicadores/resumen');
 
 	}
@@ -726,6 +855,12 @@ class Indicadores extends CI_Controller {
 		$rangoft = $this->input->post("rangoft");
 		$rangotran = $this->input->post("rangotran");
 		$bd = $this->database->guardar_indicador_ultimas($session_data['user'],$today,$rangoft,$rangotran);
+		if ($bd == true){
+			$this->_guardadoExitosamente();
+		}
+		else{
+			$this->_guardadonoExitosamente();
+		}	
 		redirect('indicadores/ultimas');
 	}
 
@@ -799,6 +934,12 @@ class Indicadores extends CI_Controller {
 				$bd = $this->database->guardar_indicador_duracion_workflow('8',$session_data['user'],$today,$tipousuario,$usuario,$workflow,'','','',$periodo_inicio,$periodo_fin);
 				break;
 		}
+		if ($bd == true){
+			$this->_guardadoExitosamente();
+		}
+		else{
+			$this->_guardadonoExitosamente();
+		}	
 		redirect('indicadores/duracion_flujos');
 
 	}
@@ -873,6 +1014,12 @@ class Indicadores extends CI_Controller {
 				$bd = $this->database->guardar_indicador_duracion_transicion('8',$session_data['user'],$today,$tipousuario,$usuario,$transicion,'','','',$periodo_inicio,$periodo_fin);
 				break;
 		}
+		if ($bd == true){
+			$this->_guardadoExitosamente();
+		}
+		else{
+			$this->_guardadonoExitosamente();
+		}	
 		redirect('indicadores/duracion_transicion');
 
 	}

@@ -71,7 +71,7 @@ class Usuarios extends CI_Controller {
 			$log =$this->Database->login($user,$pass);
 			if (isset($log)){
 				if ($primeravez){
-					$this->session->set_flashdata('error_login','Primer Inicio de sesión en el sistema, debe ingrear su nueva contraseña');
+					$this->session->set_flashdata('error_login','Primer Inicio de sesión en el sistema, debe ingresar su nueva contraseña');
 					$this->session->set_flashdata('usuario_login',$user);
 					$this->session->set_flashdata('primera_vez','1');
 					redirect('Usuarios/login');	

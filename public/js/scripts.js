@@ -158,7 +158,7 @@ $('#ajax-workflow1').change(function(){
 		$('.filtroajax-instancia1-div').removeClass('hide');
 		$('#ajax-instancia1').empty();
 		$('#ajax-instancia1').append('<option disabled selected value>Seleccione una opción</option>');
-		$('#ajax-instancia1').append('<option value=all>Todos</option>');
+		$('#ajax-instancia1').append('<option value=all>Todas</option>');
 		$.ajax({
 			url: servidor+"indicadores/filtro/instancia/"+workflow,
 			dataType: "json",
@@ -206,6 +206,13 @@ $('#name').change(function(){
 			$('#submit-indicador').parent().addClass('disabled');		
 		}
 	}	
+})
+
+$(document).keypress(function(e){
+	if (alarmas!=-1)
+		if (e.which == 13)
+			e.preventDefault();
+
 })
 
 /*-------------- vista indicadores/actividad usuario----------------*/
