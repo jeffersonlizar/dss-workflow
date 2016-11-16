@@ -35,10 +35,14 @@ $(document).ready(function(){
 		selectMonths: true, 
 		selectYears: 2
 	})
-
+  	
 
   	
 })
+
+
+/*--------------------------usuarios-------------------------*/
+
 
 $( ".usuario" ).on( "click", function() {
 	id = $(this).attr('id');
@@ -58,6 +62,34 @@ $( "#reiniciar_contrasena" ).on( "click", function() {
 	$('#cargar_usuario').submit();
 });
 
+function validateString(string,min_value){
+	validate = false;
+	if (string.length>=min_value){
+		validate = true;
+	}
+	return validate;
+}
+function validateUser(){
+	username = $('#username').val();
+	name = $('#name').val();
+	lastname = $('#lastname').val();
+	email = $('#email').val();
+	if (!validateString(username,2))
+		return false;
+	else if (!validateString(name,2))
+		return false;
+	else if (!validateString(lastname,2))
+		return false;
+	else if (!validateString(email,2))
+		return false;
+	else
+		return true;
+}
+
+$( "#usuarioadd" ).on( "click", function(e) {	
+	if (!validateUser())
+		e.preventDefault();
+});
 
 
 /*--------------------------indicadores-------------------------*/

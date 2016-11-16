@@ -4,12 +4,34 @@ body{
 	overflow-x: hidden;
 	//font-family: 'Titillium Web', sans-serif !important;
 }
+
 h3 {
-  background: #ee6e73;
+  background: #fc4349;
   width: 60%;
   height: 50px;
   position: relative;
   text-align: center; }
+  h3:after {
+    content: '';
+    height: 50px;
+    width: 50px;
+    border: 25px solid #b11a1f;
+    border-right: 25px solid transparent;
+    position: absolute;
+    right: -50px;
+    top: 5px; }
+  h3:before {
+    content: '';
+    height: 50px;
+    width: 50px;
+    border: 25px solid #b11a1f;
+    border-left: 25px solid transparent;
+    position: absolute;
+    left: -50px;
+    top: 5px; }
+nav{
+	background: #fc4349;
+}
 
 /*--------------------------Log-------------------------*/
 .login {
@@ -35,10 +57,6 @@ h3 {
           top: -50px;
           left: 0; }
 
-#tiempo_horas{
-	color: #333333;
-	font-size: 40px;	
-}
 /*-------------------------- menu --------------------------*/
 .logo-menu{
 	padding-bottom: 50px;
@@ -56,6 +74,10 @@ h3 {
     background-color: rgba(0, 0, 0, 0.05);
 }
 /*-------------------------- indicadores --------------------------*/
+#tiempo_horas{
+	color: #333333;
+	font-size: 40px;	
+}
 select.initialized{
 	display: none;
 }
@@ -91,6 +113,11 @@ input.datepickerperiodo1,input.datepickerperiodo2{
 /*-------------------------- alarmas --------------------------*/
 .alarmatipos{
 	font-size: 20px !important;
+}
+.eliminaralarma{
+	position: absolute;
+	z-index: 100;
+	cursor: pointer;
 }
 /*--------------------------css graficos-------------------------*/
 .tema{
@@ -190,7 +217,13 @@ select{
 		position: relative;
 		left:10px;
 	}
-	
+	.modal .white .row {
+    	position: relative;
+    	top: 20px;
+	}
+	#usuarioadd,#reiniciar_contrasena,#eliminar_usuario{
+		margin-bottom: 5px;
+	}
 }
 @media (min-width: 300px){
 	.button-collapse i{
@@ -235,6 +268,11 @@ select{
 	.submit-centrado{
 		margin-left: 35%;
 	}
+	.modal .white .row {
+    	position: inherit;
+    	top: auto;
+	}
+	
 }
 @media (min-width: 1023px){
 	.centrado{

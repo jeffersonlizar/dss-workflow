@@ -15,10 +15,14 @@ class Usuarios extends CI_Controller {
 			$search = $this->Database->search_user($username);			
 			$search = $search[0];
 		}
-		$signin = $this->session->flashdata('signin');
+		$titulo = $this->session->flashdata('titulo');
+		$contenido = $this->session->flashdata('contenido');
+		$modal = array(
+			'titulo'		=>$titulo,
+			'contenido'		=>$contenido
+		);
 		$usuarios = $data=$this->Database->usuariosList();
 		$data = array(
-			'signin'	=>$signin,
 			'usuarios'	=>$usuarios,
 			'usuario'	=>$search,
 			'session'=>$session_data
@@ -28,7 +32,7 @@ class Usuarios extends CI_Controller {
 		);
 		$this->load->view('header',$header, FALSE);
 		$this->load->view('usuarios',$data, FALSE);
-		$this->load->view('footerbegin','', FALSE);	
+		$this->load->view('footerbegin',$modal, FALSE);
 		$this->load->view('footerend','', FALSE);	
 	}
 
@@ -123,15 +127,18 @@ class Usuarios extends CI_Controller {
 			if (!$search){
 				$singin = $data=$this->Database->singin($username,$name,$lastname,$email,$tipo);
 			if ($singin){
-				$this->session->set_flashdata('signin','Se ha registrado el usuario correctamente');
+				$this->session->set_flashdata('titulo', 'Registrado Exitosamente');
+				$this->session->set_flashdata('contenido', 'Se ha registrado el usuario exitosamente.');
 				redirect('usuarios');				
 			}
 			else{
-				$this->session->set_flashdata('singin','Se ha producido un error al registrar');	
+				$this->session->set_flashdata('titulo', 'Error registrando');
+				$this->session->set_flashdata('contenido', 'Se ha producido un error al registrar.');
 			}
 		}
 		else{
-			$this->session->set_flashdata('signin','Ya existe un usuario con ese username');	
+			$this->session->set_flashdata('titulo', 'Error registrando');
+			$this->session->set_flashdata('contenido', 'Ya existe un usuario con el username.');
 			redirect('usuarios');
 		}	
 
@@ -141,11 +148,13 @@ class Usuarios extends CI_Controller {
 		$username = $this->input->post('username');
 		$delete = $data=$this->Database->delete($username);
 		if ($delete){
-			$this->session->set_flashdata('signin','Se ha eliminado el usuario correctamente');
+			$this->session->set_flashdata('titulo', 'Eliminado Exitosamente');
+			$this->session->set_flashdata('contenido', 'Se ha eliminado el usuario exitosamente.');
 			redirect('usuarios');				
 		}
 		else{
-			$this->session->set_flashdata('singin','Se ha producido un error al eliminar');	
+			$this->session->set_flashdata('titulo', 'Error eliminando');
+			$this->session->set_flashdata('contenido', 'Se ha producido un error al eliminar.');
 		}	
 		redirect('usuarios');
 
@@ -155,11 +164,13 @@ class Usuarios extends CI_Controller {
 		$username = $this->input->post('username');
 		$delete = $data=$this->Database->reiniciarContrasena($username);
 		if ($delete){
-			$this->session->set_flashdata('signin','Se ha reiniciado la contraseña exitosamente');
+			$this->session->set_flashdata('titulo', 'Reinicio Exitoso');
+			$this->session->set_flashdata('contenido', 'Se ha reiniciado la contraseña exitosamente.');
 			redirect('usuarios');				
 		}
 		else{
-			$this->session->set_flashdata('singin','Se ha producido un error al reiniciar');	
+			$this->session->set_flashdata('titulo', 'Error reiniciando');
+			$this->session->set_flashdata('contenido', 'Se ha producido un error al reiniciar.');
 		}	
 		redirect('usuarios');
 
@@ -176,11 +187,13 @@ class Usuarios extends CI_Controller {
 		$tipo = $this->input->post('tipo');
 		$singin = $data=$this->Database->modificar($username,$name,$lastname,$email,$tipo);
 		if ($singin){
-			$this->session->set_flashdata('signin','Se ha modificado el usuario correctamente');
+			$this->session->set_flashdata('titulo', 'Modificado Exitosamente');
+			$this->session->set_flashdata('contenido', 'Se ha modificado el usuario exitosamente.');
 			redirect('usuarios');				
 		}
 		else{
-			$this->session->set_flashdata('singin','Se ha producido un error al modificar');	
+			$this->session->set_flashdata('titulo', 'Error modificando');
+			$this->session->set_flashdata('contenido', 'Se ha producido un error al modificar.');
 		}
 	}
 

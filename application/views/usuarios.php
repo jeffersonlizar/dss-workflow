@@ -18,25 +18,25 @@
 			                            <span class="card-title"><?php if (isset($usuario)) echo 'Modificar'; else echo 'Crear' ?> Usuario</span>
 			                            <div class="row">
 			                                <div class="input-field col s12">
-			                                    <input name="username" type="text" class="validate" value="<?php if (isset($usuario)) echo $usuario['username'] ?>" <?php if (isset($usuario)) echo 'readonly'; ?>>
+			                                    <input name="username" id="username" type="text" class="validate" value="<?php if (isset($usuario)) echo $usuario['username'] ?>" <?php if (isset($usuario)) echo 'readonly'; ?>>
 			                                    <label>Nombre de Usuario</label>
 			                                </div>
 			                            </div>
 			                            <div class="row">
 			                                <div class="input-field col s12">
-			                                    <input name="name" type="text" class="validate" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'readonly'?> value="<?php if (isset($usuario)) echo $usuario['nombre'] ?>">
+			                                    <input name="name" id="name" type="text" class="validate" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'readonly'?> value="<?php if (isset($usuario)) echo $usuario['nombre'] ?>">
 			                                    <label>Nombre</label>
 			                                </div>
 			                            </div>
 			                            <div class="row">
 			                                <div class="input-field col s12">
-			                                    <input name="lastname" type="text" class="validate" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'readonly'?> value="<?php if (isset($usuario)) echo $usuario['apellido'] ?>">
+			                                    <input name="lastname" id="lastname" type="text" class="validate" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'readonly'?> value="<?php if (isset($usuario)) echo $usuario['apellido'] ?>">
 			                                    <label>Apellidos</label>
 			                                </div>
 			                            </div>	
 			                            <div class="row">
 			                                <div class="input-field col s12">
-			                                    <input name="email" type="email" class="validate" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'readonly'?> value="<?php if (isset($usuario)) echo $usuario['email'] ?>">
+			                                    <input name="email" id="email" type="email" class="validate" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'readonly'?> value="<?php if (isset($usuario)) echo $usuario['email'] ?>">
 			                                    <label>Email</label>
 			                                </div>
 			                            </div>	
@@ -55,15 +55,14 @@
 			                            </div>
 			                        </div>	
 			                        <div>
-			                        	<span><?php echo $signin ?></span>
 			                        </div>		
 			                        <?php if ( ($usuario['tipo']!='1')||($session['superadmin']==true)): ?>                     
 			                        <div class="card-action center-align">
-			                            <input type="submit" class="btn itami" value="<?php if (isset($usuario)) echo 'Modificar'; else echo 'Crear' ?>">
+			                            <input type="submit" id="usuarioadd" class="btn itami" value="<?php if (isset($usuario)) echo 'Modificar'; else echo 'Crear' ?>">
 			                            <?php if (isset($usuario)): ?>
 			                            <a href="#" id="reiniciar_contrasena" class="btn akai">Reiniciar Contraseña</a>
-			                        	<?php endif; ?>
 			                            <a href="#" id="eliminar_usuario" class="btn akai">Eliminar</a>
+			                            <?php endif; ?>
 			                        </div>
 			                        <?php endif; ?>
 			                    </form>

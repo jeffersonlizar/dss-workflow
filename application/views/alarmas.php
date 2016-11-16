@@ -73,13 +73,14 @@
 						</div>
 						</div>
 				    </form>
+
 				    <?php 
 				    $i = 0;
 				    if ($data)
 				    foreach ($data as $value):
 				    	foreach ($value['alarmas'] as $val):
 					?>
-				    <div class="col s12 m6 l4" id="alarmaworkflow<?php echo $i++ ?>">
+				    <div class="col s12 m6 l4" class="alarma" id="alarmaworkflow<?php echo $i++ ?>">
 
                         
                     </div>
@@ -91,9 +92,12 @@
 				    $i = 0;
 				    if ($data_trans)
 				    foreach ($data_trans as $value):
+				    	$pk = $value['id'];
 				    	foreach ($value['alarmas'] as $val):
 					?>
-				    <div class="col s12 m6 l4" id="alarmatransicion<?php echo $i++ ?>">
+					<i class="material-icons prefix eliminaralarma hide" id="alarmatransicion<?php echo $i ?>-<?php echo $pk ?>"  >delete_forever</i>
+				    <div class="col s12 m6 l4" class="alarma" id="alarmatransicion<?php echo $i++ ?>">
+
 
                         
                     </div>

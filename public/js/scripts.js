@@ -24,7 +24,11 @@ function mostrarhora(){
 	setTimeout("mostrarhora()",1000); 
 }
 
+indicador_act_wrk = ubicacion.indexOf("duracion_flujos");
+indicador_act_tran = ubicacion.indexOf("duracion_transicion");
+alarmas = ubicacion.indexOf("alarmas");
 
+/*-------------- reportes ----------------*/
 $('#cargarpdf').click(function(){
 	url='http://localhost/tesisdss/reportes/reporte_actividad/2016-09-10/2016-09-30';
 	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
@@ -32,6 +36,36 @@ $('#cargarpdf').click(function(){
 	}
 	$(".iframepdf").html("<iframe width='100%' height='450' src="+url+"></iframe>");  
 })
+
+/*-------------- eliminar alarmas ----------------*/
+
+
+function mostrarDelete() {
+	console.log('asdf');
+	alarmas = $('.eliminaralarma');
+	$.each( alarmas, function( key, value ) {
+	  	id = value.id;
+	  	nombre = id.split('-');
+	  	div = '#'+nombre[0]; 
+	  	pos = 0;
+	  	pos = $(div).position();
+	  	width = $(div).width();
+	  	wdocu = $(document).width();
+	  	console.log(wdocu);
+	  	
+	  		tope = pos.top+38;
+	  		left = pos.left+width-20;
+	  	$(this).css({'top':tope+'px','left':left+'px'});
+	  	$(this).removeClass('hide');	 
+	});		
+}
+
+
+	
+ $('.eliminaralarma').click(function(){
+ 	console.log('click');
+ })
+
 
 
 /*-------------- vista indicadores/duracion flujos de trabajo----------------*/
@@ -48,9 +82,6 @@ function reiniciar_act_usr(){
 	$('#filtro-indicador-periodo-campo2').parent().addClass('hide');
 }
 
-indicador_act_wrk = ubicacion.indexOf("duracion_flujos");
-indicador_act_tran = ubicacion.indexOf("duracion_transicion");
-alarmas = ubicacion.indexOf("alarmas");
 if ((indicador_act_wrk!=-1)||(indicador_act_tran!=-1)||(alarmas!=-1)){
 	reiniciar_act_usr();
 	$('#ajax-tipousuario1').empty();
@@ -65,6 +96,9 @@ if ((indicador_act_wrk!=-1)||(indicador_act_tran!=-1)||(alarmas!=-1)){
 				  	$('#ajax-tipousuario1').append('<option value='+value.id_tipo+'>'+value.descripcion+'</option>');
 				});	
 			$("#ajax-tipousuario1").material_select();
+			if (alarmas!=-1){
+				mostrarDelete();
+			}
 		},
 		error: function (error){
 			console.log(error);
@@ -93,6 +127,9 @@ $('#ajax-tipousuario1').change(function(){
 				  	$('#ajax-usuario1').append('<option value='+value.id_usuario+'>'+value.id_usuario+'</option>');
 			});
 			$("#ajax-usuario1").material_select();
+			if (alarmas!=-1){
+				mostrarDelete();
+			}
 		},
 		error: function (data){
 			console.log(data);	
@@ -120,6 +157,9 @@ $('#ajax-usuario1').change(function(){
 				  	$('#ajax-workflow1').append('<option value='+value.id_workflow+'>'+value.nombre+'</option>');
 				});
 				$("#ajax-workflow1").material_select();
+				if (alarmas!=-1){
+					mostrarDelete();
+				}
 			},
 			error: function (data){
 				console.log(data);	
@@ -137,6 +177,9 @@ $('#ajax-usuario1').change(function(){
 				  	$('#ajax-workflow1').append('<option value='+value.id_transicion+'>'+value.nombre+'</option>');
 				});
 				$("#ajax-workflow1").material_select();
+				if (alarmas!=-1){
+					mostrarDelete();
+				}
 			},
 			error: function (data){
 				console.log(data);	
@@ -168,6 +211,9 @@ $('#ajax-workflow1').change(function(){
 				  	$('#ajax-instancia1').append('<option value='+value.id_instancia+'>'+value.titulo+'</option>');
 				});
 				$("#ajax-instancia1").material_select();
+				if (alarmas!=-1){
+					mostrarDelete();
+				}
 			},
 			error: function (data){
 				console.log(data);	
@@ -178,7 +224,10 @@ $('#ajax-workflow1').change(function(){
 
 $('#ajax-instancia1').change(function(){
 	if (alarmas!='-1'){
-		$('.rango-div').removeClass('hide');	
+		$('.rango-div').removeClass('hide');
+		if (alarmas!=-1){
+				mostrarDelete();
+			}	
 	}
 })
 $('#rangodias').change(function(){
