@@ -41,7 +41,6 @@ $('#cargarpdf').click(function(){
 
 
 function mostrarDelete() {
-	console.log('asdf');
 	alarmas = $('.eliminaralarma');
 	$.each( alarmas, function( key, value ) {
 	  	id = value.id;
@@ -51,10 +50,8 @@ function mostrarDelete() {
 	  	pos = $(div).position();
 	  	width = $(div).width();
 	  	wdocu = $(document).width();
-	  	console.log(wdocu);
-	  	
-	  		tope = pos.top+38;
-	  		left = pos.left+width-20;
+  		tope = pos.top+38;
+  		left = pos.left+width-20;
 	  	$(this).css({'top':tope+'px','left':left+'px'});
 	  	$(this).removeClass('hide');	 
 	});		
@@ -63,7 +60,17 @@ function mostrarDelete() {
 
 	
  $('.eliminaralarma').click(function(){
- 	console.log('click');
+ 	id = $(this).attr('id');
+ 	nombre = $(this).attr('name');
+ 	tipo = $(this).attr('type');
+	pk = id.split('-');
+	option = confirm('Al eliminar la alarma "'+nombre+'" eliminará todas las notificaciones activadas.\n¿Está seguro?')
+	if (option){
+		$('#id').val(pk[1]);
+		$('#tipo').val(tipo);
+		$('#id').val(pk[1]);
+		$('#formeliminar').submit();
+	}
  })
 
 

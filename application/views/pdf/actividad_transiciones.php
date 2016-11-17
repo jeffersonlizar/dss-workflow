@@ -63,35 +63,47 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Times','B',12);
 $pdf->Cell('11','10',utf8_decode('Nro'),1,0,'C');
-$pdf->Cell('55','10',utf8_decode('Flujo de Trabajo'),1,0,'C');
+$pdf->Cell('60','10',utf8_decode('Flujo de Trabajo'),1,0,'C');
 $pdf->Cell('30','10',utf8_decode('Usuario'),1,0,'C');
-$pdf->Cell('60','10',utf8_decode('Transición'),1,0,'C');
+$pdf->Cell('55','10',utf8_decode('Transición'),1,0,'C');
 $pdf->Cell('46','10',utf8_decode('Fecha'),1,1,'C');
 $pdf->SetFont('Times','',12);
 $max_tam = 30;
 //var_dump($data);
 foreach ($data as $value) {
     $workflow = $value['workflow'];
-    $tam = strlen($workflow);
-    $nombre_workflow = substr($workflow,0,$max_tam);
-    if ($tam>$max_tam){
-        $nombre_workflow = $nombre_workflow.'...';
-    }
     $transicion = $value['transicion'];
-    $tam = strlen($workflow);
-    $nombre_transicion = substr($transicion,0,$max_tam);
-    if ($tam>$max_tam){
-        $nombre_transicion = $nombre_transicion.'...';
+    $tam1 = strlen($workflow);
+    $tam2 = strlen($transicion);
+    $ln1 = intval($tam1/$max_tam)+1;
+    $ln2 = intval($tam2/$max_tam)+1;
+    if ($ln1>=$ln2){
+        $cell_height = 10*$ln1;
+    }
+    else{
+        $cell_height = 10*$ln2;
     }
     $date = new DateTime($value['fecha']);
     $fecha = date_format($date,'d-m-Y h:i:s A');
-    $pdf->Cell('11','10',utf8_decode($value['proceso']),1,0,'C');
-    $pdf->Cell('55','10',utf8_decode($nombre_workflow),1,0,'C');
-    $pdf->Cell('30','10',utf8_decode($value['usuario']),1,0,'C');
-    $pdf->Cell('60','10',utf8_decode($nombre_transicion),1,0,'C');
-    $pdf->Cell('46','10',utf8_decode($fecha),1,1,'C'); 
+    $pdf->Cell('11',$cell_height,utf8_decode($value['proceso']),1,0,'C');
+    $current_y = $pdf->GetY();
+    $current_x = $pdf->GetX();
+    $cell_width = 60;
+    $pdf->MultiCell($cell_width,'10',utf8_decode($workflow),'T','C');
+    $pdf->SetXY($current_x + $cell_width, $current_y);
+    $pdf->Cell('30',$cell_height,utf8_decode($value['usuario']),1,0,'C');
+    $current_y = $pdf->GetY();
+    $current_x = $pdf->GetX();
+    $cell_width = 55;
+    $pdf->MultiCell($cell_width,'10',utf8_decode($transicion),'T','C');
+    $pdf->SetXY($current_x + $cell_width, $current_y);
+    $pdf->Cell('46',$cell_height,utf8_decode($fecha),1,1,'C'); 
 }
-$pdf->Ln(10);
+$pdf->Cell('11','10','','T',0,'C');
+$pdf->Cell('60','10','','T',0,'C');
+$pdf->Cell('30','10','','T',0,'C');
+$pdf->Cell('55','10','','T',0,'C');
+$pdf->Cell('46','10','','T',1,'C');
 $pdf->SetFont('Arial','B',12);
 $cant = count($data);
 $pdf->Cell(50,5,utf8_decode('Total Transiciones: '.$cant),0,2,'C');

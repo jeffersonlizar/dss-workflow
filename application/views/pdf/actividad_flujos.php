@@ -70,21 +70,39 @@ $pdf->Cell('46','10',utf8_decode('Fecha'),1,1,'C');
 $pdf->SetFont('Times','',12);
 $max_tam = 30;
 foreach ($data as $value) {
-    $workflow = $value['nombre_instancia'];
-    $tam = strlen($workflow);
-    $nombre_instancia = substr($workflow,0,$max_tam);
-    if ($tam>$max_tam){
-        $nombre_instancia = $nombre_instancia.'...';
+    $nombre = $value['nombre_instancia'];
+    $workflow = $value['workflow'];
+    $tam1 = strlen($nombre);
+    $tam2 = strlen($workflow);
+    $ln1 = intval($tam1/$max_tam)+1;
+    $ln2 = intval($tam2/$max_tam)+1;
+    if ($ln1>=$ln2){
+        $cell_height = 10*$ln1;
+    }
+    else{
+        $cell_height = 10*$ln2;
     }
     $date = new DateTime($value['fecha']);
     $fecha = date_format($date,'d-m-Y h:i:s A');
-    $pdf->Cell('11','10',utf8_decode($value['instancia']),1,0,'C');
-    $pdf->Cell('55','10',utf8_decode($value['workflow']),1,0,'C');
-    $pdf->Cell('30','10',utf8_decode($value['id_usuario']),1,0,'C');
-    $pdf->Cell('60','10',utf8_decode($nombre_instancia),1,0,'C');
-    $pdf->Cell('46','10',utf8_decode($fecha),1,1,'C'); 
+    $pdf->Cell('11',$cell_height,utf8_decode($value['instancia']),1,0,'C');
+    $current_y = $pdf->GetY();
+    $current_x = $pdf->GetX();
+    $cell_width = 55;
+    $pdf->MultiCell($cell_width,'10',utf8_decode($workflow),'T','C');
+    $pdf->SetXY($current_x + $cell_width, $current_y);
+    $pdf->Cell('30',$cell_height,utf8_decode($value['id_usuario']),1,0,'C');
+    $current_y = $pdf->GetY();
+    $current_x = $pdf->GetX();
+    $cell_width = 60;
+    $pdf->MultiCell($cell_width,'10',utf8_decode($nombre),'T','C');
+    $pdf->SetXY($current_x + $cell_width, $current_y);
+    $pdf->Cell('46',$cell_height,utf8_decode($fecha),1,1,'C'); 
 }
-$pdf->Ln(10);
+$pdf->Cell('11','10','','T',0,'C');
+$pdf->Cell('55','10','','T',0,'C');
+$pdf->Cell('30','10','','T',0,'C');
+$pdf->Cell('60','10','','T',0,'C');
+$pdf->Cell('46','10','','T',1,'C');
 $pdf->SetFont('Arial','B',12);
 $cant = count($data);
 $pdf->Cell(50,5,utf8_decode('Total Flujos de trabajo: '.$cant),0,2,'C');

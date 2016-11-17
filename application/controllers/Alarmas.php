@@ -17,10 +17,6 @@ class Alarmas extends CI_Controller {
 		for ($i=0;$i<$cant;$i++){
 			if ($data[$i]['tiempo_max']!='')
 				$data[$i]['alarmas'] = $this->Database->alarmaMaxWorkflow($data[$i]['workflow'],$data[$i]['instancia'],$data[$i]['tipo_usuario'],$data[$i]['usuario'],$data[$i]['tiempo_max']);
-			/*
-			else if ($data[$i]['tiempo_min']!='')
-				$data[$i]['alarmas'] = $this->Database->alarmaMinWorkflow($data[$i]['workflow'],$data[$i]['instancia'],$data[$i]['tipo_usuario'],$data[$i]['usuario'],$data[$i]['tiempo_min']);
-			*/
 		}
 		$data_trans = $this->Database->cargar_alarmas_transicion();
 		$cant = count($data_trans);
@@ -101,6 +97,28 @@ class Alarmas extends CI_Controller {
 		redirect('alarmas');
 
 	}
+
+	public function eliminar_alarma(){		
+		$this->load->model('database', '', true);
+		date_default_timezone_set('America/La_Paz');
+		$today = date('Y-m-d H:i:s'); 
+		$session_data = $this->session->userdata('logged_in');	
+		if($session_data['tipo']!='1'){
+			redirect('home');
+		}
+		$tipo = $this->input->post("tipo");
+		$id = $this->input->post("id");
+		switch ($tipo) {
+			case '1':
+				$bd = $this->database->eliminar_alarma_workflow($id);
+				break;
+			case '2':
+				$bd = $this->database->eliminar_alarma_transicion($id);
+				break;
+		}
+		redirect('alarmas');
+	}
+
 
 }
 

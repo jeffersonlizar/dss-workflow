@@ -1342,6 +1342,19 @@ class Database extends CI_Model {
         }
 	}
 
+	public function eliminar_alarma_workflow($id){
+		$this->db->db_select('dss');
+		$query = $this->db->query("DELETE FROM alarmas_workflow WHERE id = '$id'");
+		if($query)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+	}
+
 	//calcula duracion de workflow por filtro
 	public function alarmaMinWorkflow($workflow,$instancia,$tipo_usuario,$usuario,$tiempo_min){
 		$this->db->db_select('workflow');
@@ -1424,6 +1437,19 @@ class Database extends CI_Model {
 	public function guardar_alarma_transicion($usuario_admin=null,$fecha,$nombre,$descripcion,$workflow=null,$instancia=null,$tipousuario=null,$usuario=null,$tiempo_max=null){
 		$this->db->db_select('dss');
 		$query = $this->db->query("INSERT INTO alarmas_transicion(usuario_admin,fecha,nombre,descripcion,workflow,instancia,tipo_usuario,usuario,tiempo_max) values ('$usuario_admin','$fecha','$nombre','$descripcion','$workflow','$instancia','$tipousuario','$usuario','$tiempo_max')");
+		if($query)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+	}
+
+	public function eliminar_alarma_transicion($id){
+		$this->db->db_select('dss');
+		$query = $this->db->query("DELETE FROM alarmas_transicion WHERE id = '$id'");
 		if($query)
         {
             return true;

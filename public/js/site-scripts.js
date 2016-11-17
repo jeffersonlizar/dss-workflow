@@ -74,14 +74,26 @@ function validateUser(){
 	name = $('#name').val();
 	lastname = $('#lastname').val();
 	email = $('#email').val();
-	if (!validateString(username,2))
+	if (!validateString(username,2)){
+		$('#username').focus();
+		alert('Debe Ingresar un Nombre de Usuario válido');
 		return false;
-	else if (!validateString(name,2))
+	}
+	else if (!validateString(name,2)){
+		$('#name').focus();
+		alert('Debe Ingresar un Nombre válido');
 		return false;
-	else if (!validateString(lastname,2))
+	}
+	else if (!validateString(lastname,2)){
+		$('#lastname').focus();
+		alert('Debe Ingresar un Apellido válido');
 		return false;
-	else if (!validateString(email,2))
+	}
+	else if (!validateString(email,2)){
+		$('#email').focus();
+		alert('Debe Ingresar un Email válido');
 		return false;
+	}
 	else
 		return true;
 }

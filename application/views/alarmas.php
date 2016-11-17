@@ -73,13 +73,20 @@
 						</div>
 						</div>
 				    </form>
+				    <form method="POST" id="formeliminar" action="<?php echo base_url().'alarmas/eliminar_alarma' ?>">
+				    	<input type="hidden" id="tipo" name="tipo">
+				    	<input type="hidden" id="id" name="id">
+				    </form>
 
 				    <?php 
 				    $i = 0;
 				    if ($data)
 				    foreach ($data as $value):
+				    	$pk = $value['id'];
+				    	$nombre = $value['nombre'];
 				    	foreach ($value['alarmas'] as $val):
 					?>
+					<i class="material-icons prefix eliminaralarma hide" id="alarmaworkflow<?php echo $i ?>-<?php echo $pk ?>" name="<?php echo $nombre  ?>" type="1" >delete_forever</i>
 				    <div class="col s12 m6 l4" class="alarma" id="alarmaworkflow<?php echo $i++ ?>">
 
                         
@@ -93,9 +100,10 @@
 				    if ($data_trans)
 				    foreach ($data_trans as $value):
 				    	$pk = $value['id'];
+				    	$nombre = $value['nombre'];
 				    	foreach ($value['alarmas'] as $val):
 					?>
-					<i class="material-icons prefix eliminaralarma hide" id="alarmatransicion<?php echo $i ?>-<?php echo $pk ?>"  >delete_forever</i>
+					<i class="material-icons prefix eliminaralarma hide" id="alarmatransicion<?php echo $i ?>-<?php echo $pk ?>" name="<?php echo $nombre  ?>" type="2" >delete_forever</i>
 				    <div class="col s12 m6 l4" class="alarma" id="alarmatransicion<?php echo $i++ ?>">
 
 

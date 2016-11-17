@@ -3,7 +3,7 @@
 		    <div class="modal-content kiri">
 		        <div class="row">
 		            <div class="col s12 white">
-		                <h4 id="titulomensaje" style="text-align: center; color: black"><?php if(isset($titulo)) echo $titulo; ?></h4>
+		                <h4 id="titulomensaje" style="text-align: center;"><?php if(isset($titulo)) echo $titulo; ?></h4>
 		                <div class="row">
 		                	<p id="contenidomensaje" style="text-align: center;"><?php if(isset($contenido)) echo $contenido; ?></p>
 		                </div>
