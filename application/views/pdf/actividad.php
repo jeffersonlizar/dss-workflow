@@ -1,4 +1,8 @@
-
+<?php 
+        	$anio = date("Y");
+        	$anio_anterior = $anio-1;
+        	$anio_anterior1 = $anio-2;
+        ?>
 		<!-- main -->
 		<main>			
 			
@@ -6,49 +10,52 @@
 
 
 				    <div class="row">
-					<form class="col s12 form-indicadores" action="<?php echo base_url().'indicadores/registrar_duracion_transicion' ?>" method="POST">
+					<form class="col s12 form-indicadores" action="<?php echo base_url().'reportes/pdf_actividad' ?>" method="POST">
 				      <div class="row">
-				      <h4>Reportes | <small>Duración Transición</small></h4>
-				      	<h5 class="center">Filtrar por:</h5>
-				      	<div class="filtroajax-tipousuario1-div input-field col s12 m12 offset-l3 l6">
-				        	<p class="center"><b>Tipo de Usuario</b></p>
-				        	<select id="ajax-tipousuario1" name="tipousuario">
-				        		<option value="" disabled selected>Seleccione una opción</option>
-							</select>
-				        </div>
+				      <h4>Reportes | <small>Actividad Usuario</small></h4>
+				        <div class="input-field col s12 m12 offset-l3 l6">
+				        	<h5 class="center">Filtrar por:</h5>
 
-				        <div class="filtroajax-usuario1-div input-field col s12 m12 offset-l3 l6 hide">
-				        	<p class="center"><b>Usuario</b></p>
-				        	<select id="ajax-usuario1" name="usuario">
-				        		<option value="" disabled selected>Seleccione una opción</option>
-							</select>
-				        </div>
-
-				      	<div class="filtroajax-workflow1-div input-field col s12 m12 offset-l3 l6 hide">
-				        	<p class="center"><b>Transición</b></p>
-				        	<select id="ajax-workflow1" name="transicion">
-				        		<option value="" disabled selected>Seleccione una opción</option>
-							</select>
-				        </div>
-
-				        <div class="filtro-periodo1 input-field col s12 m12 offset-l3 l6 hide">
-				        	<p class="center"><b>Periodo</b></p>
 				        	<div class="filtroprincipal">
-								<select id="filtro-indicador1" name="filtro">
+				        		<div class="filtrotipo">
+					        		<p class="center"><b>Tipo</b></p>
+					        		<select name="filtrotipo">
+										<option value="1">Flujos de trabajo</option>
+										<option value="2">Transiciones</option>
+									</select>	
+					        	</div>
+					        				  
+								<p class="center"><b>Periodo</b></p>
+								<select id="filtro-indicador-act-user" name="filtro">
 									<option value="" disabled selected>Seleccione una opción</option>
 									<option value="hoy">Hoy</option>
 									<option value="ayer">Ayer</option>
 									<option value="dia">Día</option>
+									<option value="diatipousuario">Día Tipo Usuario</option>
 									<option value="mesactual">Mes Actual</option>
 									<option value="mesespecifico">Mes Específico</option>
+									<option value="mesespecificotipousuario">Mes Específico Tipo Usuario</option>
 									<option value="anoactual">Año Actual</option>
 									<option value="anoespecifico">Año Específico</option>
+									<option value="anoespecificotipousuario">Año Específico Tipo Usuario</option>
 									<option value="periodo">Periodo</option>
+									<option value="periodotipousuario">Periodo Tipo Usuario</option>
 								</select>
 							</div>
 
 				        </div>
-
+				        <div class="filtroajax-tipousuario-div input-field col s12 m12 offset-l3 l6 hide">
+			        		<p class="center"><b>Tipo de Usuario</b></p>
+							<select id="ajax-tipousuario" name="tipousuario">
+							</select>		
+					    </div>
+				        		
+						<div class="filtroajax-usuario-div input-field col s12 m12 offset-l3 l6 hide">
+							<p class="center"><b>Usuario</b></p>
+							<select id="ajax-usuario" name="usuario">
+							</select>
+						</div>	
+						
 				        <div id="filtro-indicador-dia-div" class="input-field col s12 m12 offset-l3 l6 hide">
 				        		<p class="center"><b>Ingrese el día</b></p>
 				        	 	<input id="filtro-indicador-dia-campo" type="date" name="dia" class="datepicker">
@@ -101,7 +108,6 @@
 							        	</div>
 							    </div>
 				        </div>
-
 				        <div id="filtro-indicador-periodo-div" class="input-field col s12 m12 offset-l3 l6 hide">
 				        		<p class="center"><b>Ingrese el periodo</b></p>
 				        		<div class="row">
@@ -115,7 +121,6 @@
 							        </div>
 							    </div>
 				        </div>
-				        
 					    <div class="col s12 m12 l12">
 							<input id="submit-indicador" type="submit" name="send" class="btn waves-effect disabled waves-light submit-centrado" value="Guardar y Mostrar">
 						</div>

@@ -990,6 +990,8 @@ class Database extends CI_Model {
 
 	//devuelve el nombre del tipo de usuario
 	public function nombreTipoUsuario($tipo){
+		if ($tipo=='all')
+			return 'Todos';
 		$this->db->db_select('workflow');
 		$data= array();
 		$query = "SELECT descripcion FROM tipo_usuario WHERE id_tipo =".$tipo."";
@@ -1539,10 +1541,17 @@ class Database extends CI_Model {
 	}
 	//---------------------------------------- REPORTES PDF ----------------------------------------//
 	//calcula la actividad transiciones en el periodo
-	public function pdfTransicionesPeriodo($fecha_inicial,$fecha_final){
+	public function pdfTransicionesPeriodo($fecha_inicial,$fecha_final,$usuario = "all",$tipo_usuario = "all"){
 		$this->db->db_select('workflow');
 		$data= array();
-		$query = "SELECT pro.id_proceso as proceso,ins.titulo as workflow, pro.id_usuario as usuario, trans.nombre as transicion, pro.fecha FROM proceso as pro INNER JOIN instancia as ins ON pro.id_instancia = ins.id_instancia INNER JOIN transicion as trans ON pro.id_transicion = trans.id_transicion WHERE (DATE(pro.fecha) BETWEEN DATE(?) AND DATE(?)) ORDER BY pro.id_proceso ASC";
+		$query = "SELECT pro.id_proceso as proceso,ins.titulo as workflow, pro.id_usuario as usuario, trans.nombre as transicion, pro.fecha,tipo_usuario.id_tipo as id_tipo, tipo_usuario.descripcion as tipo_usuario FROM proceso as pro INNER JOIN instancia as ins ON pro.id_instancia = ins.id_instancia INNER JOIN transicion as trans ON pro.id_transicion = trans.id_transicion INNER JOIN usuario on pro.id_usuario = usuario.id_usuario INNER JOIN tipo_usuario ON usuario.id_tipo = tipo_usuario.id_tipo WHERE (DATE(pro.fecha) BETWEEN DATE(?) AND DATE(?)) ";
+		if ($usuario != "all"){
+			$query = $query.' AND pro.id_usuario = "'.$usuario.'" ';
+		}
+		if ($tipo_usuario!= "all"){
+			$query = $query.' AND tipo_usuario.id_tipo = "'.$tipo_usuario.'"';
+		}
+		$query = $query.' ORDER BY pro.fecha ASC';
 		$sql = $this->db->query($query, array($fecha_inicial,$fecha_final));
 		if($sql -> num_rows() > 0)
         {	        	
@@ -1552,11 +1561,19 @@ class Database extends CI_Model {
 		return $data;
 	}
 
+
 	//calcula la actividad flujos en el periodo
-	public function pdfFlujosPeriodo($fecha_inicial,$fecha_final){
+	public function pdfFlujosPeriodo($fecha_inicial,$fecha_final,$usuario = "all",$tipo_usuario = "all"){
 		$this->db->db_select('workflow');
 		$data= array();
-		$query = "SELECT ins.id_instancia as instancia,wor.nombre as workflow,ins.id_usuario,ins.titulo as nombre_instancia,ins.fecha_inicio as fecha FROM instancia as ins INNER JOIN workflow as wor ON ins.id_workflow = wor.id_workflow WHERE (DATE(ins.fecha_inicio) BETWEEN DATE(?) AND DATE(?)) ORDER BY ins.id_instancia ASC";
+		$query = "SELECT ins.id_instancia as instancia,wor.nombre as workflow,ins.id_usuario,tipo_usu.id_tipo,ins.titulo as nombre_instancia,ins.fecha_inicio as fecha FROM instancia as ins INNER JOIN workflow as wor ON ins.id_workflow = wor.id_workflow INNER JOIN usuario as usu ON ins.id_usuario = usu.id_usuario INNER JOIN tipo_usuario as tipo_usu ON usu.id_tipo = tipo_usu.id_tipo WHERE (DATE(ins.fecha_inicio) BETWEEN DATE(?) AND DATE(?)) ";
+		if ($usuario != "all"){
+			$query = $query.' AND ins.id_usuario = "'.$usuario.'" ';
+		}
+		if ($tipo_usuario!= "all"){
+			$query = $query.' AND tipo_usu.id_tipo = "'.$tipo_usuario.'"';
+		}
+		$query = $query.' ORDER BY ins.fecha_inicio ASC';
 		$sql = $this->db->query($query, array($fecha_inicial,$fecha_final));
 		if($sql -> num_rows() > 0)
         {	        	

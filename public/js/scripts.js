@@ -21,12 +21,14 @@ function mostrarhora(){
 		segundo = '0'+segundo;
 	cad=dia+'/'+mes+'/'+ano +' '+hora+":"+minuto+":"+segundo; 
 	$('#fecha').text(cad);
+	$('#fecha2').text(cad);
 	setTimeout("mostrarhora()",1000); 
 }
 
 indicador_act_wrk = ubicacion.indexOf("duracion_flujos");
 indicador_act_tran = ubicacion.indexOf("duracion_transicion");
 alarmas = ubicacion.indexOf("alarmas");
+
 
 /*-------------- reportes ----------------*/
 $('#cargarpdf').click(function(){
@@ -275,7 +277,8 @@ $(document).keypress(function(e){
 
 
 indicador_act_user = ubicacion.indexOf("actividad_usuario");
-if (indicador_act_user!=-1){
+reportes = ubicacion.indexOf("reportes");
+if ((indicador_act_user!=-1)||(reportes!=-1)){
 	$('#ajax-tipousuario').empty();
 	$('#ajax-tipousuario').append('<option value="" disabled selected>Seleccione una opción</option>');
 	$('#ajax-tipousuario').append('<option value=all>Todos</option>');

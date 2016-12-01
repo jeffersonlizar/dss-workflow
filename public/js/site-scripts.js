@@ -452,6 +452,7 @@ $('#filtro-indicador-act-user').change(function(){
 	var i = $('#filtro-indicador-anoespecifico-campo1').siblings('input');
 	$(i).val('Seleccione el año');
 	$('#filtro-indicador-anoespecifico-campo1').val('');
+	$('#filtro-indicador-periodo-div').addClass('hide');
 	
 	value = $(this).val();
 	if((value=='hoy')||(value=='ayer')||(value=='mesactual')||(value=='anoactual')){
@@ -484,6 +485,22 @@ $('#filtro-indicador-act-user').change(function(){
 		}
 		else if (value=='anoespecificotipousuario'){
 			$('.filtroajax-tipousuario-div').removeClass('hide');	
+		}
+		else if (value=='periodo'){
+			$('.filtroajax-tipousuario-div').removeClass('hide');	
+			/*
+			$('#filtro-indicador-periodo-campo1').val('');
+			$('#filtro-indicador-periodo-campo2').val('');
+			$('#filtro-indicador-periodo-div').removeClass('hide');
+			*/
+		}
+		else if (value=='periodotipousuario'){
+			$('.filtroajax-tipousuario-div').removeClass('hide');	
+			/*
+			$('#filtro-indicador-periodo-campo1').val('');
+			$('#filtro-indicador-periodo-campo2').val('');
+			$('#filtro-indicador-periodo-div').removeClass('hide');
+			*/
 		}
 		
 	}
@@ -525,6 +542,12 @@ $('#ajax-tipousuario').change(function(){
 		$('.filtroajax-usuario-div').addClass('hide');
 		$('#filtro-indicador-anoespecifico-div').removeClass('hide');
 	}
+	else if (value3=='periodotipousuario'){
+		$('.filtroajax-usuario-div').addClass('hide');
+		$('#filtro-indicador-periodo-campo1').val('');
+		$('#filtro-indicador-periodo-campo2').val('');
+		$('#filtro-indicador-periodo-div').removeClass('hide');
+	}
 	else if ((value1!=null)&&(value2!=null)&&(value3!=null))
 		$('#submit-indicador').parent().removeClass('disabled');
 	else
@@ -533,6 +556,7 @@ $('#ajax-tipousuario').change(function(){
 
 
 $('#ajax-usuario').change(function(){
+	$('#submit-indicador').parent().addClass('disabled');
 	value1 = $(this).val();
 	value2 = $('#ajax-tipousuario').val();
 	value3 = $('#filtro-indicador-act-user').val();
@@ -584,6 +608,11 @@ $('#ajax-usuario').change(function(){
 			$('#submit-indicador').parent().removeClass('disabled');		
 		else
 			$('#submit-indicador').parent().addClass('disabled');
+	}
+	else if (value3=='periodo'){
+		$('#filtro-indicador-periodo-campo1').val('');
+		$('#filtro-indicador-periodo-campo2').val('');
+		$('#filtro-indicador-periodo-div').removeClass('hide');
 	}
 	else if ((value1!=null)&&(value2!=null)&&(value3!=null))
 		$('#submit-indicador').parent().removeClass('disabled');

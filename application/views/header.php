@@ -44,19 +44,32 @@ function ubicacion(){
 		<!-- header -->
 		<header>
 	      <nav class="top-nav">
-	        <div class="container">
-	          <div class="nav-wrapper">
-	          	<a href="<?php echo base_url() ?>" class="page-title">Sistema de Soporte a Decisiones</a>
-		       	<a href="<?php echo base_url().'usuarios/logout' ?>" class="page-title">Salir del Sistema</a>
-		       	<span>Usuario: <?php echo $session['user'] ?></span>
-		       	<span>Fecha: <span id ="fecha"></span></span>
-	          </div>
+				<div class="container">
+					<div class="nav-wrapper center-align">
+						<a href="<?php echo base_url() ?>" class="page-title">Sistema de Soporte a Decisiones</a>
+					</div>
+				</div>
+				<div id="logout-header" class="hide-on-med-and-down">
+					<a href="<?php echo base_url().'usuarios/logout' ?>">Salir del Sistema</a>
+				</div>
+				<div id="user-header" class="hide-on-med-and-down">
+					<span>Usuario: <?php echo $session['user'] ?></span>
+				</div>
+				<div id="time-header" class="hide-on-med-and-down">
+					<span>Fecha: <span id ="fecha"></span></span>
+				</div>
 	      </nav>
 	      
 	      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>	      
 	      <ul class="side-nav fixed" id="mobile-demo">
 	      	<div class="logo-menu">
 	        	<li><a class="center" href="<?php echo base_url() ?>"><i class="material-icons md-dark md-48">equalizer</i></a></li>
+	        </div>
+	        <div id="user-nav" class="hide-on-large-only center-align">
+	        	<i class="material-icons md-16 md-dark">account_circle</i><span>Usuario: <?php echo $session['user'] ?></span>	
+	        </div>
+	        <div id="time-nav" class="hide-on-large-only center-align">
+	        	<i class="material-icons md-16 md-dark">date_range</i><span>Fecha: <span id ="fecha2"></span></span>
 	        </div>
 	        <li class="bold <?php if (ubicacion()=="home") echo 'active ' ?>menutab"><a class="waves-effect waves-teal" href="<?php echo base_url() ?>"><i class="material-icons md-40 md-dark">home</i><span class="menu-title">Inicio</span></a></li>
 
@@ -93,9 +106,35 @@ function ubicacion(){
 				<?php endif; endif; ?>
 			<?php if(isset($session)):
 	        	if ($session['tipo']=='1'): ?>
-			<li class="bold <?php if (strpos(ubicacion(),"reportes")!=false) echo 'active ' ?>menutab"><a class="waves-effect waves-teal" href="<?php echo base_url().'reportes' ?>"><i class="material-icons md-40 md-dark">settings</i><span class="menu-title">Reportes</span></a></li>
+			
+
+			<ul class="collapsible collapsible-accordion">
+	            <li class="bold a<?php if (strpos(ubicacion(),"reportes")!=false) echo 'active ' ?>"><a class="collapsible-header waves-effect waves-teal"><i class="material-icons md-40 md-dark">insert_drive_file</i><span class="menu-title menu-indicadores">Reportes</span></a>
+	              <div class="collapsible-body ">
+	                <ul>
+	                  <li><a href="<?php echo base_url().'reportes/actividad' ?>">Actividad</a></li>
+	                  <!--
+					  <li><a href="<?php echo base_url().'indicadores/indicador' ?>">Indicadores</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/categoria' ?>">Categoría</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/crecimiento' ?>">Crecimiento</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/actividad_usuario' ?>">Actividad Usuario</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/tiempo_promedio' ?>">Tiempo Promedio</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/resumen' ?>">Resumen</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/duracion_transicion' ?>">Duración Transición</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/duracion_flujos' ?>">Duración Flujo de trabajo</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/ultimas' ?>">Últimas</a></li>
+					  -->
+	                </ul>
+	              </div>
+	            </li>
+          	</ul>
 				<?php endif; endif; ?>
 			<li class="bold <?php if (strpos(ubicacion(),"ayuda")!=false) echo 'active ' ?>menutab"><a class="waves-effect waves-teal" href="<?php echo base_url().'ayuda' ?>"><i class="material-icons md-40 md-dark">help_outline</i><span class="menu-title">Ayuda</span></a></li>
+			<li class="bold menutab">
+			<div class="hide-on-large-only">
+				<a class="waves-effect waves-teal" href="<?php echo base_url().'usuarios/logout' ?>"><i class="material-icons md-40 md-dark">settings_power</i><span class="menu-title">Salir</span></a>
+			</div>
+			</li>
 			
 	      </ul>	   
 

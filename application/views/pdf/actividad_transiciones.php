@@ -8,15 +8,19 @@ class PDF extends FPDF
     var $fecha;
     var $hora;
     var $usuario;
+    var $usuario_filtro;
+    var $tipousuario_filtro;
 
      
     // Cabecera de página
-    function data($fecha,$hora,$usuario,$fecha_inicial,$fecha_final){
+    function data($fecha,$hora,$usuario,$fecha_inicial,$fecha_final,$usuario_filtro,$tipousuario_filtro){
         $this->fecha = $fecha;
         $this->hora = $hora;
         $this->usuario = $usuario;
         $this->fecha_inicial = $fecha_inicial;
         $this->fecha_final = $fecha_final;
+        $this->usuario_filtro = $usuario_filtro;
+        $this->tipousuario_filtro = $tipousuario_filtro;
     }
     function Header()
     {
@@ -36,6 +40,11 @@ class PDF extends FPDF
         $this->Cell(27,5,utf8_decode('Usuario: '.$this->usuario),0,1,'C');
         $this->Cell(34,5,utf8_decode('Desde: '.$this->fecha_inicial),0,2,'C');
         $this->Cell(33,5,utf8_decode('Hasta: '.$this->fecha_final),0,1,'C');
+        
+        $this->Cell(33,5,utf8_decode('Filtrado por: '),0,1,'C');
+        $this->Cell(50,5,utf8_decode('Tipo de Usuario: '.$this->tipousuario_filtro),0,1);
+        $this->Cell(50,5,utf8_decode('Usuario: '.$this->usuario_filtro),0,1);
+
         $this->Cell(80);
         $this->SetFont('Arial','BU',12);
         $this->Cell(40,10,utf8_decode('Reporte de Actividad Transiciones'),0,0,'C');
@@ -57,7 +66,7 @@ class PDF extends FPDF
 
 // Creación del objeto de la clase heredada
 $pdf = new PDF();
-$pdf->data($fecha,$hora,$usuario,$fecha_inicial,$fecha_final);
+$pdf->data($fecha,$hora,$usuario,$fecha_inicial,$fecha_final,$usuario_filtro,$tipousuario_filtro);
 $pdf->SetMargins(4, 10,1);
 $pdf->AliasNbPages();
 $pdf->AddPage();

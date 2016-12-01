@@ -68,7 +68,6 @@ class Indicadores extends CI_Controller {
 		$this->load->view('header',$header, FALSE);
 		$this->load->view('indicadores/actividad','', FALSE);
 		$this->load->view('footerbegin',$modal, FALSE);
-		$this->load->view('actividad',$actividad, FALSE);
 		
 		$this->load->view('footerend','', FALSE);	
 	}
@@ -635,8 +634,6 @@ class Indicadores extends CI_Controller {
 		$filtrotipo = $this->input->post("filtrotipo");
 		$tipousuario1 = $this->input->post("tipousuario1");
 		$usuario1 = $this->input->post("usuario1");
-		$tipousuario2 = $this->input->post("tipousuario2");
-		$usuario2 = $this->input->post("usuario2");
 		$dia = $this->input->post("dia");
 		$mesespecifico1 = $this->input->post("mesespecifico1");
 		$mesespecifico2 = $this->input->post("mesespecifico2");
