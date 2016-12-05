@@ -1032,6 +1032,21 @@ class Database extends CI_Model {
 		return $data;
 	}
 
+	//devuelve el nombre del workflow
+	public function nombreCategoria($cat){
+		$this->db->db_select('workflow');
+		$data= array();
+		$query = "SELECT descripcion FROM categoria WHERE id_categoria =".$cat."";
+		$sql = $this->db->query($query);
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data = $sql->result_array()[0]['descripcion'];
+
+        }		
+		return $data;
+	}
+
+
 	//calcula el resumen de instancias en un periodo
 	public function workflowResumen($fecha_inicial,$fecha_final){
 		$this->db->db_select('workflow');
@@ -1462,6 +1477,20 @@ class Database extends CI_Model {
         }
 	}
 
+	//devuelve categorias
+	public function getCategorias(){
+		$this->db->db_select('workflow');
+		$data= array();
+		$query = "SELECT id_categoria,descripcion FROM categoria";
+		$sql = $this->db->query($query);
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data = $sql->result_array();
+
+        }		
+		return $data;
+	}
+
 	//devuelve workflows
 	public function getWorkflow(){
 		$this->db->db_select('workflow');
@@ -1579,6 +1608,48 @@ class Database extends CI_Model {
         {	        	
             $data = $sql->result_array();
         }		
+		return $data;
+	}
+
+	//calcula los procesos de una categoria en un periodo
+	public function pdfCategoria($fecha_inicial,$fecha_final,$cat){
+		$cant = 0;
+		$this->db->db_select('workflow');
+		$data= array();
+		$query = "SELECT * from instancia INNER join workflow on instancia.id_workflow = workflow.id_workflow INNER join categoria on workflow.id_categoria = categoria.id_categoria WHERE (DATE(instancia.fecha_inicio) BETWEEN (?) AND (?)) AND categoria.id_categoria = ?";
+		$sql = $this->db->query($query, array($fecha_inicial,$fecha_final,$cat));
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data = $sql->result_array();
+        }		
+		return $data;
+	}
+
+	//calcula los procesos de una categoria en un periodo
+	public function pdfDetalle($id_instancia){
+		$cant = 0;
+		$this->db->db_select('workflow');
+		$data= array();
+		$query_ins = "SELECT id_instancia,id_usuario,titulo,instancia.descripcion as descripcion_instancia,fecha_inicio,fecha_final,nombre,workflow.descripcion as descripcion_workflow, categoria.descripcion as categoria FROM instancia INNER JOIN workflow ON instancia.id_workflow = workflow.id_workflow INNER JOIN categoria ON workflow.id_categoria = categoria.id_categoria WHERE instancia.id_instancia = ? ";
+		$sql = $this->db->query($query_ins, array($id_instancia));
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data['datos'] = $sql->result_array()[0];
+        }		
+        $query = "SELECT id_proceso,id_usuario,descripcion,fecha,nombre,nombre_estado_asociado,nombre_estado_siguiente from proceso
+	inner join (select transicion.id_transicion,transicion.nombre,transicion.estado_asociado,transicion.estado_siguiente from transicion) as transi
+	on proceso.id_transicion=transi.id_transicion
+	inner join (select estado.id_estado, estado.nombre as nombre_estado_asociado from estado) as esta
+	on transi.estado_asociado=esta.id_estado
+	inner join (select estado.id_estado, estado.nombre as nombre_estado_siguiente from estado) as est
+	on transi.estado_siguiente=est.id_estado
+	where proceso.id_instancia= ?
+	order by fecha ASC";
+		$sql = $this->db->query($query, array($id_instancia));
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data['procesos'] = $sql->result_array();
+        }
 		return $data;
 	}
 

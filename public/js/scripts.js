@@ -28,6 +28,10 @@ function mostrarhora(){
 indicador_act_wrk = ubicacion.indexOf("duracion_flujos");
 indicador_act_tran = ubicacion.indexOf("duracion_transicion");
 alarmas = ubicacion.indexOf("alarmas");
+categoria = ubicacion.indexOf("categoria");
+
+
+
 
 
 /*-------------- reportes ----------------*/
@@ -38,6 +42,33 @@ $('#cargarpdf').click(function(){
 	}
 	$(".iframepdf").html("<iframe width='100%' height='450' src="+url+"></iframe>");  
 })
+
+
+
+
+if ((categoria!=-1)){
+	/*
+	$('#ajax-tipousuario1').empty();
+	$('#ajax-tipousuario1').append('<option value="" disabled selected>Seleccione una opción</option>');
+	$('#ajax-tipousuario1').append('<option value=all>Todos</option>');
+	*/
+	$.ajax({
+		url: servidor+"indicadores/filtro/categorias/-1",
+		dataType: "json",
+		async: true,
+		success: function(data){
+			$.each( data, function( key, value ) {
+				  	$('#ajax-categoria').append('<option value='+value.id_categoria+'>'+value.descripcion+'</option>');
+				});	
+			$("#ajax-categoria").material_select();
+			
+		},
+		error: function (error){
+			console.log(error);
+		}
+	})
+}
+
 
 /*-------------- eliminar alarmas ----------------*/
 
@@ -74,6 +105,7 @@ function mostrarDelete() {
 		$('#formeliminar').submit();
 	}
  })
+
 
 
 

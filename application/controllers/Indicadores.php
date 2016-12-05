@@ -41,6 +41,9 @@ class Indicadores extends CI_Controller {
 		if ($metodo=='transicion'){
 			$values = $this->Database->getTransicion($dato);
 		}
+		if ($metodo=='categorias'){
+			$values = $this->Database->getCategorias();
+		}
 		echo json_encode($values);
 	}
 

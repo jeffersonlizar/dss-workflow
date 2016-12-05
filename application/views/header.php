@@ -113,6 +113,8 @@ function ubicacion(){
 	              <div class="collapsible-body ">
 	                <ul>
 	                  <li><a href="<?php echo base_url().'reportes/actividad' ?>">Actividad</a></li>
+	                  <li><a href="<?php echo base_url().'reportes/categoria' ?>">Categoría</a></li>
+	                  <li><a href="<?php echo base_url().'reportes/detalle' ?>">Detalle</a></li>
 	                  <!--
 					  <li><a href="<?php echo base_url().'indicadores/indicador' ?>">Indicadores</a></li>
 					  <li><a href="<?php echo base_url().'indicadores/categoria' ?>">Categoría</a></li>

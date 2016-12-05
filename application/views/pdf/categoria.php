@@ -1,4 +1,4 @@
-		<?php 
+<?php 
         	$anio = date("Y");
         	$anio_anterior = $anio-1;
         	$anio_anterior1 = $anio-2;
@@ -10,52 +10,34 @@
 
 
 				    <div class="row">
-						<form class="col s12 form-indicadores" action="<?php echo base_url().'reportes/pdf_actividad' ?>" method="POST">
+						<form class="col s12 form-indicadores" action="<?php echo base_url().'reportes/pdf_categoria' ?>" method="POST">
 					      	<div class="row">
-					      		<h4>Reportes | <small>Actividad</small></h4>
+					      		<h4>Reportes | <small>Categoría</small></h4>
 						        <div class="input-field col s12 m12 offset-l3 l6">
 						        	<h5 class="center">Filtrar por:</h5>
 
 						        	<div class="filtroprincipal">
 						        		<div class="filtrotipo">
-							        		<p class="center"><b>Tipo</b></p>
-							        		<select name="filtrotipo">
-												<option value="1">Flujos de trabajo</option>
-												<option value="2">Transiciones</option>
-											</select>	
+							        		<p class="center"><b>Categoria</b></p>
+											<select id="ajax-categoria" name="categoria">
+											</select>			
 							        	</div>
 							        				  
 										<p class="center"><b>Periodo</b></p>
-										<select id="filtro-indicador-act-user" name="filtro">
+										<select id="filtro-indicador" name="filtro">
 											<option value="" disabled selected>Seleccione una opción</option>
 											<option value="hoy">Hoy</option>
 											<option value="ayer">Ayer</option>
 											<option value="dia">Día</option>
-											<option value="diatipousuario">Día Tipo Usuario</option>
 											<option value="mesactual">Mes Actual</option>
 											<option value="mesespecifico">Mes Específico</option>
-											<option value="mesespecificotipousuario">Mes Específico Tipo Usuario</option>
 											<option value="anoactual">Año Actual</option>
 											<option value="anoespecifico">Año Específico</option>
-											<option value="anoespecificotipousuario">Año Específico Tipo Usuario</option>
 											<option value="periodo">Periodo</option>
-											<option value="periodotipousuario">Periodo Tipo Usuario</option>
 										</select>
 									</div>
 
 						        </div>
-
-						        <div class="filtroajax-tipousuario-div input-field col s12 m12 offset-l3 l6 hide">
-					        		<p class="center"><b>Tipo de Usuario</b></p>
-									<select id="ajax-tipousuario" name="tipousuario">
-									</select>		
-							    </div>
-					        		
-								<div class="filtroajax-usuario-div input-field col s12 m12 offset-l3 l6 hide">
-									<p class="center"><b>Usuario</b></p>
-									<select id="ajax-usuario" name="usuario">
-									</select>
-								</div>	
 							
 						        <div id="filtro-indicador-dia-div" class="input-field col s12 m12 offset-l3 l6 hide">
 						        		<p class="center"><b>Ingrese el día</b></p>
@@ -130,13 +112,6 @@
 
 
 
-					<!--
-
-				    <button id="cargarpdf" type="button">Click Me!</button>
-					<div class="iframepdf">
-						
-					</div>
-					-->
 									
 			</div>	
 			
