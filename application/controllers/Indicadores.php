@@ -44,6 +44,10 @@ class Indicadores extends CI_Controller {
 		if ($metodo=='categorias'){
 			$values = $this->Database->getCategorias();
 		}
+		if ($metodo=='nombre'){
+			$data = $this->input->get("nombre");
+			$values = $this->Database->searchInstancia($data);
+		}
 		echo json_encode($values);
 	}
 

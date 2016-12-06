@@ -222,6 +222,22 @@ select{
   .kiri {
     background: #d7dadb !important;
 }
+/*--------------------------reportes-------------------------*/
+#livesearch{
+	margin-top: -15px;	
+	margin-bottom: 15px;	
+}
+#livesearch .livesearch-item{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+#livesearch .livesearch-item:hover{
+	background: #26a69a;
+	cursor: pointer;
+}
 
 /*--------------------------responsive-------------------------*/
 @media (min-width: 10px){

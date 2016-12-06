@@ -29,29 +29,18 @@ indicador_act_wrk = ubicacion.indexOf("duracion_flujos");
 indicador_act_tran = ubicacion.indexOf("duracion_transicion");
 alarmas = ubicacion.indexOf("alarmas");
 categoria = ubicacion.indexOf("categoria");
+detalle = ubicacion.indexOf("detalle");
 
 
 
 
 
 /*-------------- reportes ----------------*/
-$('#cargarpdf').click(function(){
-	url='http://localhost/tesisdss/reportes/reporte_actividad/2016-09-10/2016-09-30';
-	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
- 		window.open(url);
-	}
-	$(".iframepdf").html("<iframe width='100%' height='450' src="+url+"></iframe>");  
-})
-
 
 
 
 if ((categoria!=-1)){
-	/*
-	$('#ajax-tipousuario1').empty();
-	$('#ajax-tipousuario1').append('<option value="" disabled selected>Seleccione una opción</option>');
-	$('#ajax-tipousuario1').append('<option value=all>Todos</option>');
-	*/
+	
 	$.ajax({
 		url: servidor+"indicadores/filtro/categorias/-1",
 		dataType: "json",
@@ -68,6 +57,44 @@ if ((categoria!=-1)){
 		}
 	})
 }
+if ((detalle!=-1)){
+	$('#name_search').focus();
+}
+
+$('#name_search').keyup(function(e){
+	var value = $(this).val();
+	$.ajax({
+		url: servidor+"indicadores/filtro/nombre/-1",
+		data:{'nombre':value},
+		dataType: "json",
+		async: true,
+		success: function(data){
+			$('#livesearch').html('').css('border','0px');
+			if (value.length > 0){
+				$('#livesearch').css('border','1px solid #A5ACB2');
+				$.each( data, function( key, value ) {
+					$('#livesearch').append('<p class="livesearch-item" pk="'+value.id_instancia+'">'+value.titulo+'</p>');
+				});		
+			}
+			
+			//$("#ajax-categoria").material_select();
+			
+			
+		},
+		error: function (error){
+			console.log(error);
+		}
+	})
+})
+
+$(document).on('click','.livesearch-item',function(){
+	var pk = $(this).attr('pk');
+	var value = $(this).html();
+	$('#id_instancia').val(pk);
+	$('#name_search').val(value);
+	$('#livesearch').html('').css('border','0px');
+})
+	
 
 
 /*-------------- eliminar alarmas ----------------*/

@@ -1653,6 +1653,21 @@ class Database extends CI_Model {
 		return $data;
 	}
 
+	//calcula los procesos de una categoria en un periodo
+	public function searchInstancia($nombre){
+		$cant = 0;
+		$this->db->db_select('workflow');
+		$data = '';
+		$query = "SELECT * FROM instancia WHERE instancia.titulo LIKE '%".$nombre."%'";
+		$sql = $this->db->query($query);
+		if($sql -> num_rows() > 0)
+        {	        	
+            $data = $sql->result_array();
+        }		
+        
+		return $data;
+	}
+
 
 	
 }
