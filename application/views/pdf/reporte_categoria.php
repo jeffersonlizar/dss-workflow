@@ -16,12 +16,13 @@
 
     $pdf->SetWidths(array(11,55,30,60,46));
 
-    foreach ($data as $value) {
-        $date = new DateTime($value['fecha_inicio']);
-        $fecha = date_format($date,'d-m-Y h:i:s A');
+    if (isset($data))
+        foreach ($data as $value) {
+            $date = new DateTime($value['fecha_inicio']);
+            $fecha = date_format($date,'d-m-Y h:i:s A');
 
-        $pdf->Row(array(utf8_decode($value['id_instancia']),utf8_decode($value['nombre']),utf8_decode($value['id_usuario']),utf8_decode($value['titulo']),utf8_decode($fecha))); 
-    }
+            $pdf->Row(array(utf8_decode($value['id_instancia']),utf8_decode($value['nombre']),utf8_decode($value['id_usuario']),utf8_decode($value['titulo']),utf8_decode($fecha))); 
+        }
     $pdf->Ln(5);
     $pdf->SetFont('Arial','B',12);
     $cant = count($data);

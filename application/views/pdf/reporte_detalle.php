@@ -50,23 +50,24 @@
     $pdf->SetFont('Times','B',12);
     $pdf->Cell('11','10',utf8_decode('Nro'),1,0,'C');
     $pdf->Cell('46','10',utf8_decode('Fecha'),1,0,'C');
+    $pdf->Cell('50','10',utf8_decode('Transición'),1,0,'C');
     $pdf->Cell('80','10',utf8_decode('Estados'),1,0,'C');
     $pdf->Cell('30','10',utf8_decode('Usuario'),1,0,'C');
-    $pdf->Cell('50','10',utf8_decode('Nombre'),1,0,'C');
     $pdf->Cell('69','10',utf8_decode('Descripción'),1,1,'C');
     $pdf->SetFont('Times','',12);
 
-    $pdf->SetWidths(array(11,46,80,30,50,69));
-    
-    foreach ($data['procesos'] as $value) {
-        $date = new DateTime($value['fecha']);
-        $fecha = date_format($date,'d-m-Y h:i:s A');
-        $estados = $value['nombre_estado_asociado'].' -----> '.$value['nombre_estado_siguiente'];
+    $pdf->SetWidths(array(11,46,50,80,30,69));
+    if (isset($data['procesos']))
+        foreach ($data['procesos'] as $value) {
+            $date = new DateTime($value['fecha']);
+            $fecha = date_format($date,'d-m-Y h:i:s A');
+            $estados = $value['nombre_estado_asociado'].' -----> '.$value['nombre_estado_siguiente'];
 
 
-        $pdf->Row(array(utf8_decode($value['id_proceso']),utf8_decode($fecha),utf8_decode($estados),utf8_decode($value['id_usuario']),utf8_decode($value['nombre']),utf8_decode($value['descripcion'])));   
-    }
-    $pdf->Output('detalle_flujo.pdf','I');
+            $pdf->Row(array(utf8_decode($value['id_proceso']),utf8_decode($fecha),utf8_decode($value['nombre']),utf8_decode($estados),utf8_decode($value['id_usuario']),utf8_decode($value['descripcion'])));   
+        }
+    $name_file = "detalle_flujo_nro_".$data['datos']['id_instancia'].".pdf";
+    $pdf->Output($name_file,'I');
 
     unset($pdf);
 

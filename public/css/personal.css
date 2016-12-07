@@ -83,7 +83,7 @@ nav{
     display: inline;
     position: absolute;
     top: 0px;
-    right: 350px;
+    right: 365px;
 }
 
 #time-header {
@@ -234,7 +234,7 @@ select{
 	margin-top: 0px;
 	margin-bottom: 0px;
 }
-#livesearch .livesearch-item:hover{
+#livesearch .livesearch-item:hover, .hovered{
 	background: #26a69a;
 	cursor: pointer;
 }

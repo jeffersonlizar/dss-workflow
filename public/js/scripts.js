@@ -19,10 +19,24 @@ function mostrarhora(){
 	segundo = f.getSeconds();
 	if (segundo<10)
 		segundo = '0'+segundo;
-	cad=dia+'/'+mes+'/'+ano +' '+hora+":"+minuto+":"+segundo; 
+	//cad=dia+'/'+mes+'/'+ano +' '+hora+":"+minuto+":"+segundo; 
+	cad=dia+'/'+mes+'/'+ano +' '+formatAMPM(f); 
 	$('#fecha').text(cad);
 	$('#fecha2').text(cad);
 	setTimeout("mostrarhora()",1000); 
+}
+
+function formatAMPM(date){
+	var hours = date.getHours();
+	var minutes = date.getMinutes();
+	var seconds = date.getSeconds();
+	var ampm = hours >=12 ? 'pm' : 'am';
+	hours = hours % 12;
+	hours = hours ? hours : 12;
+	minutes = minutes < 10 ? '0'+minutes : minutes;
+	seconds = seconds < 10 ? '0'+seconds : seconds;
+	var strTime = hours + ':' + minutes +':' + seconds + ' ' + ampm;
+	return strTime;
 }
 
 indicador_act_wrk = ubicacion.indexOf("duracion_flujos");
@@ -59,32 +73,76 @@ if ((categoria!=-1)){
 }
 if ((detalle!=-1)){
 	$('#name_search').focus();
+
 }
+var pos=0;
+var tot;
+
+$('#name_search').blur(function(e){
+	$('#livesearch').html('').css('border','0px');
+	pos=0;
+})
+
+$('#name_search').keypress(function(e){
+	if (e.which == 13){
+		e.preventDefault();
+		if (pos>0){
+			var element = "#livesearch-item"+pos;
+			var data = $(element).html();
+			var pk = $(element).attr('pk');
+
+			$('#id_instancia').val(pk);
+			$('#name_search').val(data);
+			$('#livesearch').html('').css('border','0px');
+			$('#id_instancia').focus();
+		}
+	}
+})
 
 $('#name_search').keyup(function(e){
-	var value = $(this).val();
-	$.ajax({
-		url: servidor+"indicadores/filtro/nombre/-1",
-		data:{'nombre':value},
-		dataType: "json",
-		async: true,
-		success: function(data){
-			$('#livesearch').html('').css('border','0px');
-			if (value.length > 0){
-				$('#livesearch').css('border','1px solid #A5ACB2');
-				$.each( data, function( key, value ) {
-					$('#livesearch').append('<p class="livesearch-item" pk="'+value.id_instancia+'">'+value.titulo+'</p>');
-				});		
-			}
-			
-			//$("#ajax-categoria").material_select();
-			
-			
-		},
-		error: function (error){
-			console.log(error);
+	if (e.which == 40){
+		var previous = "#livesearch-item"+pos;
+		if (pos <= tot-2){
+			pos++;
+			var next = "#livesearch-item"+pos;
+			$(previous).removeClass('hovered');
+			$(next).addClass('hovered');
 		}
-	})
+	}
+	else if (e.which == 38){
+		var next = "#livesearch-item"+pos;
+		if (pos > 0){
+			pos--;
+			var previous = "#livesearch-item"+ pos;
+			$(next).removeClass('hovered');
+			$(previous).addClass('hovered');	
+		}
+	}
+	else{
+		pos = 0;
+		var value = $(this).val();
+		$.ajax({
+			url: servidor+"indicadores/filtro/nombre/-1",
+			data:{'nombre':value},
+			dataType: "json",
+			async: true,
+			success: function(data){
+				$('#livesearch').html('').css('border','0px');
+				if (value.length > 0){
+					var i = 1;
+					$('#livesearch').css('border','1px solid #A5ACB2');
+					$.each( data, function( key, value ) {
+						var id = "livesearch-item"+i++;
+						$('#livesearch').append('<p class="livesearch-item" id="'+id+'" pk="'+value.id_instancia+'">'+value.titulo+'</p>');
+					});
+					tot = i;		
+				}
+			},
+			error: function (error){
+				console.log(error);
+			}
+		})	
+	}
 })
 
 $(document).on('click','.livesearch-item',function(){
