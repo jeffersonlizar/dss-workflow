@@ -236,8 +236,8 @@ class Indicadores extends CI_Controller {
 		$this->load->view('footerend','', FALSE);	
 	}
 
-	//vista indicadores/ultimas
-	public function ultimas(){
+	//vista indicadores/ultimos procesos
+	public function ultimos(){
 		$session_data = $this->session->userdata('logged_in');	
 		if($session_data['tipo']!='1'){
 			redirect('home');

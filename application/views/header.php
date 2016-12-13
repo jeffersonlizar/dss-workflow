@@ -89,7 +89,7 @@ function ubicacion(){
 					  <li><a href="<?php echo base_url().'indicadores/resumen' ?>">Resumen</a></li>
 					  <li><a href="<?php echo base_url().'indicadores/duracion_transicion' ?>">Duración Transición</a></li>
 					  <li><a href="<?php echo base_url().'indicadores/duracion_flujos' ?>">Duración Flujo de trabajo</a></li>
-					  <li><a href="<?php echo base_url().'indicadores/ultimas' ?>">Últimas</a></li>
+					  <li><a href="<?php echo base_url().'indicadores/ultimos' ?>">Últimos Procesos</a></li>
 	                </ul>
 	              </div>
 	            </li>
@@ -115,17 +115,6 @@ function ubicacion(){
 	                  <li><a href="<?php echo base_url().'reportes/actividad' ?>">Actividad</a></li>
 	                  <li><a href="<?php echo base_url().'reportes/categoria' ?>">Categoría</a></li>
 	                  <li><a href="<?php echo base_url().'reportes/detalle' ?>">Detalle</a></li>
-	                  <!--
-					  <li><a href="<?php echo base_url().'indicadores/indicador' ?>">Indicadores</a></li>
-					  <li><a href="<?php echo base_url().'indicadores/categoria' ?>">Categoría</a></li>
-					  <li><a href="<?php echo base_url().'indicadores/crecimiento' ?>">Crecimiento</a></li>
-					  <li><a href="<?php echo base_url().'indicadores/actividad_usuario' ?>">Actividad Usuario</a></li>
-					  <li><a href="<?php echo base_url().'indicadores/tiempo_promedio' ?>">Tiempo Promedio</a></li>
-					  <li><a href="<?php echo base_url().'indicadores/resumen' ?>">Resumen</a></li>
-					  <li><a href="<?php echo base_url().'indicadores/duracion_transicion' ?>">Duración Transición</a></li>
-					  <li><a href="<?php echo base_url().'indicadores/duracion_flujos' ?>">Duración Flujo de trabajo</a></li>
-					  <li><a href="<?php echo base_url().'indicadores/ultimas' ?>">Últimas</a></li>
-					  -->
 	                </ul>
 	              </div>
 	            </li>

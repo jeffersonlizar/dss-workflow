@@ -47,10 +47,12 @@
 			                                        <input name="tipo" type="radio" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'disabled'?> value="0" <?php if (isset($usuario) and ($usuario['tipo']==0)) echo "checked='checked'"; if (!isset($usuario)) echo "checked='checked'"; ?> id="bann" />
 			                                        <label for="bann">Invitado</label>
 			                                    </p>
+			                                    <?php if ( ($session['superadmin']==true)): ?>
 			                                    <p>
 			                                        <input name="tipo" type="radio" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'disabled'?> value="1" <?php if (isset($usuario) and ($usuario['tipo']==1)) echo "checked='checked'"; ?> id="act"/>
 			                                        <label for="act">Administrador</label>
 			                                    </p>
+			                                    <?php endif; ?>
 			                                </div>			                                
 			                            </div>
 			                        </div>	

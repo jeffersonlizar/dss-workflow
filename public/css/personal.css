@@ -84,6 +84,7 @@ nav{
     position: absolute;
     top: 0px;
     right: 365px;
+    padding-right: 10px;
 }
 
 #time-header {
