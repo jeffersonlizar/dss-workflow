@@ -120,7 +120,7 @@ function ubicacion(){
 	            </li>
           	</ul>
 				<?php endif; endif; ?>
-			<li class="bold <?php if (strpos(ubicacion(),"ayuda")!=false) echo 'active ' ?>menutab"><a class="waves-effect waves-teal" href="<?php echo base_url().'ayuda' ?>"><i class="material-icons md-40 md-dark">help_outline</i><span class="menu-title">Ayuda</span></a></li>
+			<li class="bold <?php if (strpos(ubicacion(),"ayuda")!=false) echo 'active ' ?>menutab"><a class="waves-effect waves-teal" href="<?php echo base_url().'acerca' ?>"><i class="material-icons md-40 md-dark">help_outline</i><span class="menu-title">Acerca de</span></a></li>
 			<li class="bold menutab">
 			<div class="hide-on-large-only">
 				<a class="waves-effect waves-teal" href="<?php echo base_url().'usuarios/logout' ?>"><i class="material-icons md-40 md-dark">settings_power</i><span class="menu-title">Salir</span></a>
