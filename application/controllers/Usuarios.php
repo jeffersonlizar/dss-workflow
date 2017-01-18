@@ -97,8 +97,8 @@ class Usuarios extends CI_Controller {
 
 	public function registro(){
 		$log = false;
-		$user = $this->input->post('user');
-		$pass = $this->input->post('pass');		
+		$user = trim($this->input->post('user'));
+		$pass = trim($this->input->post('pass'));		
 		$log = $data=$this->Database->login($user,$pass);
 		if ($log){
 			$data_user = array(
@@ -117,11 +117,11 @@ class Usuarios extends CI_Controller {
 
 		$singin = false;
 		$search = false;
-		$username = $this->input->post('username');
-		$pass = $this->input->post('pass');	
-		$name = $this->input->post('name');	
-		$lastname = $this->input->post('lastname');	
-		$email = $this->input->post('email');
+		$username = trim($this->input->post('username'));
+		$pass = trim($this->input->post('pass'));
+		$name = trim($this->input->post('name'));
+		$lastname = trim($this->input->post('lastname'));
+		$email = trim($this->input->post('email'));
 		$tipo = $this->input->post('tipo');
 		$search = $data=$this->Database->search_user($username);
 			if (!$search){
@@ -179,10 +179,10 @@ class Usuarios extends CI_Controller {
 	public function modificar(){
 		$singin = false;
 		$search = false;
-		$username = $this->input->post('username');
-		$pass = $this->input->post('pass');	
-		$name = $this->input->post('name');	
-		$lastname = $this->input->post('lastname');	
+		$username = trim($this->input->post('username'));
+		$pass = trim($this->input->post('pass'));	
+		$name = trim($this->input->post('name'));	
+		$lastname = trim($this->input->post('lastname'));	
 		$email = $this->input->post('email');
 		$tipo = $this->input->post('tipo');
 		$singin = $data=$this->Database->modificar($username,$name,$lastname,$email,$tipo);

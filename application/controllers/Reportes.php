@@ -508,8 +508,8 @@ class Reportes extends CI_Controller {
 			'usuario'				=>$session_data['user'],
 			'data'					=>$detalle
 		);
-		var_dump($data);
-		//$this->load->view('pdf/reporte_detalle',$data, FALSE);		
+		//var_dump($data);
+		$this->load->view('pdf/reporte_detalle',$data, FALSE);		
 	}
 
 	private function _errorPDF(){

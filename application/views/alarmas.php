@@ -10,12 +10,12 @@
 				      	<h5 class="center">Nueva Alarma</h5>
 				      	<div class="input-field col s12 m12 offset-l3 l6">
 				      		<i class="material-icons prefix">account_circle</i>
-				      		<input type="text" id="name" class="validate" name="nombre">
+				      		<input type="text" id="name" class="validate" name="nombre" pattern="[A-Za-z ]+" title="Solo se permiten letras" maxlength="250">
 				      		<label for="name">Nombre</label>
 				      	</div>
 				      	<div class="input-field col s12 m12 offset-l3 l6">
 				      		<i class="material-icons prefix">mode_edit</i>
-				      		<textarea id="description" class="materialize-textarea" name="descripcion"></textarea>
+				      		<textarea id="description" class="materialize-textarea" name="descripcion" pattern="[A-Za-z ]+" title="Solo se permiten letras" maxlength="250"></textarea>
 				      		<label for="description">Descripción</label>
 				      	</div>
 				      	<div class="input-field col s12 m12 offset-l3 l6">

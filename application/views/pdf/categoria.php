@@ -10,7 +10,7 @@
 
 
 				    <div class="row">
-						<form class="col s12 form-indicadores" action="<?php echo base_url().'reportes/pdf_categoria' ?>" method="POST">
+						<form class="col s12 form-indicadores" action="<?php echo base_url().'reportes/pdf_categoria' ?>" method="POST" target="_blank">
 					      	<div class="row">
 					      		<h4>Reportes | <small>Categoría</small></h4>
 						        <div class="input-field col s12 m12 offset-l3 l6">

@@ -1,24 +1,56 @@
 datos de acceso
-admin
-1234
+Admnistrador:
+usuario: admin
+contrasena: 1234
 
-recepcion
-1234
+Recepcion:
+usuario: recepcion
+contrasena: 1234
 
-jefe_ual
-1234
+usuario: recepcion2
+contrasena: 1234
 
-abogado
-1234
+usuario: recepcion3
+contrasena: 1234
 
-coordinador
-1234
+usuario: recepcion4
+contrasena: 1234
 
-procurador
-1234
 
-jefe_uth
-1234
+Unidad de asuntos legales
+usuario: jefe_ual
+contrasena: 1234
 
-asistente_uth
-1234
+Abogado
+usuario: abogado
+contrasena: 1234
+
+usuario: abogado2
+contrasena: 1234
+
+usuario: abogado3
+contrasena: 1234
+
+usuario: abogado4
+contrasena: 1234
+
+usuario: abogado5
+contrasena: 1234
+
+usuario: abogado6
+contrasena: 1234
+
+Coordinador
+usuario: coordinador
+contrasena: 1234
+
+Procurador
+usuario: procurador
+contrasena: 1234
+
+Unidad de talento humano
+usuario: jefe_uth
+contrasena: 1234
+
+usuario: asistente_uth
+contrasena: 1234

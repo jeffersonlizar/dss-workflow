@@ -34,6 +34,7 @@ class Home extends CI_Controller {
 		$header = array(
 			'session'=>$session_data
 		);
+		
 
 		$this->load->view('header',$header, FALSE);	
 		$this->load->view('home',$home, FALSE);	
@@ -50,6 +51,7 @@ class Home extends CI_Controller {
 		$this->load->view('duracion_transicion',$duracion_transicion, FALSE);	
 		$this->load->view('duracion_workflow',$duracion_workflow, FALSE);	
 		$this->load->view('footerend','', FALSE);	
+		
 	}
 
 	

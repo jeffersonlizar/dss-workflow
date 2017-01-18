@@ -3,7 +3,7 @@
 	instancias = JSON.parse(instancias);
 	var transiciones = '<?php echo $transiciones ?>';
 	transiciones = JSON.parse(transiciones);
-	console.log(transiciones);
+	
 	$('#ultimas_ins_trans .titulo:first-child').text('<?php echo $titulo?>');
 	$('#ultimas_ins_trans .subtitulo').text('<?php echo $subtitulo?>');
 	id_instancia = '#ultima-instancia';

@@ -70,8 +70,8 @@ class Alarmas extends CI_Controller {
 		if($session_data['tipo']!='1'){
 			redirect('home');
 		}
-		$nombre = $this->input->post("nombre");
-		$descripcion = $this->input->post("descripcion");
+		$nombre = trim($this->input->post("nombre"));
+		$descripcion = trim($this->input->post("descripcion"));
 		$tipo = $this->input->post("tipo");
 		$tipousuario = $this->input->post("tipousuario");
 		$usuario = $this->input->post("usuario");

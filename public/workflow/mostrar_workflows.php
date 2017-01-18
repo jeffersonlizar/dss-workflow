@@ -1,6 +1,7 @@
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <title>Workflow</title>

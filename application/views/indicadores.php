@@ -57,13 +57,13 @@ $(function () {
         },
 
         title: {
-            text: '<?php echo $titulo ?>',
+            text: '<?php if(isset($titulo)) echo $titulo; else echo ''; ?>',
             style: {
                 fontSize: '18px'
             }
         },
         subtitle: {
-            text: '<?php echo $subtitulo ?>',
+            text: '<?php if (isset($subtitulo)) echo $subtitulo; else echo ''; ?>',
             style: {
                 fontSize: '12px'
             }
@@ -131,7 +131,7 @@ $(function () {
                 color: Highcharts.getOptions().colors[0],
                 radius: '100%',
                 innerRadius: '100%',
-                y: <?php echo $rendimiento ?>
+                y: <?php if(isset($rendimiento)) echo $rendimiento; else echo 0; ?>
             }]
         }, {
             name: 'Eficacia',
@@ -140,7 +140,7 @@ $(function () {
                 color: Highcharts.getOptions().colors[1],
                 radius: '75%',
                 innerRadius: '75%',
-                y: <?php echo $eficacia ?>
+                y: <?php if(isset($rendimiento)) echo $eficacia; else echo 0; ?>
             }]
         }, {
             name: 'Respuesta',
@@ -149,7 +149,7 @@ $(function () {
                 color: Highcharts.getOptions().colors[2],
                 radius: '50%',
                 innerRadius: '50%',
-                y: <?php echo $respuesta ?>
+                y: <?php if(isset($respuesta)) echo $respuesta; else echo 0; ?>
             }]
         }]
     },

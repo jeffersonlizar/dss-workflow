@@ -18,19 +18,19 @@
 			                            <span class="card-title"><?php if (isset($usuario)) echo 'Modificar'; else echo 'Crear' ?> Usuario</span>
 			                            <div class="row">
 			                                <div class="input-field col s12">
-			                                    <input name="username" id="username" type="text" class="validate" value="<?php if (isset($usuario)) echo $usuario['username'] ?>" <?php if (isset($usuario)) echo 'readonly'; ?>>
+			                                    <input name="username" id="username" type="text" class="validate" pattern="[A-Za-z ]+" title="Solo se permiten letras" maxlength="250" value="<?php if (isset($usuario)) echo $usuario['username'] ?>" <?php if (isset($usuario)) echo 'readonly'; ?>>
 			                                    <label>Nombre de Usuario</label>
 			                                </div>
 			                            </div>
 			                            <div class="row">
 			                                <div class="input-field col s12">
-			                                    <input name="name" id="name" type="text" class="validate" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'readonly'?> value="<?php if (isset($usuario)) echo $usuario['nombre'] ?>">
+			                                    <input name="name" id="name" type="text" maxlength="250" class="validate" pattern="[A-Za-z ]+" title="Solo se permiten letras" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'readonly'?> value="<?php if (isset($usuario)) echo $usuario['nombre'] ?>">
 			                                    <label>Nombre</label>
 			                                </div>
 			                            </div>
 			                            <div class="row">
 			                                <div class="input-field col s12">
-			                                    <input name="lastname" id="lastname" type="text" class="validate" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'readonly'?> value="<?php if (isset($usuario)) echo $usuario['apellido'] ?>">
+			                                    <input name="lastname" id="lastname" type="text" maxlength="250" class="validate" pattern="[A-Za-z ]+" title="Solo se permiten letras" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'readonly'?> value="<?php if (isset($usuario)) echo $usuario['apellido'] ?>">
 			                                    <label>Apellidos</label>
 			                                </div>
 			                            </div>	

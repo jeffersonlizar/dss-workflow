@@ -26,6 +26,7 @@ function ubicacion(){
 		<meta name="keywords" content="DSS,Workflows,KPI" >
 		<meta name="author" content="Jefferson Lizarzabal" >
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" >
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 		<!-- optimizando para moviles -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<!-- material icons -->

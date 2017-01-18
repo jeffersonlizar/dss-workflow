@@ -75,6 +75,7 @@ class Indicadores extends CI_Controller {
 		$this->load->view('header',$header, FALSE);
 		$this->load->view('indicadores/actividad','', FALSE);
 		$this->load->view('footerbegin',$modal, FALSE);
+		$this->load->view('actividad',$actividad, FALSE);
 		
 		$this->load->view('footerend','', FALSE);	
 	}
@@ -262,7 +263,7 @@ class Indicadores extends CI_Controller {
 		);
 
 		$this->load->view('header',$header, FALSE);
-		$this->load->view('indicadores/ultimas',$home, FALSE);
+		$this->load->view('indicadores/ultimos',$home, FALSE);
 		$this->load->view('footerbegin',$modal, FALSE);
 		$this->load->view('ultimas_instancias_transiciones',$ultimas['ultimas_instancias_transiciones'], FALSE);	
 		$this->load->view('footerend','', FALSE);	
@@ -848,7 +849,7 @@ class Indicadores extends CI_Controller {
 	}
 
 	//guardar en la bd el nuevo indicador resumen
-	public function registrar_ultimas(){
+	public function registrar_ultimos(){
 		$this->load->model('database', '', true);
 		date_default_timezone_set('America/La_Paz');
 		$today = date('Y-m-d H:i:s'); 
@@ -865,7 +866,7 @@ class Indicadores extends CI_Controller {
 		else{
 			$this->_guardadonoExitosamente();
 		}	
-		redirect('indicadores/ultimas');
+		redirect('indicadores/ultimos');
 	}
 
 

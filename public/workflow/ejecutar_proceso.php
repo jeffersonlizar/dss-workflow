@@ -34,7 +34,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
+	<meta charset="UTF-8">
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
 	<title>Asignar Usuario</title>
 	<link href="css/signin.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">

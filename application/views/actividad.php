@@ -5,10 +5,10 @@
 	            type: 'spline'
 	        },
 	        title: {
-	            text: '<?php echo $titulo ?>'
+	            text: '<?php if (isset($titulo)) echo $titulo; else echo 'Actividad'; ?>'
 	        },
 	        subtitle: {
-	            text: '<?php echo $subtitulo ?>'
+	            text: '<?php if (isset($titulo)) echo $subtitulo; else echo 'Actividades del periodo'; ?>'
 	        },
 	        xAxis: {
 	        	<?php if ($type==null): ?>

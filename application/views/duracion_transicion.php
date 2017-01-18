@@ -5,21 +5,25 @@
 	            type: 'column'
 	        },
 	        title: {
-	            text: '<?php echo $titulo ?>'
+	            text: '<?php if (isset($titulo)) echo $titulo; else echo ''; ?>'
 	        },
 	        subtitle: {
-	            text: '<?php echo $subtitulo ?>'
+	            text: '<?php if (isset($subtitulo)) echo $subtitulo; else echo ''; ?>'
 	        },
 	         xAxis: {
             categories: [
             <?php 
-            $cant = count($nombre_usuario);
-            for ($i=0; $i < $cant ; $i++):	            	
-            	echo "'".$nombre_usuario[$i]."'";
-            if ($i!=$cant-1){
-            	echo ',';
-            }
-            endfor;
+
+        	if (isset($nombre_usuario)):
+            	$cant = count($nombre_usuario);
+            
+	            for ($i=0; $i < $cant ; $i++):	            	
+	            	echo "'".$nombre_usuario[$i]."'";
+	            if ($i!=$cant-1){
+	            	echo ',';
+	            }
+	            endfor;
+            endif;
             ?>	
             ]
         	},
@@ -52,18 +56,21 @@
 	            color: 'rgba(126,86,134,.9)',
 	            data: [
 	            <?php 
-	            $cant = count($datos_busqueda);
-	            for ($i=0; $i < $cant ; $i++):	            	
-	            	echo "
-	            {
-	            	name:'".$nombre_usuario[$i]." Duración: ".$tiempo_busqueda[$i]."',
-	            	y:".$datos_busqueda[$i]."
-	            }	           
-	            ";
-	            if ($i!=$cant-1){
-	            	echo ',';
-	            }
-	            endfor;
+	            if (isset($datos_busqueda)):
+	            	$cant = count($datos_busqueda);
+	            
+		            for ($i=0; $i < $cant ; $i++):	            	
+		            	echo "
+		            {
+		            	name:'".$nombre_usuario[$i]." Duración: ".$tiempo_busqueda[$i]."',
+		            	y:".$datos_busqueda[$i]."
+		            }	           
+		            ";
+		            if ($i!=$cant-1){
+		            	echo ',';
+		            }
+		            endfor;
+		        endif;
 	            ?>	        		        	
 	            ],
 	            pointPadding: 0.3,
@@ -73,7 +80,8 @@
 	            
 	            color: 'rgba(165,170,217,1)',
 	            data: [
-	            <?php 	           
+	            <?php 
+	            if (isset($cant))	           
 	            for ($i=0; $i < $cant ; $i++):	            	
 	            	echo "
 	            {	            	

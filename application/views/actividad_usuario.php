@@ -6,10 +6,10 @@ $(function () {
             inverted: true
         },
         title: {
-            text: '<?php echo $titulo ?>'
+            text: '<?php if (isset($titulo)) echo $titulo; else echo 'Actividad usuario'; ?>'
         },
         subtitle: {
-            text: '<?php echo $subtitulo ?>',
+            text: '<?php if (isset($subtitulo)) echo $subtitulo; else echo 'Actividad en el periodo'; ?>',
             style: {
                 position: 'absolute',
                 right: '0px',
@@ -32,6 +32,7 @@ $(function () {
         },
         xAxis: {
             <?php 
+                if (isset($type)):
                 if ($type=="horas"): ?>
                 categories: ['01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00','13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '24:00']
                 <?php endif;?>
@@ -40,11 +41,13 @@ $(function () {
                 <?php endif; ?>
                 <?php if ($type=="meses"): ?>
                 categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
-                <?php endif; ?>
+                <?php endif; 
+                endif;
+                ?>
         },
         yAxis: {
             title: {
-                text: '<?php echo $leyenda ?>'
+                text: '<?php if(isset($leyenda)) echo $leyenda; else echo 0; ?>'
             },
             labels: {
                 formatter: function () {

@@ -8,7 +8,7 @@
 			
 			<div class="centrado">
 				<div class="row">
-					<form class="col s12 form-indicadores" action="<?php echo base_url().'indicadores/registrar_ultimas' ?>" method="POST">
+					<form class="col s12 form-indicadores" action="<?php echo base_url().'indicadores/registrar_ultimos' ?>" method="POST">
 				      <div class="row">
 				      <h4>Indicadores | <small>Últimos Procesos</small></h4>
 				        <div class="input-field col s12 m12 offset-l3 l6">

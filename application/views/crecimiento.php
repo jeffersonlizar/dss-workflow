@@ -40,13 +40,13 @@
             },
 
             title: {
-            text: '<?php echo $titulo ?>',
+            text: '<?php if (isset($titulo)) echo $titulo; else echo ''; ?>',
             style: {
                 fontSize: '18px'
             }
             },
             subtitle: {
-                text: '<?php echo $subtitulo ?>',
+                text: '<?php if (isset($subtitulo)) echo $subtitulo; else echo ''; ?>',
                 style: {
                     fontSize: '12px'
                 }
@@ -120,7 +120,7 @@
 
             series: [{
                 name: 'crecimiento',
-                data: [<?php echo $crecimiento ?>],
+                data: [<?php if(isset($crecimiento)) echo $crecimiento; else echo 0; ?>],
                 dataLabels: {
                     format: '<div style="text-align:center"><span style="font-size:25px;color:' +
                         ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
