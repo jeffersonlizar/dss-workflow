@@ -4,6 +4,10 @@
 
     $pdf = new PDF_MC_Table();
     $pdf->data($fecha,$hora,$usuario);
+    if ($data['datos'] = null){
+        header('Location: '.'asdf.com');
+        die();
+    }
     $pdf->SetMargins(4, 10,1);
     $pdf->AliasNbPages();
     $pdf->AddPage('L');

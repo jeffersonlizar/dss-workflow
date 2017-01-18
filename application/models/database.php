@@ -278,6 +278,7 @@ class Database extends CI_Model {
 	public function login($usuario,$pass){
 		$this->db->db_select('workflow');
 		$data['superadmin'] = false;
+		$pass = md5($pass);
 		$query = $this->db->query("SELECT * FROM usuario WHERE id_usuario = '$usuario' AND contrasena = '$pass' AND id_tipo = 0");
 		if($query -> num_rows() > 0)
         {
@@ -289,7 +290,7 @@ class Database extends CI_Model {
         else
         {
         	$this->db->db_select('dss');
-        	$pass = md5($pass);
+        	
             $query = $this->db->query("SELECT * FROM usuarios WHERE username = '$usuario' AND contrasena = '$pass'");
 			if($query -> num_rows() > 0)
 	        {

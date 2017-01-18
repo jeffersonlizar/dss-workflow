@@ -17,7 +17,7 @@
 						        	<h5 class="center">Detalle de Flujo de Trabajo</h5>
 
 						        	<div class="filtroprincipal">
-						        	<p class="center">Ingrese nombre o el número del flujo de trabajo para obtener sus detalles.</p>
+						        	<p class="center">Ingrese el nombre o el número del flujo de trabajo para obtener sus detalles.</p>
 						        	<p class="center">Se generará un reporte con el status, las trasiciones realizadas y los usuarios que han participado en el mismo.</p>
 						        	<p class="center"></p>
 						        		<input class="center" type="text" id="name_search" name="name_search" autocomplete="off" placeholder="Ingrese el Nombre del Flujo de Trabajo">

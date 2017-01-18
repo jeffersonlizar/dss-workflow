@@ -12,6 +12,12 @@ class Reportes extends CI_Controller {
 		$header = array(
 			'session'=>$session_data
 		);
+		$titulo = $this->session->flashdata('titulo');
+		$contenido = $this->session->flashdata('contenido');
+		$modal = array(
+			'titulo'		=>$titulo,
+			'contenido'		=>$contenido
+		);
 		$this->load->view('header',$header, FALSE);
 		$this->load->view('reportes','', FALSE);
 		$this->load->view('footerbegin','', FALSE);	
@@ -489,7 +495,10 @@ class Reportes extends CI_Controller {
 
 		$id_instancia = $this->input->post("id_instancia");
 		$detalle = $this->Database->pdfDetalle($id_instancia);
-		//var_dump($detalle);
+		if($detalle == null ){
+			$this->_errorPDF();
+			redirect('reportes/detalle');
+		}
 			
 		$fecha = date('d-m-Y');
 		$hora = date('h:i:s A');
@@ -503,7 +512,14 @@ class Reportes extends CI_Controller {
 		$this->load->view('pdf/reporte_detalle',$data, FALSE);		
 	}
 
+	private function _errorPDF(){
+		$this->session->set_flashdata('titulo', 'Error');
+		$this->session->set_flashdata('contenido', 'Se ha producido un error al realizar su solicitud.');
+	}
+
 }
+
+
 
 /* End of file Reportes.php */
 /* Location: ./application/controllers/Reportes.php */

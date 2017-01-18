@@ -31,6 +31,7 @@ class Indicadores_libreria
 		$this->globales['ano_anterior_ultimo_dia'] = date('Y-m-d H:i:s' ,$this->globales['ano_anterior_ultimo_dia']);
 	}
 	public function indicador_actividad(){
+		$actividad = null;
 		$indicador_actividad = $this->CI->database->cargar_indicador_actividad();
 		switch ($indicador_actividad['opcion']){
 			case '1': //dia actual				
@@ -77,6 +78,7 @@ class Indicadores_libreria
 	}
 
 	public function indicador_categoria(){
+		$categorias = null;
 		$indicador_categoria = $this->CI->database->cargar_indicador_categoria();
 		switch ($indicador_categoria['opcion']){
 			case '1': //dia actual
@@ -113,6 +115,7 @@ class Indicadores_libreria
 	}
 
 	public function indicador_indicadores(){
+		$indicadores = null;
 		$indicador_indicadores = $this->CI->database->cargar_indicador_indicadores();
 		switch ($indicador_indicadores['opcion']){
 			case '1': //dia actual
@@ -149,6 +152,7 @@ class Indicadores_libreria
 	}
 
 	public function indicador_crecimiento(){
+		$crecimiento = null;
 		$indicador_crecimiento = $this->CI->database->cargar_indicador_crecimiento();
 		switch ($indicador_crecimiento['opcion']){
 			case '11': //instancias dia actual con respecto al dia anterior
@@ -188,6 +192,7 @@ class Indicadores_libreria
 	}
 	
 	public function indicador_tiempo_promedio(){
+		$tiempo_promedio = null;
 		$indicador_tiempo_promedio = $this->CI->database->cargar_indicador_tiempo_promedio();
 		switch ($indicador_tiempo_promedio['opcion']){
 			case '11': //instancias en el mes actual
@@ -241,6 +246,7 @@ class Indicadores_libreria
 	}
 
 	public function indicador_actividad_usuario(){
+		$actividad_user = null;
 		$indicador_actividad_usuario = $this->CI->database->cargar_indicador_actividad_usuario();
 		switch ($indicador_actividad_usuario['opcion']){
 			case '11': //instancias en el dia actual
@@ -404,6 +410,7 @@ class Indicadores_libreria
 	}
 
 	public function indicador_resumen(){
+		$resumen = null;
 		$indicador_resumen = $this->CI->database->cargar_indicador_resumen();
 		switch ($indicador_resumen['opcion']){
 			case '1': //dia actual
@@ -442,6 +449,7 @@ class Indicadores_libreria
 	}
 
 	public function indicador_duracion_transicion(){
+		$duracion_transicion = null;
 		$indicador_duracion_transicion = $this->CI->database->cargar_indicador_duracion_transicion();
 		switch ($indicador_duracion_transicion['opcion']){
 			case '1': //dia actual				
@@ -536,6 +544,7 @@ class Indicadores_libreria
 	}
 
 	public function indicador_duracion_workflow(){
+		$duracion_workflow = null;
 		$indicador_duracion_workflow = $this->CI->database->cargar_indicador_duracion_workflow();
 		switch ($indicador_duracion_workflow['opcion']){
 			case '1': //dia actual				
@@ -2128,7 +2137,7 @@ class Indicadores_libreria
 	private function _ultimas($dia,$ultimas_instancias,$ultimas_transiciones){
 		$subtitulo_ins = "";
 		$subtitulo_trans = "";
-		$subtitulo = "No se definieron datos";
+		$subtitulo = "No se definieron datos ";
 		$datos = $this->CI->database->ultimas($dia,$ultimas_instancias,$ultimas_transiciones);
 		//var_dump($datos);
 		$titulo = "Ultimos Flujos de trabajo / Transiciones";
