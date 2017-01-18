@@ -1,0 +1,24 @@
+datos de acceso
+admin
+1234
+
+recepcion
+1234
+
+jefe_ual
+1234
+
+abogado
+1234
+
+coordinador
+1234
+
+procurador
+1234
+
+jefe_uth
+1234
+
+asistente_uth
+1234

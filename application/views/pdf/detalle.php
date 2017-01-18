@@ -22,7 +22,7 @@
 						        	<p class="center"></p>
 						        		<input class="center" type="text" id="name_search" name="name_search" autocomplete="off" placeholder="Ingrese el Nombre del Flujo de Trabajo">
 						        		<div id="livesearch"></div>
-						        		<input class="center" type="number" pattern="[0-9]" min="1" id="id_instancia" name="id_instancia" required="">
+						        		<input class="center" type="number" pattern="[0-9]" min="0" id="id_instancia" name="id_instancia" required="">
 						        		
 									</div>
 

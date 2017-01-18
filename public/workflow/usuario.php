@@ -58,7 +58,7 @@
 		<p>Usuario <input class="form-control" type="text" id="usuario" name="usuario"></input>
 		<span style="color:red">* <?php echo $usuario_error ?></span>
 		</p>
-		<p>Contraseña <input class="form-control" type="text" id="contrasena" name="contrasena"></input>
+		<p>Contraseña <input class="form-control" type="password" id="contrasena" name="contrasena"></input>
 		<span style="color:red">* <?php echo $contrasena_error ?></span>
 		</p>
 		<p>Tipo
