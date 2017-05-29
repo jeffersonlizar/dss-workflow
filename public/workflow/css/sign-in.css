@@ -1,17 +1,40 @@
+/*
+ * Specific styles of signin component
+ */
+/*
+ * General styles
+ */
 body, html {
     height: 100%;
     background-repeat: no-repeat;
     background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
 }
 
-
 .center-align {
     text-align: center;
 }
 
+.color-white {
+    color: #fff !important;
+}
 
+.card-container.card {
+    max-width: 350px;
+    padding: 40px 40px;
+}
 
+.btn {
+    font-weight: 700;
+    height: 36px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
+}
 
+/*
+ * Card component
+ */
 .card {
     background-color: #F7F7F7;
     /* just in case there no content*/
@@ -25,6 +48,27 @@ body, html {
     -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
     -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.profile-img-card {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 10px;
+    display: block;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+
+/*
+ * Form styles
+ */
+.profile-name-card {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0 0;
+    min-height: 1em;
 }
 
 .btn-wrk input[type=email],
@@ -52,6 +96,7 @@ body, html {
     /*background-color: #4d90fe; */
     background-color: rgb(104, 145, 162);
     /* background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
+    padding: 0px;
     font-weight: 700;
     font-size: 14px;
     height: 36px;
@@ -85,3 +130,9 @@ body, html {
 .btn.btn-wrk:focus {
     background-color: rgb(12, 97, 33);
 }
+
+/* PANEL */
+#panel-admin {
+    color: #fff !important;
+}
+

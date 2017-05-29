@@ -12,8 +12,7 @@ class Home extends CI_Controller {
 		
 
 		
-		$this->load->library('indicadores_libreria');
-		
+		$this->load->library('Indicadores_libreria');
 		$actividad = $this->indicadores_libreria->indicador_actividad();
 		$categoria = $this->indicadores_libreria->indicador_categoria();
 		$indicadores = $this->indicadores_libreria->indicador_indicadores();

@@ -8,8 +8,8 @@ class Database extends CI_Model {
 	}
 
 	public function cargar_indicador_actividad(){
-		$this->db->db_select('dss');
-		$query = $this->db->query("SELECT * FROM indicador_actividad ORDER BY id DESC limit 1");
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("SELECT * FROM indicador_actividad ORDER BY id DESC limit 1");
 		if($query -> num_rows() > 0)
         {
             return $query->result_array()[0];
@@ -18,10 +18,13 @@ class Database extends CI_Model {
         {
             return false;
         }
+        
+        
 	}
 	public function guardar_indicador_actividad($opcion,$usuario_admin=null,$fecha=null,$dia=null,$dia_comparativo1=null,$dia_comparativo2=null,$mes=null,$mes_comparativo1=null,$mes_comparativo2=null,$ano=null,$ano_comparativo1=null,$ano_comparativo2=null){
-		$this->db->db_select('dss');
-		$query = $this->db->query("INSERT INTO indicador_actividad(opcion,usuario_admin,fecha,dia,dia_comparativo1,dia_comparativo2,mes,mes_comparativo1,mes_comparativo2,ano,ano_comparativo1,ano_comparativo2) values ('$opcion','$usuario_admin','$fecha','$dia','$dia_comparativo1','$dia_comparativo2','$mes','$mes_comparativo1','$mes_comparativo2','$ano','$ano_comparativo1','$ano_comparativo2')");
+		$this->db2 = $this->load->database('dss', TRUE);
+		//$this->db->db_select('dss');
+		$query = $this->db2->query("INSERT INTO indicador_actividad(opcion,usuario_admin,fecha,dia,dia_comparativo1,dia_comparativo2,mes,mes_comparativo1,mes_comparativo2,ano,ano_comparativo1,ano_comparativo2) values ('$opcion','$usuario_admin','$fecha','$dia','$dia_comparativo1','$dia_comparativo2','$mes','$mes_comparativo1','$mes_comparativo2','$ano','$ano_comparativo1','$ano_comparativo2')");
 		if($query)
         {
             return true;
@@ -32,8 +35,9 @@ class Database extends CI_Model {
         }
 	}
 	public function cargar_indicador_categoria(){
-		$this->db->db_select('dss');
-		$query = $this->db->query("SELECT * FROM indicador_categoria ORDER BY id DESC limit 1");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("SELECT * FROM indicador_categoria ORDER BY id DESC limit 1");
 		if($query -> num_rows() > 0)
         {
             return $query->result_array()[0];
@@ -44,8 +48,9 @@ class Database extends CI_Model {
         }
 	}
 	public function guardar_indicador_categoria($opcion,$usuario_admin=null,$fecha=null,$dia=null,$mes=null,$ano=null,$periodo_inicio=null,$periodo_fin=null){
-		$this->db->db_select('dss');
-		$query = $this->db->query("INSERT INTO indicador_categoria(opcion,usuario_admin,fecha,dia,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$dia','$mes','$ano','$periodo_inicio','$periodo_fin')");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("INSERT INTO indicador_categoria(opcion,usuario_admin,fecha,dia,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$dia','$mes','$ano','$periodo_inicio','$periodo_fin')");
 		if($query)
         {
             return true;
@@ -56,8 +61,9 @@ class Database extends CI_Model {
         }
 	}
 	public function cargar_indicador_indicadores(){
-		$this->db->db_select('dss');
-		$query = $this->db->query("SELECT * FROM indicador_indicadores ORDER BY id DESC limit 1");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("SELECT * FROM indicador_indicadores ORDER BY id DESC limit 1");
 		if($query -> num_rows() > 0)
         {
             return $query->result_array()[0];
@@ -68,8 +74,9 @@ class Database extends CI_Model {
         }
 	}
 	public function guardar_indicador_indicadores($opcion,$usuario_admin=null,$fecha=null,$dia=null,$mes=null,$ano=null,$periodo_inicio=null,$periodo_fin=null){
-		$this->db->db_select('dss');
-		$query = $this->db->query("INSERT INTO indicador_indicadores(opcion,usuario_admin,fecha,dia,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$dia','$mes','$ano','$periodo_inicio','$periodo_fin')");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("INSERT INTO indicador_indicadores(opcion,usuario_admin,fecha,dia,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$dia','$mes','$ano','$periodo_inicio','$periodo_fin')");
 		if($query)
         {
             return true;
@@ -80,8 +87,9 @@ class Database extends CI_Model {
         }
 	}
 	public function cargar_indicador_crecimiento(){
-		$this->db->db_select('dss');
-		$query = $this->db->query("SELECT * FROM indicador_crecimiento ORDER BY id DESC limit 1");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("SELECT * FROM indicador_crecimiento ORDER BY id DESC limit 1");
 		if($query -> num_rows() > 0)
         {
             return $query->result_array()[0];
@@ -92,8 +100,9 @@ class Database extends CI_Model {
         }
 	}
 	public function guardar_indicador_crecimiento($opcion,$usuario_admin=null,$fecha=null,$periodo1_inicio=null,$periodo1_fin=null,$periodo2_inicio=null,$periodo2_fin=null){
-		$this->db->db_select('dss');
-		$query = $this->db->query("INSERT INTO indicador_crecimiento(opcion,usuario_admin,fecha,periodo1,periodo2,periodo3,periodo4) values ('$opcion','$usuario_admin','$fecha','$periodo1_inicio','$periodo1_fin','$periodo2_inicio','$periodo2_fin')");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("INSERT INTO indicador_crecimiento(opcion,usuario_admin,fecha,periodo1,periodo2,periodo3,periodo4) values ('$opcion','$usuario_admin','$fecha','$periodo1_inicio','$periodo1_fin','$periodo2_inicio','$periodo2_fin')");
 		if($query)
         {
             return true;
@@ -104,8 +113,9 @@ class Database extends CI_Model {
         }
 	}
 	public function cargar_indicador_tiempo_promedio(){
-		$this->db->db_select('dss');
-		$query = $this->db->query("SELECT * FROM indicador_tiempo_promedio ORDER BY id DESC limit 1");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("SELECT * FROM indicador_tiempo_promedio ORDER BY id DESC limit 1");
 		if($query -> num_rows() > 0)
         {
             return $query->result_array()[0];
@@ -117,8 +127,9 @@ class Database extends CI_Model {
 	}
 
 	public function guardar_indicador_tiempo_promedio($opcion,$usuario_admin=null,$fecha=null,$mes=null,$ano=null,$periodo_inicio=null,$periodo_fin=null){
-		$this->db->db_select('dss');
-		$query = $this->db->query("INSERT INTO indicador_tiempo_promedio(opcion,usuario_admin,fecha,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$mes','$ano','$periodo_inicio','$periodo_fin')");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("INSERT INTO indicador_tiempo_promedio(opcion,usuario_admin,fecha,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$mes','$ano','$periodo_inicio','$periodo_fin')");
 		if($query)
         {
             return true;
@@ -129,8 +140,9 @@ class Database extends CI_Model {
         }
 	}
 	public function cargar_indicador_actividad_usuario(){
-		$this->db->db_select('dss');
-		$query = $this->db->query("SELECT * FROM indicador_actividad_usuario ORDER BY id DESC limit 1");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("SELECT * FROM indicador_actividad_usuario ORDER BY id DESC limit 1");
 		if($query -> num_rows() > 0)
         {
             return $query->result_array()[0];
@@ -141,8 +153,9 @@ class Database extends CI_Model {
         }
 	}
 	public function guardar_indicador_actividad_usuario($opcion,$usuario_admin=null,$fecha=null,$usuario1=null,$usuario2=null,$tipo_usuario=null,$dia=null,$mes=null,$ano=null){
-		$this->db->db_select('dss');
-		$query = $this->db->query("INSERT INTO indicador_actividad_usuario(opcion,usuario_admin,fecha,usuario1,usuario2,tipo_usuario,dia,mes,ano) values ('$opcion','$usuario_admin','$fecha','$usuario1','$usuario2','$tipo_usuario','$dia','$mes','$ano')");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("INSERT INTO indicador_actividad_usuario(opcion,usuario_admin,fecha,usuario1,usuario2,tipo_usuario,dia,mes,ano) values ('$opcion','$usuario_admin','$fecha','$usuario1','$usuario2','$tipo_usuario','$dia','$mes','$ano')");
 		if($query)
         {
             return true;
@@ -153,8 +166,9 @@ class Database extends CI_Model {
         }
 	}
 	public function cargar_indicador_resumen(){
-		$this->db->db_select('dss');
-		$query = $this->db->query("SELECT * FROM indicador_resumen ORDER BY id DESC limit 1");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("SELECT * FROM indicador_resumen ORDER BY id DESC limit 1");
 		if($query -> num_rows() > 0)
         {
             return $query->result_array()[0];
@@ -165,8 +179,9 @@ class Database extends CI_Model {
         }
 	}
 	public function guardar_indicador_resumen($opcion,$usuario_admin=null,$fecha=null,$dia=null,$mes=null,$ano=null,$periodo_inicio=null,$periodo_fin=null){
-		$this->db->db_select('dss');
-		$query = $this->db->query("INSERT INTO indicador_resumen(opcion,usuario_admin,fecha,dia,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$dia','$mes','$ano','$periodo_inicio','$periodo_fin')");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("INSERT INTO indicador_resumen(opcion,usuario_admin,fecha,dia,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$dia','$mes','$ano','$periodo_inicio','$periodo_fin')");
 		if($query)
         {
             return true;
@@ -177,8 +192,9 @@ class Database extends CI_Model {
         }
 	}
 	public function cargar_indicador_duracion_transicion(){
-		$this->db->db_select('dss');
-		$query = $this->db->query("SELECT * FROM indicador_duracion_transicion ORDER BY id DESC limit 1");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("SELECT * FROM indicador_duracion_transicion ORDER BY id DESC limit 1");
 		if($query -> num_rows() > 0)
         {
             return $query->result_array()[0];
@@ -189,8 +205,9 @@ class Database extends CI_Model {
         }
 	}
 	public function guardar_indicador_duracion_transicion($opcion,$usuario_admin=null,$fecha=null,$tipo_usuario=null,$usuario=null,$transicion=null,$dia=null,$mes=null,$ano=null,$periodo_inicio=null,$periodo_fin=null){
-		$this->db->db_select('dss');
-		$query = $this->db->query("INSERT INTO indicador_duracion_transicion(opcion,usuario_admin,fecha,tipo_usuario,usuario,transicion,dia,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$tipo_usuario','$usuario','$transicion','$dia','$mes','$ano','$periodo_inicio','$periodo_fin')");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("INSERT INTO indicador_duracion_transicion(opcion,usuario_admin,fecha,tipo_usuario,usuario,transicion,dia,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$tipo_usuario','$usuario','$transicion','$dia','$mes','$ano','$periodo_inicio','$periodo_fin')");
 		if($query)
         {
             return true;
@@ -201,8 +218,9 @@ class Database extends CI_Model {
         }
 	}
 	public function cargar_indicador_duracion_workflow(){
-		$this->db->db_select('dss');
-		$query = $this->db->query("SELECT * FROM indicador_duracion_workflow ORDER BY id DESC limit 1");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("SELECT * FROM indicador_duracion_workflow ORDER BY id DESC limit 1");
 		if($query -> num_rows() > 0)
         {
             return $query->result_array()[0];
@@ -213,8 +231,9 @@ class Database extends CI_Model {
         }
 	}
 	public function guardar_indicador_duracion_workflow($opcion,$usuario_admin=null,$fecha=null,$tipo_usuario=null,$usuario=null,$workflow=null,$dia=null,$mes=null,$ano=null,$periodo_inicio=null,$periodo_fin=null){
-		$this->db->db_select('dss');
-		$query = $this->db->query("INSERT INTO indicador_duracion_workflow(opcion,usuario_admin,fecha,tipo_usuario,usuario,workflow,dia,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$tipo_usuario','$usuario','$workflow','$dia','$mes','$ano','$periodo_inicio','$periodo_fin')");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("INSERT INTO indicador_duracion_workflow(opcion,usuario_admin,fecha,tipo_usuario,usuario,workflow,dia,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$tipo_usuario','$usuario','$workflow','$dia','$mes','$ano','$periodo_inicio','$periodo_fin')");
 		if($query)
         {
             return true;
@@ -225,8 +244,9 @@ class Database extends CI_Model {
         }
 	}
 	public function cargar_indicador_ultimas(){
-		$this->db->db_select('dss');
-		$query = $this->db->query("SELECT * FROM indicador_ultimas ORDER BY id DESC limit 1");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("SELECT * FROM indicador_ultimas ORDER BY id DESC limit 1");
 		if($query -> num_rows() > 0)
         {
             return $query->result_array()[0];
@@ -237,8 +257,9 @@ class Database extends CI_Model {
         }
 	}
 	public function guardar_indicador_ultimas($usuario_admin=null,$fecha=null,$rangoft=null,$rangotran=null){
-		$this->db->db_select('dss');
-		$query = $this->db->query("INSERT INTO indicador_ultimas(usuario_admin,fecha,ultimas_instancias,ultimas_transiciones) values ('$usuario_admin','$fecha','$rangoft','$rangotran')");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("INSERT INTO indicador_ultimas(usuario_admin,fecha,ultimas_instancias,ultimas_transiciones) values ('$usuario_admin','$fecha','$rangoft','$rangotran')");
 		if($query)
         {
             return true;
@@ -249,8 +270,9 @@ class Database extends CI_Model {
         }
 	}
 	public function cargar_alarmas_workflow(){
-		$this->db->db_select('dss');
-		$query = $this->db->query("SELECT * FROM alarmas_workflow");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("SELECT * FROM alarmas_workflow");
 		if($query -> num_rows() > 0)
         {
             return $query->result_array();
@@ -263,8 +285,9 @@ class Database extends CI_Model {
 
 	
 	public function cargar_alarmas_transicion(){
-		$this->db->db_select('dss');
-		$query = $this->db->query("SELECT * FROM alarmas_transicion");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("SELECT * FROM alarmas_transicion");
 		if($query -> num_rows() > 0)
         {
             return $query->result_array();
@@ -289,9 +312,10 @@ class Database extends CI_Model {
         }
         else
         {
-        	$this->db->db_select('dss');
+        	//$this->db->db_select('dss');
+        	$this->db2 = $this->load->database('dss', TRUE);
         	
-            $query = $this->db->query("SELECT * FROM usuarios WHERE username = '$usuario' AND contrasena = '$pass'");
+            $query = $this->db2->query("SELECT * FROM usuarios WHERE username = '$usuario' AND contrasena = '$pass'");
 			if($query -> num_rows() > 0)
 	        {
 	        	$data['usuario'] = $query->result_array()[0]['username'];
@@ -305,6 +329,7 @@ class Database extends CI_Model {
 
 	public function search_user($usuario){
 		$this->db->db_select('workflow');
+
 		$query = $this->db->query("SELECT * FROM usuario WHERE id_usuario = '$usuario'");
 		if($query -> num_rows() > 0)
         {
@@ -312,8 +337,9 @@ class Database extends CI_Model {
         }
         else
         {
-        	$this->db->db_select('dss');
-            $query = $this->db->query("SELECT * FROM usuarios WHERE username = '$usuario'");
+        	//$this->db->db_select('dss');
+        	$this->db2 = $this->load->database('dss', TRUE);
+            $query = $this->db2->query("SELECT * FROM usuarios WHERE username = '$usuario'");
 			if($query -> num_rows() > 0)
 	        {
 	            return $query->result_array();
@@ -326,9 +352,10 @@ class Database extends CI_Model {
 	}
 
 	public function singin($username,$nombre,$apellido,$email,$tipo){
-		$this->db->db_select('dss');
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
 		$pass = md5($pass);
-		$query = $this->db->query("INSERT INTO usuarios(username,nombre,apellido,email,tipo,contrasena) values ('$username','$nombre','$apellido','$email','$tipo','$pass')");
+		$query = $this->db2->query("INSERT INTO usuarios(username,nombre,apellido,email,tipo,contrasena) values ('$username','$nombre','$apellido','$email','$tipo','$pass')");
 		if($query)
         {
             return true;
@@ -340,8 +367,9 @@ class Database extends CI_Model {
 	}
 
 	public function modificar($username,$nombre,$apellido,$email,$tipo){
-		$this->db->db_select('dss');
-		$query = $this->db->query("UPDATE usuarios SET nombre='$nombre',apellido='$apellido',email='$email',tipo='$tipo' WHERE username = '$username'");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("UPDATE usuarios SET nombre='$nombre',apellido='$apellido',email='$email',tipo='$tipo' WHERE username = '$username'");
 		if($query)
         {
             return true;
@@ -353,9 +381,10 @@ class Database extends CI_Model {
 	}
 
 	public function primerLogin($username,$contrasena){
-		$this->db->db_select('dss');
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
 		$contrasena = md5($contrasena);
-		$query = $this->db->query("UPDATE usuarios SET contrasena='$contrasena' WHERE username = '$username'");
+		$query = $this->db2->query("UPDATE usuarios SET contrasena='$contrasena' WHERE username = '$username'");
 		if($query)
         {
             return true;
@@ -367,8 +396,9 @@ class Database extends CI_Model {
 	}
 
 	public function delete($username){
-		$this->db->db_select('dss');
-		$query = $this->db->query("DELETE FROM usuarios WHERE username = '$username'");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("DELETE FROM usuarios WHERE username = '$username'");
 		if($query)
         {
             return true;
@@ -380,9 +410,10 @@ class Database extends CI_Model {
 	}
 
 	public function reiniciarContrasena($username){
-		$this->db->db_select('dss');
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
 		$contrasena = md5($contrasena);
-		$query = $this->db->query("UPDATE usuarios SET contrasena='$contrasena' WHERE username = '$username'");
+		$query = $this->db2->query("UPDATE usuarios SET contrasena='$contrasena' WHERE username = '$username'");
 		if($query)
         {
             return true;
@@ -394,8 +425,9 @@ class Database extends CI_Model {
 	}
 
 	public function usuarioslist(){
-		$this->db->db_select('dss');
-		$query = $this->db->query("SELECT * FROM usuarios");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("SELECT * FROM usuarios");
 		if($query -> num_rows() > 0)
         {
             return $query->result_array();
@@ -1348,8 +1380,9 @@ class Database extends CI_Model {
 	}
 
 	public function guardar_alarma_workflow($usuario_admin=null,$fecha,$nombre,$descripcion,$workflow=null,$instancia=null,$tipousuario=null,$usuario=null,$tiempo_max=null){
-		$this->db->db_select('dss');
-		$query = $this->db->query("INSERT INTO alarmas_workflow(usuario_admin,fecha,nombre,descripcion,workflow,instancia,tipo_usuario,usuario,tiempo_max) values ('$usuario_admin','$fecha','$nombre','$descripcion','$workflow','$instancia','$tipousuario','$usuario','$tiempo_max')");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("INSERT INTO alarmas_workflow(usuario_admin,fecha,nombre,descripcion,workflow,instancia,tipo_usuario,usuario,tiempo_max) values ('$usuario_admin','$fecha','$nombre','$descripcion','$workflow','$instancia','$tipousuario','$usuario','$tiempo_max')");
 		if($query)
         {
             return true;
@@ -1361,8 +1394,9 @@ class Database extends CI_Model {
 	}
 
 	public function eliminar_alarma_workflow($id){
-		$this->db->db_select('dss');
-		$query = $this->db->query("DELETE FROM alarmas_workflow WHERE id = '$id'");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("DELETE FROM alarmas_workflow WHERE id = '$id'");
 		if($query)
         {
             return true;
@@ -1453,8 +1487,9 @@ class Database extends CI_Model {
 	}
 
 	public function guardar_alarma_transicion($usuario_admin=null,$fecha,$nombre,$descripcion,$workflow=null,$instancia=null,$tipousuario=null,$usuario=null,$tiempo_max=null){
-		$this->db->db_select('dss');
-		$query = $this->db->query("INSERT INTO alarmas_transicion(usuario_admin,fecha,nombre,descripcion,workflow,instancia,tipo_usuario,usuario,tiempo_max) values ('$usuario_admin','$fecha','$nombre','$descripcion','$workflow','$instancia','$tipousuario','$usuario','$tiempo_max')");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("INSERT INTO alarmas_transicion(usuario_admin,fecha,nombre,descripcion,workflow,instancia,tipo_usuario,usuario,tiempo_max) values ('$usuario_admin','$fecha','$nombre','$descripcion','$workflow','$instancia','$tipousuario','$usuario','$tiempo_max')");
 		if($query)
         {
             return true;
@@ -1466,8 +1501,9 @@ class Database extends CI_Model {
 	}
 
 	public function eliminar_alarma_transicion($id){
-		$this->db->db_select('dss');
-		$query = $this->db->query("DELETE FROM alarmas_transicion WHERE id = '$id'");
+		//$this->db->db_select('dss');
+		$this->db2 = $this->load->database('dss', TRUE);
+		$query = $this->db2->query("DELETE FROM alarmas_transicion WHERE id = '$id'");
 		if($query)
         {
             return true;

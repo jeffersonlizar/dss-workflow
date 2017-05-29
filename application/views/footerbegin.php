@@ -28,7 +28,7 @@
 
 		<script type="text/javascript">
 			var servidor =  '<?php echo base_url() ?>';
-			var ubicacion =  '<?php echo ubicacion() ?>';
+			var ubicacion =  location.pathname;
 			
 		</script>
 		
