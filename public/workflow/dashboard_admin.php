@@ -29,7 +29,7 @@ if (empty($_SESSION['id_usuario'])) {
                 </button>
                 <ul class="dropdown-menu">
                     <li><a href="categorias/lista.php">Categorias</a></li>
-                    <li><a href="workflow.php">Agregar un nuevo workflow</a></li>
+                    <li><a href="workflow/lista.php">Flujos de trabajo</a></li>
                     <li><a href="estado.php">Agregar un nuevo estado</a></li>
                     <li><a href="transicion.php">Agregar un nueva transicion</a></li>
                 </ul>
