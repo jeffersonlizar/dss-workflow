@@ -7,17 +7,16 @@ if (empty($_SESSION['id_usuario'])) {
     header("refresh:0; url=../index.php");
     die();
 }
-$categoria['id_workflow'] = '';
-$categoria['nombre'] = '';
-$categoria['descripcion'] = '';
-$descripcion_error = $descripcion = "";
+$workflow_data['id_workflow'] = '';
+$workflow_data['nombre'] = '';
+$workflow_data['descripcion'] = '';
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $id = limpiar_data($_POST['id']);
+    $id_workflow = limpiar_data($_POST['id_workflow']);
     $nombre = limpiar_data($_POST['nombre']);
     $descripcion = limpiar_data($_POST['descripcion']);
-    $categoria = $_POST['categoria'];
-    if ((isset($_POST['id']) && (!empty($_POST['id'])))) {
-        $query = "UPDATE workflow SET descripcion = '$descripcion', nombre = '$nombre', id_categoria = '$categoria' WHERE id_workflow = '$id' ";
+    $id_categoria = $_POST['categoria'];
+    if ((isset($_POST['id_workflow'])) && (!empty($_POST['id_workflow']))) {
+        $query = "UPDATE workflow SET descripcion = '$descripcion', nombre = '$nombre', id_categoria = '$id_categoria' WHERE id_workflow = '$id_workflow' ";
         $result = mysqli_query($link, $query);
         if (mysqli_query($link, $query)) {
             echo '<script> alert("Se ha actualizado exitosamente")</script>';
@@ -30,22 +29,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
         mysqli_close($link);
     } else {
-        if (empty($_POST['descripcion']))
-            $descripcion_error = "Debe Ingresar la descripcion";
-        else {
+        if ((!empty($_POST['descripcion'])) && (!empty($_POST['nombre']))) {
             $nombre = limpiar_data($_POST['nombre']);
             $descripcion = limpiar_data($_POST['descripcion']);
             $categoria = $_POST['categoria'];
-            $query = "SELECT COUNT(*) FROM workflow";
-            $result = mysqli_query($link, $query);
-            if (mysqli_num_rows($result) > 0) {
-                $row = mysqli_fetch_assoc($result);
-                $num = $row['COUNT(*)'];
-            }
-            $query = "INSERT INTO workflow (id_workflow,nombre,descripcion,id_categoria) VALUES('$num','$nombre','$descripcion','$categoria')";
+            $query = "INSERT INTO workflow (nombre,descripcion,id_categoria) VALUES('$nombre','$descripcion','$categoria')";
             if (mysqli_query($link, $query)) {
                 echo '<script> alert("Se ha registrado exitosamente")</script>';
-                header("Refresh:0");
+                header("refresh:0; url=lista.php");
                 die();
             } else {
                 echo '<script> alert("Se ha producido un error al registrar")</script>';
@@ -58,10 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 }
 
 if ($_GET) {
-    $categoria_id = $_GET['id'];
-    $query = "SELECT * FROM workflow WHERE id_workflow = '$categoria_id'";
+    $id_workflow = $_GET['id'];
+    $query = "SELECT * FROM workflow WHERE id_workflow = '$id_workflow'";
     $result = mysqli_query($link, $query);
-    $categoria = mysqli_fetch_assoc($result);
+    $workflow_data = mysqli_fetch_assoc($result);
 }
 
 
@@ -80,16 +71,17 @@ function limpiar_data($data)
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" >
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/sign-in.css" rel="stylesheet">
+    <link href="../css/form.css" rel="stylesheet">
     <title>Flujo de trabajo - Sistema de registro de flujos de trabajo</title>
 </head>
 <body>
 <div class="container">
     <div class="card card-container">
         <div class="center-align">
-            <?php if (!empty($categoria['descripcion'])): ?>
+            <?php if (!empty($workflow_data['nombre'])): ?>
                 <h3 class="uppercase">Modificar flujo de trabajo</h3>
             <?php else: ?>
                 <h3 class="uppercase">Nuevo flujo de trabajo</h3>
@@ -100,25 +92,29 @@ function limpiar_data($data)
         </div>
         <p id="profile-name" class="profile-name-card"></p>
         <form method="post" class="form-signin" id="category-new">
-            <input type="hidden" name="id" value="<?php echo $categoria['id_workflow'] ?>">
+            <input type="hidden" name="id_workflow" value="<?php echo $workflow_data['id_workflow'] ?>">
             <input type="text" name="nombre" class="form-control" placeholder="Nombre"
-                   value="<?php echo $categoria['nombre'] ?>"
+                   value="<?php echo $workflow_data['nombre'] ?>"
                    required autofocus>
             <input type="text" name="descripcion" class="form-control" placeholder="Descripción"
-                   value="<?php echo $categoria['descripcion'] ?>"
+                   value="<?php echo $workflow_data['descripcion'] ?>"
                    required autofocus>
-            <select class="form-control" name="categoria">
+            <label for="categoria">Categoría</label>
+            <select class="form-control" name="categoria" id="categoria">
                 <?php
                 $query = "SELECT * FROM categoria";
                 $result = mysqli_query($link, $query);
                 if (mysqli_num_rows($result) > 0)
                     while ($row = mysqli_fetch_assoc($result)) {
-                        echo '<option value="' . $row['id_categoria'] . '">' . $row['descripcion'] . '</option>';
+                        echo '<option ';
+                        if ($row['id_categoria'] == $workflow_data['id_categoria'])
+                            echo 'selected ';
+                        echo ' value="' . $row['id_categoria'] . '">' . $row['descripcion'] . '</option>';
                     }
                 ?>
             </select>
             <button class="btn btn-lg btn-primary btn-block btn-wrk" type="submit">
-                <?php if (!empty($categoria['descripcion'])) {
+                <?php if (!empty($workflow_data['nombre'])) {
                     echo 'Modificar';
                 } else {
                     echo 'Registrar';
@@ -145,6 +141,9 @@ function limpiar_data($data)
                     required: true,
                     minlength: 3,
                     maxlength: 150
+                },
+                categoria: {
+                    required: true
                 }
             }
         });

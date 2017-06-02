@@ -108,6 +108,7 @@ body, html {
     -moz-transition: all 0.218s;
     -webkit-transition: all 0.218s;
     transition: all 0.218s;
+    margin-top:5px;
 }
 
 .btn {
@@ -135,4 +136,6 @@ body, html {
 #panel-admin {
     color: #fff !important;
 }
-
+input.form-control, select.form-control{
+    margin-bottom: 5px ;
+}

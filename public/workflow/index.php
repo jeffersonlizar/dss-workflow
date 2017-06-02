@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/sign-in.css" rel="stylesheet">
+    <link href="css/form.css" rel="stylesheet">
     <title>Login - Sistema de registro de flujos de trabajo</title>
 </head>
 <body>

@@ -12,7 +12,7 @@ if (empty($_SESSION['id_usuario'])) {
 
 if ($_POST) {
     $id = $_POST['id'];
-    $query = "DELETE  FROM workflow WHERE id_workflow = '$id' ";
+    $query = "DELETE  FROM estado WHERE id_estado = '$id' ";
     $result = mysqli_query($link, $query);
     if (mysqli_query($link, $query)) {
         echo '<script> alert("Se ha eliminado exitosamente")</script>';
@@ -26,9 +26,12 @@ if ($_POST) {
     mysqli_close($link);
 }
 
-//muesta todas las intancias creadas, primero las q no se han terminado y luego las terminadas por orden de la fecha de inicio
-$query = "SELECT id_workflow,workflow.nombre,workflow.descripcion, categoria.descripcion as categoria FROM workflow INNER JOIN categoria on workflow.id_categoria = categoria.id_categoria ORDER BY workflow.id_workflow";
-$result = mysqli_query($link, $query);
+$query= "SELECT estado.id_estado, estado.nombre as nombre_estado,estado.inicial,estado.final,workflow.nombre,tipo_usuario.descripcion
+	FROM estado 
+	INNER JOIN workflow ON estado.id_workflow = workflow.id_workflow  
+	INNER JOIN tipo_usuario on estado.id_tipo = tipo_usuario.id_tipo
+	ORDER BY estado.id_estado";
+$result = mysqli_query($link,$query);
 
 ?>
 <!DOCTYPE html>
@@ -39,17 +42,17 @@ $result = mysqli_query($link, $query);
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
-    <title>Flujos de trabajo - Sistema de registro de flujos de trabajo</title>
+    <title>Estados - Sistema de registro de flujos de trabajo</title>
 </head>
 <body>
 <div class="container">
     <div class="card card-container">
         <div class="center-align">
             <h3 class="text-uppercase">Sistema de registro de flujos de trabajo</h3>
-            <h4 class="text-uppercase">Flujos de trabajo</h4>
+            <h4 class="text-uppercase">Estados</h4>
         </div>
         <div class="btn-toolbar">
-            <a class="btn btn-primary btn-wrk" href="workflow.php">Nuevo flujo de trabajo</a>
+            <a class="btn btn-primary btn-wrk" href="estado.php">Nuevo estado</a>
             <a class="btn btn-primary btn-wrk" href="../dashboard_admin.php">Panel principal</a>
         </div>
         <div class="well">
@@ -58,8 +61,10 @@ $result = mysqli_query($link, $query);
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Categoría</th>
+                    <th>Inicial</th>
+                    <th>Final</th>
+                    <th>Flujo de trabajo</th>
+                    <th>Tipo de usuario</th>
                     <th style="width: 36px;"></th>
                 </tr>
                 </thead>
@@ -67,17 +72,28 @@ $result = mysqli_query($link, $query);
                 <?php
                 if (mysqli_num_rows($result) > 0):
                     while ($row = mysqli_fetch_assoc($result)):
+                        $final = 'no';
+                        $inicial = 'no';
+                        if ($row['inicial']=='1'){
+                            $inicial = 'si';
+                        }
+                        if ($row['final']=='1'){
+                            $final = 'si';
+                        }
                         ?>
                         <tr>
-                            <td><?php echo $row['id_workflow'] ?></td>
+                            <td><?php echo $row['id_estado'] ?></td>
+                            <td><?php echo $row['nombre_estado'] ?></td>
+
+                            <td><?php echo $inicial ?></td>
+                            <td><?php echo $final ?></td>
                             <td><?php echo $row['nombre'] ?></td>
                             <td><?php echo $row['descripcion'] ?></td>
-                            <td><?php echo $row['categoria'] ?></td>
                             <td>
-                                <a href="workflow.php?id=<?php echo $row['id_workflow'] ?>"><i
+                                <a href="estado.php?id=<?php echo $row['id_estado'] ?>"><i
                                             class="glyphicon glyphicon-pencil"></i></a>
-                                <a href="#" data-toggle="modal" class="delete-workflow"
-                                   data-id="<?php echo $row['id_workflow'] ?>" data-target="#myModal"><i
+                                <a href="#" data-toggle="modal" class="delete-estado"
+                                   data-id="<?php echo $row['id_estado'] ?>" data-target="#myModal"><i
                                             class="glyphicon glyphicon-remove"></i></a>
                             </td>
                         </tr>
@@ -95,10 +111,10 @@ $result = mysqli_query($link, $query);
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Eliminar flujo de trabajo</h4>
+                        <h4 class="modal-title">Eliminar estado</h4>
                     </div>
                     <div class="modal-body">
-                        <p class="error-text">Desea eliminar el flujo de trabajo?</p>
+                        <p class="error-text">Desea eliminar el estado?</p>
                     </div>
                     <div class="modal-footer">
                         <button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
@@ -108,20 +124,21 @@ $result = mysqli_query($link, $query);
             </div>
         </div>
     </div><!-- /card-container -->
-    <form action="" id="delete-workflow" method="post">
-        <input type="hidden" name="id" id="id-workflow">
+    <form action="" id="delete-estado" method="post">
+        <input type="hidden" name="id" id="id-estado">
     </form>
 </div><!-- /container -->
 <script src="../js/jquery-2.1.1.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 <script>
-    $(".delete-workflow").click(function () {
+    $(".delete-estado").click(function () {
         var id = $(this).attr('data-id');
-        $("#id-workflow").val(id);
+        $("#id-estado").val(id);
     });
     $("#delete-item").click(function () {
-        $("#delete-workflow").submit();
+        $("#delete-estado").submit();
     })
 </script>
 </body>
 </html>
+

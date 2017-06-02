@@ -27,7 +27,7 @@ if ($_POST){
 }
 
 //muesta todas las intancias creadas, primero las q no se han terminado y luego las terminadas por orden de la fecha de inicio
-$query = "SELECT * FROM categoria";
+$query = "SELECT * FROM categoria  ORDER BY categoria.id_categoria";
 $result = mysqli_query($link, $query);
 
 ?>

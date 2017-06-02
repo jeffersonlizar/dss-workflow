@@ -13,33 +13,25 @@ $descripcion_error = $descripcion = "";
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $id = limpiar_data($_POST['id']);
     $descripcion = limpiar_data($_POST['descripcion']);
-    if ((isset($_POST['id'])) ){
+    if ((isset($_POST['id']))&&(!empty($_POST['id']))){
         $query = "UPDATE categoria SET descripcion = '$descripcion' WHERE id_categoria = '$id' ";
         $result = mysqli_query($link, $query);
         if (mysqli_query($link, $query)) {
             echo '<script> alert("Se ha actualizado exitosamente")</script>';
             header("refresh:0; url=lista.php");
-            die();
         } else {
             echo '<script> alert("Se ha producido un error al actualizar")</script>';
             header("Refresh:0");
-            die();
         }
         mysqli_close($link);
+        die();
     }
     else{
         if (empty($_POST['descripcion']))
             $descripcion_error = "Debe Ingresar la descripcion";
         else {
             $descripcion = limpiar_data($_POST['descripcion']);
-            //cuento la cantidad de datos en la tabla para insertar con el id=cant
-            $query = "SELECT COUNT(*) FROM categoria";
-            $result = mysqli_query($link, $query);
-            if (mysqli_num_rows($result) > 0) {
-                $row = mysqli_fetch_assoc($result);
-                $num = $row['COUNT(*)'];
-            }
-            $query = "INSERT INTO categoria (id_categoria,descripcion) VALUES('$num','$descripcion')";
+            $query = "INSERT INTO categoria (descripcion) VALUES('$descripcion')";
             if (mysqli_query($link, $query)) {
                 echo '<script> alert("Se ha registrado exitosamente")</script>';
                 header("refresh:0; url=lista.php");
@@ -48,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 header("Refresh:0");
             }
             mysqli_close($link);
+            die();
         }
     }
 }
@@ -77,7 +70,7 @@ function limpiar_data($data)
     <meta charset="UTF-8">
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/sign-in.css" rel="stylesheet">
+    <link href="../css/form.css" rel="stylesheet">
     <title>Categorías - Sistema de registro de flujos de trabajo</title>
 </head>
 <body>
