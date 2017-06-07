@@ -21,7 +21,7 @@ foreach ($data_trans as $value):
             text: '<?php echo $value['nombre'] ?>'
         },
         <?php
-            $subtitulo_alarm = 'Descripción: '.$value['descripcion'].'<br>Instancia: #'.$val['id_instancia'].' '.$val['titulo'].'<br>Proceso: #'.$val['id_proceso'].'<br>Transición: '.$val['transicion'];
+            $subtitulo_alarm = 'Descripción: '.$value['descripcion'].'<br>Instancia: #'.$val['id_instancia'].' '.$val['titulo'].'<br>Proceso: #'.$val['id_proceso'].'<br>Transición: '.$val['transiciones'];
             if($value['tiempo_max']!=''){
                 $max = intval(($value['tiempo_max']/60)/24);
                 $section1 = $max*0.60;

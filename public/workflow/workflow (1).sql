@@ -1247,7 +1247,7 @@ INSERT INTO `tipo_usuario` (`id_tipo`, `descripcion`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `transicion`
+-- Table structure for table `transiciones`
 --
 
 CREATE TABLE `transicion` (
@@ -1259,7 +1259,7 @@ CREATE TABLE `transicion` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `transicion`
+-- Dumping data for table `transiciones`
 --
 
 INSERT INTO `transicion` (`id_transicion`, `nombre`, `descripcion`, `estado_siguiente`, `estado_asociado`) VALUES
@@ -1389,7 +1389,7 @@ ALTER TABLE `tipo_usuario`
   ADD PRIMARY KEY (`id_tipo`);
 
 --
--- Indexes for table `transicion`
+-- Indexes for table `transiciones`
 --
 ALTER TABLE `transicion`
   ADD PRIMARY KEY (`id_transicion`),
@@ -1445,7 +1445,7 @@ ALTER TABLE `proceso`
   ADD CONSTRAINT `proceso_ibfk_3` FOREIGN KEY (`id_transicion`) REFERENCES `transicion` (`id_transicion`);
 
 --
--- Constraints for table `transicion`
+-- Constraints for table `transiciones`
 --
 ALTER TABLE `transicion`
   ADD CONSTRAINT `transicion_ibfk_1` FOREIGN KEY (`estado_siguiente`) REFERENCES `estado` (`id_estado`),

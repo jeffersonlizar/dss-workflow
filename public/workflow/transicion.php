@@ -45,13 +45,13 @@
 				$nombre=limpiar_data($nombre);
 				$descripcion=limpiar_data($descripcion);
 
-				$query='SELECT count(*) FROM transicion';
+				$query='SELECT count(*) FROM transiciones';
 				$result= mysqli_query($link,$query);
 				if(mysqli_num_rows($result)>0){
 					while($row=mysqli_fetch_assoc($result))
 						$num=$row['count(*)'];
 				}			
-				$query="INSERT INTO transicion (id_transicion,nombre,descripcion,estado_asociado,estado_siguiente) VALUES ('$num','$nombre','$descripcion','$asociado','$siguiente')";
+				$query="INSERT INTO transiciones (id_transicion,nombre,descripcion,estado_asociado,estado_siguiente) VALUES ('$num','$nombre','$descripcion','$asociado','$siguiente')";
 				if (mysqli_query($link,$query))
 			{
 				echo '<script> alert("Se ha registrado exitosamente")</script>';
@@ -170,12 +170,12 @@
 
 	<?php 
 	//muestra todas las transiciones registradas 
-	$query= "select transicion.nombre, esta.nombre as asociado, est.nombre as siguiente,workflow.nombre as nombre_workflow
-	from transicion
+	$query= "select transiciones.nombre, esta.nombre as asociado, est.nombre as siguiente,workflow.nombre as nombre_workflow
+	from transiciones
 	inner join estado as est
-	on transicion.estado_siguiente=est.id_estado
+	on transiciones.estado_siguiente=est.id_estado
 	inner join estado as esta 
-	on transicion.estado_asociado=esta.id_estado
+	on transiciones.estado_asociado=esta.id_estado
 	inner join workflow
 	on est.id_workflow=workflow.id_workflow";
 	$result = mysqli_query($link,$query);

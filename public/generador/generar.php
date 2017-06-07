@@ -168,7 +168,7 @@
 		$final=0;
 		//busca las transiciones del estado y selecciona una
 		$id_usuario=get_id_usuario($id_tipo);
-		$query="select * from transicion where transicion.estado_asociado='$id_estado'";
+		$query="select * from transiciones where transiciones.estado_asociado='$id_estado'";
 		$result=mysqli_query($GLOBALS['link'],$query);
 		if(mysqli_num_rows($result)>0){
 			$i=0;
@@ -178,11 +178,11 @@
 			shuffle($data);
 			$value = array_rand($data);
 			$transicion = $data[$value];
-			//se busca si la transicion llega a estado final
+			//se busca si la transiciones llega a estado final
 			$query="select id_transicion, id_estado,final
-			from transicion
+			from transiciones
 			inner join (select id_estado,nombre,final from estado) as est
-			on transicion.estado_siguiente=est.id_estado
+			on transiciones.estado_siguiente=est.id_estado
 			where id_transicion='$transicion'
 			and final=1";
 			$result=mysqli_query($GLOBALS['link'],$query);
@@ -193,10 +193,10 @@
 				$satisfactoria=mt_rand(0, 1);
 			}
 			//busca los usuarios que se le pueden asignar
-			$query="select transicion.id_transicion,estado.id_estado,estado.nombre,usuario.id_usuario
-			from transicion
+			$query="select transiciones.id_transicion,estado.id_estado,estado.nombre,usuario.id_usuario
+			from transiciones
 			inner join estado
-			on transicion.estado_siguiente=estado.id_estado
+			on transiciones.estado_siguiente=estado.id_estado
 			inner join usuario
 			on estado.id_tipo=usuario.id_tipo
 			where id_transicion='$transicion'";
@@ -265,7 +265,7 @@
 		}
 	}
 	function cargar_estados($id_instancia,$fecha_inicio,$fecha_final,$id_instancia_usuario_num){
-		$query="SELECT * FROM proceso INNER join (transicion) on transicion.id_transicion= proceso.id_transicion INNER JOIN (estado) on transicion.estado_siguiente=estado.id_estado where id_instancia = '$id_instancia' ORDER by id_proceso DESC LIMIT 1";
+		$query="SELECT * FROM proceso INNER join (transiciones) on transiciones.id_transicion= proceso.id_transicion INNER JOIN (estado) on transiciones.estado_siguiente=estado.id_estado where id_instancia = '$id_instancia' ORDER by id_proceso DESC LIMIT 1";
 		$result=mysqli_query($GLOBALS['link'],$query);
 		if ($result)
 		if(mysqli_num_rows($result)>0){

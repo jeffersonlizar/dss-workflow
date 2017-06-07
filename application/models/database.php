@@ -207,7 +207,7 @@ class Database extends CI_Model {
 	public function guardar_indicador_duracion_transicion($opcion,$usuario_admin=null,$fecha=null,$tipo_usuario=null,$usuario=null,$transicion=null,$dia=null,$mes=null,$ano=null,$periodo_inicio=null,$periodo_fin=null){
 		//$this->db->db_select('dss');
 		$this->db2 = $this->load->database('dss', TRUE);
-		$query = $this->db2->query("INSERT INTO indicador_duracion_transicion(opcion,usuario_admin,fecha,tipo_usuario,usuario,transicion,dia,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$tipo_usuario','$usuario','$transicion','$dia','$mes','$ano','$periodo_inicio','$periodo_fin')");
+		$query = $this->db2->query("INSERT INTO indicador_duracion_transicion(opcion,usuario_admin,fecha,tipo_usuario,usuario,transiciones,dia,mes,ano,periodo_inicio,periodo_fin) values ('$opcion','$usuario_admin','$fecha','$tipo_usuario','$usuario','$transicion','$dia','$mes','$ano','$periodo_inicio','$periodo_fin')");
 		if($query)
         {
             return true;
@@ -1037,11 +1037,11 @@ class Database extends CI_Model {
 		return $data;
 	}
 
-	//devuelve el nombre de la transicion
+	//devuelve el nombre de la transiciones
 	public function nombreTransicion($transicion){
 		$this->db->db_select('workflow');
 		$data= array();
-		$query = "SELECT nombre FROM transicion WHERE id_transicion =".$transicion."";
+		$query = "SELECT nombre FROM transiciones WHERE id_transicion =".$transicion."";
 		$sql = $this->db->query($query);
 		if($sql -> num_rows() > 0)
         {	        	
@@ -1180,12 +1180,12 @@ class Database extends CI_Model {
 		$rapido = array();
 		$cant = array();
 		$promedio = array();
-		$query_mas = "SELECT tran.nombre , COUNT(*) as cant FROM proceso AS pro INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tran on pro.id_transicion = tran.id_transicion WHERE (DATE(fecha) BETWEEN DATE(?) AND DATE(?)) GROUP by (tran.id_transicion) ORDER BY (cant) DESC LIMIT 1";
-		$query_menos = "SELECT tran.nombre , COUNT(*) as cant FROM proceso AS pro INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tran on pro.id_transicion = tran.id_transicion WHERE (DATE(fecha) BETWEEN DATE(?) AND DATE(?)) GROUP by (tran.id_transicion) ORDER BY (cant) ASC LIMIT 1";
-		$query_cant = "SELECT COUNT(*) as cant FROM proceso AS pro INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tran on pro.id_transicion = tran.id_transicion WHERE (DATE(fecha) BETWEEN DATE(?) AND DATE(?))";
-		$query_rapido = "SELECT tran.id_transicion,tran.nombre,TIME_TO_SEC(TIMEDIFF(pro2.fecha, pro1.fecha)) as time FROM proceso as pro2, proceso as pro1 INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tran on pro1.id_transicion = tran.id_transicion WHERE pro1.id_instancia = pro2.id_instancia AND pro1.id_proceso<pro2.id_proceso AND (DATE(pro1.fecha) BETWEEN DATE(?) AND DATE(?)) AND (DATE(pro2.fecha) BETWEEN DATE(?) AND DATE(?)) GROUP BY pro1.id_proceso ORDER BY time ASC";
-		$query_lento = "SELECT tran.id_transicion,tran.nombre,TIME_TO_SEC(TIMEDIFF(pro2.fecha, pro1.fecha)) as time FROM proceso as pro2, proceso as pro1 INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tran on pro1.id_transicion = tran.id_transicion WHERE pro1.id_instancia = pro2.id_instancia AND pro1.id_proceso<pro2.id_proceso AND (DATE(pro1.fecha) BETWEEN DATE(?) AND DATE(?)) AND (DATE(pro2.fecha) BETWEEN DATE(?) AND DATE(?)) GROUP BY pro1.id_proceso ORDER BY time DESC";
-		$query_transicion_nombre = "SELECT nombre FROM transicion WHERE id_transicion = ?";
+		$query_mas = "SELECT tran.nombre , COUNT(*) as cant FROM proceso AS pro INNER JOIN (SELECT id_transicion,nombre FROM transiciones) as tran on pro.id_transicion = tran.id_transicion WHERE (DATE(fecha) BETWEEN DATE(?) AND DATE(?)) GROUP by (tran.id_transicion) ORDER BY (cant) DESC LIMIT 1";
+		$query_menos = "SELECT tran.nombre , COUNT(*) as cant FROM proceso AS pro INNER JOIN (SELECT id_transicion,nombre FROM transiciones) as tran on pro.id_transicion = tran.id_transicion WHERE (DATE(fecha) BETWEEN DATE(?) AND DATE(?)) GROUP by (tran.id_transicion) ORDER BY (cant) ASC LIMIT 1";
+		$query_cant = "SELECT COUNT(*) as cant FROM proceso AS pro INNER JOIN (SELECT id_transicion,nombre FROM transiciones) as tran on pro.id_transicion = tran.id_transicion WHERE (DATE(fecha) BETWEEN DATE(?) AND DATE(?))";
+		$query_rapido = "SELECT tran.id_transicion,tran.nombre,TIME_TO_SEC(TIMEDIFF(pro2.fecha, pro1.fecha)) as time FROM proceso as pro2, proceso as pro1 INNER JOIN (SELECT id_transicion,nombre FROM transiciones) as tran on pro1.id_transicion = tran.id_transicion WHERE pro1.id_instancia = pro2.id_instancia AND pro1.id_proceso<pro2.id_proceso AND (DATE(pro1.fecha) BETWEEN DATE(?) AND DATE(?)) AND (DATE(pro2.fecha) BETWEEN DATE(?) AND DATE(?)) GROUP BY pro1.id_proceso ORDER BY time ASC";
+		$query_lento = "SELECT tran.id_transicion,tran.nombre,TIME_TO_SEC(TIMEDIFF(pro2.fecha, pro1.fecha)) as time FROM proceso as pro2, proceso as pro1 INNER JOIN (SELECT id_transicion,nombre FROM transiciones) as tran on pro1.id_transicion = tran.id_transicion WHERE pro1.id_instancia = pro2.id_instancia AND pro1.id_proceso<pro2.id_proceso AND (DATE(pro1.fecha) BETWEEN DATE(?) AND DATE(?)) AND (DATE(pro2.fecha) BETWEEN DATE(?) AND DATE(?)) GROUP BY pro1.id_proceso ORDER BY time DESC";
+		$query_transicion_nombre = "SELECT nombre FROM transiciones WHERE id_transicion = ?";
 		$sql = $this->db->query($query_mas, array($fecha_inicial,$fecha_final));		
 		if($sql -> num_rows() > 0)
         {	        	
@@ -1273,7 +1273,7 @@ class Database extends CI_Model {
 		$data['instancias'] = 0;
 		$data['procesos'] = 0;
 		$query_instancias = "SELECT * FROM instancia INNER JOIN (SELECT id_workflow,nombre FROM workflow) as wk ON instancia.id_workflow=wk.id_workflow WHERE DATE(fecha_inicio)=DATE(?) ORDER BY fecha_inicio  DESC LIMIT ?";
-		$query_procesos = "SELECT * FROM proceso INNER JOIN (SELECT id_transicion,nombre FROM transicion) as tr ON proceso.id_transicion=tr.id_transicion INNER JOIN (SELECT id_instancia,titulo as instancia_nombre FROM instancia) as ins ON proceso.id_instancia=ins.id_instancia WHERE DATE(fecha)=DATE(?) ORDER BY fecha DESC LIMIT ?";
+		$query_procesos = "SELECT * FROM proceso INNER JOIN (SELECT id_transicion,nombre FROM transiciones) as tr ON proceso.id_transicion=tr.id_transicion INNER JOIN (SELECT id_instancia,titulo as instancia_nombre FROM instancia) as ins ON proceso.id_instancia=ins.id_instancia WHERE DATE(fecha)=DATE(?) ORDER BY fecha DESC LIMIT ?";
 		$sql = $this->db->query($query_instancias, array($fecha,intval($cant_ins)));		
 		if($sql -> num_rows() > 0)
         {	        	
@@ -1451,16 +1451,16 @@ class Database extends CI_Model {
             $data = $sql->result_array();
             foreach ($data as $data) {
             	$value = $data['id_instancia'];
-            	$query = "SELECT workflow.nombre, instancia.id_instancia, instancia.titulo,proceso.id_proceso,TIMESTAMPDIFF(MINUTE, proceso.fecha, NOW()) as time, estado.nombre as estado, proceso.descripcion, transicion.nombre as transicion,proceso.id_usuario,usuario.id_tipo, estado.final
+            	$query = "SELECT workflow.nombre, instancia.id_instancia, instancia.titulo,proceso.id_proceso,TIMESTAMPDIFF(MINUTE, proceso.fecha, NOW()) as time, estado.nombre as estado, proceso.descripcion, transiciones.nombre as transiciones,proceso.id_usuario,usuario.id_tipo, estado.final
 					FROM proceso
-					INNER JOIN transicion
-					ON proceso.id_transicion = transicion.id_transicion
+					INNER JOIN transiciones
+					ON proceso.id_transicion = transiciones.id_transicion
 					INNER JOIN instancia
 					ON proceso.id_instancia = instancia.id_instancia
 					INNER JOIN workflow
 					ON instancia.id_workflow = workflow.id_workflow
 					INNER JOIN estado
-					ON transicion.estado_siguiente = estado.id_estado 
+					ON transiciones.estado_siguiente = estado.id_estado 
 					INNER JOIN usuario
 					ON proceso.id_usuario = usuario.id_usuario
 					WHERE proceso.id_instancia = $value AND TIMESTAMPDIFF(MINUTE, proceso.fecha, NOW()) > $tiempo_max";
@@ -1546,7 +1546,7 @@ class Database extends CI_Model {
 	public function getTransicion($tipo){
 		$this->db->db_select('workflow');
 		$data= array();
-		$query = "SELECT transicion.id_transicion,transicion.nombre,tipo_usuario.id_tipo FROM transicion INNER JOIN estado ON transicion.estado_asociado = estado.id_estado INNER JOIN tipo_usuario ON estado.id_tipo = tipo_usuario.id_tipo ";
+		$query = "SELECT transiciones.id_transicion,transiciones.nombre,tipo_usuario.id_tipo FROM transiciones INNER JOIN estado ON transiciones.estado_asociado = estado.id_estado INNER JOIN tipo_usuario ON estado.id_tipo = tipo_usuario.id_tipo ";
 		if ($tipo!='all'){
 			$query = $query.' WHERE tipo_usuario.id_tipo= '.$tipo.'';
 		}
@@ -1610,7 +1610,7 @@ class Database extends CI_Model {
 	public function pdfTransicionesPeriodo($fecha_inicial,$fecha_final,$usuario = "all",$tipo_usuario = "all"){
 		$this->db->db_select('workflow');
 		$data= array();
-		$query = "SELECT pro.id_proceso as proceso,ins.titulo as workflow, pro.id_usuario as usuario, trans.nombre as transicion, pro.fecha,tipo_usuario.id_tipo as id_tipo, tipo_usuario.descripcion as tipo_usuario FROM proceso as pro INNER JOIN instancia as ins ON pro.id_instancia = ins.id_instancia INNER JOIN transicion as trans ON pro.id_transicion = trans.id_transicion INNER JOIN usuario on pro.id_usuario = usuario.id_usuario INNER JOIN tipo_usuario ON usuario.id_tipo = tipo_usuario.id_tipo WHERE (DATE(pro.fecha) BETWEEN DATE(?) AND DATE(?)) ";
+		$query = "SELECT pro.id_proceso as proceso,ins.titulo as workflow, pro.id_usuario as usuario, trans.nombre as transiciones, pro.fecha,tipo_usuario.id_tipo as id_tipo, tipo_usuario.descripcion as tipo_usuario FROM proceso as pro INNER JOIN instancia as ins ON pro.id_instancia = ins.id_instancia INNER JOIN transiciones as trans ON pro.id_transicion = trans.id_transicion INNER JOIN usuario on pro.id_usuario = usuario.id_usuario INNER JOIN tipo_usuario ON usuario.id_tipo = tipo_usuario.id_tipo WHERE (DATE(pro.fecha) BETWEEN DATE(?) AND DATE(?)) ";
 		if ($usuario != "all"){
 			$query = $query.' AND pro.id_usuario = "'.$usuario.'" ';
 		}
@@ -1674,7 +1674,7 @@ class Database extends CI_Model {
             $data['datos'] = $sql->result_array()[0];
         }		
         $query = "SELECT id_proceso,id_usuario,descripcion,fecha,nombre,nombre_estado_asociado,nombre_estado_siguiente from proceso
-	inner join (select transicion.id_transicion,transicion.nombre,transicion.estado_asociado,transicion.estado_siguiente from transicion) as transi
+	inner join (select transiciones.id_transicion,transiciones.nombre,transiciones.estado_asociado,transiciones.estado_siguiente from transiciones) as transi
 	on proceso.id_transicion=transi.id_transicion
 	inner join (select estado.id_estado, estado.nombre as nombre_estado_asociado from estado) as esta
 	on transi.estado_asociado=esta.id_estado

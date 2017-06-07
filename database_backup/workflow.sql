@@ -12171,7 +12171,7 @@ INSERT INTO `tipo_usuario` (`id_tipo`, `descripcion`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `transicion`
+-- Estructura de tabla para la tabla `transiciones`
 --
 
 CREATE TABLE IF NOT EXISTS `transicion` (
@@ -12186,7 +12186,7 @@ CREATE TABLE IF NOT EXISTS `transicion` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `transicion`
+-- Volcado de datos para la tabla `transiciones`
 --
 
 INSERT INTO `transicion` (`id_transicion`, `nombre`, `descripcion`, `estado_siguiente`, `estado_asociado`) VALUES

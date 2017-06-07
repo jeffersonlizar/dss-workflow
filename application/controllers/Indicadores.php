@@ -38,7 +38,7 @@ class Indicadores extends CI_Controller {
 		if ($metodo=='usuario'){
 			$values = $this->Database->getUsuario($dato);
 		}
-		if ($metodo=='transicion'){
+		if ($metodo=='transiciones'){
 			$values = $this->Database->getTransicion($dato);
 		}
 		if ($metodo=='categorias'){
@@ -950,7 +950,7 @@ class Indicadores extends CI_Controller {
 	}
 
 
-	//guardar en la bd el nuevo indicador duracion transicion
+	//guardar en la bd el nuevo indicador duracion transiciones
 	public function registrar_duracion_transicion(){
 		$this->load->model('database', '', true);
 		date_default_timezone_set('America/La_Paz');
@@ -961,7 +961,7 @@ class Indicadores extends CI_Controller {
 		}
 		$tipousuario = $this->input->post("tipousuario");
 		$usuario = $this->input->post("usuario");
-		$transicion = $this->input->post("transicion");
+		$transicion = $this->input->post("transiciones");
 		$filtro = $this->input->post("filtro");
 		$dia = $this->input->post("dia");
 		$mesespecifico1 = $this->input->post("mesespecifico1");

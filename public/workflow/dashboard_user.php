@@ -66,7 +66,7 @@
 			$row2=mysqli_fetch_assoc($result2);
 			$id_estado=$row2['id_estado'];
 			echo '<td>'.$row2['estado_nombre'].'</td>';
-			echo '<td><button class="btn btn-success" onclick="cambiar_proceso('.$id_instancia.','.$id_estado.')">Realizar transicion</button></td>';
+			echo '<td><button class="btn btn-success" onclick="cambiar_proceso('.$id_instancia.','.$id_estado.')">Realizar transiciones</button></td>';
 			echo '</tr>';
 		}			
 	}	
@@ -77,15 +77,15 @@
 	from proceso
 	group by proceso.id_instancia DESC) as pro
 	on instancia.id_instancia=pro.id_instancia
-	inner join transicion
-	on pro.id_transicion=transicion.id_transicion
+	inner join transiciones
+	on pro.id_transicion=transiciones.id_transicion
 	inner join (select estado.id_estado,estado.nombre as estado_nombre,estado.id_tipo from estado) as est
-	on transicion.estado_siguiente=est.id_estado
+	on transiciones.estado_siguiente=est.id_estado
     inner join (select * from instancia_usuario) as inuser
     on instancia.id_instancia=inuser.id_instancia
 	where instancia.fecha_final is NULL
 	and (inuser.id_usuario='$id_usuario' or inuser.id_usuario='0') 
-    and inuser.id_estado=transicion.estado_siguiente
+    and inuser.id_estado=transiciones.estado_siguiente
     and est.id_tipo='$id_tipo'
     and inuser.realizado=0
     group by instancia.id_instancia
@@ -102,7 +102,7 @@
 			echo '<td>'.$row['fecha_inicio'].'</td>';
 			$id_estado=$row['id_estado'];
 			echo '<td>'.$row['estado_nombre'].'</td>';
-			echo '<td><button class="btn btn-success" onclick="cambiar_proceso('.$id_instancia.','.$id_estado.')">Realizar transicion</button></td>';
+			echo '<td><button class="btn btn-success" onclick="cambiar_proceso('.$id_instancia.','.$id_estado.')">Realizar transiciones</button></td>';
 			echo '</tr>';
 		}			
 	}	

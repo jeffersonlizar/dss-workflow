@@ -35,7 +35,7 @@ if (empty($_SESSION['id_usuario'])) {
                     <li><a href="categorias/lista.php">Categorias</a></li>
                     <li><a href="workflow/lista.php">Flujos de trabajo</a></li>
                     <li><a href="estados/lista.php">Estados</a></li>
-                    <li><a href="transicion.php">Agregar un nueva transicion</a></li>
+                    <li><a href="transiciones/lista.php">Transiciones</a></li>
                 </ul>
             </div>
             <div class="btn-group">

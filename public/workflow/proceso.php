@@ -23,8 +23,8 @@
 		<p>Transicion
 			<?php 
 			//muestra las transiciones para el estado actual
-			echo '<select class="form-control" name="transicion">';
-			$query="select * from transicion where transicion.estado_asociado='$id_estado'";
+			echo '<select class="form-control" name="transiciones">';
+			$query="select * from transiciones where transiciones.estado_asociado='$id_estado'";
 			$result=mysqli_query($link,$query);
 			if(mysqli_num_rows($result)>0)
 				while($row=mysqli_fetch_assoc($result)){
@@ -59,7 +59,7 @@
 				//historial de transiciones
 				$query="select id_usuario,descripcion,fecha,nombre,nombre_estado_asociado,nombre_estado_siguiente
 				from proceso
-				inner join (select transicion.id_transicion,transicion.nombre,transicion.estado_asociado,transicion.estado_siguiente from transicion) as transi
+				inner join (select transiciones.id_transicion,transiciones.nombre,transiciones.estado_asociado,transiciones.estado_siguiente from transiciones) as transi
 				on proceso.id_transicion=transi.id_transicion
 				inner join (select estado.id_estado, estado.nombre as nombre_estado_asociado from estado) as esta
 				on transi.estado_asociado=esta.id_estado

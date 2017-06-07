@@ -2,7 +2,7 @@
 	require_once 'conexion.php';
 	$id_usuario=$_POST['id_usuario'];
 	$id_instancia=$_POST['id_instancia'];	
-	$transicion=$_POST['transicion'];	
+	$transicion=$_POST['transiciones'];
 	$descripcion=$_POST['descripcion'];
 	$problema_estado=$_POST['problema'];
 	$mensaje="";
@@ -10,9 +10,9 @@
 
 	//validar si es estado final, si es estado final se pregunta si fue efectiva la gestion
 	$query="select id_transicion, id_estado,final
-	from transicion
+	from transiciones
 	inner join (select id_estado,nombre,final from estado) as est
-	on transicion.estado_siguiente=est.id_estado
+	on transiciones.estado_siguiente=est.id_estado
 	where id_transicion='$transicion'
 	and final=1";
 	$result=mysqli_query($link,$query);
@@ -44,10 +44,10 @@
 	<form class="form-signin" name="enviar" method="POST" action="ejecutar_proceso2.php">		
 		<?php
 		//busca los usuarios que se le pueden asignar al estado
-		$query="select transicion.id_transicion,estado.id_estado,estado.nombre,usuario.id_usuario
-		from transicion
+		$query="select transiciones.id_transicion,estado.id_estado,estado.nombre,usuario.id_usuario
+		from transiciones
 		inner join estado
-		on transicion.estado_siguiente=estado.id_estado
+		on transiciones.estado_siguiente=estado.id_estado
 		inner join usuario
 		on estado.id_tipo=usuario.id_tipo
 		where id_transicion='$transicion'";
@@ -55,10 +55,10 @@
 		if (mysqli_num_rows($result)>0)
 		{
 			//trae la data del estado: nombre, tipo_user asignado
-			$query2="select transicion.id_transicion,estado.id_estado,estado.nombre,tipo_usuario.id_tipo, tipo_usuario.descripcion
-			from transicion
+			$query2="select transiciones.id_transicion,estado.id_estado,estado.nombre,tipo_usuario.id_tipo, tipo_usuario.descripcion
+			from transiciones
 			inner join estado
-			on transicion.estado_siguiente=estado.id_estado
+			on transiciones.estado_siguiente=estado.id_estado
 			inner join tipo_usuario
 			on estado.id_tipo=tipo_usuario.id_tipo
 			where id_transicion='$transicion'";

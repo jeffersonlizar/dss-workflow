@@ -69,7 +69,7 @@ function ubicacion(){
 			  <li><a href="<?php echo base_url().'indicadores/tiempo-promedio' ?>">Tiempo Promedio</a></li>
 			  <li><a href="<?php echo base_url().'indicadores/actividad-usuario' ?>">Actividad Usuario</a></li>
 			  <li><a href="<?php echo base_url().'indicadores/resumen' ?>">Resumen</a></li>
-			  <li><a href="<?php echo base_url().'indicadores/duracion-transicion' ?>">Duración Transición</a></li>
+			  <li><a href="<?php echo base_url().'indicadores/duracion-transiciones' ?>">Duración Transición</a></li>
 			  <li><a href="<?php echo base_url().'indicadores/duracion-flujo' ?>">Duración Flujo de trabajo</a></li>
 			  <li><a href="<?php echo base_url().'indicadores/ultimos' ?>">Ultimas</a></li>
 			</ul>

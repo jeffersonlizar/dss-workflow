@@ -10,6 +10,7 @@ if (empty($_SESSION['id_usuario'])) {
 $workflow_data['id_workflow'] = '';
 $workflow_data['nombre'] = '';
 $workflow_data['descripcion'] = '';
+$workflow_data['id_categoria'] = '';
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $id_workflow = limpiar_data($_POST['id_workflow']);
     $nombre = limpiar_data($_POST['nombre']);

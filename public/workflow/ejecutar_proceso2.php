@@ -6,7 +6,7 @@
 	$id_instancia=$_POST['id_instancia'];
 	$usuario_asignado=$_POST['usuario_asignado'];
 	$id_estado=$_POST['id_estado'];
-	$transicion=$_POST['transicion'];
+	$transicion=$_POST['transiciones'];
 	$descripcion=$_POST['descripcion'];
 	$problema_estado=$_POST['problema_estado'];
 
@@ -28,9 +28,9 @@
 		//inserto el usuario para el estado de la instancia. Nota: id_usuario en esta tabla no es clave foranea debido a que todos se guarda como 0 y daria un error ya que el usuario no existe
 			$query_select="select *
 from instancia_usuario
-inner join transicion
-on instancia_usuario.id_estado=transicion.estado_asociado 
-where transicion.id_transicion='$transicion'
+inner join transiciones
+on instancia_usuario.id_estado=transiciones.estado_asociado 
+where transiciones.id_transicion='$transicion'
 and instancia_usuario.realizado=0";
 			$result_select=mysqli_query($link,$query_select);
 			$row_select=mysqli_fetch_assoc($result_select);

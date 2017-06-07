@@ -295,7 +295,7 @@ $('#ajax-usuario1').change(function(){
 	else{
 		$('#ajax-workflow1').append('<option value=all>Todas</option>');
 		$.ajax({
-			url: servidor+"indicadores/filtro/transicion/"+tipousuario,
+			url: servidor+"indicadores/filtro/transiciones/"+tipousuario,
 			dataType: "json",
 			async: true,
 			success: function(data){

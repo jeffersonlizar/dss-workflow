@@ -21,7 +21,7 @@
             $date = new DateTime($value['fecha']);
             $fecha = date_format($date,'d-m-Y h:i:s A');
 
-            $pdf->Row(array(utf8_decode($value['proceso']),utf8_decode($value['workflow']),utf8_decode($value['usuario']),utf8_decode($value['transicion']),utf8_decode($fecha))); 
+            $pdf->Row(array(utf8_decode($value['proceso']),utf8_decode($value['workflow']),utf8_decode($value['usuario']),utf8_decode($value['transiciones']),utf8_decode($fecha)));
         }
     $pdf->Ln(5);
     $pdf->SetFont('Arial','B',12);

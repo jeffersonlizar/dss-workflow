@@ -453,7 +453,7 @@ class Indicadores_libreria
 		$indicador_duracion_transicion = $this->CI->database->cargar_indicador_duracion_transicion();
 		switch ($indicador_duracion_transicion['opcion']){
 			case '1': //dia actual				
-				$transicion = $indicador_duracion_transicion['transicion']; 
+				$transicion = $indicador_duracion_transicion['transiciones'];
 				$tipo_usuario = $indicador_duracion_transicion['tipo_usuario']; 
 				$usuario = $indicador_duracion_transicion['usuario'];
 				if ($usuario!='all')
@@ -463,7 +463,7 @@ class Indicadores_libreria
 				}
 				break;
 			case '2': //dia anterior
-				$transicion = $indicador_duracion_transicion['transicion']; 
+				$transicion = $indicador_duracion_transicion['transiciones'];
 				$tipo_usuario = $indicador_duracion_transicion['tipo_usuario']; 
 				$usuario = $indicador_duracion_transicion['usuario'];
 				if ($usuario!='all')
@@ -474,7 +474,7 @@ class Indicadores_libreria
 				break;
 			case '3': //dia 
 				$dia = $indicador_duracion_transicion['dia']; 
-				$transicion = $indicador_duracion_transicion['transicion']; 
+				$transicion = $indicador_duracion_transicion['transiciones'];
 				$tipo_usuario = $indicador_duracion_transicion['tipo_usuario']; 
 				$usuario = $indicador_duracion_transicion['usuario'];
 				if ($usuario!='all')
@@ -484,7 +484,7 @@ class Indicadores_libreria
 				}
 				break;
 			case '4': //mes actual 
-				$transicion = $indicador_duracion_transicion['transicion']; 
+				$transicion = $indicador_duracion_transicion['transiciones'];
 				$tipo_usuario = $indicador_duracion_transicion['tipo_usuario']; 
 				$usuario = $indicador_duracion_transicion['usuario'];
 				if ($usuario!='all')
@@ -496,7 +496,7 @@ class Indicadores_libreria
 			case '5': //mes 
 				$fecha_inicial = $indicador_duracion_transicion['mes']; 
 				$fecha_final = $this->_mesUltimoDia($fecha_inicial); 		
-				$transicion = $indicador_duracion_transicion['transicion']; 
+				$transicion = $indicador_duracion_transicion['transiciones'];
 				$tipo_usuario = $indicador_duracion_transicion['tipo_usuario']; 
 				$usuario = $indicador_duracion_transicion['usuario'];
 				if ($usuario!='all')
@@ -506,7 +506,7 @@ class Indicadores_libreria
 				}
 				break;
 			case '6': //año actual
-				$transicion = $indicador_duracion_transicion['transicion']; 
+				$transicion = $indicador_duracion_transicion['transiciones'];
 				$tipo_usuario = $indicador_duracion_transicion['tipo_usuario']; 
 				$usuario = $indicador_duracion_transicion['usuario'];
 				if ($usuario!='all')
@@ -518,7 +518,7 @@ class Indicadores_libreria
 			case '7': //año
 				$fecha_inicial = $indicador_duracion_transicion['ano']; 
 				$fecha_final = $this->_anoUltimoDia($fecha_inicial);								
-				$transicion = $indicador_duracion_transicion['transicion']; 
+				$transicion = $indicador_duracion_transicion['transiciones'];
 				$tipo_usuario = $indicador_duracion_transicion['tipo_usuario']; 
 				$usuario = $indicador_duracion_transicion['usuario'];
 				if ($usuario!='all')
@@ -530,7 +530,7 @@ class Indicadores_libreria
 			case '8': //periodo
 				$fecha_inicial = $indicador_duracion_transicion['periodo_inicio']; 
 				$fecha_final = $indicador_duracion_transicion['periodo_fin']; 
-				$transicion = $indicador_duracion_transicion['transicion']; 
+				$transicion = $indicador_duracion_transicion['transiciones'];
 				$tipo_usuario = $indicador_duracion_transicion['tipo_usuario']; 
 				$usuario = $indicador_duracion_transicion['usuario'];
 				if ($usuario!='all')
