@@ -12,7 +12,7 @@ if (empty($_SESSION['id_usuario'])) {
 
 if ($_POST) {
     $id = $_POST['id'];
-    $query = "DELETE  FROM transicion WHERE id_transicion = '$id' ";
+    $query = "DELETE  FROM transiciones WHERE id_transicion = '$id' ";
     $result = mysqli_query($link, $query);
     if (mysqli_query($link, $query)) {
         echo '<script> alert("Se ha eliminado exitosamente")</script>';
@@ -26,15 +26,15 @@ if ($_POST) {
     mysqli_close($link);
 }
 
-$query= "select transicion.id_transicion,transicion.nombre, esta.nombre as asociado, est.nombre as siguiente,workflow.nombre as nombre_workflow
-	from transicion
+$query= "select transiciones.id_transicion,transiciones.nombre, esta.nombre as asociado, est.nombre as siguiente,workflow.nombre as nombre_workflow
+	from transiciones
 	inner join estado as est
-	on transicion.estado_siguiente=est.id_estado
+	on transiciones.estado_siguiente=est.id_estado
 	inner join estado as esta 
-	on transicion.estado_asociado=esta.id_estado
+	on transiciones.estado_asociado=esta.id_estado
 	inner join workflow
 	on est.id_workflow=workflow.id_workflow
-    ORDER BY transicion.id_transicion";
+    ORDER BY transiciones.id_transicion";
 $result = mysqli_query($link,$query);
 
 ?>

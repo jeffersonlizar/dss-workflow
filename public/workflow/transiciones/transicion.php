@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $estado_asociado = limpiar_data($_POST['estado_asociado']);
     $estado_siguiente = limpiar_data($_POST['estado_siguiente']);
     if ((isset($_POST['id_transicion'])) && (!empty($_POST['id_transicion']))) {
-        $query = "UPDATE transicion SET nombre = '$nombre', descripcion = '$descripcion', estado_asociado = '$estado_asociado', estado_siguiente = '$estado_siguiente' WHERE id_transicion = '$id_transicion' ";
+        $query = "UPDATE transiciones SET nombre = '$nombre', descripcion = '$descripcion', estado_asociado = '$estado_asociado', estado_siguiente = '$estado_siguiente' WHERE id_transicion = '$id_transicion' ";
         $result = mysqli_query($link, $query);
         if (mysqli_query($link, $query)) {
             echo '<script> alert("Se ha actualizado exitosamente")</script>';
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         die();
     } else {
         if ((!empty($_POST['nombre'])) && (!empty($_POST['descripcion'])) && (!empty($_POST['estado_asociado'])) && (!empty($_POST['estado_siguiente']))) {
-            $query = "INSERT INTO transicion (nombre,descripcion,estado_siguiente,estado_asociado) VALUES('$nombre','$descripcion','$estado_siguiente','$estado_asociado')";
+            $query = "INSERT INTO transiciones (nombre,descripcion,estado_siguiente,estado_asociado) VALUES('$nombre','$descripcion','$estado_siguiente','$estado_asociado')";
             if (mysqli_query($link, $query)) {
                 echo '<script> alert("Se ha registrado exitosamente")</script>';
                 header("refresh:0; url=lista.php");
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 if ($_GET) {
     $id_transicion = $_GET['id'];
-    $query = "SELECT * FROM transicion WHERE id_transicion = '$id_transicion' ORDER BY transicion.id_transicion";
+    $query = "SELECT * FROM transiciones WHERE id_transicion = '$id_transicion' ORDER BY transiciones.id_transicion";
     $result = mysqli_query($link, $query);
     $transicion_data = mysqli_fetch_assoc($result);
     $asociado = $transicion_data['estado_asociado'];
