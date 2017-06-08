@@ -302,7 +302,7 @@ class Database extends CI_Model {
 		$this->db->db_select('workflow');
 		$data['superadmin'] = false;
 		$pass = md5($pass);
-		$query = $this->db->query("SELECT * FROM usuario WHERE id_usuario = '$usuario' AND contrasena = '$pass' AND id_tipo = 0");
+		$query = $this->db->query("SELECT * FROM usuario WHERE id_usuario = '$usuario' AND contrasena = '$pass' AND id_tipo = 1");
 		if($query -> num_rows() > 0)
         {
         	$data['usuario'] = $query->result_array()[0]['id_usuario'];

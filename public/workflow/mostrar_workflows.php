@@ -1,18 +1,3 @@
-<html>
-<head>
-    <meta charset="UTF-8">
-<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <title>Workflow</title>
-
-</head>
-
-<body>
-
-    <div class="container">
-        <div class="table-responsive">
-    
 
 <?php
     require_once 'conexion.php';
@@ -24,7 +9,7 @@
 	$result= mysqli_query($link,$query);
 	$row=mysqli_fetch_assoc($result);
 	echo '<h3>'.$row['titulo'].'</h3>';
-	echo '<p>Descripcion: '.$row['descripcion'].'</p>';
+	echo '<p>Descripción: '.$row['descripcion'].'</p>';
 	echo '<p>Iniciado por: '.$row['id_usuario'].', Fecha: '.$row['fecha_inicio'].'</p>';
 	
 	//historial de transiciones
@@ -64,7 +49,3 @@
 	echo '</table>';
 	mysqli_close($link);
 ?>
-        </div>
-    </div>
-</body>
-</html>

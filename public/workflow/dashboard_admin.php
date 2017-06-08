@@ -9,7 +9,7 @@ if (empty($_SESSION['id_usuario'])) {
 
 ?>
 <!DOCTYPE html>
-<html>
+<html style="background: #337558; height: auto ">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
@@ -17,7 +17,7 @@ if (empty($_SESSION['id_usuario'])) {
     <link href="css/style.css" rel="stylesheet">
     <title>Panel -Sistema de registro de flujos de trabajo</title>
 </head>
-<body>
+<body style="background: #337558; height: auto ">
 <div class="container">
     <div class="card card-container">
         <div class="center-align">
@@ -44,8 +44,8 @@ if (empty($_SESSION['id_usuario'])) {
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="tipo_usuario.php">Agregar nuevo tipo de usuario</a></li>
-                    <li><a href="usuario.php">Agregar nuevo usuario</a></li>
+                    <li><a href="tipo-usuario/lista.php">Tipos de usuario</a></li>
+                    <li><a href="usuario/lista.php">Usuarios</a></li>
 
                 </ul>
             </div>
@@ -101,11 +101,15 @@ if (empty($_SESSION['id_usuario'])) {
                 endif;
                 ?>
             </div>
-
+            <button class="btn btn-warning"  onclick="limpiar()" id="limpiar" style="display:none" >Limpiar</button>
         </div>
+        <div id="txtHint"></div>
     </div>
 </div>
 
+<!-- jQuery -->
+<script src="js/jquery-2.1.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <script>
 
     //ajax para mostrar el registro de estados para la instancia
@@ -121,10 +125,13 @@ if (empty($_SESSION['id_usuario'])) {
         xmlhttp.send();
     }
 
+    function limpiar(){
+        document.getElementById("txtHint").innerHTML="";
+        document.getElementById("limpiar").style.display="none"
+    }
+
+
 </script>
-<!-- jQuery -->
-<script src="js/jquery-2.1.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
 
 </body>
 

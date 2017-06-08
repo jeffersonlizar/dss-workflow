@@ -1,0 +1,128 @@
+<?php
+require_once '../conexion.php';
+session_start();
+
+if (empty($_SESSION['id_usuario'])) {
+    echo "<script>alert('Debes iniciar sesion');</script>";
+    header("refresh:0; url=../index.php");
+    die();
+}
+$tipo['id_tipo'] = '';
+$tipo['descripcion'] = '';
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $id = limpiar_data($_POST['id']);
+    $descripcion = limpiar_data($_POST['descripcion']);
+    if ((isset($_POST['id']))&&(!empty($_POST['id']))){
+        $query = "UPDATE tipo_usuario SET descripcion = '$descripcion' WHERE id_tipo = '$id' ";
+        $result = mysqli_query($link, $query);
+        if (mysqli_query($link, $query)) {
+            echo '<script> alert("Se ha actualizado exitosamente")</script>';
+            header("refresh:0; url=lista.php");
+        } else {
+            echo '<script> alert("Se ha producido un error al actualizar")</script>';
+            header("Refresh:0");
+        }
+        mysqli_close($link);
+        die();
+    }
+    else{
+        if (empty($_POST['descripcion']))
+            $descripcion_error = "Debe Ingresar la descripcion";
+        else {
+            $descripcion = limpiar_data($_POST['descripcion']);
+            $query = "INSERT INTO tipo_usuario (descripcion) VALUES('$descripcion')";
+            if (mysqli_query($link, $query)) {
+                echo '<script> alert("Se ha registrado exitosamente")</script>';
+                header("refresh:0; url=lista.php");
+            } else {
+                echo '<script> alert("Se ha producido un error al registrar")</script>';
+                header("Refresh:0");
+            }
+            mysqli_close($link);
+            die();
+        }
+    }
+}
+
+if ($_GET) {
+    $tipo_id = $_GET['id'];
+    $query = "SELECT * FROM tipo_usuario WHERE id_tipo = '$tipo_id'";
+    $result = mysqli_query($link, $query);
+    $tipo = mysqli_fetch_assoc($result);
+}
+
+
+function limpiar_data($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+?>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/form.css" rel="stylesheet">
+    <title>Categorías - Sistema de registro de flujos de trabajo</title>
+</head>
+<body>
+<div class="container">
+    <div class="card card-container">
+        <div class="center-align">
+            <?php if (!empty($tipo['descripcion'])): ?>
+                <h3 class="uppercase">Modificar tipo de usuario</h3>
+            <?php else: ?>
+                <h3 class="uppercase">Nuevo tipo de usuario</h3>
+            <?php endif; ?>
+        </div>
+        <div class="profile-img-card center-align">
+            <i class="glyphicon glyphicon-briefcase" style="font-size: 80px"></i>
+        </div>
+        <p id="profile-name" class="profile-name-card"></p>
+        <form method="post" class="form-signin" id="category-new">
+            <input type="hidden" name="id" value="<?php echo $tipo['id_tipo'] ?>">
+            <input type="text" name="descripcion" id="id_usuario" class="form-control" placeholder="Descripción"
+                   value="<?php echo $tipo['descripcion'] ?>"
+                   required autofocus>
+            <button class="btn btn-lg btn-primary btn-block btn-wrk" type="submit">
+            <?php if (!empty($tipo['descripcion'])){
+                echo 'Modificar';
+            }
+            else{
+                echo 'Registrar';
+            }
+            ?>
+            </button>
+            <a class="btn btn-block btn-danger" href='lista.php'>Atrás</a>
+        </form><!-- /form -->
+    </div><!-- /card-container -->
+</div><!-- /container -->
+<script src="../js/jquery-2.1.1.min.js"></script>
+<script src="../js/jquery.validate.min.js"></script>
+<script src="../js/validate-spanish.js"></script>
+<script>
+    $("#category-new").submit(function (event) {
+        var validator = $("#category-new").validate({
+            rules: {
+                descripcion: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 150
+                }
+            }
+        });
+        if (!validator.form()) {
+            event.preventDefault();
+        }
+    });
+</script>
+</body>
+</html>
+
