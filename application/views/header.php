@@ -18,7 +18,7 @@ function ubicacion(){
 
 ?>
 <!DOCTYPE html>
-<html lang="es-ES" >
+<html>
 	<head>
 		<!-- Meta -->
 		<meta charset="UTF-8">

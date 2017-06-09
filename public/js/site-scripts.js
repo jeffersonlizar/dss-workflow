@@ -69,6 +69,12 @@ function validateString(string,min_value){
 	}
 	return validate;
 }
+
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
 function validateUser(){
 	username = $('#username').val();
 	name = $('#name').val();
@@ -89,7 +95,7 @@ function validateUser(){
 		alert('Debe Ingresar un Apellido válido');
 		return false;
 	}
-	else if (!validateString(email,2)){
+	else if (!validateEmail(email)){
 		$('#email').focus();
 		alert('Debe Ingresar un Email válido');
 		return false;
