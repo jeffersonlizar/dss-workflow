@@ -28,7 +28,7 @@
 
 				      	<div class="filtroajax-workflow1-div input-field col s12 m12 offset-l3 l6 hide">
 				        	<p class="center"><b>Transición</b></p>
-				        	<select id="ajax-workflow1" name="transicion">
+				        	<select id="ajax-workflow1" name="transiciones">
 				        		<option value="" disabled selected>Seleccione una opción</option>
 							</select>
 				        </div>

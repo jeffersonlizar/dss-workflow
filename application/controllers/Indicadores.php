@@ -26,7 +26,6 @@ class Indicadores extends CI_Controller {
 
 	//ajax filtro 
 	public function filtro($metodo,$dato){
-        header('Content-Type: text/html; charset=utf-8');
 		if ($metodo=='workflow'){
 			$values = $this->Database->getWorkflow();
 		}
