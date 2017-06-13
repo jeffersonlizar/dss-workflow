@@ -70,7 +70,7 @@ function limpiar_data($data)
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/form.css" rel="stylesheet">
-    <title>Categorías - Sistema de registro de flujos de trabajo</title>
+    <title>Categorías - Sistema web para el control de flujo de trabajo</title>
 </head>
 <body>
 <div class="container">

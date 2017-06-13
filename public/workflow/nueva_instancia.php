@@ -11,7 +11,7 @@
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <title>Nueva instancia -Sistema de registro de flujos de trabajo</title>
+    <title>Nueva instancia -Sistema web para el control de flujo de trabajo</title>
 </head>
 <body>
 
@@ -19,7 +19,7 @@
 <div class="container">
     <div class="card card-container">
         <div class="center-align">
-            <h3 class="text-uppercase">Sistema de registro de flujos de trabajo</h3>
+            <h3 class="text-uppercase">Sistema web para el control de flujo de trabajo</h3>
             <h4 class="text-uppercase">Nueva instancia</h4>
         </div>
         <div>

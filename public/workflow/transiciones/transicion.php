@@ -77,7 +77,7 @@ function limpiar_data($data)
     <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/form.css" rel="stylesheet">
-    <title>Transición - Sistema de registro de flujos de trabajo</title>
+    <title>Transición - Sistema web para el control de flujo de trabajo</title>
 </head>
 <body>
 <div class="container">

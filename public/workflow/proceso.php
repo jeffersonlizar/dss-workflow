@@ -14,14 +14,14 @@ $id_estado = $_POST['id_estado'];
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <title>Realizar transición -Sistema de registro de flujos de trabajo</title>
+    <title>Realizar transición -Sistema web para el control de flujo de trabajo</title>
 </head>
 <body style="background: #337558; height: auto ">
 
 <div class="container">
     <div class="card card-container" >
         <div class="center-align">
-            <h3 class="text-uppercase">Sistema de registro de flujos de trabajo</h3>
+            <h3 class="text-uppercase">Sistema web para el control de flujo de trabajo</h3>
             <h4 class="text-uppercase">Realizar transición</h4>
         </div>
 

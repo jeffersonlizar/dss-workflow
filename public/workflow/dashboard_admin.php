@@ -15,13 +15,13 @@ if (empty($_SESSION['id_usuario'])) {
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <title>Panel -Sistema de registro de flujos de trabajo</title>
+    <title>Panel -Sistema web para el control de flujo de trabajo</title>
 </head>
 <body style="background: #337558; height: auto ">
 <div class="container">
     <div class="card card-container">
         <div class="center-align">
-            <h3 class="text-uppercase">Sistema de registro de flujos de trabajo</h3>
+            <h3 class="text-uppercase">Sistema web para el control de flujo de trabajo</h3>
             <h4 class="text-uppercase">Flujos de trabajo en ejecución</h4>
         </div>
         <div class="btn-group">

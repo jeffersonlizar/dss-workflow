@@ -46,13 +46,13 @@ $result = mysqli_query($link,$query);
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
-    <title>Transiciones - Sistema de registro de flujos de trabajo</title>
+    <title>Transiciones - Sistema web para el control de flujo de trabajo</title>
 </head>
 <body>
 <div class="container">
     <div class="card card-container">
         <div class="center-align">
-            <h3 class="text-uppercase">Sistema de registro de flujos de trabajo</h3>
+            <h3 class="text-uppercase">Sistema web para el control de flujo de trabajo</h3>
             <h4 class="text-uppercase">Transiciones</h4>
         </div>
         <div class="btn-toolbar">
