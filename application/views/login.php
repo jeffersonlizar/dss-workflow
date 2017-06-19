@@ -28,7 +28,7 @@
             <div class="row">
 
                 <div class="input-field col s12">
-                <label>Email</label>
+                <label>Usuario</label>
 
                     <input id="user" name="user" type="text" class="validate"  pattern="[a-zA-Z0-9 ]+" value="<?php echo $usuario_login ?>" <?php if(isset($usuario_login)) echo 'readonly'; ?> >
                 </div>
