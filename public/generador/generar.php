@@ -156,9 +156,10 @@
 		}
 		$nombre='instancia'.$fecha;
 		$descripcion='descripcion'.$fecha;				
-		$query="INSERT INTO instancia (id_instancia,id_workflow,id_usuario,titulo,descripcion,fecha_inicio) VALUES ('$num','$id_workflow','$id_usuario','$nombre','$descripcion','$fecha')";		
-		if(mysqli_query($GLOBALS['link'],$query)){
-			return $num;
+		$query="INSERT INTO instancia (id_workflow,id_usuario,titulo,descripcion,fecha_inicio) VALUES ('$id_workflow','$id_usuario','$nombre','$descripcion','$fecha')";
+        $data = mysqli_query($GLOBALS['link'],$query);
+		if($data){
+			return mysqli_insert_id($GLOBALS['link']);
 		}
 		else{
 			return false;
@@ -233,7 +234,7 @@
 					mysqli_query($GLOBALS['link'],$query_update);
 					
 
-					$query="INSERT INTO instancia_usuario (id_instancia_usuario,id_instancia,id_estado,id_usuario,realizado) VALUES ('$id_instancia_usuario_num','$id_instancia','$id_estado','$usuario_asignado',0)";
+					$query="INSERT INTO instancia_usuario (id_instancia,id_estado,id_usuario,realizado) VALUES ($id_instancia','$id_estado','$usuario_asignado',0)";
 					$result=mysqli_query($GLOBALS['link'],$query);	
 
 				}
@@ -245,10 +246,10 @@
 					$row=mysqli_fetch_assoc($result);
 					$num = $row['COUNT(*)'];
 				}
-				$descripcion='prueba';
+				$descripcion='';
 				mt_srand(make_seed());
 				$problema_estado=mt_rand(0, 1);
-				$query="INSERT INTO proceso (id_proceso,id_usuario,id_instancia,id_transicion,descripcion,problema_estado,fecha) VALUES ('$num','$id_usuario','$id_instancia','$transicion','$descripcion','$problema_estado','$fecha')";
+				$query="INSERT INTO proceso (id_usuario,id_instancia,id_transicion,descripcion,problema_estado,fecha) VALUES ('$id_usuario','$id_instancia','$transicion','$descripcion','$problema_estado','$fecha')";
 				if(mysqli_query($GLOBALS['link'],$query)){
 					if($final==1){
 						echo 'se termino el ciclo';

@@ -10,7 +10,7 @@ class Usuarios extends CI_Controller {
 			redirect('home');
 		}
 		$search = null;
-		$username = $this->input->post('username');		
+		$username = htmlspecialchars($this->input->post('username'),ENT_QUOTES);
 		if (isset($username)){
 			$search = $this->Database->search_user($username);			
 			$search = $search[0];
@@ -55,16 +55,16 @@ class Usuarios extends CI_Controller {
 	public function iniciar(){
 		$log = false;
 		$primeravez = false;
-		$user = $this->input->post('user');
-		$pass = $this->input->post('pass');
-		$primera = $this->input->post('primera_vez');		
+		$user = htmlspecialchars($this->input->post('user'), ENT_QUOTES);
+		$pass = htmlspecialchars($this->input->post('pass'), ENT_QUOTES);
+		$primera = htmlspecialchars($this->input->post('primera_vez'),ENT_QUOTES);
 		if (($pass=='')&&($primera == '0'))		
 			$primeravez = true;
 		if (($pass!='')&&($primera == '1')){	
 			$log = $this->Database->primerLogin($user,$pass);
 			$search = $data=$this->Database->search_user($user);
 			$data_user = array(
-	    		'user' => $log['usuario'],
+	    		'user' => $search[0]['username'],
 	    		'tipo' => $search[0]['tipo'],
 	    		'superadmin' => false
 	        	);
@@ -97,8 +97,8 @@ class Usuarios extends CI_Controller {
 
 	public function registro(){
 		$log = false;
-		$user = trim($this->input->post('user'));
-		$pass = trim($this->input->post('pass'));		
+		$user = htmlspecialchars(trim($this->input->post('user')), ENT_QUOTES);
+		$pass = htmlspecialchars(trim($this->input->post('pass')), ENT_QUOTES);
 		$log = $data=$this->Database->login($user,$pass);
 		if ($log){
 			$data_user = array(
@@ -117,12 +117,12 @@ class Usuarios extends CI_Controller {
 
 		$singin = false;
 		$search = false;
-		$username = trim($this->input->post('username'));
-		$pass = trim($this->input->post('pass'));
-		$name = trim($this->input->post('name'));
-		$lastname = trim($this->input->post('lastname'));
-		$email = trim($this->input->post('email'));
-		$tipo = $this->input->post('tipo');
+		$username = htmlspecialchars(trim($this->input->post('username')), ENT_QUOTES);
+		$pass = htmlspecialchars(trim($this->input->post('pass')), ENT_QUOTES);
+		$name = htmlspecialchars(trim($this->input->post('name')), ENT_QUOTES);
+		$lastname = htmlspecialchars(trim($this->input->post('lastname')), ENT_QUOTES);
+		$email = htmlspecialchars(trim($this->input->post('email')), ENT_QUOTES);
+		$tipo = htmlspecialchars($this->input->post('tipo'), ENT_QUOTES);
 		$search = $data=$this->Database->search_user($username);
 			if (!$search){
 				$singin = $data=$this->Database->singin($username,$name,$lastname,$email,$tipo);
@@ -138,7 +138,7 @@ class Usuarios extends CI_Controller {
 		}
 		else{
 			$this->session->set_flashdata('titulo', 'Error registrando');
-			$this->session->set_flashdata('contenido', 'Ya existe un usuario con el username.');
+			$this->session->set_flashdata('contenido', 'Ya existe un usuario con el nombre de usuario.');
 			redirect('usuarios');
 		}	
 
@@ -179,12 +179,12 @@ class Usuarios extends CI_Controller {
 	public function modificar(){
 		$singin = false;
 		$search = false;
-		$username = trim($this->input->post('username'));
-		$pass = trim($this->input->post('pass'));	
-		$name = trim($this->input->post('name'));	
-		$lastname = trim($this->input->post('lastname'));	
-		$email = $this->input->post('email');
-		$tipo = $this->input->post('tipo');
+		$username = htmlspecialchars(trim($this->input->post('username')), ENT_QUOTES);
+		$pass = htmlspecialchars(trim($this->input->post('pass')), ENT_QUOTES);
+		$name = htmlspecialchars(trim($this->input->post('name')), ENT_QUOTES);
+		$lastname = htmlspecialchars(trim($this->input->post('lastname')), ENT_QUOTES);
+		$email = htmlspecialchars($this->input->post('email'), ENT_QUOTES);
+		$tipo = htmlspecialchars($this->input->post('tipo'), ENT_QUOTES);
 		$singin = $data=$this->Database->modificar($username,$name,$lastname,$email,$tipo);
 		if ($singin){
 			$this->session->set_flashdata('titulo', 'Modificado Exitosamente');

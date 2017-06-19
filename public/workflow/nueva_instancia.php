@@ -30,7 +30,7 @@
         </div>
         <div class="table-responsive">
 
-            <h3>Workflows disponibles</h3>
+            <h3>Flujos de trabajo disponibles</h3>
             <?php
             //muestra todos los workflows donde el estado inicial esta asociado al tipo de usuario del usuario actual
             $query="SELECT estado.nombre as nombre_estado, estado.descripcion as descripcion, workflow.nombre as nombre_workflow, estado.id_workflow FROM estado INNER JOIN workflow on estado.id_workflow=workflow.id_workflow WHERE id_tipo='$id_tipo' AND inicial=1";
@@ -66,8 +66,8 @@
                 <input type="hidden" id="id_usuario"  name="id_usuario" value="<?php echo $id_usuario ?>">
                 <!--- al terminar no enviar, traerse el usuario y el tipo de session -->
                 <input type="hidden" id="id_tipo"  name="id_tipo" value="<?php echo $id_tipo ?>">
-                <p>Nombre <input class="form-control" type="text" name="nombre"></p>
-                <p>Descripción <textarea class="form-control"name="descripcion"></textarea></p>
+                <p>Nombre <input class="form-control" id="nombre_instancia" type="text" required name="nombre"></p>
+                <p>Descripción <textarea class="form-control" name="descripcion"></textarea></p>
             </form>
 
         </div>
@@ -78,7 +78,12 @@
 	<script type="text/javascript">
 		function nueva_instancia(id){
 			window.document.getElementById('id_workflow').value=id;
-			window.document.getElementById('formulario1').submit();
+            nombre_instancia = window.document.getElementById('nombre_instancia').value;
+            if (nombre_instancia == ""){
+                alert("Debe ingresar el nombre");
+            }else{
+                window.document.getElementById('formulario1').submit();
+            }
 		}
 	</script>
 </body>

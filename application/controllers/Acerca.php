@@ -6,7 +6,7 @@ class Acerca extends CI_Controller {
 	public function index()
 	{
 		$session_data = $this->session->userdata('logged_in');	
-		if($session_data['tipo']!='1'){
+		if (!isset($session_data)){
 			redirect('home');
 		}
 		$header = array(

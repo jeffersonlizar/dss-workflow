@@ -1,33 +1,28 @@
-
--- phpMyAdmin SQL Dump
--- version 3.5.2.2
--- http://www.phpmyadmin.net
+-- MySQL dump 10.16  Distrib 10.1.21-MariaDB, for Win32 (AMD64)
 --
--- Servidor: localhost
--- Tiempo de generación: 27-05-2017 a las 22:18:13
--- Versión del servidor: 10.0.28-MariaDB
--- Versión de PHP: 5.2.17
-
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
+-- Host: localhost    Database: localhost
+-- ------------------------------------------------------
+-- Server version	10.1.21-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Base de datos: `u639136022_dss`
+-- Table structure for table `alarmas_transicion`
 --
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `alarmas_transicion`
---
-
-CREATE TABLE IF NOT EXISTS `alarmas_transicion` (
+DROP TABLE IF EXISTS `alarmas_transicion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `alarmas_transicion` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `descripcion` varchar(300) COLLATE utf8_unicode_ci NOT NULL,
@@ -40,23 +35,26 @@ CREATE TABLE IF NOT EXISTS `alarmas_transicion` (
   `fecha` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `alarmas_transicion`
+-- Dumping data for table `alarmas_transicion`
 --
 
-INSERT INTO `alarmas_transicion` (`id`, `nombre`, `descripcion`, `workflow`, `instancia`, `tipo_usuario`, `usuario`, `tiempo_max`, `usuario_admin`, `fecha`) VALUES
-(1, 'asdf', 'asdf', 'all', 'all', 'all', 'all', '2880', 'admin', '2017-01-18 15:00:26'),
-(2, 'asdf', 'asdf', 'all', 'all', 'all', 'all', '33120', 'admin', '2017-01-18 15:01:20');
-
--- --------------------------------------------------------
+LOCK TABLES `alarmas_transicion` WRITE;
+/*!40000 ALTER TABLE `alarmas_transicion` DISABLE KEYS */;
+/*!40000 ALTER TABLE `alarmas_transicion` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `alarmas_workflow`
+-- Table structure for table `alarmas_workflow`
 --
 
-CREATE TABLE IF NOT EXISTS `alarmas_workflow` (
+DROP TABLE IF EXISTS `alarmas_workflow`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `alarmas_workflow` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `descripcion` varchar(300) COLLATE utf8_unicode_ci NOT NULL,
@@ -69,23 +67,26 @@ CREATE TABLE IF NOT EXISTS `alarmas_workflow` (
   `fecha` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `alarmas_workflow`
+-- Dumping data for table `alarmas_workflow`
 --
 
-INSERT INTO `alarmas_workflow` (`id`, `nombre`, `descripcion`, `workflow`, `instancia`, `tipo_usuario`, `usuario`, `tiempo_max`, `usuario_admin`, `fecha`) VALUES
-(1, 'asdf', 'asdf', '0', 'all', '3', 'abogado', '11520', 'admin', '2017-01-18 15:00:05'),
-(2, 'Prueba', 'prueba', 'all', 'all', 'all', 'all', '12960', 'admin', '2017-01-18 15:09:49');
-
--- --------------------------------------------------------
+LOCK TABLES `alarmas_workflow` WRITE;
+/*!40000 ALTER TABLE `alarmas_workflow` DISABLE KEYS */;
+/*!40000 ALTER TABLE `alarmas_workflow` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `indicador_actividad`
+-- Table structure for table `indicador_actividad`
 --
 
-CREATE TABLE IF NOT EXISTS `indicador_actividad` (
+DROP TABLE IF EXISTS `indicador_actividad`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `indicador_actividad` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `opcion` int(11) NOT NULL,
   `dia` datetime DEFAULT NULL,
@@ -101,30 +102,27 @@ CREATE TABLE IF NOT EXISTS `indicador_actividad` (
   `fecha` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=105 ;
+) ENGINE=MyISAM AUTO_INCREMENT=109 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `indicador_actividad`
+-- Dumping data for table `indicador_actividad`
 --
 
-INSERT INTO `indicador_actividad` (`id`, `opcion`, `dia`, `dia_comparativo1`, `dia_comparativo2`, `mes`, `mes_comparativo1`, `mes_comparativo2`, `ano`, `ano_comparativo1`, `ano_comparativo2`, `usuario_admin`, `fecha`) VALUES
-(96, 5, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 12:48:35'),
-(97, 5, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 13:13:22'),
-(98, 9, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2016-01-01 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 15:58:49'),
-(99, 8, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 16:18:06'),
-(100, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 17:50:19'),
-(101, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-21 11:18:31'),
-(102, 6, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2017-02-01 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-04-06 08:11:54'),
-(103, 6, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '2017-01-01 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-04-22 07:30:15'),
-(104, 3, '2017-03-02 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-04-22 13:37:41');
-
--- --------------------------------------------------------
+LOCK TABLES `indicador_actividad` WRITE;
+/*!40000 ALTER TABLE `indicador_actividad` DISABLE KEYS */;
+INSERT INTO `indicador_actividad` VALUES (107,6,'0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','2017-05-01 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','admin','2017-06-18 22:33:31'),(108,5,'0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','admin','2017-06-18 22:56:37');
+/*!40000 ALTER TABLE `indicador_actividad` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `indicador_actividad_usuario`
+-- Table structure for table `indicador_actividad_usuario`
 --
 
-CREATE TABLE IF NOT EXISTS `indicador_actividad_usuario` (
+DROP TABLE IF EXISTS `indicador_actividad_usuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `indicador_actividad_usuario` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `opcion` int(11) NOT NULL,
   `usuario1` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -137,23 +135,27 @@ CREATE TABLE IF NOT EXISTS `indicador_actividad_usuario` (
   `fecha` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=47 ;
+) ENGINE=MyISAM AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `indicador_actividad_usuario`
+-- Dumping data for table `indicador_actividad_usuario`
 --
 
-INSERT INTO `indicador_actividad_usuario` (`id`, `opcion`, `usuario1`, `usuario2`, `tipo_usuario`, `dia`, `mes`, `ano`, `usuario_admin`, `fecha`) VALUES
-(45, 27, 'jefe_ual', '', '2', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 14:01:29'),
-(46, 210, '', '', '3', '0000-00-00 00:00:00', '2016-12-01 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 14:54:38');
-
--- --------------------------------------------------------
+LOCK TABLES `indicador_actividad_usuario` WRITE;
+/*!40000 ALTER TABLE `indicador_actividad_usuario` DISABLE KEYS */;
+INSERT INTO `indicador_actividad_usuario` VALUES (49,211,'','','','0000-00-00 00:00:00','2017-05-01 00:00:00','0000-00-00 00:00:00','admin','2017-06-18 22:51:46');
+/*!40000 ALTER TABLE `indicador_actividad_usuario` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `indicador_categoria`
+-- Table structure for table `indicador_categoria`
 --
 
-CREATE TABLE IF NOT EXISTS `indicador_categoria` (
+DROP TABLE IF EXISTS `indicador_categoria`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `indicador_categoria` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `opcion` int(11) NOT NULL,
   `dia` datetime DEFAULT NULL,
@@ -165,22 +167,27 @@ CREATE TABLE IF NOT EXISTS `indicador_categoria` (
   `fecha` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=13 ;
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `indicador_categoria`
+-- Dumping data for table `indicador_categoria`
 --
 
-INSERT INTO `indicador_categoria` (`id`, `opcion`, `dia`, `mes`, `ano`, `periodo_inicio`, `periodo_fin`, `usuario_admin`, `fecha`) VALUES
-(12, 6, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 14:01:03');
-
--- --------------------------------------------------------
+LOCK TABLES `indicador_categoria` WRITE;
+/*!40000 ALTER TABLE `indicador_categoria` DISABLE KEYS */;
+INSERT INTO `indicador_categoria` VALUES (15,5,'0000-00-00 00:00:00','2017-05-01 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','admin','2017-06-18 22:50:19');
+/*!40000 ALTER TABLE `indicador_categoria` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `indicador_crecimiento`
+-- Table structure for table `indicador_crecimiento`
 --
 
-CREATE TABLE IF NOT EXISTS `indicador_crecimiento` (
+DROP TABLE IF EXISTS `indicador_crecimiento`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `indicador_crecimiento` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `opcion` int(11) NOT NULL,
   `periodo1` datetime DEFAULT NULL,
@@ -191,26 +198,30 @@ CREATE TABLE IF NOT EXISTS `indicador_crecimiento` (
   `fecha` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=21 ;
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `indicador_crecimiento`
+-- Dumping data for table `indicador_crecimiento`
 --
 
-INSERT INTO `indicador_crecimiento` (`id`, `opcion`, `periodo1`, `periodo2`, `periodo3`, `periodo4`, `usuario_admin`, `fecha`) VALUES
-(19, 11, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 17:50:54'),
-(20, 22, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 17:51:03');
-
--- --------------------------------------------------------
+LOCK TABLES `indicador_crecimiento` WRITE;
+/*!40000 ALTER TABLE `indicador_crecimiento` DISABLE KEYS */;
+INSERT INTO `indicador_crecimiento` VALUES (23,12,'0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','admin','2017-06-18 22:51:10');
+/*!40000 ALTER TABLE `indicador_crecimiento` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `indicador_duracion_transicion`
+-- Table structure for table `indicador_duracion_transicion`
 --
 
-CREATE TABLE IF NOT EXISTS `indicador_duracion_transicion` (
+DROP TABLE IF EXISTS `indicador_duracion_transicion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `indicador_duracion_transicion` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `opcion` int(11) NOT NULL,
-  `transicion` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `transiciones` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `tipo_usuario` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `usuario` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `dia` datetime DEFAULT NULL,
@@ -222,22 +233,27 @@ CREATE TABLE IF NOT EXISTS `indicador_duracion_transicion` (
   `fecha` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=22 ;
+) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `indicador_duracion_transicion`
+-- Dumping data for table `indicador_duracion_transicion`
 --
 
-INSERT INTO `indicador_duracion_transicion` (`id`, `opcion`, `transicion`, `tipo_usuario`, `usuario`, `dia`, `mes`, `ano`, `periodo_inicio`, `periodo_fin`, `usuario_admin`, `fecha`) VALUES
-(21, 4, 'all', 'all', 'all', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 14:04:10');
-
--- --------------------------------------------------------
+LOCK TABLES `indicador_duracion_transicion` WRITE;
+/*!40000 ALTER TABLE `indicador_duracion_transicion` DISABLE KEYS */;
+INSERT INTO `indicador_duracion_transicion` VALUES (29,5,'all','all','all','0000-00-00 00:00:00','2017-05-01 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','admin','2017-06-18 22:54:07');
+/*!40000 ALTER TABLE `indicador_duracion_transicion` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `indicador_duracion_workflow`
+-- Table structure for table `indicador_duracion_workflow`
 --
 
-CREATE TABLE IF NOT EXISTS `indicador_duracion_workflow` (
+DROP TABLE IF EXISTS `indicador_duracion_workflow`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `indicador_duracion_workflow` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `opcion` int(11) NOT NULL,
   `workflow` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -252,25 +268,27 @@ CREATE TABLE IF NOT EXISTS `indicador_duracion_workflow` (
   `fecha` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=47 ;
+) ENGINE=MyISAM AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `indicador_duracion_workflow`
+-- Dumping data for table `indicador_duracion_workflow`
 --
 
-INSERT INTO `indicador_duracion_workflow` (`id`, `opcion`, `workflow`, `tipo_usuario`, `usuario`, `dia`, `mes`, `ano`, `periodo_inicio`, `periodo_fin`, `usuario_admin`, `fecha`) VALUES
-(43, 4, 'all', 'all', 'all', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 14:04:25'),
-(44, 6, '4', '3', 'all', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 15:14:19'),
-(45, 6, '0', '3', 'abogado', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 15:14:43'),
-(46, 6, '1', 'all', 'jefe_uth', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 15:15:19');
-
--- --------------------------------------------------------
+LOCK TABLES `indicador_duracion_workflow` WRITE;
+/*!40000 ALTER TABLE `indicador_duracion_workflow` DISABLE KEYS */;
+INSERT INTO `indicador_duracion_workflow` VALUES (48,5,'all','all','all','0000-00-00 00:00:00','2017-05-01 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','admin','2017-06-18 22:54:40');
+/*!40000 ALTER TABLE `indicador_duracion_workflow` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `indicador_indicadores`
+-- Table structure for table `indicador_indicadores`
 --
 
-CREATE TABLE IF NOT EXISTS `indicador_indicadores` (
+DROP TABLE IF EXISTS `indicador_indicadores`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `indicador_indicadores` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `opcion` int(11) NOT NULL,
   `dia` datetime DEFAULT NULL,
@@ -282,22 +300,27 @@ CREATE TABLE IF NOT EXISTS `indicador_indicadores` (
   `fecha` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=20 ;
+) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `indicador_indicadores`
+-- Dumping data for table `indicador_indicadores`
 --
 
-INSERT INTO `indicador_indicadores` (`id`, `opcion`, `dia`, `mes`, `ano`, `periodo_inicio`, `periodo_fin`, `usuario_admin`, `fecha`) VALUES
-(19, 4, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 14:03:22');
-
--- --------------------------------------------------------
+LOCK TABLES `indicador_indicadores` WRITE;
+/*!40000 ALTER TABLE `indicador_indicadores` DISABLE KEYS */;
+INSERT INTO `indicador_indicadores` VALUES (22,5,'0000-00-00 00:00:00','2017-05-01 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','admin','2017-06-18 22:33:56');
+/*!40000 ALTER TABLE `indicador_indicadores` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `indicador_resumen`
+-- Table structure for table `indicador_resumen`
 --
 
-CREATE TABLE IF NOT EXISTS `indicador_resumen` (
+DROP TABLE IF EXISTS `indicador_resumen`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `indicador_resumen` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `opcion` int(11) NOT NULL,
   `dia` datetime DEFAULT NULL,
@@ -309,24 +332,27 @@ CREATE TABLE IF NOT EXISTS `indicador_resumen` (
   `fecha` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=15 ;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `indicador_resumen`
+-- Dumping data for table `indicador_resumen`
 --
 
-INSERT INTO `indicador_resumen` (`id`, `opcion`, `dia`, `mes`, `ano`, `periodo_inicio`, `periodo_fin`, `usuario_admin`, `fecha`) VALUES
-(12, 4, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 14:02:11'),
-(13, 4, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 14:02:20'),
-(14, 5, '0000-00-00 00:00:00', '2016-12-01 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 14:53:03');
-
--- --------------------------------------------------------
+LOCK TABLES `indicador_resumen` WRITE;
+/*!40000 ALTER TABLE `indicador_resumen` DISABLE KEYS */;
+INSERT INTO `indicador_resumen` VALUES (16,5,'0000-00-00 00:00:00','2017-05-01 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','admin','2017-06-18 22:52:34');
+/*!40000 ALTER TABLE `indicador_resumen` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `indicador_tiempo_promedio`
+-- Table structure for table `indicador_tiempo_promedio`
 --
 
-CREATE TABLE IF NOT EXISTS `indicador_tiempo_promedio` (
+DROP TABLE IF EXISTS `indicador_tiempo_promedio`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `indicador_tiempo_promedio` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `opcion` int(11) NOT NULL,
   `mes` datetime DEFAULT NULL,
@@ -337,22 +363,27 @@ CREATE TABLE IF NOT EXISTS `indicador_tiempo_promedio` (
   `fecha` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `indicador_tiempo_promedio`
+-- Dumping data for table `indicador_tiempo_promedio`
 --
 
-INSERT INTO `indicador_tiempo_promedio` (`id`, `opcion`, `mes`, `ano`, `periodo_inicio`, `periodo_fin`, `usuario_admin`, `fecha`) VALUES
-(9, 11, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'admin', '2017-01-18 14:01:55');
-
--- --------------------------------------------------------
+LOCK TABLES `indicador_tiempo_promedio` WRITE;
+/*!40000 ALTER TABLE `indicador_tiempo_promedio` DISABLE KEYS */;
+INSERT INTO `indicador_tiempo_promedio` VALUES (11,22,'2017-05-01 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','admin','2017-06-18 22:52:05');
+/*!40000 ALTER TABLE `indicador_tiempo_promedio` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `indicador_ultimas`
+-- Table structure for table `indicador_ultimas`
 --
 
-CREATE TABLE IF NOT EXISTS `indicador_ultimas` (
+DROP TABLE IF EXISTS `indicador_ultimas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `indicador_ultimas` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `ultimas_instancias` int(11) DEFAULT NULL,
   `ultimas_transiciones` int(11) DEFAULT NULL,
@@ -360,24 +391,27 @@ CREATE TABLE IF NOT EXISTS `indicador_ultimas` (
   `fecha` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=11 ;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `indicador_ultimas`
+-- Dumping data for table `indicador_ultimas`
 --
 
-INSERT INTO `indicador_ultimas` (`id`, `ultimas_instancias`, `ultimas_transiciones`, `usuario_admin`, `fecha`) VALUES
-(8, 10, 0, 'admin', '2017-01-18 13:23:25'),
-(9, 6, 5, 'admin', '2017-01-18 13:29:34'),
-(10, 10, 33, 'admin', '2017-01-21 11:46:46');
-
--- --------------------------------------------------------
+LOCK TABLES `indicador_ultimas` WRITE;
+/*!40000 ALTER TABLE `indicador_ultimas` DISABLE KEYS */;
+INSERT INTO `indicador_ultimas` VALUES (12,6,10,'admin','2017-06-18 22:55:35');
+/*!40000 ALTER TABLE `indicador_ultimas` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Table structure for table `usuarios`
 --
 
-CREATE TABLE IF NOT EXISTS `usuarios` (
+DROP TABLE IF EXISTS `usuarios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `usuarios` (
   `username` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
   `nombre` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
   `apellido` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
@@ -386,14 +420,24 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `tipo` int(11) NOT NULL,
   PRIMARY KEY (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `usuarios`
+-- Dumping data for table `usuarios`
 --
 
-INSERT INTO `usuarios` (`username`, `nombre`, `apellido`, `contrasena`, `email`, `tipo`) VALUES
-('invitado', 'asdf', 'invitado', '81dc9bdb52d04dc20036dbd8313ed055', 'invitado@invitado.com', 1);
+LOCK TABLES `usuarios` WRITE;
+/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2017-06-19  0:22:16

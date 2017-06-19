@@ -50,16 +50,22 @@ $( ".usuario" ).on( "click", function() {
 	$('#cargar_usuario').submit();
 });
 
-$( "#eliminar_usuario" ).on( "click", function() {	
-	enlace = $('#cargar_usuario').attr('action');
-	$('#cargar_usuario').attr('action',enlace+'/eliminar');	
-	$('#cargar_usuario').submit();
+$( "#eliminar_usuario" ).on( "click", function() {
+    var r = confirm("Se eliminará el usuario del sistema ¿Está seguro?");
+    if (r == true) {
+        enlace = $('#cargar_usuario').attr('action');
+        $('#cargar_usuario').attr('action',enlace+'/eliminar');
+        $('#cargar_usuario').submit();
+    }
 });
 
-$( "#reiniciar_contrasena" ).on( "click", function() {	
-	enlace = $('#cargar_usuario').attr('action');
-	$('#cargar_usuario').attr('action',enlace+'/reiniciarcontrasena');	
-	$('#cargar_usuario').submit();
+$( "#reiniciar_contrasena" ).on( "click", function() {
+    var r = confirm("Se reiniciará la contraseña del usuario ¿Está seguro?");
+    if (r == true) {
+		enlace = $('#cargar_usuario').attr('action');
+		$('#cargar_usuario').attr('action',enlace+'/reiniciarcontrasena');
+		$('#cargar_usuario').submit();
+    }
 });
 
 function validateString(string,min_value){

@@ -26,9 +26,11 @@
         <form id="formulario" method="POST" action="<?php echo base_url().'usuarios/iniciar' ?>" class="col s12 white">
             <h3>Iniciar Sesión</h3>
             <div class="row">
+
                 <div class="input-field col s12">
                 <label>Email</label>
-                    <input id="user" name="user" type="text" class="validate" value="<?php echo $usuario_login ?>" <?php if(isset($usuario_login)) echo 'readonly'; ?> >
+
+                    <input id="user" name="user" type="text" class="validate"  pattern="[a-zA-Z0-9 ]+" value="<?php echo $usuario_login ?>" <?php if(isset($usuario_login)) echo 'readonly'; ?> >
                 </div>
             </div>
             <div class="row">
@@ -45,7 +47,7 @@
             </div>
             <div class="row">
                 <div class="col s12">
-                    <input id='form_submit' type="submit" class="btn itami" value="Ingresar">
+                    <input id="form_submit" type="submit" class="btn itami" value="Ingresar">
                 </div>
             </div>            
         </form>
@@ -55,10 +57,28 @@
 <script type="text/javascript" src="<?php echo base_url() ?>public/js/jquery-2.1.1.min.js"></script>
 <!-- materialize -->
 <script type="text/javascript" src="<?php echo base_url() ?>public/js/materialize.min.js" ></script>
+<script src="<?php echo base_url() ?>public/js/jquery.validate.min.js"></script>
+<script src="<?php echo base_url() ?>public/js/validate-spanish.js"></script>
 <script type="text/javascript">
+    $(document).ready(function(){
+        $("#formulario").validate({
+            rules: {
+                user: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 60
+                },
+                pass: {
+                    required: false,
+                    minlength: 3,
+                    maxlength: 60
+                }
+            }
+        });
+    });
+
     $('#form_submit').click(function(e){
         e.preventDefault();
-        user = $('#user').val();
         pass = $('#pass').val();
         primera_vez = $('#primera_vez').val();
         if ((primera_vez=='1')&&(pass=='')){
@@ -66,7 +86,6 @@
         }else{
             $('#formulario').submit();
         }
-
     })
 </script>
 </body>

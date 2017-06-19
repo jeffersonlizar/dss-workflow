@@ -430,7 +430,7 @@ class Reportes extends CI_Controller {
 			case 'mesactual':
 				$fecha_inicial = $mes_actual_primer_dia;
 				$fecha_final = $mes_actual_ultimo_dia;
-				$categoria = $this->pdfCategoria($fecha_inicial,$fecha_final,$usuario,$tipousuario);
+				$categoria = $this->Database->pdfCategoria($fecha_inicial,$fecha_final,$filtrotipo);
 				break;
 			case 'mesespecifico':
 				$fecha_inicial = $mes;
