@@ -24,13 +24,13 @@
 			                            </div>
 			                            <div class="row">
 			                                <div class="input-field col s12">
-			                                    <input name="name" id="name" type="text" maxlength="250" class="validate" pattern="[A-Za-z ]+" title="Solo se permiten letras" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'readonly'?> value="<?php if (isset($usuario)) echo $usuario['nombre'] ?>">
+			                                    <input name="name" id="name" type="text" maxlength="250" class="validate" pattern="[ÁÉÍÓÚñÑáéíóúA-Za-z ]+" title="Solo se permiten letras" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'readonly'?> value="<?php if (isset($usuario)) echo $usuario['nombre'] ?>">
 			                                    <label>Nombre</label>
 			                                </div>
 			                            </div>
 			                            <div class="row">
 			                                <div class="input-field col s12">
-			                                    <input name="lastname" id="lastname" type="text" maxlength="250" class="validate" pattern="[A-Za-z ]+" title="Solo se permiten letras" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'readonly'?> value="<?php if (isset($usuario)) echo $usuario['apellido'] ?>">
+			                                    <input name="lastname" id="lastname" type="text" maxlength="250" class="validate" pattern="[ÁÉÍÓÚñÑáéíóúA-Za-z ]+" title="Solo se permiten letras" <?php if (($usuario['tipo']=='1')&&($session['superadmin']!=true)) echo 'readonly'?> value="<?php if (isset($usuario)) echo $usuario['apellido'] ?>">
 			                                    <label>Apellidos</label>
 			                                </div>
 			                            </div>	
