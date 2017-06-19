@@ -122,7 +122,7 @@
 									    </div>
 						        </div>
 							    <div class="col s12 m12 l12">
-									<input id="submit-indicador" type="submit" name="send" class="btn waves-effect disabled waves-light submit-centrado" value="Guardar y Mostrar">
+									<input id="submit-indicador" type="submit" name="send" class="btn waves-effect disabled waves-light submit-centrado" value="Generar Reporte">
 								</div>
 							</div>
 					    </form>

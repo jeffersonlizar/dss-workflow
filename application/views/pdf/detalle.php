@@ -18,7 +18,7 @@
 
 						        	<div class="filtroprincipal">
 						        	<p class="center">Ingrese el nombre o el número del flujo de trabajo para obtener sus detalles.</p>
-						        	<p class="center">Se generará un reporte con el status, las trasiciones realizadas y los usuarios que han participado en el mismo.</p>
+						        	<p class="center">Se generará un reporte con el status, las transiciones realizadas y los usuarios que han participado en el mismo.</p>
 						        	<p class="center"></p>
 						        		<input class="center" type="text" id="name_search" name="name_search" autocomplete="off" placeholder="Ingrese el Nombre del Flujo de Trabajo">
 						        		<div id="livesearch"></div>
@@ -29,7 +29,7 @@
 						        </div>
 							
 							    <div class="col s12 m12 l12">
-									<input id="submi-indicador" type="submit" name="send" class="btn waves-effect waves-light submit-centrado" value="Guardar y Mostrar">
+									<input id="submi-indicador" type="submit" name="send" class="btn waves-effect waves-light submit-centrado" value="Generar Reporte">
 								</div>
 							</div>
 					    </form>
